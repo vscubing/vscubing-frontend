@@ -1,6 +1,4 @@
-import './App.css'
-
-function App() {
+export function Root() {
   return (
     <div className='h-screen w-screen bg-slate-800 text-center text-white'>
       <h1>Vite + React</h1>
@@ -8,5 +6,3 @@ function App() {
     </div>
   )
 }
-
-export default App
