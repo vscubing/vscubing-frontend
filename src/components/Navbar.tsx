@@ -4,8 +4,9 @@ import { useGoogleLogin } from '@react-oauth/google'
 export const Navbar = () => {
   const { login } = useAuth()
   const loginHandler = useGoogleLogin({
-    onSuccess: ({ access_token }) => login(access_token),
+    onSuccess: ({ code }) => login(code),
     onError: () => console.log('error'),
+    flow: 'auth-code',
   })
 
   return (

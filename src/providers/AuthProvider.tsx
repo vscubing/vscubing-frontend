@@ -20,10 +20,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // const [user, setUser] = useState<null>(null)
 
   const login = async (googleCode: string) => {
-    const res = await axiosClient.post('/accounts/google/login/', { code: googleCode })
-    console.log(res)
+    const response = await axiosClient.post('/accounts/google/login/', { code: googleCode })
+    const token: string = response.data.access
 
-    // setUset(jwtDecode())
+    console.log(jwtDecode(token))
   }
 
   const logout = () => {}
