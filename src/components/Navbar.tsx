@@ -1,5 +1,5 @@
-import { axiosClient } from '@/api/axios'
-import { useAuth } from '@/providers/AuthProvider'
+import { axiosClient } from '@/api'
+import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useEffect, useState } from 'react'
 

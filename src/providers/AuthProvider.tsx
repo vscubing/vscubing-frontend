@@ -1,5 +1,4 @@
-import { AccessToken, getAccessTokenLS, setAccessTokenLS } from '@/api/accessToken'
-import { axiosClient } from '@/api/axios'
+import { AccessToken, getAccessTokenLS, axiosClient, setAccessTokenLS } from '@/api'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 type AuthContextValue = {
