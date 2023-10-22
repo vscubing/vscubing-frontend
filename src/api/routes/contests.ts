@@ -5,11 +5,13 @@ const PREFIX = '/contests'
 
 export type DashboardData = {
   best_solves: Array<{
+    id: number
     contest: number
+    time_ms: number
     reconstruction: string
-    scramble: { scramble: string }
-    time_ms: string
-    user: { username: string }
+    scramble: string
+    username: string
+    discipline: '3by3' | '4by4'
   }>
   contests: Array<{ id: number; name: number; start: string; end: string | null }>
 }

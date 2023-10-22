@@ -13,8 +13,8 @@ export const Dashboard = () => {
         <h2>Best Solves</h2>
         {data
           ? data.best_solves.map((solve) => (
-              <div className='flex gap-2'>
-                <span>{solve.user.username}</span>
+              <div key={solve.id} className='flex gap-2'>
+                <span>{solve.username}</span>
                 <span>{solve.time_ms}</span>
               </div>
             ))
