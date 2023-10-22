@@ -1,21 +1,16 @@
 import { useCurrentUser } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
-import { useEffect } from 'react'
 
 export const Navbar = () => {
   const { loggedIn, login, logout } = useAuth()
-  const { data: userData, mutate: mutateUser } = useCurrentUser()
+  const { data: userData } = useCurrentUser()
 
   const loginHandler = useGoogleLogin({
     onSuccess: ({ code }) => login(code),
     onError: () => console.log('error'),
     flow: 'auth-code',
   })
-
-  useEffect(() => {
-    mutateUser()
-  }, [loggedIn, mutateUser])
 
   return (
     <>

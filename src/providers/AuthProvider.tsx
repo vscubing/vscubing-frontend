@@ -1,4 +1,4 @@
-import { getAccessTokenLS, axiosClient, setAccessTokenLS, setRefreshTokenLS } from '@/api'
+import { LS_REFRESH_TOKEN, LS_ACCESS_TOKEN, postLogin } from '@/api'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 type AuthContextValue = {
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    const savedAccessToken = getAccessTokenLS()
+    const savedAccessToken = localStorage.getItem(LS_REFRESH_TOKEN)
 
     if (savedAccessToken) {
       setLoggedIn(true)
@@ -34,24 +34,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   const login = async (googleCode: string) => {
-    // TODO move to api/routes
-    const response = await axiosClient.post<{ code: string }, { data: { access: string; refresh: string } }>(
-      '/accounts/google/login/',
-      {
-        code: googleCode,
-      },
-    )
+    const response = await postLogin(googleCode)
     const { refresh, access } = response.data
 
-    setRefreshTokenLS(refresh)
-    setAccessTokenLS(access)
-    setLoggedIn(true)
+    localStorage.setItem(LS_REFRESH_TOKEN, refresh)
+    localStorage.setItem(LS_ACCESS_TOKEN, access)
+    window.location.reload()
   }
 
   const logout = () => {
-    setAccessTokenLS(null)
-    setRefreshTokenLS(null)
-    setLoggedIn(false)
+    localStorage.removeItem(LS_REFRESH_TOKEN)
+    localStorage.removeItem(LS_ACCESS_TOKEN)
+    window.location.reload()
   }
 
   const value = useMemo(

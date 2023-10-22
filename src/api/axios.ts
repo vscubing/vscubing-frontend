@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getAccessTokenLS } from './accessToken'
+import { LS_ACCESS_TOKEN } from './accessToken'
 import { refreshAccessToken } from '.'
 
 const axiosClient = axios.create({
@@ -12,7 +12,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   async (config) => {
-    const accessToken = getAccessTokenLS()
+    const accessToken = localStorage.getItem(LS_ACCESS_TOKEN)
     if (accessToken) {
       config.headers.set('Authorization', `Bearer ${accessToken}`)
     }
