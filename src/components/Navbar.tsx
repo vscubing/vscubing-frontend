@@ -2,7 +2,7 @@ import { useCurrentUser } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
 
-export const Navbar = () => {
+export const Header = () => {
   const { loggedIn, login, logout } = useAuth()
   const { data: userData } = useCurrentUser()
 
@@ -14,7 +14,7 @@ export const Navbar = () => {
 
   return (
     <>
-      {userData === '' ? 'Unauthorized' : userData}
+      {userData}
       {loggedIn ? (
         <>
           <button className='border-2 px-5 py-2' onClick={() => logout()}>

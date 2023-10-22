@@ -1,4 +1,4 @@
-import useSWR from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
 
 const PREFIX = '/contests'
@@ -17,7 +17,31 @@ export type DashboardData = {
 }
 
 export const useDashbordData = () => {
-  const { data, error, isLoading } = useSWR<{ data: DashboardData }>(PREFIX + '/dashboard_page/', axiosClient.get)
+  const { data, error, isLoading } = useSWRImmutable<{ data: DashboardData }>(
+    PREFIX + '/dashboard_page/',
+    axiosClient.get,
+  )
+
+  return {
+    data: data?.data,
+    isLoading,
+    isError: error,
+  }
+}
+
+type Solve = {
+  id: string
+  username: string
+  time_ms: number
+  contest: number
+  discipline: string
+}
+
+export const usePastContestData = (name: string, discipline: string) => {
+  const { data, error, isLoading } = useSWRImmutable<{ data: Solve[] }>(
+    `${PREFIX}/past_contest_page/${name}/${discipline}`,
+    axiosClient.get,
+  )
 
   return {
     data: data?.data,

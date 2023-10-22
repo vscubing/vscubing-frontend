@@ -1,8 +1,7 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './providers/AuthProvider'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Root } from './routes/Root'
-import { Dashboard } from './routes/Dashboard'
+import { Contest, Dashboard, Root } from './routes'
 
 const router = createBrowserRouter([
   {
@@ -14,8 +13,9 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: '/test',
-        element: <div>test</div>,
+        path: 'contest/:contestId/:discipline',
+        // rename all page componente to <AcmePage/>
+        element: <Contest />,
       },
     ],
   },

@@ -1,4 +1,5 @@
 import { useDashbordData } from '@/api'
+import { Link } from 'react-router-dom'
 
 export const Dashboard = () => {
   const { data } = useDashbordData()
@@ -7,7 +8,9 @@ export const Dashboard = () => {
     <div className='flex justify-center gap-20 pt-10'>
       <div>
         <h2>Contests</h2>
-        {data ? data.contests.map((contest) => <div key={contest.id}>Contest {contest.name}</div>) : 'loading...'}
+        {data
+          ? data.contests.map(({ id, name }) => <ContestLink key={id} id={id} name={String(name)} />)
+          : 'loading...'}
       </div>
       <div>
         <h2>Best Solves</h2>
@@ -22,4 +25,9 @@ export const Dashboard = () => {
       </div>
     </div>
   )
+}
+
+type ContestLinkProps = { name: string; id: number }
+const ContestLink = ({ id, name }: ContestLinkProps) => {
+  return <Link to={`/contest/${id}/3by3`}>Contest {name}</Link>
 }
