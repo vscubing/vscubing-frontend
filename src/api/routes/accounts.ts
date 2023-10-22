@@ -1,11 +1,15 @@
 import useSWR from 'swr'
-import { axiosClient } from '..'
+import { LS_ACCESS_TOKEN, axiosClient } from '..'
 
 const PREFIX = '/accounts'
 
 export const API_CURRENT_USER = PREFIX + '/current_user/'
 export const useCurrentUser = () => {
-  const { data, error, isLoading, mutate } = useSWR<{ data: string }>(API_CURRENT_USER, axiosClient.get)
+  const authenticated = localStorage.getItem(LS_ACCESS_TOKEN)
+  const { data, error, isLoading, mutate } = useSWR<{ data: string }>(
+    authenticated ? API_CURRENT_USER : null,
+    axiosClient.get,
+  )
 
   return {
     data: data?.data,
