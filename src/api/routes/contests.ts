@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import axiosClient from '../axios'
+import { axiosClient } from '../axios'
 
 const PREFIX = '/contests'
 
