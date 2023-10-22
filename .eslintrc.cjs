@@ -6,9 +6,6 @@ const config = {
   ignorePatterns: ['dist', 'node_modules', '!.*.*'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
-  rules: {
-    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-  },
 }
 
 module.exports = config
