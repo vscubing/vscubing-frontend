@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { getAccessTokenLS } from './accessToken'
+import { refreshAccessToken } from '.'
 
 const axiosClient = axios.create({
   baseURL: `http://${window.location.hostname}:8000/api`,
@@ -19,6 +20,21 @@ axiosClient.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error)
+  },
+)
+
+axiosClient.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  async function (error) {
+    const originalRequest = error.config
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true
+      await refreshAccessToken()
+      return axiosClient(originalRequest)
+    }
+    return Promise.reject(error)
   },
 )
 

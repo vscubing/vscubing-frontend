@@ -1,15 +1,13 @@
-import { AccessToken, getAccessTokenLS, axiosClient, setAccessTokenLS } from '@/api'
+import { getAccessTokenLS, axiosClient, setAccessTokenLS, setRefreshTokenLS } from '@/api'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 type AuthContextValue = {
-  accessToken: AccessToken
   loggedIn: boolean
   login: (googleToken: string) => void
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextValue>({
-  accessToken: null,
   loggedIn: false,
   login: () => {
     throw new Error('context is missing')
@@ -25,34 +23,44 @@ export const useAuth = () => {
 
 type AuthProviderProps = { children: React.ReactNode }
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [accessToken, setAccessToken] = useState<AccessToken>(null)
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    const savedToken = getAccessTokenLS()
-    setAccessToken(savedToken)
+    const savedAccessToken = getAccessTokenLS()
+
+    if (savedAccessToken) {
+      setLoggedIn(true)
+    }
   }, [])
 
   const login = async (googleCode: string) => {
-    const response = await axiosClient.post('/accounts/google/login/', { code: googleCode })
-    const token: string = response.data.access
+    // TODO move to api/routes
+    const response = await axiosClient.post<{ code: string }, { data: { access: string; refresh: string } }>(
+      '/accounts/google/login/',
+      {
+        code: googleCode,
+      },
+    )
+    const { refresh, access } = response.data
 
-    setAccessTokenLS(token)
-    setAccessToken(token)
+    setRefreshTokenLS(refresh)
+    setAccessTokenLS(access)
+    setLoggedIn(true)
   }
 
   const logout = () => {
     setAccessTokenLS(null)
-    setAccessToken(null)
+    setRefreshTokenLS(null)
+    setLoggedIn(false)
   }
 
   const value = useMemo(
     () => ({
-      accessToken: accessToken,
-      loggedIn: !!accessToken,
+      loggedIn,
       login,
       logout,
     }),
-    [accessToken],
+    [loggedIn],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
