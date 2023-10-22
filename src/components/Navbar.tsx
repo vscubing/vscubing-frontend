@@ -1,4 +1,4 @@
-import { axiosClient } from '@/api'
+import { getUserTest } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,9 @@ export const Navbar = () => {
   })
 
   useEffect(() => {
-    axiosClient.get('/accounts/user_test/').then((res) => setUserData(res.data))
+    getUserTest().then((res) => {
+      return setUserData(res.data)
+    })
   }, [loggedIn])
 
   return (
