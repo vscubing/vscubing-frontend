@@ -2,12 +2,17 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './providers/AuthProvider'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Root } from './routes/Root'
+import { Dashboard } from './routes/Dashboard'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     children: [
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
       {
         path: '/test',
         element: <div>test</div>,

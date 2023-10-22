@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessTokenLS } from './accessToken'
 
-export const axiosClient = axios.create({
+const axiosClient = axios.create({
   baseURL: `http://${window.location.hostname}:8000/api`,
   headers: {
     Accept: 'application/json',
@@ -21,3 +21,5 @@ axiosClient.interceptors.request.use(
     Promise.reject(error)
   },
 )
+
+export default axiosClient

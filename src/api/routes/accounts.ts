@@ -1,5 +1,15 @@
-import { axiosClient } from '..'
+import useSWR from 'swr'
+import axiosClient from '../axios'
 
 const PREFIX = '/accounts'
 
-export const getUserTest = () => axiosClient.get<string>(PREFIX + '/user_test/')
+export const useUserTest = () => {
+  const { data, error, isLoading, mutate } = useSWR<{ data: string }>(PREFIX + '/user_test/', axiosClient.get)
+
+  return {
+    data: data?.data,
+    isLoading,
+    isError: error,
+    mutate,
+  }
+}

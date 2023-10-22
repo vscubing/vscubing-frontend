@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 export function Root() {
   return (
-    <div className='h-screen w-screen bg-slate-800 text-center text-white'>
+    <div className='min-h-screen w-screen bg-[#11191F] text-center text-white'>
       <Navbar />
       <Outlet />
     </div>
