@@ -1,24 +1,35 @@
+import { axiosClient } from '@/api/axios'
 import { useAuth } from '@/providers/AuthProvider'
 import { useGoogleLogin } from '@react-oauth/google'
+import { useEffect, useState } from 'react'
 
 export const Navbar = () => {
-  const { user, login, logout } = useAuth()
+  const { loggedIn, login, logout } = useAuth()
+  const [userData, setUserData] = useState<string | null>(null)
   const loginHandler = useGoogleLogin({
     onSuccess: ({ code }) => login(code),
     onError: () => console.log('error'),
     flow: 'auth-code',
   })
 
-  return user ? (
+  useEffect(() => {
+    axiosClient.get('/accounts/user_test/').then((res) => setUserData(res.data))
+  }, [loggedIn])
+
+  return (
     <>
-      <div>user id: {user.user_id}</div>
-      <button className='border-2 px-5 py-2' onClick={() => logout()}>
-        log out
-      </button>
+      {userData}
+      {loggedIn ? (
+        <>
+          <button className='border-2 px-5 py-2' onClick={() => logout()}>
+            log out
+          </button>
+        </>
+      ) : (
+        <button className='border-2 px-5 py-2' onClick={() => loginHandler()}>
+          log in with google
+        </button>
+      )}
     </>
-  ) : (
-    <button className='border-2 px-5 py-2' onClick={() => loginHandler()}>
-      log in with google
-    </button>
   )
 }

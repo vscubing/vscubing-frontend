@@ -1,17 +1,17 @@
+import { AccessToken, getAccessTokenLS, setAccessTokenLS } from '@/api/accessToken'
 import { axiosClient } from '@/api/axios'
-import jwtDecode from 'jwt-decode'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
-const LS_KEY_JWT = 'jwt'
-
-type User = null | { user_id: number }
 type AuthContextValue = {
-  user: User
+  accessToken: AccessToken
+  loggedIn: boolean
   login: (googleToken: string) => void
   logout: () => void
 }
+
 const AuthContext = createContext<AuthContextValue>({
-  user: null,
+  accessToken: null,
+  loggedIn: false,
   login: () => {
     throw new Error('context is missing')
   },
@@ -20,41 +20,41 @@ const AuthContext = createContext<AuthContextValue>({
   },
 })
 
+export const useAuth = () => {
+  return useContext(AuthContext)
+}
+
 type AuthProviderProps = { children: React.ReactNode }
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User>(null)
+  const [accessToken, setAccessToken] = useState<AccessToken>(null)
 
   useEffect(() => {
-    const savedJwt = localStorage.getItem(LS_KEY_JWT)
-    const savedUser = savedJwt ? (jwtDecode(savedJwt) as User) : null
-    setUser(savedUser)
+    const savedToken = getAccessTokenLS()
+    setAccessToken(savedToken)
   }, [])
 
   const login = async (googleCode: string) => {
     const response = await axiosClient.post('/accounts/google/login/', { code: googleCode })
     const token: string = response.data.access
 
-    localStorage.setItem(LS_KEY_JWT, token)
-    setUser(jwtDecode(token))
+    setAccessTokenLS(token)
+    setAccessToken(token)
   }
 
   const logout = () => {
-    localStorage.removeItem(LS_KEY_JWT)
-    setUser(null)
+    setAccessTokenLS(null)
+    setAccessToken(null)
   }
 
   const value = useMemo(
     () => ({
-      user,
+      accessToken: accessToken,
+      loggedIn: !!accessToken,
       login,
       logout,
     }),
-    [user],
+    [accessToken],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export const useAuth = () => {
-  return useContext(AuthContext)
 }
