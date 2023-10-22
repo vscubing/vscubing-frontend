@@ -3,8 +3,8 @@ import axiosClient from '../axios'
 
 const PREFIX = '/accounts'
 
-export const useUserTest = () => {
-  const { data, error, isLoading, mutate } = useSWR<{ data: string }>(PREFIX + '/user_test/', axiosClient.get)
+export const useCurrentUser = () => {
+  const { data, error, isLoading, mutate } = useSWR<{ data: string }>(PREFIX + '/current_user/', axiosClient.get)
 
   return {
     data: data?.data,

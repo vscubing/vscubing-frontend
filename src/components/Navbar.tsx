@@ -1,11 +1,11 @@
-import { useUserTest } from '@/api'
+import { useCurrentUser } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useEffect } from 'react'
 
 export const Navbar = () => {
   const { loggedIn, login, logout } = useAuth()
-  const { data: userData, mutate: mutateUser } = useUserTest()
+  const { data: userData, mutate: mutateUser } = useCurrentUser()
 
   const loginHandler = useGoogleLogin({
     onSuccess: ({ code }) => login(code),
@@ -19,7 +19,7 @@ export const Navbar = () => {
 
   return (
     <>
-      {userData}
+      {userData === '' ? 'Unauthorized' : userData}
       {loggedIn ? (
         <>
           <button className='border-2 px-5 py-2' onClick={() => logout()}>
