@@ -1,7 +1,7 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './providers/AuthProvider'
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
-import { Contest, Dashboard, Root } from './routes'
+import { Contest, DEFAULT_DISCIPLINE, Dashboard, Root, redirectToOngoingContest } from './routes'
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,12 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: 'contest',
+        loader: redirectToOngoingContest,
+      },
+      {
         path: 'contest/:contestNumber',
-        loader: () => redirect('3by3'),
+        loader: () => redirect(DEFAULT_DISCIPLINE),
       },
       {
         path: 'contest/:contestNumber/:discipline',

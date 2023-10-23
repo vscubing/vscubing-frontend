@@ -49,3 +49,8 @@ export const usePastContestData = (name: string, discipline: string) => {
     isError: error,
   }
 }
+
+export const getOngoingContestNumber = async () => {
+  const res = await axiosClient.get<number>(`${PREFIX}/ongoing_contest_number`)
+  return res.data
+}
