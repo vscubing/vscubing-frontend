@@ -19,6 +19,7 @@ export const DashboardPage = () => {
         {data
           ? data.best_solves.map((solve) => (
               <div key={solve.id} className='flex gap-2'>
+                <span>{solve.discipline}</span>
                 <span>{solve.username}</span>
                 <span>{solve.time_ms}</span>
               </div>
@@ -32,7 +33,7 @@ export const DashboardPage = () => {
 type ContestLinkProps = { number: number; ongoing: boolean }
 const ContestLink = ({ number, ongoing }: ContestLinkProps) => {
   return (
-    <Link className='block' to={`/contest/${number}/3by3`}>
+    <Link className='block text-blue-400' to={`/contest/${number}/3by3`}>
       Contest {number} {ongoing ? '(ongoing)' : null}
     </Link>
   )

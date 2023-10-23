@@ -1,6 +1,7 @@
 import { useCurrentUser, useOngoingContestNumber } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
+import classNames from 'classnames'
 import { useMemo } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 
@@ -36,7 +37,7 @@ const NavBar = () => {
       <ul className='flex gap-4'>
         {links.map(({ text, to }) => (
           <li key={text}>
-            <NavLink to={to} className={({ isActive }) => (isActive ? 'underline' : undefined)}>
+            <NavLink to={to} className={({ isActive }) => classNames('text-blue-400', { underline: isActive })}>
               {text}
             </NavLink>
           </li>
