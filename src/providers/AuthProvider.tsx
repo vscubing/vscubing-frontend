@@ -1,4 +1,4 @@
-import { LS_REFRESH_TOKEN, LS_ACCESS_TOKEN, postLogin } from '@/api'
+import { getAuthTokens, postLogin } from '@/api'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 type AuthContextValue = {
@@ -26,9 +26,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    const savedAccessToken = localStorage.getItem(LS_REFRESH_TOKEN)
+    const authenticated = !!getAuthTokens()
 
-    if (savedAccessToken) {
+    if (authenticated) {
       setLoggedIn(true)
     }
   }, [])
@@ -37,14 +37,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const response = await postLogin(googleCode)
     const { refresh, access } = response.data
 
-    localStorage.setItem(LS_REFRESH_TOKEN, refresh)
-    localStorage.setItem(LS_ACCESS_TOKEN, access)
+    setAuthTokens({ refresh, access })
     window.location.reload()
   }
 
   const logout = () => {
-    localStorage.removeItem(LS_REFRESH_TOKEN)
-    localStorage.removeItem(LS_ACCESS_TOKEN)
+    deleteAuthTokens()
     window.location.reload()
   }
 

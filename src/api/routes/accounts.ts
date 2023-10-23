@@ -1,10 +1,11 @@
 import useSWRImmutable from 'swr/immutable'
-import { LS_ACCESS_TOKEN, axiosClient } from '..'
+import { axiosClient } from '..'
+import { getAuthTokens } from '../auth'
 
 const PREFIX = '/accounts'
 
 export const useCurrentUser = () => {
-  const authenticated = localStorage.getItem(LS_ACCESS_TOKEN)
+  const authenticated = getAuthTokens() !== null
   const { data, error, isLoading, mutate } = useSWRImmutable<{ data: string }>(
     authenticated ? PREFIX + '/current_user/' : null,
     axiosClient.get,
