@@ -9,7 +9,9 @@ export const DashboardPage = () => {
       <div>
         <h2>Contests</h2>
         {data
-          ? data.contests.map(({ contest_number }) => <ContestLink key={contest_number} number={contest_number} />)
+          ? data.contests.map(({ contest_number, ongoing }) => (
+              <ContestLink key={contest_number} number={contest_number} ongoing={ongoing} />
+            ))
           : 'loading...'}
       </div>
       <div>
@@ -27,11 +29,11 @@ export const DashboardPage = () => {
   )
 }
 
-type ContestLinkProps = { number: number }
-const ContestLink = ({ number }: ContestLinkProps) => {
+type ContestLinkProps = { number: number; ongoing: boolean }
+const ContestLink = ({ number, ongoing }: ContestLinkProps) => {
   return (
     <Link className='block' to={`/contest/${number}/3by3`}>
-      Contest {number}
+      Contest {number} {ongoing ? '(ongoing)' : null}
     </Link>
   )
 }

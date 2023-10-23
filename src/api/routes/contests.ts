@@ -13,7 +13,7 @@ export type DashboardData = {
     username: string
     discipline: '3by3' | '4by4'
   }>
-  contests: Array<{ id: number; contest_number: number; start: string; end: string | null }>
+  contests: Array<{ id: number; contest_number: number; start: string; end: string | null; ongoing: boolean }>
 }
 
 export const useDashbordData = () => {
