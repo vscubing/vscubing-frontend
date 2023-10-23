@@ -25,12 +25,17 @@ export const ContestPage = () => {
     return 'loading...'
   }
 
-  return Object.entries(grouppedSolves).map(([username, solves]) => (
-    <div key={username} className='flex gap-2'>
-      <span>{username}</span>
-      {solves.map(({ id, time_ms }) => (
-        <span key={id}>{formatSolveTime(time_ms)}</span>
+  return (
+    <>
+      <div className='text-left'>{discipline}</div>
+      {Object.entries(grouppedSolves).map(([username, solves]) => (
+        <div key={username} className='flex gap-2'>
+          <span>{username}</span>
+          {solves.map(({ id, time_ms }) => (
+            <span key={id}>{formatSolveTime(time_ms)}</span>
+          ))}
+        </div>
       ))}
-    </div>
-  ))
+    </>
+  )
 }
