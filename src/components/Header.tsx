@@ -1,6 +1,8 @@
-import { useCurrentUser } from '@/api'
+import { useCurrentUser, useOngoingContestNumber } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
+import { useMemo } from 'react'
+import { NavLink, useParams } from 'react-router-dom'
 
 export const Header = () => {
   return (
@@ -12,32 +14,36 @@ export const Header = () => {
 }
 
 const NavBar = () => {
-  //   const { pathname } = useLocation()
-  //   const openedContestNumber = getOpenedContestNumber(pathname)
-  //
-  //   const links = useMemo(
-  //     () => [
-  //       { text: 'Dashboard', to: '/', active: true },
-  //       { text: 'Ongoing contest', to: `/contest/${ongoingContest?.contest_id}/3by3` },
-  //       // { text: 'ontest', to: `/contest/${ongoingContest?.contest_id}/3by3` },
-  //     ],
-  //     [ongoingContest?.contest_id],
-  //   )
-  //
-  //   return (
-  //     <nav>
-  //       <ul className='flex gap-4'>
-  //         {links.map(({ text, to }) => (
-  //           <li key={text}>
-  //             <NavLink to={to} className={({ isActive }) => (isActive ? 'underline' : undefined)}>
-  //               {text}
-  //             </NavLink>
-  //           </li>
-  //         ))}
-  //       </ul>
-  //     </nav>
-  //   )
-  return null
+  const { data: ongoingContestNumber } = useOngoingContestNumber()
+  const params = useParams()
+  const openedContestNumber = params?.contestNumber ? Number(params?.contestNumber) : null
+
+  const links = useMemo(() => {
+    const list = [
+      { text: 'Dashboard', to: '/', active: true },
+      { text: 'Ongoing contest', to: `/contest/${ongoingContestNumber}` },
+    ]
+
+    if (openedContestNumber && openedContestNumber !== ongoingContestNumber) {
+      list.push({ text: `Contest ${openedContestNumber}`, to: `/contest/${openedContestNumber}` })
+    }
+
+    return list
+  }, [ongoingContestNumber, openedContestNumber])
+
+  return (
+    <nav>
+      <ul className='flex gap-4'>
+        {links.map(({ text, to }) => (
+          <li key={text}>
+            <NavLink to={to} className={({ isActive }) => (isActive ? 'underline' : undefined)}>
+              {text}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
 }
 
 const LoginSection = () => {

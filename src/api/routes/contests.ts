@@ -54,3 +54,12 @@ export const getOngoingContestNumber = async () => {
   const res = await axiosClient.get<number>(`${PREFIX}/ongoing_contest_number`)
   return res.data
 }
+
+export const useOngoingContestNumber = () => {
+  const { data, error, isLoading } = useSWRImmutable<{ data: number }>(
+    `${PREFIX}/ongoing_contest_number`,
+    axiosClient.get,
+  )
+
+  return { data: data?.data, isLoading, isError: error }
+}
