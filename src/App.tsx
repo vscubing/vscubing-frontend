@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   },
 ])
 
-export function App() {
+export const App = () => {
   return (
     <GoogleOAuthProvider clientId='224901023614-r1i84dq9h7535drcufl03b7fddc2mvvv.apps.googleusercontent.com'>
       <AuthProvider>
