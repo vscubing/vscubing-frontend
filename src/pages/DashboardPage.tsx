@@ -1,7 +1,7 @@
 import { useDashbordData } from '@/api'
 import { Link } from 'react-router-dom'
 
-export const Dashboard = () => {
+export const DashboardPage = () => {
   const { data } = useDashbordData()
 
   return (

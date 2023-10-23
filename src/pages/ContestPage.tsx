@@ -8,7 +8,7 @@ export const redirectToOngoingContest = async () => {
 
 export const DEFAULT_DISCIPLINE = '3by3'
 
-export const Contest = () => {
+export const ContestPage = () => {
   const { contestNumber, discipline } = useParams()
 
   return (
