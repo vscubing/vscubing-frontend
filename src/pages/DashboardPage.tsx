@@ -1,4 +1,5 @@
 import { useDashbordData } from '@/api'
+import { formatSolveTime } from '@/utils'
 import { Link } from 'react-router-dom'
 
 export const DashboardPage = () => {
@@ -21,7 +22,7 @@ export const DashboardPage = () => {
               <div key={solve.id} className='flex gap-2'>
                 <span>{solve.discipline}</span>
                 <span>{solve.username}</span>
-                <span>{solve.time_ms}</span>
+                <span>{formatSolveTime(solve.time_ms)}</span>
                 <Link to={`/contest/${solve.contest}`}>leaderboard</Link>
               </div>
             ))

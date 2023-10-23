@@ -3,6 +3,7 @@ import { axiosClient } from '../axios'
 
 const PREFIX = '/contests'
 
+type Discipline = '3by3'
 export type DashboardData = {
   best_solves: Array<{
     id: number
@@ -11,7 +12,7 @@ export type DashboardData = {
     reconstruction: string
     scramble: string
     username: string
-    discipline: '3by3' | '4by4'
+    discipline: Discipline
   }>
   contests: Array<{ id: number; contest_number: number; start: string; end: string | null; ongoing: boolean }>
 }
@@ -34,12 +35,12 @@ type Solve = {
   username: string
   time_ms: number
   contest: number
-  discipline: string
+  discipline: Discipline
 }
 
-export const usePastContestData = (name: string, discipline: string) => {
+export const useContestData = (contestNumber: number, discipline: string) => {
   const { data, error, isLoading } = useSWRImmutable<{ data: Solve[] }>(
-    `${PREFIX}/past_contest_page/${name}/${discipline}`,
+    `${PREFIX}/contest/${contestNumber}/${discipline}`,
     axiosClient.get,
   )
 
