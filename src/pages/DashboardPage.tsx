@@ -22,6 +22,7 @@ export const DashboardPage = () => {
                 <span>{solve.discipline}</span>
                 <span>{solve.username}</span>
                 <span>{solve.time_ms}</span>
+                <Link to={`/contest/${solve.contest}`}>leaderboard</Link>
               </div>
             ))
           : 'loading...'}
@@ -33,7 +34,7 @@ export const DashboardPage = () => {
 type ContestLinkProps = { number: number; ongoing: boolean }
 const ContestLink = ({ number, ongoing }: ContestLinkProps) => {
   return (
-    <Link className='block text-blue-400' to={`/contest/${number}/3by3`}>
+    <Link className='block' to={`/contest/${number}`}>
       Contest {number} {ongoing ? '(ongoing)' : null}
     </Link>
   )

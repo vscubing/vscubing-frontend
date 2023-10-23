@@ -37,7 +37,7 @@ const NavBar = () => {
       <ul className='flex gap-4'>
         {links.map(({ text, to }) => (
           <li key={text}>
-            <NavLink to={to} className={({ isActive }) => classNames('text-blue-400', { underline: isActive })}>
+            <NavLink to={to} className={({ isActive }) => classNames({ underline: isActive })}>
               {text}
             </NavLink>
           </li>

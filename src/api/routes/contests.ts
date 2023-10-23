@@ -6,7 +6,7 @@ const PREFIX = '/contests'
 export type DashboardData = {
   best_solves: Array<{
     id: number
-    contest_id: number
+    contest: number
     time_ms: number
     reconstruction: string
     scramble: string
