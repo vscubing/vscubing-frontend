@@ -1,12 +1,12 @@
-import { usePastContestData } from '@/api'
+import { useParams } from 'react-router-dom'
 
 export const Contest = () => {
-  // const { contestId, discipline } = useParams() // TODO fix when backend works
-  const contestId = '3'
-  const discipline = '3by3'
+  const { contestNumber, discipline } = useParams()
 
-  const { data } = usePastContestData(contestId, discipline)
-
-  console.log(data)
-  return <div>{contestId}</div>
+  return (
+    <>
+      <div>contestNumber: {contestNumber}</div>
+      <div>discipline: {discipline}</div>
+    </>
+  )
 }

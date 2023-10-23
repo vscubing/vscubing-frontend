@@ -1,6 +1,6 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './providers/AuthProvider'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import { Contest, Dashboard, Root } from './routes'
 
 const router = createBrowserRouter([
@@ -13,7 +13,11 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: 'contest/:contestId/:discipline',
+        path: 'contest/:contestNumber',
+        loader: () => redirect('3by3'),
+      },
+      {
+        path: 'contest/:contestNumber/:discipline',
         // rename all page componente to <AcmePage/>
         element: <Contest />,
       },

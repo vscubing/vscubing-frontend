@@ -3,11 +3,10 @@ import { LS_ACCESS_TOKEN, axiosClient } from '..'
 
 const PREFIX = '/accounts'
 
-export const API_CURRENT_USER = PREFIX + '/current_user/'
 export const useCurrentUser = () => {
   const authenticated = localStorage.getItem(LS_ACCESS_TOKEN)
   const { data, error, isLoading, mutate } = useSWRImmutable<{ data: string }>(
-    authenticated ? API_CURRENT_USER : null,
+    authenticated ? PREFIX + '/current_user/' : null,
     axiosClient.get,
   )
 

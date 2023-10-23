@@ -9,7 +9,7 @@ export const Dashboard = () => {
       <div>
         <h2>Contests</h2>
         {data
-          ? data.contests.map(({ id, name }) => <ContestLink key={id} id={id} name={String(name)} />)
+          ? data.contests.map(({ contest_number }) => <ContestLink key={contest_number} number={contest_number} />)
           : 'loading...'}
       </div>
       <div>
@@ -27,7 +27,11 @@ export const Dashboard = () => {
   )
 }
 
-type ContestLinkProps = { name: string; id: number }
-const ContestLink = ({ id, name }: ContestLinkProps) => {
-  return <Link to={`/contest/${id}/3by3`}>Contest {name}</Link>
+type ContestLinkProps = { number: number }
+const ContestLink = ({ number }: ContestLinkProps) => {
+  return (
+    <Link className='block' to={`/contest/${number}/3by3`}>
+      Contest {number}
+    </Link>
+  )
 }
