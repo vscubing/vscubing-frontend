@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .action-btn {
+    @apply block rounded-[5px] px-[5px] py-[3px] hover:bg-[#829BCB]/10;
+  }
+}

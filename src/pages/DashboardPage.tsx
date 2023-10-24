@@ -2,6 +2,7 @@ import { useDashbordData } from '@/api'
 import { ReconstructTimeButton } from '@/components'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
+import CubeIcon from '@/assets/3by3.svg?react'
 
 export const DashboardPage = () => {
   const { data } = useDashbordData()
@@ -25,11 +26,15 @@ export const DashboardPage = () => {
         <h2 className='mb-[26px] text-[20px]'>Best Solves</h2>
         {data
           ? data.best_solves.map((solve) => (
-              <div key={solve.id} className='flex gap-2'>
-                <span>{solve.discipline}</span>
-                <span>{solve.username}</span>
+              <div key={solve.id} className='bg-panels flex items-center rounded-[5px] py-[13px] pl-[17px] pr-[12px]'>
+                <CubeIcon className='mr-[12px] text-[#35424B]' />
+                <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 py-[3px] pr-[12px]'>
+                  {solve.username}
+                </span>
                 <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} />
-                <Link to={`/contest/${solve.contest}`}>leaderboard</Link>
+                <Link className='btn-action ml-auto' to={`/contest/${solve.contest}`}>
+                  leaderboard
+                </Link>
               </div>
             ))
           : 'loading...'}

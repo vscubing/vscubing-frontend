@@ -6,7 +6,7 @@ export const ReconstructTimeButton = ({ solveId, time_ms }: SolveTimeButtonProps
   const { showReconstruction } = useReconstructor()
 
   return (
-    <button type='button' onClick={() => showReconstruction(solveId)}>
+    <button type='button' className='btn-action' onClick={() => showReconstruction(solveId)}>
       {formatSolveTime(time_ms)}
     </button>
   )
