@@ -1,9 +1,11 @@
 import { useDashbordData } from '@/api'
+import { useReconstructor } from '@/providers'
 import { formatSolveTime } from '@/utils'
 import { Link } from 'react-router-dom'
 
 export const DashboardPage = () => {
   const { data } = useDashbordData()
+  const { showSolve } = useReconstructor()
 
   return (
     <div className='flex justify-center gap-20 pt-10'>
@@ -22,7 +24,9 @@ export const DashboardPage = () => {
               <div key={solve.id} className='flex gap-2'>
                 <span>{solve.discipline}</span>
                 <span>{solve.username}</span>
-                <span>{formatSolveTime(solve.time_ms)}</span>
+                <span className='cursor-pointer' onClick={() => showSolve(solve)}>
+                  {formatSolveTime(solve.time_ms)}
+                </span>
                 <Link to={`/contest/${solve.contest}`}>leaderboard</Link>
               </div>
             ))
