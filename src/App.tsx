@@ -3,6 +3,7 @@ import { AuthProvider } from './providers/AuthProvider'
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import { Layout, redirectToOngoingContest, DEFAULT_DISCIPLINE, ContestPage, DashboardPage } from './pages'
 import { ReconstructorProvider } from './providers'
+import './App.css'
 
 const router = createBrowserRouter([
   {
