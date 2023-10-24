@@ -17,7 +17,7 @@ export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) =
   useEffect(() => {
     if (reconstruction && iframeRef.current) {
       setIsLoaded(true)
-      importSolve(iframeRef.current, reconstruction)
+      importSolveOnLoad(iframeRef.current, reconstruction)
     }
   }, [reconstruction])
 
@@ -40,8 +40,19 @@ export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) =
   )
 }
 
-const importSolve = (iframeElement: HTMLIFrameElement, solve: Reconstruction) => {
-  iframeElement.onload = () => {
-    iframeElement.contentWindow?.postMessage({ source: 'vs-integration', solve }, 'http://127.0.0.1:8080')
+const importSolveOnLoad = (() => {
+  let loaded = false
+
+  return (iframeElement: HTMLIFrameElement, solve: Reconstruction) => {
+    const importSolve = () =>
+      iframeElement.contentWindow?.postMessage({ source: 'vs-integration', solve }, 'http://127.0.0.1:8080')
+
+    if (loaded) {
+      importSolve()
+    }
+    iframeElement.onload = () => {
+      loaded = true
+      importSolve()
+    }
   }
-}
+})()
