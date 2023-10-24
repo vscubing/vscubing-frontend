@@ -22,7 +22,7 @@ export const DashboardPage = () => {
               <div key={solve.id} className='flex gap-2'>
                 <span>{solve.discipline}</span>
                 <span>{solve.username}</span>
-                <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id}></ReconstructTimeButton>
+                <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} />
                 <Link to={`/contest/${solve.contest}`}>leaderboard</Link>
               </div>
             ))

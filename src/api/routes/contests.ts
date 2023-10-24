@@ -4,7 +4,7 @@ import { Reconstruction } from '@/components'
 
 const PREFIX = '/contests'
 
-type Discipline = '3by3'
+export type Discipline = '3by3'
 export type DashboardData = {
   best_solves: Array<{
     id: number
@@ -29,7 +29,7 @@ export const useDashbordData = () => {
 }
 
 type Solve = {
-  id: string
+  id: number
   username: string
   time_ms: number
   contest: number

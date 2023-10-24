@@ -1,5 +1,6 @@
-import { getOngoingContestNumber, useContestData } from '@/api'
-import { formatSolveTime, groupBy } from '@/utils'
+import { Discipline, getOngoingContestNumber, useContestData } from '@/api'
+import { ReconstructTimeButton } from '@/components'
+import { groupBy } from '@/utils'
 import { useMemo } from 'react'
 import { redirect, useParams } from 'react-router-dom'
 
@@ -11,10 +12,11 @@ export const redirectToOngoingContest = async () => {
 export const DEFAULT_DISCIPLINE = '3by3'
 
 export const ContestPage = () => {
-  const { contestNumber, discipline } = useParams()
-  if (!contestNumber || !discipline) throw Error('no contest number or discipline')
+  const routeParams = useParams<{ contestNumber: string; discipline: Discipline }>()
 
-  const { data: solves, isError } = useContestData(Number(contestNumber), discipline)
+  if (!routeParams.contestNumber || !routeParams.discipline) throw Error('no contest number or discipline')
+
+  const { data: solves, isError } = useContestData(Number(routeParams.contestNumber), routeParams.discipline)
   const grouppedSolves = useMemo(() => groupBy(solves ?? [], (attempt) => attempt.username), [solves])
 
   if (isError) {
@@ -27,12 +29,12 @@ export const ContestPage = () => {
 
   return (
     <>
-      <div className='text-left'>{discipline}</div>
+      <div className='text-left'>{routeParams.discipline}</div>
       {Object.entries(grouppedSolves).map(([username, solves]) => (
         <div key={username} className='flex gap-2'>
           <span>{username}</span>
           {solves.map(({ id, time_ms }) => (
-            <span key={id}>{formatSolveTime(time_ms)}</span>
+            <ReconstructTimeButton key={id} solveId={id} time_ms={time_ms} />
           ))}
         </div>
       ))}
