@@ -18,10 +18,7 @@ export type DashboardData = {
 }
 
 export const useDashbordData = () => {
-  const { data, error, isLoading } = useSWRImmutable<{ data: DashboardData }>(
-    PREFIX + '/dashboard_page/',
-    axiosClient.get,
-  )
+  const { data, error, isLoading } = useSWRImmutable<{ data: DashboardData }>(PREFIX + '/dashboard/', axiosClient.get)
 
   return {
     data: data?.data,
