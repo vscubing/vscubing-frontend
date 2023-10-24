@@ -23,10 +23,18 @@ export const NavBar = () => {
 
   return (
     <nav>
-      <ul className='flex gap-4'>
+      <ul className='flex gap-16'>
         {links.map(({ text, to }) => (
           <li key={text}>
-            <NavLink to={to} className={({ isActive }) => classNames({ underline: isActive })}>
+            <NavLink
+              to={to}
+              className={({ isActive }) =>
+                classNames(
+                  isActive ? 'border-[#238636] text-white' : 'border-transparent text-white/50',
+                  'block border-t-[3px] py-[12px] text-[20px]',
+                )
+              }
+            >
               {text}
             </NavLink>
           </li>
