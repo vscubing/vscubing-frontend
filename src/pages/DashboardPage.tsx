@@ -27,7 +27,7 @@ export const DashboardPage = () => {
         {data
           ? data.best_solves.map((solve) => (
               <div key={solve.id} className='bg-panels flex items-center rounded-[5px] py-[13px] pl-[17px] pr-[12px]'>
-                <CubeIcon className='mr-[12px] text-[#35424B]' />
+                <CubeIcon className='mr-[12px] w-[23px] text-[#35424B]' />
                 <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 py-[3px] pr-[12px]'>
                   {solve.username}
                 </span>
