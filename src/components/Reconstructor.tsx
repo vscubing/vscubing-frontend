@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 
-export type ReconstructorSolve = { scramble: string; reconstruction: string }
+export type Reconstruction = { scramble: string; reconstruction: string }
 
-type ReconstructorProps = { solve: ReconstructorSolve | null; onClose: () => void }
-export const Reconstructor = ({ solve, onClose }: ReconstructorProps) => {
+type ReconstructorProps = { reconstruction: Reconstruction | null; onClose: () => void }
+export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
@@ -15,16 +15,19 @@ export const Reconstructor = ({ solve, onClose }: ReconstructorProps) => {
   }
 
   useEffect(() => {
-    if (solve && iframeRef.current) {
+    if (reconstruction && iframeRef.current) {
       setIsLoaded(true)
-      importSolve(iframeRef.current, solve)
+      importSolve(iframeRef.current, reconstruction)
     }
-  }, [solve])
+  }, [reconstruction])
 
   return (
     <div
       onClick={onBackgroundClick}
-      className={classNames({ invisible: !solve }, 'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20')}
+      className={classNames(
+        { invisible: !reconstruction },
+        'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20',
+      )}
     >
       <iframe
         ref={iframeRef}
@@ -37,7 +40,7 @@ export const Reconstructor = ({ solve, onClose }: ReconstructorProps) => {
   )
 }
 
-const importSolve = (iframeElement: HTMLIFrameElement, solve: ReconstructorSolve) => {
+const importSolve = (iframeElement: HTMLIFrameElement, solve: Reconstruction) => {
   iframeElement.onload = () => {
     iframeElement.contentWindow?.postMessage({ source: 'vs-integration', solve }, 'http://127.0.0.1:8080')
   }

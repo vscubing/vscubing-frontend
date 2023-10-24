@@ -1,12 +1,13 @@
-import { Reconstructor, ReconstructorSolve } from '@/components'
+import { useSolveReconstruction } from '@/api'
+import { Reconstructor } from '@/components'
 import { createContext, useContext, useState } from 'react'
 
 type ReconstructorContextValue = {
-  showSolve: (solve: ReconstructorSolve) => void
+  showReconstruction: (solveId: number) => void
 }
 
 const ReconstructorContext = createContext<ReconstructorContextValue>({
-  showSolve: () => {
+  showReconstruction: () => {
     throw new Error('context is missing')
   },
 })
@@ -17,16 +18,17 @@ export const useReconstructor = () => {
 
 type ReconstructorProviderProps = { children: React.ReactNode }
 export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {
-  const [currentSolve, setCurrentSolve] = useState<ReconstructorSolve | null>(null)
+  const [solveId, setSolveId] = useState<number | null>(null)
+  const { data: reconstruction } = useSolveReconstruction(solveId)
 
   const value = {
-    showSolve: (solve: ReconstructorSolve) => {
-      setCurrentSolve(solve)
+    showReconstruction: (solve: number) => {
+      setSolveId(solve)
     },
   }
   return (
     <ReconstructorContext.Provider value={value}>
-      <Reconstructor solve={currentSolve} onClose={() => setCurrentSolve(null)} />
+      <Reconstructor reconstruction={reconstruction} onClose={() => setSolveId(null)} />
       {children}
     </ReconstructorContext.Provider>
   )
