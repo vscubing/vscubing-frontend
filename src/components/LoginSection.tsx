@@ -1,6 +1,7 @@
 import { useCurrentUser } from '@/api'
 import { useAuth } from '@/providers'
 import { useGoogleLogin } from '@react-oauth/google'
+import googleLogo from '@/assets/google-logo.svg'
 
 export const LoginSection = () => {
   const { loggedIn, login, logout } = useAuth()
@@ -22,8 +23,12 @@ export const LoginSection = () => {
           </button>
         </>
       ) : (
-        <button className='border-2 px-5 py-2' onClick={() => loginHandler()}>
-          log in with google
+        <button
+          className='bg-panels rounded-md py-[10px] pl-[12px] pr-[31px] text-[#CBCBCB]'
+          onClick={() => loginHandler()}
+        >
+          <img src={googleLogo} alt='google logo' className='mr-[20px] inline-block' />
+          Sign in with Google
         </button>
       )}
     </div>

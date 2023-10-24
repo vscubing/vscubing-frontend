@@ -30,7 +30,7 @@ export const NavBar = () => {
               to={to}
               className={({ isActive }) =>
                 classNames(
-                  isActive ? 'border-[#238636] text-white' : 'border-transparent text-white/50',
+                  isActive ? 'border-primary text-white' : 'border-transparent text-white/50',
                   'block border-t-[3px] py-[12px] text-[20px]',
                 )
               }
