@@ -8,7 +8,7 @@ export const Layout = () => {
         <NavBar />
         <LoginSection />
       </div>
-      <div className='px-[146px]'>
+      <div className='px-[146px] pt-[90px]'>
         <Outlet />
       </div>
     </div>
