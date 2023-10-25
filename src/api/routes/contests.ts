@@ -43,7 +43,7 @@ type Solve = {
   discipline: Discipline
 }
 
-export const useContestData = (contestNumber: number, discipline: Discipline) => {
+export const useContestResults = (contestNumber: number, discipline: Discipline) => {
   const { data, error, isLoading } = useSWRImmutable<{ data: Solve[] }>(
     `${PREFIX}/contest/${contestNumber}/${discipline}`,
     axiosClient.get,
@@ -68,13 +68,4 @@ export const useOngoingContestNumber = () => {
   )
 
   return { data: data?.data, isLoading, isError: error }
-}
-
-export type Reconstruction = { scramble: string; reconstruction: string }
-export const useSolveReconstruction = (solveId: number | null) => {
-  const { data, error, isLoading } = useSWRImmutable<{
-    data: Reconstruction
-  }>(solveId === null ? null : `${PREFIX}/solve_reconstruction/${solveId}/`, axiosClient.get)
-
-  return { data: data ? data.data : null, isLoading, isError: error }
 }
