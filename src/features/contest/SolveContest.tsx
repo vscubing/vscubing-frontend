@@ -18,17 +18,19 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       {submitted_solves.map((_, index) => (
         <div>{index + 1}.</div>
       ))}
-      {currentSolveNumber}
-      <div>{pending ? current_solve.solve.time_ms : '??:??.??'}</div>
-      <div>{pending ? current_solve.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
-      {pending ? (
-        <>
-          <ActionButton color='secondary'>extra</ActionButton>
-          <ActionButton color='primary'>submit</ActionButton>
-        </>
-      ) : (
-        <ActionButton color='primary'>solve</ActionButton>
-      )}
+      <div className='flex items-center gap-[20px]'>
+        {currentSolveNumber}
+        <div>{pending ? current_solve.solve.time_ms : '??:??.??'}</div>
+        <div>{pending ? current_solve.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
+        {pending ? (
+          <>
+            <ActionButton color='secondary'>extra</ActionButton>
+            <ActionButton color='primary'>submit</ActionButton>
+          </>
+        ) : (
+          <ActionButton color='primary'>solve</ActionButton>
+        )}
+      </div>
     </>
   )
 }
