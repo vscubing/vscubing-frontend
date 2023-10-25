@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
-import { Reconstruction } from './api'
 
+type Reconstruction = { scramble: string; reconstruction: string }
 type ReconstructorProps = { reconstruction: Reconstruction | null; onClose: () => void }
 export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
