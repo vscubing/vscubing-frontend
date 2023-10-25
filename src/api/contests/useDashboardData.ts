@@ -1,5 +1,5 @@
 import useSWRImmutable from 'swr/immutable'
-import { axiosClient } from '..'
+import { axiosClient } from '../axios'
 import { Discipline } from '@/types'
 
 type Response = {

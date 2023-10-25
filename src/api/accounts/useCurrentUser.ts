@@ -1,5 +1,5 @@
 import { getAuthTokens } from '@/features/auth'
-import { axiosClient } from '..'
+import { axiosClient } from '../axios'
 import useSWRImmutable from 'swr/immutable'
 
 type Response = string

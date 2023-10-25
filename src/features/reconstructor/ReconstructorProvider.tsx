@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 import { Reconstructor } from './Reconstructor'
-import { useSolveReconstruction } from './api'
+import { useSolveReconstruction } from '@/api/contests'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number) => void

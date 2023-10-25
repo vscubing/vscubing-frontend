@@ -1,5 +1,5 @@
 import useSWRImmutable from 'swr/immutable'
-import { axiosClient } from '..'
+import { axiosClient } from '../axios'
 
 const API_ROUTE = 'contests/solve_reconstruction/'
 export const useSolveReconstruction = (solveId: number | null) => {

@@ -1,4 +1,4 @@
-import { IContestsList } from '@/api'
+import { IContestsList } from '@/api/contests'
 import { ContestLink } from './ContestLink'
 
 type ContestsListProps = { contests?: IContestsList }

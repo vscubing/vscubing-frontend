@@ -1,6 +1,6 @@
 import { Discipline } from '@/types'
 import useSWRImmutable from 'swr/immutable'
-import { axiosClient } from '..'
+import { axiosClient } from '../axios'
 
 type Response = Solve[]
 type Solve = {

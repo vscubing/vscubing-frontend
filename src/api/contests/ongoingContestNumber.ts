@@ -1,5 +1,5 @@
 import useSWRImmutable from 'swr/immutable'
-import { axiosClient } from '..'
+import { axiosClient } from '../axios'
 
 type Response = number
 

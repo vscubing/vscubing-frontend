@@ -1,4 +1,4 @@
-import { axiosClient } from '..'
+import { axiosClient } from '../axios'
 
 type RequestBody = { code: string }
 type Response = { access: string; refresh: string }
