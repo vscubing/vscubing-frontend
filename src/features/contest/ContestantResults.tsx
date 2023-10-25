@@ -1,8 +1,8 @@
 import { ReconstructTimeButton } from '@/components'
 import classNames from 'classnames'
 
-type ContestResultProps = { username: string; solves: Array<{ id: number; time_ms: number }> } // TODO fix to camelCase
-export const ContestResult = ({ username, solves }: ContestResultProps) => {
+type ContestantResultsProps = { username: string; solves: Array<{ id: number; time_ms: number }> } // TODO fix to camelCase
+export const ContestantResults = ({ username, solves }: ContestantResultsProps) => {
   const timeArr = solves.map((solve) => solve.time_ms)
   const bestIndex = timeArr.indexOf(Math.min(...timeArr))
   const worstIndex = timeArr.indexOf(Math.max(...timeArr))
