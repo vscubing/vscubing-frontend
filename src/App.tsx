@@ -1,9 +1,9 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import { AuthProvider } from './providers/AuthProvider'
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import { Layout, redirectToOngoingContest, DEFAULT_DISCIPLINE, ContestPage, DashboardPage } from './pages'
 import './App.tw.css'
 import { ReconstructorProvider } from './features/reconstructor'
+import { AuthProvider } from './features/auth'
 
 const router = createBrowserRouter([
   {

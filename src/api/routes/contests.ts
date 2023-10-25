@@ -1,6 +1,5 @@
 import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
-import { Reconstruction } from '@/components'
 
 const PREFIX = '/contests'
 
@@ -71,6 +70,7 @@ export const useOngoingContestNumber = () => {
   return { data: data?.data, isLoading, isError: error }
 }
 
+export type Reconstruction = { scramble: string; reconstruction: string }
 export const useSolveReconstruction = (solveId: number | null) => {
   const { data, error, isLoading } = useSWRImmutable<{
     data: Reconstruction

@@ -1,5 +1,6 @@
-import { deleteAuthTokens, getAuthTokens, postLogin, setAuthTokens } from '@/api'
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { postLogin } from '@/api'
+import { createContext, useEffect, useMemo, useState } from 'react'
+import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '.'
 
 type AuthContextValue = {
   loggedIn: boolean
@@ -7,7 +8,7 @@ type AuthContextValue = {
   logout: () => void
 }
 
-const AuthContext = createContext<AuthContextValue>({
+export const AuthContext = createContext<AuthContextValue>({
   loggedIn: false,
   login: () => {
     throw new Error('context is missing')
@@ -16,10 +17,6 @@ const AuthContext = createContext<AuthContextValue>({
     throw new Error('context is missing')
   },
 })
-
-export const useAuth = () => {
-  return useContext(AuthContext)
-}
 
 type AuthProviderProps = { children: React.ReactNode }
 export const AuthProvider = ({ children }: AuthProviderProps) => {

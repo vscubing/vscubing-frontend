@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
-export const LS_REFRESH_TOKEN = 'refresh-token'
-export const LS_ACCESS_TOKEN = 'access-token'
+const LS_REFRESH_TOKEN = 'refresh-token'
+const LS_ACCESS_TOKEN = 'access-token'
 
 export const createAuthorizedRequestInterceptor = (client: AxiosInstance) => {
   client.interceptors.request.use(async (config) => {

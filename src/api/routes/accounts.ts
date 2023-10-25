@@ -1,6 +1,6 @@
 import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '..'
-import { getAuthTokens } from '../auth'
+import { getAuthTokens } from '@/features/auth'
 
 const PREFIX = '/accounts'
 

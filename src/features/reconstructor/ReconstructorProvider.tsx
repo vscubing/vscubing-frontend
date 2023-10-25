@@ -1,6 +1,6 @@
-import { useSolveReconstruction } from '@/api'
 import { createContext, useState } from 'react'
 import { Reconstructor } from './Reconstructor'
+import { useSolveReconstruction } from './api'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number) => void
