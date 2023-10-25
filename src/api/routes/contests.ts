@@ -6,17 +6,25 @@ const PREFIX = '/contests'
 
 export type Discipline = '3by3'
 export type DashboardData = {
-  best_solves: Array<{
-    id: number
-    contest: number
-    time_ms: number
-    reconstruction: string
-    scramble: string
-    username: string
-    discipline: Discipline
-  }>
-  contests: Array<{ id: number; contest_number: number; start: string; end: string | null; ongoing: boolean }>
+  best_solves: IBestSolves
+  contests: IContestsList
 }
+export type IBestSolves = Array<{
+  id: number
+  contest: number
+  time_ms: number
+  reconstruction: string
+  scramble: string
+  username: string
+  discipline: Discipline
+}>
+export type IContestsList = Array<{
+  id: number
+  contest_number: number
+  start: string
+  end: string | null
+  ongoing: boolean
+}>
 
 export const useDashbordData = () => {
   const { data, error, isLoading } = useSWRImmutable<{ data: DashboardData }>(PREFIX + '/dashboard/', axiosClient.get)
