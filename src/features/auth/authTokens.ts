@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 const LS_REFRESH_TOKEN = 'refresh-token'
 const LS_ACCESS_TOKEN = 'access-token'
 
-export const createAuthorizedRequestInterceptor = (client: AxiosInstance) => {
+export function createAuthorizedRequestInterceptor(client: AxiosInstance) {
   client.interceptors.request.use(async (config) => {
     const accessToken = localStorage.getItem(LS_ACCESS_TOKEN)
     if (accessToken) {
@@ -13,7 +13,7 @@ export const createAuthorizedRequestInterceptor = (client: AxiosInstance) => {
   })
 }
 
-export const refreshAccessToken = async (axiosParams: AxiosRequestConfig) => {
+export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {
   const refresh = localStorage.getItem(LS_REFRESH_TOKEN)
   try {
     const response = await axios.post<{ refresh: string }, { data: { access: string } }>(

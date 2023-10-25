@@ -1,7 +1,7 @@
-import { useCurrentUser } from '@/api'
 import { useGoogleLogin } from '@react-oauth/google'
 import googleLogo from '@/assets/google-logo.svg'
 import { useAuth } from '@/features/auth'
+import { useCurrentUser } from '@/api/accounts'
 
 export const LoginSection = () => {
   const { loggedIn, login, logout } = useAuth()

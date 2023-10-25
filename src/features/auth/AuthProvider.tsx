@@ -1,6 +1,6 @@
-import { postLogin } from '@/api'
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '.'
+import { postLogin } from '@/api/accounts'
 
 type AuthContextValue = {
   loggedIn: boolean
