@@ -1,9 +1,10 @@
-import { Discipline, getOngoingContestNumber, useContestResults } from '@/api'
 import { groupBy } from '@/utils'
 import { useMemo } from 'react'
 import { redirect, useParams } from 'react-router-dom'
 import CubeIcon from '@/assets/3by3.svg?react'
 import { ContestResult } from '@/features/contest'
+import { Discipline } from '@/types'
+import { getOngoingContestNumber, useContestResults } from '@/api/contests'
 
 export const redirectToOngoingContest = async () => {
   const ongoing = await getOngoingContestNumber()

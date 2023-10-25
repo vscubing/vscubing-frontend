@@ -1,1 +1,3 @@
-export const DEFAULT_DISCIPLINE = '3by3'
+import { Discipline } from './types'
+
+export const DEFAULT_DISCIPLINE: Discipline = '3by3'

@@ -1,4 +1,4 @@
-import { useOngoingContestNumber } from '@/api'
+import { useOngoingContestNumber } from '@/api/contests'
 import classNames from 'classnames'
 import { useMemo } from 'react'
 import { useParams, NavLink } from 'react-router-dom'

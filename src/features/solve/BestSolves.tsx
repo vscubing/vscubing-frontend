@@ -1,7 +1,7 @@
 import { ReconstructTimeButton } from '@/components'
 import { Link } from 'react-router-dom'
 import CubeIcon from '@/assets/3by3.svg?react'
-import { IBestSolves } from '@/api'
+import { IBestSolves } from '@/api/contests'
 
 type BestSolvesProps = { bestSolves?: IBestSolves }
 export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
@@ -15,7 +15,7 @@ export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
                 {solve.username}
               </span>
               <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} />
-              <Link className='btn-action ml-auto' to={`/contest/${solve.contest}`}>
+              <Link className='btn-action ml-auto' to={`/contest/${solve.contest_number}`}>
                 leaderboard
               </Link>
             </div>

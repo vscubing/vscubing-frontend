@@ -1,4 +1,4 @@
-import { useDashbordData } from '@/api'
+import { useDashbordData } from '@/api/contests'
 import { ContestsList } from '@/features/contest'
 import { BestSolves } from '@/features/solve'
 
