@@ -2,7 +2,7 @@ import { groupBy } from '@/utils'
 import { useMemo } from 'react'
 import { redirect, useParams } from 'react-router-dom'
 import CubeIcon from '@/assets/3by3.svg?react'
-import { ContestResult } from '@/features/contest'
+import { ContestResult, SolveContest } from '@/features/contest'
 import { Discipline } from '@/types'
 import { getOngoingContestNumber, useContestResults } from '@/api/contests'
 
@@ -18,11 +18,19 @@ export const ContestPage = () => {
 
   if (!contestNumber || !discipline) throw Error('no contest number or discipline')
 
-  const { data: results, isError } = useContestResults(contestNumber, discipline)
+  const { data: results, error } = useContestResults(contestNumber, discipline)
   const grouppedResults = useMemo(() => groupBy(results ?? [], (attempt) => attempt.username), [results])
 
-  if (isError) {
-    return 'mock data not available'
+  if (error?.response.status === 403) {
+    return <SolveContest contestNumber={contestNumber} discipline={discipline} />
+  }
+
+  if (error?.response.status === 401) {
+    return "unauthorized, can't solve"
+  }
+
+  if (error) {
+    return 'unknown error'
   }
 
   if (!results) {

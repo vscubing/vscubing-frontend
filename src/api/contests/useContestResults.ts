@@ -3,6 +3,10 @@ import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
 
 type Response = Solve[]
+type ErrorType = {
+  response: { status: number }
+}
+
 type Solve = {
   id: number
   username: string
@@ -12,14 +16,15 @@ type Solve = {
 
 const API_ROUTE = 'contests/contest/'
 export const useContestResults = (contestNumber: number, discipline: Discipline) => {
-  const { data, error, isLoading } = useSWRImmutable<{ data: Response }>(
-    `${API_ROUTE}${contestNumber}/${discipline}`,
+  const { data, error, isLoading } = useSWRImmutable<{ data: Response }, ErrorType>(
+    `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,
+    { shouldRetryOnError: false },
   )
 
   return {
     data: data?.data,
     isLoading,
-    isError: error,
+    error,
   }
 }
