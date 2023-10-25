@@ -3,7 +3,7 @@ import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
 const axiosParams = {
-  baseURL: `http://${window.location.hostname}:8000/api`,
+  baseURL: `/api`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
