@@ -1,20 +1,16 @@
 import { useSolveReconstruction } from '@/api'
-import { Reconstructor } from '@/components'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
+import { Reconstructor } from './Reconstructor'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number) => void
 }
 
-const ReconstructorContext = createContext<ReconstructorContextValue>({
+export const ReconstructorContext = createContext<ReconstructorContextValue>({
   showReconstruction: () => {
     throw new Error('context is missing')
   },
 })
-
-export const useReconstructor = () => {
-  return useContext(ReconstructorContext)
-}
 
 type ReconstructorProviderProps = { children: React.ReactNode }
 export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {

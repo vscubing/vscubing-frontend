@@ -1,4 +1,4 @@
-import { useReconstructor } from '@/providers'
+import { useReconstructor } from '@/features/reconstructor'
 import { formatSolveTime } from '@/utils'
 import classNames from 'classnames'
 
