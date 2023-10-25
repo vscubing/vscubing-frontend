@@ -34,7 +34,7 @@ export const ContestPage = () => {
         <CubeIcon className='w-[23px] text-white' />
       </div>
       {Object.entries(grouppedResults).map(([username, solves]) => (
-        <ContestResult username={username} solves={solves} />
+        <ContestResult key={username} username={username} solves={solves} />
       ))}
     </>
   )
