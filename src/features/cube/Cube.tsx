@@ -23,7 +23,7 @@ export const Cube = ({ scramble, onSolve }: CubeProps) => {
       <iframe
         ref={iframeRef}
         className='rounded-[5px]'
-        src={isLoaded ? 'http://localhost:8081/timer.php' : undefined}
+        src={isLoaded ? '/cstimer/timer.php' : undefined}
         width='1300'
         height='550'
       ></iframe>
@@ -53,13 +53,10 @@ const startSolveOnLoad = (() => {
   return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: CubeSolveCallback) => {
     savedOnSolve = onSolve
     const startSolve = () =>
-      iframeElement.contentWindow?.postMessage(
-        {
-          source: POST_MESSAGE_SOURCE,
-          scramble: scramble,
-        },
-        '*',
-      )
+      iframeElement.contentWindow?.postMessage({
+        source: POST_MESSAGE_SOURCE,
+        scramble: scramble,
+      })
 
     if (loaded) {
       startSolve()

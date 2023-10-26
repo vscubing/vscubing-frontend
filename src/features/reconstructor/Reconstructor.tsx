@@ -31,7 +31,7 @@ export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) =
       <iframe
         ref={iframeRef}
         className='rounded-[5px]'
-        src={isLoaded ? 'http://127.0.0.1:8080' : undefined}
+        src={isLoaded ? '/alg.cubing.net/index.html' : undefined}
         width='1300'
         height='550'
       ></iframe>
@@ -43,8 +43,7 @@ const importSolveOnLoad = (() => {
   let loaded = false
 
   return (iframeElement: HTMLIFrameElement, solve: Reconstruction) => {
-    const importSolve = () =>
-      iframeElement.contentWindow?.postMessage({ source: 'vs-integration', solve }, 'http://127.0.0.1:8080')
+    const importSolve = () => iframeElement.contentWindow?.postMessage({ source: 'vs-integration', solve })
 
     if (loaded) {
       importSolve()

@@ -15,6 +15,18 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/alg.cubing.net': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/alg.cubing.net/, ''),
+      },
+      '/cstimer': {
+        target: 'http://127.0.0.1:8081',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/cstimer/, ''),
+      },
     },
   },
   plugins: [react(), svgr()],
