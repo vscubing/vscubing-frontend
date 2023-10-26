@@ -3,8 +3,8 @@ import { groupBy } from '@/utils'
 import { useMemo } from 'react'
 import { Discipline } from '@/types'
 import { useRequiredParams } from '@/utils/useRequiredParams'
-import { SolveContest } from './SolveContest'
 import { ContestantResults } from './ContestantResults'
+import { SolveContest } from './SolveContest'
 
 export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
