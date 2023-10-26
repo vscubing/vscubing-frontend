@@ -1,6 +1,6 @@
 import { useSolveContestState } from '@/api/contests/solveContest'
 import { Discipline } from '@/types'
-import { useCube } from '@/features/cube';
+import { useCube } from '@/features/cube'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
@@ -22,14 +22,19 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       <div className='flex items-center gap-[20px]'>
         {currentSolveNumber}
         <div>{pending ? current_solve.solve.time_ms : '??:??.??'}</div>
-        <div>{pending ? current_solve.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
+        <div>
+          {pending ? current_solve.scramble.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}
+        </div>
         {pending ? (
           <>
-            <button className='bg-[#9B2527] w-[82px] rounded-[5px] py-[8px]'>extra</button>
-            <button className='bg-primary w-[82px] rounded-[5px] py-[8px]'>submit</button>
+            <button className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>extra</button>
+            <button className='w-[82px] rounded-[5px] bg-primary py-[8px]'>submit</button>
           </>
         ) : (
-          <button className='bg-primary w-[82px] rounded-[5px] py-[8px]' onClick={() => startSolve(current_solve.scramble, console.log)}>
+          <button
+            className='w-[82px] rounded-[5px] bg-primary py-[8px]'
+            onClick={() => startSolve(current_solve.scramble.scramble, console.log)}
+          >
             solve
           </button>
         )}

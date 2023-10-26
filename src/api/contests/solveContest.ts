@@ -4,7 +4,7 @@ import { Discipline } from '@/types'
 
 type SolveState = {
   current_solve: {
-    scramble: string
+    scramble: { extra: boolean; id: number; scramble: string }
     solve: { time_ms: null }
   }
   submitted_solves: Array<unknown>

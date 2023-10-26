@@ -56,7 +56,7 @@ const startSolveOnLoad = (() => {
       iframeElement.contentWindow?.postMessage(
         {
           source: POST_MESSAGE_SOURCE,
-          scramble: Math.random() > 0.5 ? "R U R' U R U2 R'" : "L' U' L U' L' U2 L",
+          scramble: scramble,
         },
         '*',
       )
