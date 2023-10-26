@@ -1,14 +1,19 @@
-import useSWR from 'swr'
 import { axiosClient } from '../axios'
 import { Discipline } from '@/types'
 import useSWRImmutable from 'swr/immutable'
 
+type Scramble = { extra: boolean; id: number; scramble: string }
 type SolveState = {
   current_solve: {
-    scramble: { extra: boolean; id: number; scramble: string }
+    scramble: Scramble
     solve: { time_ms: null } | { time_ms: number; id: number }
   }
-  submitted_solves: Array<unknown>
+  submitted_solves: Array<{
+    dnf: boolean
+    id: number
+    scramble: Scramble
+    time_ms: number
+  }>
 }
 
 const API_ROUTE = '/contests/solve_contest/'
@@ -27,12 +32,12 @@ export const postSolveResult = async (
   scrambleId: number,
   payload: { reconstruction: string; time_ms: number },
 ) => {
-  const response = await axiosClient.post<number>(
+  const { data } = await axiosClient.post<{ solve_id: number }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
     payload,
   )
 
-  return { solve_id: response.data }
+  return data
 }
 
 export const submitSolve = async (contestNumber: number, discipline: Discipline, solve_id: number) => {

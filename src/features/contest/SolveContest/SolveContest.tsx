@@ -42,8 +42,10 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
 
   return (
     <>
-      {submitted_solves.map((_, index) => (
-        <div>{index + 1}.</div>
+      {submitted_solves.map((solve, index) => (
+        <div key={solve.id} className='flex items-center gap-[20px]'>
+          {index + 1}. <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} /> {solve.scramble.scramble}
+        </div>
       ))}
       <div className='flex items-center gap-[20px]'>
         {currentSolveNumber}
