@@ -28,12 +28,12 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
 
   const onExtra = async () => {
-    const res = await changeToExtra(contestNumber, discipline)
+    const res = await changeToExtra(contestNumber, discipline, currentSolveResult!.id)
     console.log(res)
   }
 
   const onSubmit = async () => {
-    const res = await submitSolve(contestNumber, discipline)
+    const res = await submitSolve(contestNumber, discipline, currentSolveResult!.id)
     console.log(res)
   }
 
