@@ -31,13 +31,13 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
 
   const onExtra = async () => {
-    const res = await changeToExtra(contestNumber, discipline, currentSolveResult!.id)
-    console.log(res)
+    const { newSolvesState } = await changeToExtra(contestNumber, discipline, currentSolveResult!.id)
+    mutateState({ data: newSolvesState }, { revalidate: false })
   }
 
   const onSubmit = async () => {
-    const res = await submitSolve(contestNumber, discipline, currentSolveResult!.id)
-    console.log(res)
+    const { newSolvesState } = await submitSolve(contestNumber, discipline, currentSolveResult!.id)
+    mutateState({ data: newSolvesState }, { revalidate: false })
   }
 
   return (

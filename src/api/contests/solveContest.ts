@@ -3,7 +3,7 @@ import { Discipline } from '@/types'
 import useSWRImmutable from 'swr/immutable'
 
 type Scramble = { extra: boolean; id: number; scramble: string }
-type SolveState = {
+type SolvesState = {
   current_solve: {
     scramble: Scramble
     solve: { time_ms: null } | { time_ms: number; id: number }
@@ -18,7 +18,7 @@ type SolveState = {
 
 const API_ROUTE = '/contests/solve_contest/'
 export const useSolveContestState = (contestNumber: number, discipline: Discipline) => {
-  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolveState }>(
+  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolvesState }>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,
   )
@@ -41,18 +41,18 @@ export const postSolveResult = async (
 }
 
 export const submitSolve = async (contestNumber: number, discipline: Discipline, solve_id: number) => {
-  const response = await axiosClient.put<unknown>(`${API_ROUTE}${contestNumber}/${discipline}/?action=submit`, {
+  const { data } = await axiosClient.put<SolvesState>(`${API_ROUTE}${contestNumber}/${discipline}/?action=submit`, {
     solve_id,
   })
 
-  return response
+  return { newSolvesState: data }
 }
 
 export const changeToExtra = async (contestNumber: number, discipline: Discipline, solve_id: number) => {
-  const response = await axiosClient.put<unknown>(
+  const { data } = await axiosClient.put<SolvesState>(
     `${API_ROUTE}${contestNumber}/${discipline}/?action=change_to_extra`,
     { solve_id },
   )
 
-  return response
+  return { newSolvesState: data }
 }
