@@ -1,11 +1,11 @@
 import { useSolveContestState } from '@/api/contests/solveContest'
 import { Discipline } from '@/types'
 import { ActionButton } from './ActionButton'
-import { useSolver } from '../solver'
+import { useCube } from '../cube';
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
-  const { startSolve } = useSolver()
+  const { startSolve } = useCube()
   const { data: state } = useSolveContestState(contestNumber, discipline)
 
   if (!state) {

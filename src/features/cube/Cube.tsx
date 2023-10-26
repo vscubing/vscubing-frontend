@@ -1,11 +1,11 @@
 import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
-export type SolverResult = { reconstruction: string; timeMs: number }
-export type SolverCallback = (result: SolverResult) => void
+export type SolveResult = { reconstruction: string; timeMs: number }
+export type SolveCallback = (result: SolveResult) => void
 
-type SolverProps = { scramble: string | null; onSolve: (result: SolverResult) => void }
-export const Solver = ({ scramble, onSolve }: SolverProps) => {
+type CubeProps = { scramble: string | null; onSolve: (result: SolveResult) => void }
+export const Cube = ({ scramble, onSolve }: CubeProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
@@ -34,7 +34,7 @@ export const Solver = ({ scramble, onSolve }: SolverProps) => {
 const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 const startSolveOnLoad = (() => {
   let loaded = false
-  let savedOnSolve: SolverCallback | undefined
+  let savedOnSolve: SolveCallback | undefined
 
   window.addEventListener(
     'message',
@@ -50,7 +50,7 @@ const startSolveOnLoad = (() => {
     false,
   )
 
-  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: SolverCallback) => {
+  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: SolveCallback) => {
     savedOnSolve = onSolve
     const startSolve = () =>
       iframeElement.contentWindow?.postMessage(
