@@ -33,3 +33,15 @@ export const postSolveResult = async (
 
   return { solve_id: response.data }
 }
+
+export const submitSolve = async (contestNumber: number, discipline: Discipline) => {
+  const response = await axiosClient.put<unknown>(`${API_ROUTE}${contestNumber}/${discipline}/?action=submit`)
+
+  return response
+}
+
+export const changeToExtra = async (contestNumber: number, discipline: Discipline) => {
+  const response = await axiosClient.put<unknown>(`${API_ROUTE}${contestNumber}/${discipline}/?action=change_to_extra`)
+
+  return response
+}

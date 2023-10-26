@@ -1,8 +1,8 @@
-import { postSolveResult, useSolveContestState } from '@/api/contests/solveContest'
 import { Discipline } from '@/types'
 import { useCube } from '@/features/cube'
 import { CubeSolveResult } from '@/features/cube/Cube'
 import { ReconstructTimeButton } from '@/components'
+import { useSolveContestState, postSolveResult, changeToExtra, submitSolve } from '@/api/contests'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
@@ -27,6 +27,16 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
     })
   }
 
+  const onExtra = async () => {
+    const res = await changeToExtra(contestNumber, discipline)
+    console.log(res)
+  }
+
+  const onSubmit = async () => {
+    const res = await submitSolve(contestNumber, discipline)
+    console.log(res)
+  }
+
   return (
     <>
       {submitted_solves.map((_, index) => (
@@ -48,8 +58,12 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
         </div>
         {currentSolveResult ? (
           <>
-            <button className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>extra</button>
-            <button className='w-[82px] rounded-[5px] bg-primary py-[8px]'>submit</button>
+            <button onClick={() => onExtra()} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
+              extra
+            </button>
+            <button onClick={() => onSubmit()} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
+              submit
+            </button>
           </>
         ) : (
           <button
