@@ -19,12 +19,15 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   const onSolveFinish = async (result: CubeSolveResult) => {
     const { solve_id: newSolveId } = await postSolveResult(contestNumber, discipline, current_solve.scramble.id, result)
 
-    mutateState({
-      data: {
-        submitted_solves,
-        current_solve: { ...current_solve, solve: { id: newSolveId, time_ms: result.time_ms } },
+    mutateState(
+      {
+        data: {
+          submitted_solves,
+          current_solve: { ...current_solve, solve: { id: newSolveId, time_ms: result.time_ms } },
+        },
       },
-    })
+      { revalidate: false },
+    )
   }
 
   const onExtra = async () => {

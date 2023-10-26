@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 import { axiosClient } from '../axios'
 import { Discipline } from '@/types'
+import useSWRImmutable from 'swr/immutable'
 
 type SolveState = {
   current_solve: {
@@ -12,7 +13,7 @@ type SolveState = {
 
 const API_ROUTE = '/contests/solve_contest/'
 export const useSolveContestState = (contestNumber: number, discipline: Discipline) => {
-  const { data, error, isLoading, mutate } = useSWR<{ data: SolveState }>(
+  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolveState }>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,
   )
