@@ -43,17 +43,24 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   return (
     <>
       {submitted_solves.map((solve, index) => (
-        <div key={solve.id} className='flex items-center gap-[20px]'>
-          {index + 1}. <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} /> {solve.scramble.scramble}
+        <div
+          key={solve.id}
+          className='mb-[25px] grid h-[54px] grid-cols-[30px_min-content_1fr] items-center rounded-[5px] bg-panels py-[7px] pl-[27px] pr-[20px]'
+        >
+          <div className='pr-[10px] text-right'>{index + 1}.</div>
+          <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
+            <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} />
+          </div>
+          {solve.scramble.scramble}
         </div>
       ))}
-      <div className='flex items-center gap-[20px]'>
-        {currentSolveNumber}
-        <div>
+      <div className='grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]'>
+        <div className='pr-[10px] text-right'>{currentSolveNumber}</div>
+        <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
           {currentSolveResult ? (
             <ReconstructTimeButton solveId={currentSolveResult.id} time_ms={currentSolveResult.time_ms} />
           ) : (
-            '??:??.??'
+            <div className='w-[80px] text-center'>??:??.??</div>
           )}
         </div>
         <div>
@@ -62,14 +69,14 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
             : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}
         </div>
         {currentSolveResult ? (
-          <>
+          <div className='flex gap-[17px]'>
             <button onClick={() => onExtra()} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
               extra
             </button>
             <button onClick={() => onSubmit()} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
               submit
             </button>
-          </>
+          </div>
         ) : (
           <button
             className='w-[82px] rounded-[5px] bg-primary py-[8px]'
