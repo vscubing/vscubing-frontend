@@ -1,6 +1,5 @@
 import { useDashbordData } from '@/api/contests'
-import { ContestsList } from '@/features/contest'
-import { BestSolves } from '@/features/solve'
+import { ContestsList, BestSolves } from '@/features/dashboard'
 
 export const DashboardPage = () => {
   const { data } = useDashbordData()
