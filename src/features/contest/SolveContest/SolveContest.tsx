@@ -2,7 +2,7 @@ import { postSolveResult, useSolveContestState } from '@/api/contests/solveConte
 import { Discipline } from '@/types'
 import { useCube } from '@/features/cube'
 import { CubeSolveResult } from '@/features/cube/Cube'
-import { formatSolveTime } from '@/utils'
+import { ReconstructTimeButton } from '@/components'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
@@ -14,7 +14,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
   const { current_solve, submitted_solves } = state
   const currentSolveNumber = `${submitted_solves.length + 1}.`
-  const pendingResult = current_solve.solve.time_ms
+  const currentSolveResult = current_solve.solve.time_ms ? current_solve.solve : null
 
   const onSolveFinish = async (result: CubeSolveResult) => {
     const { solve_id: newSolveId } = await postSolveResult(contestNumber, discipline, current_solve.scramble.id, result)
@@ -34,13 +34,19 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       ))}
       <div className='flex items-center gap-[20px]'>
         {currentSolveNumber}
-        <div>{pendingResult ? formatSolveTime(pendingResult) : '??:??.??'}</div>
         <div>
-          {pendingResult
+          {currentSolveResult ? (
+            <ReconstructTimeButton solveId={currentSolveResult.id} time_ms={currentSolveResult.time_ms} />
+          ) : (
+            '??:??.??'
+          )}
+        </div>
+        <div>
+          {currentSolveResult
             ? current_solve.scramble.scramble
             : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}
         </div>
-        {pendingResult ? (
+        {currentSolveResult ? (
           <>
             <button className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>extra</button>
             <button className='w-[82px] rounded-[5px] bg-primary py-[8px]'>submit</button>
