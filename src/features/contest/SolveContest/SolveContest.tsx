@@ -1,6 +1,5 @@
 import { useSolveContestState } from '@/api/contests/solveContest'
 import { Discipline } from '@/types'
-import { ActionButton } from './ActionButton'
 import { useCube } from '@/features/cube';
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
@@ -26,13 +25,13 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
         <div>{pending ? current_solve.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
         {pending ? (
           <>
-            <ActionButton color='secondary'>extra</ActionButton>
-            <ActionButton color='primary'>submit</ActionButton>
+            <button className='bg-[#9B2527] w-[82px] rounded-[5px] py-[8px]'>extra</button>
+            <button className='bg-primary w-[82px] rounded-[5px] py-[8px]'>submit</button>
           </>
         ) : (
-          <ActionButton color='primary' onClick={() => startSolve(current_solve.scramble, console.log)}>
+          <button className='bg-primary w-[82px] rounded-[5px] py-[8px]' onClick={() => startSolve(current_solve.scramble, console.log)}>
             solve
-          </ActionButton>
+          </button>
         )}
       </div>
     </>
