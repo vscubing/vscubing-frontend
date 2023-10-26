@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
-export type CubeSolveResult = { reconstruction: string; timeMs: number }
+export type CubeSolveResult = { reconstruction: string; time_ms: number } // TODO fix to camelCase
 export type CubeSolveCallback = (result: CubeSolveResult) => void
 
 type CubeProps = { scramble: string | null; onSolve: (result: CubeSolveResult) => void }
@@ -43,8 +43,8 @@ const startSolveOnLoad = (() => {
         return
       }
 
-      const result: { reconstruction: string; timeMs: number } = event.data.payload
-      savedOnSolve && savedOnSolve(result)
+      const { reconstruction, timeMs }: { reconstruction: string; timeMs: number } = event.data.payload
+      savedOnSolve && savedOnSolve({ reconstruction, time_ms: timeMs })
       savedOnSolve = undefined
     },
     false,

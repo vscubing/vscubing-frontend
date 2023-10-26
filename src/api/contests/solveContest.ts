@@ -5,7 +5,7 @@ import { Discipline } from '@/types'
 type SolveState = {
   current_solve: {
     scramble: { extra: boolean; id: number; scramble: string }
-    solve: { time_ms: null }
+    solve: { time_ms: null } | { time_ms: number; id: number }
   }
   submitted_solves: Array<unknown>
 }
@@ -18,4 +18,18 @@ export const useSolveContestState = (contestNumber: number, discipline: Discipli
   )
 
   return { data: data?.data, isLoading, error, mutate }
+}
+
+export const postSolveResult = async (
+  contestNumber: number,
+  discipline: Discipline,
+  scrambleId: number,
+  payload: { reconstruction: string; time_ms: number },
+) => {
+  const response = await axiosClient.post<number>(
+    `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
+    payload,
+  )
+
+  return { solve_id: response.data }
 }
