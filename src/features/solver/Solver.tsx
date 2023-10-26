@@ -23,7 +23,7 @@ export const Solver = ({ scramble, onSolve }: SolverProps) => {
       <iframe
         ref={iframeRef}
         className='rounded-[5px]'
-        src={isLoaded ? 'http://127.0.0.1:8081' : undefined}
+        src={isLoaded ? 'http://localhost:8081/timer.php' : undefined}
         width='1300'
         height='550'
       ></iframe>
@@ -31,16 +31,40 @@ export const Solver = ({ scramble, onSolve }: SolverProps) => {
   )
 }
 
+const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 const startSolveOnLoad = (() => {
   let loaded = false
+  let savedOnSolve: SolverCallback | undefined
 
-  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: (result: SolverResult) => void) => {
+  window.addEventListener(
+    'message',
+    (event) => {
+      if (event.data.source !== POST_MESSAGE_SOURCE) {
+        return
+      }
+
+      const result: { reconstruction: string; timeMs: number } = event.data
+      savedOnSolve && savedOnSolve(result)
+      savedOnSolve = undefined
+    },
+    false,
+  )
+
+  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: SolverCallback) => {
+    savedOnSolve = onSolve
     const startSolve = () =>
-      iframeElement.contentWindow?.postMessage({ source: 'vs-integration', scramble, onSolve }, 'http://127.0.0.1:8081')
+      iframeElement.contentWindow?.postMessage(
+        {
+          source: POST_MESSAGE_SOURCE,
+          scramble: Math.random() > 0.5 ? "R U R' U R U2 R'" : "L' U' L U' L' U2 L",
+        },
+        '*',
+      )
 
     if (loaded) {
       startSolve()
     }
+
     iframeElement.onload = () => {
       loaded = true
       startSolve()

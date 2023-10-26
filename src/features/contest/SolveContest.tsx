@@ -1,9 +1,11 @@
 import { useSolveContestState } from '@/api/contests/solveContest'
 import { Discipline } from '@/types'
 import { ActionButton } from './ActionButton'
+import { useSolver } from '../solver'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
+  const { startSolve } = useSolver()
   const { data: state } = useSolveContestState(contestNumber, discipline)
 
   if (!state) {
@@ -28,7 +30,9 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
             <ActionButton color='primary'>submit</ActionButton>
           </>
         ) : (
-          <ActionButton color='primary'>solve</ActionButton>
+          <ActionButton color='primary' onClick={() => startSolve(current_solve.scramble, console.log)}>
+            solve
+          </ActionButton>
         )}
       </div>
     </>

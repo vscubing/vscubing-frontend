@@ -25,8 +25,8 @@ export const SolverProvider = ({ children }: SolverProviderProps) => {
 
   const value = {
     startSolve: (scramble: string, onSolve: SolverCallback) => {
+      setOnSolveCallback(() => onSolve)
       setScramble(scramble)
-      setOnSolveCallback(onSolve)
     },
   }
   return (

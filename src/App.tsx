@@ -5,6 +5,7 @@ import './App.tw.css'
 import { ReconstructorProvider } from './features/reconstructor'
 import { AuthProvider } from './features/auth'
 import { ContestDiscipline } from './features/contest'
+import { SolverProvider } from './features/solver'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,9 @@ export const App = () => {
     <GoogleOAuthProvider clientId='224901023614-r1i84dq9h7535drcufl03b7fddc2mvvv.apps.googleusercontent.com'>
       <AuthProvider>
         <ReconstructorProvider>
-          <RouterProvider router={router} />
+          <SolverProvider>
+            <RouterProvider router={router} />
+          </SolverProvider>
         </ReconstructorProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
