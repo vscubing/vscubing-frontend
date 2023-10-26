@@ -60,6 +60,7 @@ const startSolveOnLoad = (() => {
 
     if (loaded) {
       startSolve()
+      return
     }
 
     iframeElement.onload = () => {
