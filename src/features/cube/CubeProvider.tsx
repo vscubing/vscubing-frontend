@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react'
-import { SolveCallback, SolveResult, Cube } from './Cube'
+import { CubeSolveCallback, CubeSolveResult, Cube } from './Cube'
 
 type CubeContextValue = {
-  startSolve: (scramble: string, onSolve: SolveCallback) => void
+  startSolve: (scramble: string, onSolve: CubeSolveCallback) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({
@@ -14,9 +14,9 @@ export const CubeContext = createContext<CubeContextValue>({
 type CubeProviderProps = { children: React.ReactNode }
 export const CubeProvider = ({ children }: CubeProviderProps) => {
   const [scramble, setScramble] = useState<string | null>(null)
-  const [savedSolveCallback, setSavedSolveCallback] = useState<SolveCallback | null>(null)
+  const [savedSolveCallback, setSavedSolveCallback] = useState<CubeSolveCallback | null>(null)
 
-  const onSolveHandler = (result: SolveResult) => {
+  const onSolveHandler = (result: CubeSolveResult) => {
     if (!savedSolveCallback) throw Error('no saved solve callback')
     savedSolveCallback(result)
     setSavedSolveCallback(null)
@@ -24,7 +24,7 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
   }
 
   const value = {
-    startSolve: (scramble: string, solveCallback: SolveCallback) => {
+    startSolve: (scramble: string, solveCallback: CubeSolveCallback) => {
       setSavedSolveCallback(() => solveCallback)
       setScramble(scramble)
     },

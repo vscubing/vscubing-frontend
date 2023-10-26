@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
-export type SolveResult = { reconstruction: string; timeMs: number }
-export type SolveCallback = (result: SolveResult) => void
+export type CubeSolveResult = { reconstruction: string; timeMs: number }
+export type CubeSolveCallback = (result: CubeSolveResult) => void
 
-type CubeProps = { scramble: string | null; onSolve: (result: SolveResult) => void }
+type CubeProps = { scramble: string | null; onSolve: (result: CubeSolveResult) => void }
 export const Cube = ({ scramble, onSolve }: CubeProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
@@ -34,7 +34,7 @@ export const Cube = ({ scramble, onSolve }: CubeProps) => {
 const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 const startSolveOnLoad = (() => {
   let loaded = false
-  let savedOnSolve: SolveCallback | undefined
+  let savedOnSolve: CubeSolveCallback | undefined
 
   window.addEventListener(
     'message',
@@ -43,14 +43,14 @@ const startSolveOnLoad = (() => {
         return
       }
 
-      const result: { reconstruction: string; timeMs: number } = event.data
+      const result: { reconstruction: string; timeMs: number } = event.data.payload
       savedOnSolve && savedOnSolve(result)
       savedOnSolve = undefined
     },
     false,
   )
 
-  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: SolveCallback) => {
+  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: CubeSolveCallback) => {
     savedOnSolve = onSolve
     const startSolve = () =>
       iframeElement.contentWindow?.postMessage(
