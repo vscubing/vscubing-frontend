@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 
-type Reconstruction = { scramble: string; reconstruction: string }
+type Reconstruction = { scramble: string; reconstruction: string; link: string }
 type ReconstructorProps = { reconstruction: Reconstruction | null; onClose: () => void }
 export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -42,8 +42,8 @@ export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) =
 const importSolveOnLoad = (() => {
   let loaded = false
 
-  return (iframeElement: HTMLIFrameElement, solve: Reconstruction) => {
-    const importSolve = () => iframeElement.contentWindow?.postMessage({ source: 'vs-integration', solve })
+  return (iframeElement: HTMLIFrameElement, reconstruction: Reconstruction) => {
+    const importSolve = () => iframeElement.contentWindow?.postMessage({ source: 'vs-integration', reconstruction })
 
     if (loaded) {
       importSolve()
