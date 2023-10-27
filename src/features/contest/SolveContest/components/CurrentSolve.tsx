@@ -1,8 +1,10 @@
 import { ReconstructTimeButton } from '@/components'
 import { useCube } from '@/features/cube'
 import { CubeSolveResult } from '@/features/cube/Cube'
+import classNames from 'classnames'
 
 type CurrentSolveProps = {
+  className?: string
   number: number
   result?: { id: number; time_ms: number }
   scramble: string
@@ -10,10 +12,23 @@ type CurrentSolveProps = {
   onSubmit: () => void
   onExtra: () => void
 }
-export const CurrentSolve = ({ number, result, scramble, onSolveFinish, onSubmit, onExtra }: CurrentSolveProps) => {
+export const CurrentSolve = ({
+  number,
+  result,
+  scramble,
+  onSolveFinish,
+  onSubmit,
+  onExtra,
+  className,
+}: CurrentSolveProps) => {
   const { startSolve } = useCube()
   return (
-    <div className='mb-[25px] grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]'>
+    <div
+      className={classNames(
+        className,
+        'grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]',
+      )}
+    >
       <div className='pr-[10px] text-right'>{number}.</div>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
         {result ? (

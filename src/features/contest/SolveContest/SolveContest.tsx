@@ -12,7 +12,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
   const { current_solve, submitted_solves } = state
 
-  const onSolveFinish = async (result: CubeSolveResult) => {
+  const solveFinishHandler = async (result: CubeSolveResult) => {
     const { solve_id: newSolveId } = await postSolveResult(contestNumber, discipline, current_solve.scramble.id, result)
 
     mutateState(
@@ -26,12 +26,12 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
     )
   }
 
-  const onExtra = async () => {
+  const takeExtraHandler = async () => {
     const { newSolvesState } = await changeToExtra(contestNumber, discipline)
     mutateState({ data: newSolvesState }, { revalidate: false })
   }
 
-  const onSubmit = async () => {
+  const submitHandler = async () => {
     const { newSolvesState } = await submitSolve(contestNumber, discipline)
     mutateState({ data: newSolvesState }, { revalidate: false })
   }
@@ -42,12 +42,13 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
         <SubmittedSolve className='mb-[25px]' key={solve.id} number={index + 1} solve={solve} />
       ))}
       <CurrentSolve
+        className='mb-[25px]'
         number={submitted_solves.length + 1}
         result={current_solve.solve.time_ms ? current_solve.solve : undefined}
         scramble={current_solve.scramble.scramble}
-        onSolveFinish={onSolveFinish}
-        onExtra={onExtra}
-        onSubmit={onSubmit}
+        onSolveFinish={solveFinishHandler}
+        onExtra={takeExtraHandler}
+        onSubmit={submitHandler}
       />
       {submitted_solves.length === 0 ? (
         <div className='flex justify-center rounded-[5px] bg-panels py-[80px]'>
