@@ -32,7 +32,12 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
 
   const submitHandler = async () => {
-    const { newSolvesState } = await submitSolve(contestNumber, discipline)
+    const { newSolvesState, roundFinished } = await submitSolve(contestNumber, discipline)
+
+    if (roundFinished) {
+      window.location.reload()
+      return
+    }
     mutateState({ data: newSolvesState }, { revalidate: false })
   }
 

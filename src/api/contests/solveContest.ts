@@ -42,9 +42,12 @@ export const postSolveResult = async (
 }
 
 export const submitSolve = async (contestNumber: number, discipline: Discipline) => {
-  const { data } = await axiosClient.put<SolvesState>(`${API_ROUTE}${contestNumber}/${discipline}/?action=submit`)
+  const { data } = await axiosClient.put<SolvesState | { detail: string }>(
+    `${API_ROUTE}${contestNumber}/${discipline}/?action=submit`,
+  )
 
-  return { newSolvesState: data }
+  const roundFinished = 'detail' in data && data.detail === 'contest submitted'
+  return roundFinished ? { roundFinished } : { newSolvesState: data }
 }
 
 export const changeToExtra = async (contestNumber: number, discipline: Discipline) => {
