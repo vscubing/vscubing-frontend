@@ -1,5 +1,6 @@
 import { ISubmittedSolve } from '@/api/contests'
 import { ReconstructTimeButton } from '@/components'
+import { useReconstructor } from '@/features/reconstructor'
 import classNames from 'classnames'
 
 type SubmittedSolveProps = {
@@ -9,6 +10,8 @@ type SubmittedSolveProps = {
 }
 
 export const SubmittedSolve = ({ number, solve, className }: SubmittedSolveProps) => {
+  const { showReconstruction } = useReconstructor()
+
   return (
     <div
       key={solve.id}
@@ -19,7 +22,7 @@ export const SubmittedSolve = ({ number, solve, className }: SubmittedSolveProps
     >
       <div className='pr-[10px] text-right'>{number}.</div>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
-        <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} />
+        <ReconstructTimeButton time_ms={solve.time_ms} onClick={() => showReconstruction(solve.id)} />
       </div>
       {solve.scramble.scramble}
     </div>

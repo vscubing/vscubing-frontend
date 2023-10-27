@@ -1,6 +1,7 @@
 import { ReconstructTimeButton } from '@/components'
 import { useCube } from '@/features/cube'
 import { CubeSolveResult } from '@/features/cube/Cube'
+import { useReconstructor } from '@/features/reconstructor'
 import classNames from 'classnames'
 
 type CurrentSolveProps = {
@@ -22,6 +23,7 @@ export const CurrentSolve = ({
   className,
 }: CurrentSolveProps) => {
   const { startSolve } = useCube()
+  const { showReconstruction } = useReconstructor()
   return (
     <div
       className={classNames(
@@ -32,7 +34,7 @@ export const CurrentSolve = ({
       <div className='pr-[10px] text-right'>{number}.</div>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
         {result ? (
-          <ReconstructTimeButton solveId={result.id} time_ms={result.time_ms} />
+          <ReconstructTimeButton onClick={() => showReconstruction(result.id)} time_ms={result.time_ms} />
         ) : (
           <div className='w-[80px] text-center'>??:??.??</div>
         )}

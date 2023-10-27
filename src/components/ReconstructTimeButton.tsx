@@ -1,17 +1,13 @@
-import { useReconstructor } from '@/features/reconstructor'
 import { formatSolveTime } from '@/utils'
 import classNames from 'classnames'
+import { ButtonHTMLAttributes } from 'react'
 
-type SolveTimeButtonProps = { solveId: number; time_ms: number; className?: string }
-export const ReconstructTimeButton = ({ solveId, time_ms, className }: SolveTimeButtonProps) => {
-  const { showReconstruction } = useReconstructor()
-
+type SolveTimeButtonProps = {
+  time_ms: number
+} & ButtonHTMLAttributes<HTMLButtonElement>
+export const ReconstructTimeButton = ({ time_ms, className, ...props }: SolveTimeButtonProps) => {
   return (
-    <button
-      type='button'
-      className={classNames(className, 'btn-action w-[80px] text-center')}
-      onClick={() => showReconstruction(solveId)}
-    >
+    <button {...props} type='button' className={classNames(className, 'btn-action w-[80px] text-center')}>
       {formatSolveTime(time_ms)}
     </button>
   )
