@@ -2,9 +2,10 @@ import { axiosClient } from '../axios'
 import { Discipline } from '@/types'
 import useSWRImmutable from 'swr/immutable'
 
-type Scramble = { extra: boolean; id: number; scramble: string }
+type Scramble = { extra: boolean; id: number; scramble: string; position: string }
 type SolvesState = {
   current_solve: {
+    can_change_to_extra: boolean
     scramble: Scramble
     solve: { time_ms: null } | { time_ms: number; id: number }
   }

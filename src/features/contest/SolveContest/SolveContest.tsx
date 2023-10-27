@@ -43,12 +43,12 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
 
   return (
     <>
-      {submitted_solves.map((solve, index) => (
-        <SubmittedSolve className='mb-[25px]' key={solve.id} number={index + 1} solve={solve} />
+      {submitted_solves.map((solve) => (
+        <SubmittedSolve className='mb-[25px]' key={solve.id} position={solve.scramble.position} solve={solve} />
       ))}
       <CurrentSolve
         className='mb-[25px]'
-        number={submitted_solves.length + 1}
+        position={current_solve.scramble.position}
         result={current_solve.solve.time_ms ? current_solve.solve : undefined}
         scramble={current_solve.scramble.scramble}
         onSolveFinish={solveFinishHandler}
