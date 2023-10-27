@@ -15,6 +15,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   const { current_solve, submitted_solves } = state
   const currentSolveNumber = `${submitted_solves.length + 1}.`
   const currentSolveResult = current_solve.solve.time_ms ? current_solve.solve : null
+  const showResultsUnavailableTip = submitted_solves.length === 0
 
   const onSolveFinish = async (result: CubeSolveResult) => {
     const { solve_id: newSolveId } = await postSolveResult(contestNumber, discipline, current_solve.scramble.id, result)
@@ -54,7 +55,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
           {solve.scramble.scramble}
         </div>
       ))}
-      <div className='grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]'>
+      <div className='mb-[25px] grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]'>
         <div className='pr-[10px] text-right'>{currentSolveNumber}</div>
         <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
           {currentSolveResult ? (
@@ -86,6 +87,13 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
           </button>
         )}
       </div>
+      {showResultsUnavailableTip ? (
+        <div className='flex justify-center rounded-[5px] bg-panels py-[80px]'>
+          <p className='max-w-[609px] text-center text-[24px]'>
+            You can't see results of an ongoing round until you solve all scrambles or the round ends
+          </p>
+        </div>
+      ) : null}
     </>
   )
 }
