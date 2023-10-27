@@ -22,7 +22,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
     mutateState(
       {
         data: {
-          submitted_solves,
+          ...state,
           current_solve: { ...current_solve, solve: { id: newSolveId, time_ms: result.time_ms } },
         },
       },
@@ -70,10 +70,10 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
         </div>
         {currentSolveResult ? (
           <div className='flex gap-[17px]'>
-            <button onClick={() => onExtra()} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
+            <button onClick={onExtra} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
               extra
             </button>
-            <button onClick={() => onSubmit()} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
+            <button onClick={onSubmit} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
               submit
             </button>
           </div>
