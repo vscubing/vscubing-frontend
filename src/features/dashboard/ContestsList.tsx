@@ -1,4 +1,5 @@
 import { IContestsList } from '@/api/contests'
+import { DEFAULT_DISCIPLINE } from '@/constants'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 
@@ -22,10 +23,9 @@ export const ContestLink = ({ number, ongoing }: ContestLinkProps) => {
   return (
     <Link
       className={classNames(ongoing ? 'bg-[#233D50]' : 'bg-panels', 'rounded-[5px] px-[25px] py-[9px] text-[18px]')}
-      to={`/contest/${number}`}
+      to={`/contest/${number}/${DEFAULT_DISCIPLINE}`}
     >
       Contest {number} {ongoing ? '(ongoing)' : null}
     </Link>
   )
 }
-
