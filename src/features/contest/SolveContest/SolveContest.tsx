@@ -51,6 +51,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
         position={current_solve.scramble.position}
         result={current_solve.solve.time_ms ? current_solve.solve : undefined}
         scramble={current_solve.scramble.scramble}
+        isExtraAvailable={current_solve.can_change_to_extra}
         onSolveFinish={solveFinishHandler}
         onExtra={takeExtraHandler}
         onSubmit={submitHandler}

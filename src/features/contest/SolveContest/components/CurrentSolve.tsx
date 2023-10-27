@@ -9,6 +9,7 @@ type CurrentSolveProps = {
   position: string
   result?: { id: number; time_ms: number }
   scramble: string
+  isExtraAvailable: boolean
   onSolveFinish: (result: CubeSolveResult) => void
   onSubmit: () => void
   onExtra: () => void
@@ -17,6 +18,7 @@ export const CurrentSolve = ({
   position,
   result,
   scramble,
+  isExtraAvailable,
   onSolveFinish,
   onSubmit,
   onExtra,
@@ -42,9 +44,11 @@ export const CurrentSolve = ({
       <div>{result ? scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
       {result ? (
         <div className='flex gap-[17px]'>
-          <button onClick={onExtra} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
-            extra
-          </button>
+          {isExtraAvailable ? (
+            <button onClick={onExtra} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
+              extra
+            </button>
+          ) : null}
           <button onClick={onSubmit} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
             submit
           </button>
