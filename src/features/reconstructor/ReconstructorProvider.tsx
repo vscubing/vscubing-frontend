@@ -1,9 +1,9 @@
-import { createContext, useState } from 'react'
+import { createContext, useMemo, useState } from 'react'
 import { Reconstructor } from './Reconstructor'
 import { useSolveReconstruction } from '@/api/contests'
 
 type ReconstructorContextValue = {
-  showReconstruction: (solveId: number) => void
+  showReconstruction: (solveId: number, onClose?: () => void) => void
 }
 
 export const ReconstructorContext = createContext<ReconstructorContextValue>({
@@ -15,16 +15,29 @@ export const ReconstructorContext = createContext<ReconstructorContextValue>({
 type ReconstructorProviderProps = { children: React.ReactNode }
 export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {
   const [solveId, setSolveId] = useState<number | null>(null)
+  const [savedCloseCallback, setSavedCloseCallback] = useState<(() => void) | null>(null)
   const { data: reconstruction } = useSolveReconstruction(solveId)
 
-  const value = {
-    showReconstruction: (solve: number) => {
-      setSolveId(solve)
-    },
+  const closeHandler = () => {
+    setSolveId(null)
+    if (savedCloseCallback) {
+      savedCloseCallback()
+      setSavedCloseCallback(null)
+    }
   }
+
+  const value = useMemo(
+    () => ({
+      showReconstruction: (solve: number, closeCallback?: () => void) => {
+        setSolveId(solve)
+        setSavedCloseCallback(() => closeCallback)
+      },
+    }),
+    [],
+  )
   return (
     <ReconstructorContext.Provider value={value}>
-      <Reconstructor reconstruction={reconstruction} onClose={() => setSolveId(null)} />
+      <Reconstructor reconstruction={reconstruction} onClose={closeHandler} />
       {children}
     </ReconstructorContext.Provider>
   )
