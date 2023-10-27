@@ -1,10 +1,12 @@
 import { useContestResults } from '@/api/contests'
 import { groupBy } from '@/utils'
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { Discipline } from '@/types'
 import { useRequiredParams } from '@/utils/useRequiredParams'
 import { ContestantResults } from './ContestantResults'
 import { SolveContest } from './SolveContest'
+import { useSearchParams } from 'react-router-dom'
+import { useReconstructor } from '../reconstructor'
 
 export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
@@ -12,6 +14,7 @@ export const ContestDiscipline = () => {
   const contestNumber = Number(routeParams.contestNumber)
   const discipline = routeParams.discipline as Discipline
 
+  useReconstructorFromSearchParam()
   const { data: results, error } = useContestResults(contestNumber, discipline)
   const grouppedResults = useMemo(() => results && groupBy(results, (attempt) => attempt.username), [results])
 
@@ -34,4 +37,25 @@ export const ContestDiscipline = () => {
   return Object.entries(grouppedResults).map(([username, solves]) => (
     <ContestantResults key={username} username={username} solves={solves} />
   ))
+}
+
+const useReconstructorFromSearchParam = () => {
+  const { showReconstruction } = useReconstructor()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const deleteParam = useCallback(
+    () =>
+      setSearchParams((params) => {
+        params.delete('solveId')
+        return params
+      }),
+    [setSearchParams],
+  )
+
+  useEffect(() => {
+    const openedSolveId = Number(searchParams.get('solveId'))
+    if (openedSolveId) {
+      showReconstruction(openedSolveId, deleteParam)
+    }
+  }, [searchParams, showReconstruction, deleteParam])
 }

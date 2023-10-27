@@ -1,12 +1,10 @@
 import { ReconstructTimeButton } from '@/components'
 import classNames from 'classnames'
-import { useSearchParams } from 'react-router-dom'
-import { useReconstructor } from '../reconstructor'
-import { useCallback, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type ContestantResultsProps = { username: string; solves: Array<{ id: number; time_ms: number }> } // TODO fix to camelCase
 export const ContestantResults = ({ username, solves }: ContestantResultsProps) => {
-  const { showReconstructionHandler } = useSolveIdSearchParam()
+  const navigate = useNavigate()
 
   const timeArr = solves.map((solve) => solve.time_ms)
   const bestIndex = timeArr.indexOf(Math.min(...timeArr))
@@ -25,7 +23,7 @@ export const ContestantResults = ({ username, solves }: ContestantResultsProps) 
               'text-[#69C382]': bestIndex === index,
               'text-[#E45B5B]': worstIndex === index,
             })}
-            onClick={() => showReconstructionHandler(id)}
+            onClick={() => navigate({ search: `solveId=${id}` })}
             key={id}
             time_ms={time_ms}
           />
@@ -33,34 +31,4 @@ export const ContestantResults = ({ username, solves }: ContestantResultsProps) 
       })}
     </div>
   )
-}
-
-const useSolveIdSearchParam = () => {
-  const { showReconstruction } = useReconstructor()
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const setParam = (solveId: number) => {
-    setSearchParams((params) => {
-      params.append('solveId', String(solveId))
-      return params
-    })
-  }
-
-  const deleteParam = useCallback(
-    () =>
-      setSearchParams((params) => {
-        params.delete('solveId')
-        return params
-      }),
-    [setSearchParams],
-  )
-
-  useEffect(() => {
-    const openedSolveId = Number(searchParams.get('solveId'))
-    if (openedSolveId) {
-      showReconstruction(openedSolveId, deleteParam)
-    }
-  }, [searchParams, showReconstruction, deleteParam])
-
-  return { showReconstructionHandler: setParam }
 }
