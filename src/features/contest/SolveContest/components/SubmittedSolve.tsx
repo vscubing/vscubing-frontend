@@ -8,7 +8,7 @@ type SubmittedSolveProps = {
   className?: string
 }
 
-export const SubmittedSolve: React.FC<SubmittedSolveProps> = ({ number, solve, className }) => {
+export const SubmittedSolve = ({ number, solve, className }: SubmittedSolveProps) => {
   return (
     <div
       key={solve.id}
