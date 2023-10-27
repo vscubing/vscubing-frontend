@@ -3,6 +3,7 @@ import { useCube } from '@/features/cube'
 import { CubeSolveResult } from '@/features/cube/Cube'
 import { ReconstructTimeButton } from '@/components'
 import { useSolveContestState, postSolveResult, changeToExtra, submitSolve } from '@/api/contests'
+import { SubmittedSolve } from './components'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
@@ -44,16 +45,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   return (
     <>
       {submitted_solves.map((solve, index) => (
-        <div
-          key={solve.id}
-          className='mb-[25px] grid h-[54px] grid-cols-[30px_min-content_1fr] items-center rounded-[5px] bg-panels py-[7px] pl-[27px] pr-[20px]'
-        >
-          <div className='pr-[10px] text-right'>{index + 1}.</div>
-          <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
-            <ReconstructTimeButton time_ms={solve.time_ms} solveId={solve.id} />
-          </div>
-          {solve.scramble.scramble}
-        </div>
+        <SubmittedSolve className='mb-[25px]' key={solve.id} number={index + 1} solve={solve} />
       ))}
       <div className='mb-[25px] grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]'>
         <div className='pr-[10px] text-right'>{currentSolveNumber}</div>

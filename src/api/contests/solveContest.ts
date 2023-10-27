@@ -8,12 +8,13 @@ type SolvesState = {
     scramble: Scramble
     solve: { time_ms: null } | { time_ms: number; id: number }
   }
-  submitted_solves: Array<{
-    dnf: boolean
-    id: number
-    scramble: Scramble
-    time_ms: number
-  }>
+  submitted_solves: Array<ISubmittedSolve>
+}
+export type ISubmittedSolve = {
+  dnf: boolean
+  id: number
+  scramble: Scramble
+  time_ms: number
 }
 
 const API_ROUTE = '/contests/solve_contest/'
