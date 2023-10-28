@@ -1,7 +1,7 @@
 import { ISubmittedSolve } from '@/api/contests'
 import { ReconstructTimeButton } from '@/components'
-import { useReconstructor } from '@/features/reconstructor'
 import classNames from 'classnames'
+import { useNavigate } from 'react-router-dom'
 
 type SubmittedSolveProps = {
   position: string
@@ -10,7 +10,7 @@ type SubmittedSolveProps = {
 }
 
 export const SubmittedSolve = ({ position, solve, className }: SubmittedSolveProps) => {
-  const { showReconstruction } = useReconstructor()
+  const navigate = useNavigate()
 
   return (
     <div
@@ -22,7 +22,7 @@ export const SubmittedSolve = ({ position, solve, className }: SubmittedSolvePro
     >
       <div className='pr-[10px] text-right'>{position}.</div>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
-        <ReconstructTimeButton time_ms={solve.time_ms} onClick={() => showReconstruction(solve.id)} />
+        <ReconstructTimeButton time_ms={solve.time_ms} onClick={() => navigate(`?solveId=${solve.id}`)} />
       </div>
       {solve.scramble.scramble}
     </div>
