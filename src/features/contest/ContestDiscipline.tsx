@@ -5,7 +5,7 @@ import { Discipline } from '@/types'
 import { useRequiredParams } from '@/utils/useRequiredParams'
 import { ContestantResults } from './ContestantResults'
 import { SolveContest } from './SolveContest'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useReconstructor } from '../reconstructor'
 
 export const ContestDiscipline = () => {
