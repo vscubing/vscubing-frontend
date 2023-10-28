@@ -1,6 +1,7 @@
 import { createContext, useMemo, useState } from 'react'
-import { Reconstructor } from './Reconstructor'
-import { useSolveReconstruction } from '@/api/contests'
+import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
+import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
+import { formatSolveTime } from '@/utils'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void
@@ -19,9 +20,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
   const { data } = useSolveReconstruction(solveId)
   const content = useMemo(() => {
     if (!data) return undefined
-
-    const link = `${window.location.origin}/contest/${data.contest_number}/${data.discipline}?solveId=${data.id}`
-    return { reconstruction: { scramble: data.scramble, solution: data.reconstruction }, link }
+    return parseReconstructionResponse(data)
   }, [data])
 
   const closeHandler = () => {
@@ -47,4 +46,33 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
       {children}
     </ReconstructorContext.Provider>
   )
+}
+
+const parseReconstructionResponse = ({
+  contest_number,
+  discipline,
+  id,
+  scramble,
+  scramble_position,
+  username,
+  reconstruction: solution,
+}: SolveReconstructionResponse) => {
+  const link = `${window.location.origin}/contest/${contest_number}/${discipline}?solveId=${id}`
+  const reconstruction = { scramble, solution } satisfies Reconstruction
+  const metadata = {
+    link,
+    contestNumber: contest_number,
+    username,
+    scramblePosition: scramble_position,
+    formattedTime: formatSolveTime(parseTimeMsFromSolution(reconstruction.solution)),
+  } satisfies ReconstructionMetadata
+  return { reconstruction, metadata }
+}
+
+const parseTimeMsFromSolution = (solution: string) => {
+  const withoutLastTwoChars = solution.slice(0, -2)
+  const parts = withoutLastTwoChars.split('/*')
+  const timeMs = Number(parts[parts.length - 1])
+  if (isNaN(timeMs)) throw Error('invalid time in reconstruction')
+  return Number(timeMs)
 }

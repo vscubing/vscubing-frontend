@@ -1,8 +1,21 @@
 import classNames from 'classnames'
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 
-type Reconstruction = { scramble: string; solution: string }
-type ReconstructorProps = { content?: { reconstruction: Reconstruction; link: string }; onClose: () => void }
+export type Reconstruction = { scramble: string; solution: string }
+export type ReconstructionMetadata = {
+  link: string
+  contestNumber: number
+  username: string
+  scramblePosition: string
+  formattedTime: string
+}
+type ReconstructorProps = {
+  content?: {
+    reconstruction: Reconstruction
+    metadata: ReconstructionMetadata
+  }
+  onClose: () => void
+}
 export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -16,7 +29,7 @@ export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
   useEffect(() => {
     if (content && iframeRef.current) {
       setIsLoaded(true)
-      importSolveOnLoad(iframeRef.current, content.reconstruction, content.link)
+      importSolveOnLoad(iframeRef.current, content.reconstruction, content.metadata)
     }
   }, [content])
 
@@ -39,9 +52,9 @@ export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
 const importSolveOnLoad = (() => {
   let loaded = false
 
-  return (iframeElement: HTMLIFrameElement, reconstruction: Reconstruction, link: string) => {
+  return (iframeElement: HTMLIFrameElement, reconstruction: Reconstruction, metadata: ReconstructionMetadata) => {
     const importSolve = () =>
-      iframeElement.contentWindow?.postMessage({ source: 'vs-integration', payload: { reconstruction, link } })
+      iframeElement.contentWindow?.postMessage({ source: 'vs-integration', payload: { reconstruction, metadata } })
 
     if (loaded) {
       importSolve()
