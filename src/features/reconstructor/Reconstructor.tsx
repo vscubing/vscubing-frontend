@@ -1,11 +1,11 @@
 import classNames from 'classnames'
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 
-type Reconstruction = { scramble: string; reconstruction: string; link: string }
-type ReconstructorProps = { reconstruction: Reconstruction | null; onClose: () => void }
-export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) => {
+type Reconstruction = { scramble: string; reconstruction: string }
+type ReconstructorProps = { content?: { reconstruction: Reconstruction; link: string }; onClose: () => void }
+export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
-  const iframeRef = useRef<HTMLIFrameElement | null>(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const onBackgroundClick: MouseEventHandler = (event) => {
     if (event.target === event.currentTarget) {
@@ -14,19 +14,16 @@ export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) =
   }
 
   useEffect(() => {
-    if (reconstruction && iframeRef.current) {
+    if (content && iframeRef.current) {
       setIsLoaded(true)
-      importSolveOnLoad(iframeRef.current, reconstruction)
+      importSolveOnLoad(iframeRef.current, content.reconstruction, content.link)
     }
-  }, [reconstruction])
+  }, [content])
 
   return (
     <div
       onClick={onBackgroundClick}
-      className={classNames(
-        { invisible: !reconstruction },
-        'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20',
-      )}
+      className={classNames({ invisible: !content }, 'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20')}
     >
       <iframe
         ref={iframeRef}
@@ -42,8 +39,9 @@ export const Reconstructor = ({ reconstruction, onClose }: ReconstructorProps) =
 const importSolveOnLoad = (() => {
   let loaded = false
 
-  return (iframeElement: HTMLIFrameElement, reconstruction: Reconstruction) => {
-    const importSolve = () => iframeElement.contentWindow?.postMessage({ source: 'vs-integration', reconstruction })
+  return (iframeElement: HTMLIFrameElement, reconstruction: Reconstruction, link: string) => {
+    const importSolve = () =>
+      iframeElement.contentWindow?.postMessage({ source: 'vs-integration', payload: { reconstruction, link } })
 
     if (loaded) {
       importSolve()

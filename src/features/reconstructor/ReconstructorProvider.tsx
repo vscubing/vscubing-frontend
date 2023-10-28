@@ -15,14 +15,20 @@ export const ReconstructorContext = createContext<ReconstructorContextValue>({
 type ReconstructorProviderProps = { children: React.ReactNode }
 export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {
   const [solveId, setSolveId] = useState<number | null>(null)
-  const [savedCloseCallback, setSavedCloseCallback] = useState<(() => void) | null>(null)
-  const { data: reconstruction } = useSolveReconstruction(solveId)
+  const [savedCloseCallback, setSavedCloseCallback] = useState<() => void>()
+  const { data } = useSolveReconstruction(solveId)
+  const content = useMemo(() => {
+    if (!data) return undefined
+
+    const link = `${window.location.origin}/contest/${data.contest_number}/${data.discipline}?solveId=${data.id}`
+    return { reconstruction: { scramble: data.scramble, reconstruction: data.reconstruction }, link }
+  }, [data])
 
   const closeHandler = () => {
     setSolveId(null)
     if (savedCloseCallback) {
       savedCloseCallback()
-      setSavedCloseCallback(null)
+      setSavedCloseCallback(undefined)
     }
   }
 
@@ -37,7 +43,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
   )
   return (
     <ReconstructorContext.Provider value={value}>
-      <Reconstructor reconstruction={reconstruction} onClose={closeHandler} />
+      <Reconstructor content={content} onClose={closeHandler} />
       {children}
     </ReconstructorContext.Provider>
   )
