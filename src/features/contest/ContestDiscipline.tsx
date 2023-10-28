@@ -5,7 +5,7 @@ import { Discipline } from '@/types'
 import { useRequiredParams } from '@/utils/useRequiredParams'
 import { ContestantResults } from './ContestantResults'
 import { SolveContest } from './SolveContest'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useReconstructor } from '../reconstructor'
 
 export const ContestDiscipline = () => {
@@ -58,4 +58,10 @@ const useReconstructorFromSearchParam = () => {
       showReconstruction(openedSolveId, deleteParam)
     }
   }, [searchParams, showReconstruction, deleteParam])
+}
+
+export const useNavigateToSolve = () => {
+  const navigate = useNavigate()
+  const navigateToSolve = (solveId: number) => navigate(`?solveId=${solveId}`)
+  return { navigateToSolve }
 }

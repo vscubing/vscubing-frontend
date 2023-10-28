@@ -1,10 +1,10 @@
 import { ReconstructTimeButton } from '@/components'
 import classNames from 'classnames'
-import { useNavigate } from 'react-router-dom'
+import { useNavigateToSolve } from './ContestDiscipline'
 
 type ContestantResultsProps = { username: string; solves: Array<{ id: number; time_ms: number }> } // TODO fix to camelCase
 export const ContestantResults = ({ username, solves }: ContestantResultsProps) => {
-  const navigate = useNavigate()
+  const { navigateToSolve } = useNavigateToSolve()
 
   const timeArr = solves.map((solve) => solve.time_ms)
   const bestIndex = timeArr.indexOf(Math.min(...timeArr))
@@ -23,7 +23,7 @@ export const ContestantResults = ({ username, solves }: ContestantResultsProps) 
               'text-[#69C382]': bestIndex === index,
               'text-[#E45B5B]': worstIndex === index,
             })}
-            onClick={() => navigate({ search: `solveId=${id}` })}
+            onClick={() => navigateToSolve(id)}
             key={id}
             time_ms={time_ms}
           />
