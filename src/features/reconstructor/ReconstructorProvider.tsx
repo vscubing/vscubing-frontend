@@ -21,7 +21,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     if (!data) return undefined
 
     const link = `${window.location.origin}/contest/${data.contest_number}/${data.discipline}?solveId=${data.id}`
-    return { reconstruction: { scramble: data.scramble, reconstruction: data.reconstruction }, link }
+    return { reconstruction: { scramble: data.scramble, solution: data.reconstruction }, link }
   }, [data])
 
   const closeHandler = () => {
