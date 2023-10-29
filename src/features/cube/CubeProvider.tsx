@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { CubeSolveFinishCallback, CubeSolveResult, Cube } from './Cube'
+import classNames from 'classnames'
 
 type CubeContextValue = {
   startSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
@@ -19,6 +20,8 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
 
   useEffect(() => console.log(isTimeStarted), [isTimeStarted])
 
+  const timeStartHandler = useCallback(() => setIsTimeStarted(true), [])
+
   const solveFinishHandler = useCallback(
     (result: CubeSolveResult) => {
       if (!savedSolveFinishCallback) throw Error('no saved solve callback')
@@ -29,8 +32,6 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
     },
     [savedSolveFinishCallback],
   )
-
-  const timeStartHandler = useCallback(() => setIsTimeStarted(true), [])
 
   const value = useMemo(
     () => ({
@@ -43,7 +44,14 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
   )
   return (
     <CubeContext.Provider value={value}>
-      <Cube scramble={scramble} onSolveFinish={solveFinishHandler} onTimeStart={timeStartHandler} />
+      <div
+        className={classNames(
+          { invisible: !scramble },
+          'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20',
+        )}
+      >
+        <Cube scramble={scramble} onSolveFinish={solveFinishHandler} onTimeStart={timeStartHandler} />
+      </div>
       {children}
     </CubeContext.Provider>
   )

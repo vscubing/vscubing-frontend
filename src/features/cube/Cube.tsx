@@ -17,17 +17,13 @@ export const Cube = ({ scramble, onTimeStart, onSolveFinish }: CubeProps) => {
   }, [scramble, onTimeStart, onSolveFinish])
 
   return (
-    <div
-      className={classNames({ invisible: !scramble }, 'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20')}
-    >
-      <iframe
-        ref={iframeRef}
-        className='rounded-[5px]'
-        src={isLoaded ? '/cstimer/timer.php' : undefined}
-        width='1300'
-        height='550'
-      ></iframe>
-    </div>
+    <iframe
+      ref={iframeRef}
+      className='rounded-[5px]'
+      src={isLoaded ? '/cstimer/timer.php' : undefined}
+      width='1300'
+      height='550'
+    ></iframe>
   )
 }
 
