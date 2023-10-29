@@ -19,7 +19,10 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       {
         data: {
           ...state,
-          current_solve: { ...current_solve, solve: { id: newSolveId, time_ms: result.time_ms } },
+          current_solve: {
+            ...current_solve,
+            solve: { id: newSolveId, ...result },
+          },
         },
       },
       { revalidate: false },
@@ -49,7 +52,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       <CurrentSolve
         className='mb-[25px]'
         position={current_solve.scramble.position}
-        result={current_solve.solve.time_ms !== null ? current_solve.solve : undefined}
+        result={'id' in current_solve.solve ? current_solve.solve : undefined}
         scramble={current_solve.scramble.scramble}
         isExtraAvailable={current_solve.can_change_to_extra}
         onSolveFinish={solveFinishHandler}

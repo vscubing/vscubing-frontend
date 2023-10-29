@@ -1,7 +1,6 @@
-import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
-export type CubeSolveResult = { reconstruction: string; time_ms: number } // TODO fix to camelCase
+export type CubeSolveResult = { reconstruction: string; time_ms: number } | { dnf: true } // TODO fix to camelCase
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 

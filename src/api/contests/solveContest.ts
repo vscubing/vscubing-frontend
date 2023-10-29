@@ -7,16 +7,14 @@ type SolvesState = {
   current_solve: {
     can_change_to_extra: boolean
     scramble: Scramble
-    solve: { time_ms: null } | { time_ms: number; id: number }
+    solve: { time_ms: null } | { time_ms: number; id: number } | { dnf: true; id: number }
   }
   submitted_solves: Array<ISubmittedSolve>
 }
 export type ISubmittedSolve = {
-  dnf: boolean
   id: number
   scramble: Scramble
-  time_ms: number
-}
+} & ({ time_ms: number } | { dnf: boolean })
 
 const API_ROUTE = '/contests/solve_contest/'
 export const useSolveContestState = (contestNumber: number, discipline: Discipline) => {
@@ -32,8 +30,13 @@ export const postSolveResult = async (
   contestNumber: number,
   discipline: Discipline,
   scrambleId: number,
-  payload: { reconstruction: string; time_ms: number },
+  payload: { reconstruction: string; time_ms: number } | { dnf: true },
 ) => {
+  if ('dnf' in payload) {
+    alert('dnf is not implemented yet') // TODO fix when backend is ready
+    return { solve_id: 0 }
+  }
+
   const { data } = await axiosClient.post<{ solve_id: number }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
     payload,

@@ -7,7 +7,7 @@ import { useNavigateToSolve } from '../../ContestDiscipline'
 type CurrentSolveProps = {
   className?: string
   position: string
-  result?: { id: number; time_ms: number }
+  result?: { id: number; time_ms: number } | { dnf: true }
   scramble: string
   isExtraAvailable: boolean
   onSolveFinish: (result: CubeSolveResult) => void
@@ -26,6 +26,7 @@ export const CurrentSolve = ({
 }: CurrentSolveProps) => {
   const { startSolve } = useCube()
   const { navigateToSolve } = useNavigateToSolve()
+
   return (
     <div
       className={classNames(
