@@ -49,7 +49,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       <CurrentSolve
         className='mb-[25px]'
         position={current_solve.scramble.position}
-        result={current_solve.solve.time_ms ? current_solve.solve : undefined}
+        result={current_solve.solve.time_ms !== null ? current_solve.solve : undefined}
         scramble={current_solve.scramble.scramble}
         isExtraAvailable={current_solve.can_change_to_extra}
         onSolveFinish={solveFinishHandler}
