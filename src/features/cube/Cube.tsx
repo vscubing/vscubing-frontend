@@ -2,19 +2,20 @@ import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
 export type CubeSolveResult = { reconstruction: string; time_ms: number } // TODO fix to camelCase
-export type CubeSolveCallback = (result: CubeSolveResult) => void
+export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
+export type CubeTimeStartCallback = () => void
 
-type CubeProps = { scramble: string | null; onSolve: (result: CubeSolveResult) => void }
-export const Cube = ({ scramble, onSolve }: CubeProps) => {
+type CubeProps = { scramble?: string; onTimeStart: CubeTimeStartCallback; onSolveFinish: CubeSolveFinishCallback }
+export const Cube = ({ scramble, onTimeStart, onSolveFinish }: CubeProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
   useEffect(() => {
     if (scramble && iframeRef.current) {
       setIsLoaded(true)
-      startSolveOnLoad(iframeRef.current, scramble, onSolve)
+      startSolveOnLoad(iframeRef.current, scramble, onTimeStart, onSolveFinish)
     }
-  }, [scramble, onSolve])
+  }, [scramble, onTimeStart, onSolveFinish])
 
   return (
     <div
@@ -34,24 +35,34 @@ export const Cube = ({ scramble, onSolve }: CubeProps) => {
 const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 const startSolveOnLoad = (() => {
   let loaded = false
-  let savedOnSolve: CubeSolveCallback | undefined
+  let savedOnTimeStart: (() => void) | undefined
+  let savedOnSolveFinish: CubeSolveFinishCallback | undefined
 
-  window.addEventListener(
-    'message',
-    (event) => {
-      if (event.data.source !== POST_MESSAGE_SOURCE) {
-        return
-      }
+  window.addEventListener('message', (event) => {
+    if (event.data.source !== POST_MESSAGE_SOURCE) {
+      return
+    }
 
+    if (event.data.event === 'timeStart') {
+      savedOnTimeStart?.()
+      savedOnTimeStart = undefined
+    }
+
+    if (event.data.event === 'solveFinish') {
       const { reconstruction, timeMs }: { reconstruction: string; timeMs: number } = event.data.payload
-      savedOnSolve && savedOnSolve({ reconstruction, time_ms: timeMs })
-      savedOnSolve = undefined
-    },
-    false,
-  )
+      savedOnSolveFinish?.({ reconstruction, time_ms: timeMs })
+      savedOnSolveFinish = undefined
+    }
+  })
 
-  return (iframeElement: HTMLIFrameElement, scramble: string, onSolve: CubeSolveCallback) => {
-    savedOnSolve = onSolve
+  return (
+    iframeElement: HTMLIFrameElement,
+    scramble: string,
+    onTimeStart: () => void,
+    onSolveFinish: CubeSolveFinishCallback,
+  ) => {
+    savedOnSolveFinish = onSolveFinish
+    savedOnTimeStart = onTimeStart
     const startSolve = () =>
       iframeElement.contentWindow?.postMessage({
         source: POST_MESSAGE_SOURCE,
