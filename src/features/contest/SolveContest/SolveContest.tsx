@@ -3,7 +3,7 @@ import { CubeSolveResult } from '@/features/cube/Cube'
 import { useSolveContestState, postSolveResult, changeToExtra, submitSolve } from '@/api/contests'
 import { CurrentSolve, SubmittedSolve } from './components'
 
-type SolveContestProps = { contestNumber: number; discipline: Discipline['name'] }
+type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 

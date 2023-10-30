@@ -11,7 +11,7 @@ export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
 
   const contestNumber = Number(routeParams.contestNumber)
-  const disciplineName = routeParams.discipline as Discipline['name'] // TODO add type guard
+  const disciplineName = routeParams.discipline as Discipline // TODO add type guard
 
   useReconstructorFromSearchParam()
   const { data: results, error } = useContestResults(contestNumber, disciplineName)

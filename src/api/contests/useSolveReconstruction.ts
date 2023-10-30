@@ -8,7 +8,7 @@ export type SolveReconstructionResponse = {
   reconstruction: string
   scramble: Pick<Scramble, 'position' | 'scramble'>
   contest_number: number
-  discipline: Discipline
+  discipline: { name: Discipline }
   user: { username: string }
 }
 

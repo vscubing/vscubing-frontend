@@ -12,7 +12,7 @@ export type IBestSolves = Array<{
   contest_number: number // TODO fix to camelCase
   time_ms: number // TODO fix to camelCase
   username: string
-  discipline: Discipline
+  discipline: { name: Discipline }
 }>
 
 export type IContestsList = Array<{
