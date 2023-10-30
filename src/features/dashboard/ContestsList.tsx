@@ -1,9 +1,9 @@
-import { IContestsList } from '@/api/contests'
+import { DashboardResponse } from '@/api/contests'
 import { DEFAULT_DISCIPLINE } from '@/constants'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 
-type ContestsListProps = { contests?: IContestsList }
+type ContestsListProps = { contests?: DashboardResponse['contests'] }
 export const ContestsList = ({ contests }: ContestsListProps) => {
   const sortedContests = contests && [...contests].reverse()
 

@@ -1,10 +1,10 @@
 import { ReconstructTimeButton } from '@/components'
 import { Link } from 'react-router-dom'
 import CubeIcon from '@/assets/3by3.svg?react'
-import { IBestSolves } from '@/api/contests'
+import { DashboardResponse } from '@/api/contests'
 import { useReconstructor } from '../reconstructor'
 
-type BestSolvesProps = { bestSolves?: IBestSolves }
+type BestSolvesProps = { bestSolves?: DashboardResponse['best_solves'] }
 export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
   const { showReconstruction } = useReconstructor()
 
