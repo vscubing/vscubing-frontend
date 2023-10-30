@@ -10,10 +10,13 @@ export const formatSolveTime = (ms: number): string => {
   const minutes = getMinutes(ms)
   const seconds = fullSeconds - minutes * MINUTE_IN_SECONDS
 
+  let msString = ms ? ms.toString().slice(-3, -1) : '00'
   let secondsString = seconds.toString()
   let minutesString = minutes.toString()
-  const msString = ms.toString().slice(-3, -1)
 
+  if (msString.length === 1) {
+    msString = '0' + msString
+  }
   if (secondsString.length === 1) {
     secondsString = '0' + secondsString
   }

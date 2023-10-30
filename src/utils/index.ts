@@ -1,2 +1,2 @@
 export * from './groupBy'
-export * from './formarSolveTime'
+export * from './formatSolveTime'
