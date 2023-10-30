@@ -1,8 +1,8 @@
-import { useDashbordData } from '@/api/contests'
+import { useDashbord } from '@/api/contests'
 import { ContestsList, BestSolves } from '@/features/dashboard'
 
 export const DashboardPage = () => {
-  const { data } = useDashbordData()
+  const { data } = useDashbord()
 
   return (
     <div className='grid grid-cols-[1fr_1fr] gap-[150px]'>
