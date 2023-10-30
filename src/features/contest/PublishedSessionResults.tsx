@@ -4,8 +4,12 @@ import { useNavigateToSolve } from './ContestDiscipline'
 import { ContestResultsResponse } from '@/api/contests'
 import { formatSolveTime } from '@/utils'
 
-type ContestantResultsProps = { username: string; avgMs: number; solves: ContestResultsResponse[number]['solve_set'] } // TODO fix to camelCase
-export const ContestantResults = ({ username, avgMs, solves }: ContestantResultsProps) => {
+type PublishedSessionResultsProps = {
+  username: string
+  avgMs: number
+  solves: ContestResultsResponse[number]['solve_set']
+} // TODO fix to camelCase
+export const PublishedSessionResults = ({ username, avgMs, solves }: PublishedSessionResultsProps) => {
   const { navigateToSolve } = useNavigateToSolve()
 
   const timeArr = solves.map((solve) => solve.time_ms)

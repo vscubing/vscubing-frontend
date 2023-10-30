@@ -2,10 +2,10 @@ import { useContestResults } from '@/api/contests'
 import { useCallback, useEffect } from 'react'
 import { Discipline } from '@/types'
 import { useRequiredParams } from '@/utils/useRequiredParams'
-import { ContestantResults } from './ContestantResults'
 import { SolveContest } from './SolveContest'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useReconstructor } from '../reconstructor'
+import { PublishedSessionResults } from './PublishedSessionResults'
 
 export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
@@ -33,7 +33,7 @@ export const ContestDiscipline = () => {
   }
 
   return results.map(({ id, avg_ms, solve_set }) => (
-    <ContestantResults key={id} username={'not implemented'} avgMs={avg_ms ?? 0} solves={solve_set} />
+    <PublishedSessionResults key={id} username={'not implemented'} avgMs={avg_ms ?? 0} solves={solve_set} />
   ))
 }
 
