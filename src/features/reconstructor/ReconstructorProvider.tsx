@@ -16,10 +16,10 @@ export const ReconstructorContext = createContext<ReconstructorContextValue>({
 type ReconstructorProviderProps = { children: React.ReactNode }
 export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {
   const [solveId, setSolveId] = useState<number | null>(null)
-  const [savedCloseCallback, setSavedCloseCallback] = useState<() => void>()
+  const [savedCloseCallback, setSavedCloseCallback] = useState<(() => void) | null>(null)
   const { data } = useSolveReconstruction(solveId)
   const content = useMemo(() => {
-    if (!data) return undefined
+    if (!data) return null
     return parseReconstructionResponse(data)
   }, [data])
 
@@ -27,7 +27,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     setSolveId(null)
     if (savedCloseCallback) {
       savedCloseCallback()
-      setSavedCloseCallback(undefined)
+      setSavedCloseCallback(null)
     }
   }
 

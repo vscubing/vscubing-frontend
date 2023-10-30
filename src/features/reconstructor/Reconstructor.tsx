@@ -10,10 +10,10 @@ export type ReconstructionMetadata = {
   formattedTime: string
 }
 type ReconstructorProps = {
-  content?: {
+  content: {
     reconstruction: Reconstruction
     metadata: ReconstructionMetadata
-  }
+  } | null
   onClose: () => void
 }
 export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
