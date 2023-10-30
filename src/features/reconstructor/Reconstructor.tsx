@@ -1,5 +1,4 @@
-import classNames from 'classnames'
-import { MouseEventHandler, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export type Reconstruction = { scramble: string; solution: string }
 export type ReconstructionMetadata = {
@@ -14,17 +13,10 @@ type ReconstructorProps = {
     reconstruction: Reconstruction
     metadata: ReconstructionMetadata
   } | null
-  onClose: () => void
 }
-export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
+export const Reconstructor = ({ content }: ReconstructorProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
-
-  const onBackgroundClick: MouseEventHandler = (event) => {
-    if (event.target === event.currentTarget) {
-      onClose()
-    }
-  }
 
   useEffect(() => {
     if (content && iframeRef.current) {
@@ -34,18 +26,13 @@ export const Reconstructor = ({ content, onClose }: ReconstructorProps) => {
   }, [content])
 
   return (
-    <div
-      onClick={onBackgroundClick}
-      className={classNames({ invisible: !content }, 'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20')}
-    >
-      <iframe
-        ref={iframeRef}
-        className='rounded-[5px]'
-        src={isLoaded ? '/alg.cubing.net/index.html' : undefined}
-        width='1300'
-        height='550'
-      ></iframe>
-    </div>
+    <iframe
+      ref={iframeRef}
+      className='rounded-[5px]'
+      src={isLoaded ? '/alg.cubing.net/index.html' : undefined}
+      width='1300'
+      height='550'
+    ></iframe>
   )
 }
 

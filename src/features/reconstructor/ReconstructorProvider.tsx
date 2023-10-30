@@ -1,7 +1,8 @@
-import { createContext, useMemo, useState } from 'react'
+import { MouseEventHandler, createContext, useMemo, useState } from 'react'
 import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
 import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
 import { formatTimeResult } from '@/utils'
+import classNames from 'classnames'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void
@@ -23,7 +24,10 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     return parseReconstructionResponse(data)
   }, [data])
 
-  const closeHandler = () => {
+  const closeHandler: MouseEventHandler = (event) => {
+    if (event.target !== event.currentTarget) {
+      return
+    }
     setSolveId(null)
     if (savedCloseCallback) {
       savedCloseCallback()
@@ -42,7 +46,12 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
   )
   return (
     <ReconstructorContext.Provider value={value}>
-      <Reconstructor content={content} onClose={closeHandler} />
+      <div
+        onClick={closeHandler}
+        className={classNames({ invisible: !content }, 'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20')}
+      >
+        <Reconstructor content={content} />
+      </div>
       {children}
     </ReconstructorContext.Provider>
   )
