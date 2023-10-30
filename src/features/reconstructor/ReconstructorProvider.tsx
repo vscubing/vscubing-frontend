@@ -56,7 +56,7 @@ const parseReconstructionResponse = ({
   user: { username },
   reconstruction: solution,
 }: SolveReconstructionResponse) => {
-  const link = `${window.location.origin}/contest/${contest_number}/${discipline}?solveId=${id}`
+  const link = `${window.location.origin}/contest/${contest_number}/${discipline.name}?solveId=${id}`
   const reconstruction = { scramble: scramble.scramble, solution } satisfies Reconstruction
   const metadata = {
     link,
