@@ -12,14 +12,13 @@ export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
 
   const contestNumber = Number(routeParams.contestNumber)
-  const discipline = routeParams.discipline as Discipline
+  const disciplineName = routeParams.discipline as Discipline['name'] // TODO add type guard
 
   useReconstructorFromSearchParam()
-  const { data: results, error } = useContestResults(contestNumber, discipline)
-  const grouppedResults = useMemo(() => results && groupBy(results, (attempt) => attempt.username), [results])
+  const { data: results, error } = useContestResults(contestNumber, disciplineName)
 
   if (error?.response.status === 403) {
-    return <SolveContest contestNumber={contestNumber} discipline={discipline} />
+    return <SolveContest contestNumber={contestNumber} discipline={disciplineName} />
   }
 
   if (error?.response.status === 401) {
@@ -30,12 +29,12 @@ export const ContestDiscipline = () => {
     return 'unknown error'
   }
 
-  if (!grouppedResults) {
+  if (!results) {
     return 'loading...'
   }
 
-  return Object.entries(grouppedResults).map(([username, solves]) => (
-    <ContestantResults key={username} username={username} solves={solves} />
+  return results.map(({ id, avg_ms, solve_set }) => (
+    <ContestantResults key={id} username={'not implemented'} avgMs={avg_ms ?? 0} solves={solve_set} />
   ))
 }
 

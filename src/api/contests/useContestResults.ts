@@ -1,22 +1,25 @@
-import { Discipline } from '@/types'
+import { Discipline, Scramble } from '@/types'
 import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
 
-type Response = Solve[]
-type ErrorType = {
+export type ContestResultsResponse = Array<{
+  id: number
+  avg_ms: number | null // TODO fix to camelCase
+  discipline: Discipline
+  solve_set: Array<{
+    id: number
+    time_ms: number // TODO fix to camelCase
+    scramble: Pick<Scramble, 'position'>
+  }>
+}>
+
+type ContestResultsError = {
   response: { status: number }
 }
 
-type Solve = {
-  id: number
-  username: string
-  time_ms: number // TODO fix to camelCase
-  discipline: Discipline
-}
-
 const API_ROUTE = 'contests/contest/'
-export const useContestResults = (contestNumber: number, discipline: Discipline) => {
-  const { data, error, isLoading } = useSWRImmutable<{ data: Response }, ErrorType>(
+export const useContestResults = (contestNumber: number, discipline: Discipline['name']) => {
+  const { data, error, isLoading } = useSWRImmutable<{ data: ContestResultsResponse }, ContestResultsError>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,
     { shouldRetryOnError: false },
