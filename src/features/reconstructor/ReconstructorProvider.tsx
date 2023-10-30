@@ -17,7 +17,7 @@ export const ReconstructorContext = createContext<ReconstructorContextValue>({
 type ReconstructorProviderProps = { children: React.ReactNode }
 export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {
   const [solveId, setSolveId] = useState<number | null>(null)
-  const [savedCloseCallback, setSavedCloseCallback] = useState<(() => void) | null>(null)
+  const [savedCloseCallback, setSavedCloseCallback] = useState<() => void>()
   const { data } = useSolveReconstruction(solveId)
   const content = useMemo(() => {
     if (!data) return null
@@ -29,10 +29,9 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
       return
     }
     setSolveId(null)
-    if (savedCloseCallback) {
-      savedCloseCallback()
-      setSavedCloseCallback(null)
-    }
+    if (!savedCloseCallback) throw Error('no saved close callback provided')
+    savedCloseCallback()
+    setSavedCloseCallback(undefined)
   }
 
   const value = useMemo(
