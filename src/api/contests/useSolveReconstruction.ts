@@ -1,17 +1,17 @@
 import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
-import { Discipline } from '@/types'
+import { Discipline, Scramble } from '@/types'
 
 const API_ROUTE = 'contests/solve_reconstruction/'
 export type SolveReconstructionResponse = {
   id: number
   reconstruction: string
-  scramble: string
+  scramble: Scramble
   contest_number: number
   discipline: Discipline
-  username: string
-  scramble_position: string
+  user: { username: string }
 }
+
 export const useSolveReconstruction = (solveId: number | null) => {
   const { data, error, isLoading } = useSWRImmutable<{
     data: SolveReconstructionResponse

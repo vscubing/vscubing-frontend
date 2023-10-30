@@ -53,17 +53,16 @@ const parseReconstructionResponse = ({
   discipline,
   id,
   scramble,
-  scramble_position,
-  username,
+  user: { username },
   reconstruction: solution,
 }: SolveReconstructionResponse) => {
   const link = `${window.location.origin}/contest/${contest_number}/${discipline}?solveId=${id}`
-  const reconstruction = { scramble, solution } satisfies Reconstruction
+  const reconstruction = { scramble: scramble.scramble, solution } satisfies Reconstruction
   const metadata = {
     link,
     contestNumber: contest_number,
     username,
-    scramblePosition: scramble_position,
+    scramblePosition: scramble.position,
     formattedTime: formatSolveTime(parseTimeMsFromSolution(reconstruction.solution)),
   } satisfies ReconstructionMetadata
   return { reconstruction, metadata }
