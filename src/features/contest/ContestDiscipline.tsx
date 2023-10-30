@@ -1,11 +1,11 @@
 import { useContestResults } from '@/api/contests'
 import { useCallback, useEffect } from 'react'
 import { Discipline } from '@/types'
-import { useRequiredParams } from '@/utils/useRequiredParams'
 import { SolveContest } from './SolveContest'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useReconstructor } from '../reconstructor'
 import { PublishedSessionResults } from './PublishedSessionResults'
+import { useRequiredParams } from '@/utils'
 
 export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()

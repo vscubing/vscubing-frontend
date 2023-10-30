@@ -1,7 +1,7 @@
 import { createContext, useMemo, useState } from 'react'
 import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
 import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
-import { formatSolveTime } from '@/utils'
+import { formatTimeResult } from '@/utils'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void
@@ -63,7 +63,7 @@ const parseReconstructionResponse = ({
     contestNumber: contest_number,
     username,
     scramblePosition: scramble.position,
-    formattedTime: formatSolveTime(parseTimeMsFromSolution(reconstruction.solution)),
+    formattedTime: formatTimeResult(parseTimeMsFromSolution(reconstruction.solution)),
   } satisfies ReconstructionMetadata
   return { reconstruction, metadata }
 }
