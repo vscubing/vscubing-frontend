@@ -6,7 +6,7 @@ const API_ROUTE = 'contests/solve_reconstruction/'
 export type SolveReconstructionResponse = {
   id: number
   reconstruction: string
-  scramble: Scramble
+  scramble: Pick<Scramble, 'position' | 'scramble'>
   contest_number: number
   discipline: Discipline
   user: { username: string }

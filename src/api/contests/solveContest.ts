@@ -1,24 +1,23 @@
 import { axiosClient } from '../axios'
-import { Discipline } from '@/types'
+import { Discipline, Scramble } from '@/types'
 import useSWRImmutable from 'swr/immutable'
 
-type Scramble = { extra: boolean; id: number; scramble: string; position: string }
-type SolvesState = {
+export type SolveContestStateResponse = {
   current_solve: {
     can_change_to_extra: boolean
     scramble: Scramble
-    solve: { time_ms: null } | { time_ms: number; id: number } | { dnf: true; id: number }
+    solve: SolveNotInited | SolveSuccessful | SolveDnf
   }
-  submitted_solves: Array<ISubmittedSolve>
+  submitted_solves: Array<(SolveSuccessful | SolveDnf) & { scramble: Scramble }>
 }
-export type ISubmittedSolve = {
-  id: number
-  scramble: Scramble
-} & ({ time_ms: number } | { dnf: boolean })
+
+type SolveNotInited = null
+type SolveSuccessful = { id: number; time_ms: number; dnf: false }
+type SolveDnf = { id: number; time_ms: null; dnf: true }
 
 const API_ROUTE = '/contests/solve_contest/'
-export const useSolveContestState = (contestNumber: number, discipline: Discipline) => {
-  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolvesState }>(
+export const useSolveContestState = (contestNumber: number, discipline: Discipline['name']) => {
+  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolveContestStateResponse }>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,
   )
@@ -28,15 +27,10 @@ export const useSolveContestState = (contestNumber: number, discipline: Discipli
 
 export const postSolveResult = async (
   contestNumber: number,
-  discipline: Discipline,
+  discipline: Discipline['name'],
   scrambleId: number,
   payload: { reconstruction: string; time_ms: number } | { dnf: true },
 ) => {
-  if ('dnf' in payload) {
-    alert('dnf is not implemented yet') // TODO fix when backend is ready
-    return { solve_id: 0 }
-  }
-
   const { data } = await axiosClient.post<{ solve_id: number }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
     payload,
@@ -45,8 +39,8 @@ export const postSolveResult = async (
   return data
 }
 
-export const submitSolve = async (contestNumber: number, discipline: Discipline) => {
-  const { data } = await axiosClient.put<SolvesState | { detail: 'contest submitted' }>(
+export const submitSolve = async (contestNumber: number, discipline: Discipline['name']) => {
+  const { data } = await axiosClient.put<SolveContestStateResponse | { detail: 'contest submitted' }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?action=submit`,
   )
 
@@ -54,8 +48,8 @@ export const submitSolve = async (contestNumber: number, discipline: Discipline)
   return roundFinished ? { roundFinished } : { newSolvesState: data }
 }
 
-export const changeToExtra = async (contestNumber: number, discipline: Discipline) => {
-  const { data } = await axiosClient.put<SolvesState>(
+export const changeToExtra = async (contestNumber: number, discipline: Discipline['name']) => {
+  const { data } = await axiosClient.put<SolveContestStateResponse>(
     `${API_ROUTE}${contestNumber}/${discipline}/?action=change_to_extra`,
   )
 

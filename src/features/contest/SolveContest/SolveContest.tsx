@@ -47,14 +47,11 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   return (
     <>
       {submitted_solves.map((solve) => (
-        <SubmittedSolve className='mb-[25px]' key={solve.id} position={solve.scramble.position} solve={solve} />
+        <SubmittedSolve className='mb-[25px]' key={solve.id} {...solve} />
       ))}
       <CurrentSolve
         className='mb-[25px]'
-        position={current_solve.scramble.position}
-        result={'id' in current_solve.solve ? current_solve.solve : undefined}
-        scramble={current_solve.scramble.scramble}
-        isExtraAvailable={current_solve.can_change_to_extra}
+        {...current_solve}
         onSolveFinish={solveFinishHandler}
         onExtra={takeExtraHandler}
         onSubmit={submitHandler}

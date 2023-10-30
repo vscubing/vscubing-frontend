@@ -1,6 +1,5 @@
 import { useContestResults } from '@/api/contests'
-import { groupBy } from '@/utils'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Discipline } from '@/types'
 import { useRequiredParams } from '@/utils/useRequiredParams'
 import { ContestantResults } from './ContestantResults'
