@@ -19,7 +19,7 @@ export const PublishedSession = ({ user: { username }, avg_ms, solve_set }: Publ
         <span className='block w-[80px] text-center text-[#79A1EF]'>{avg_ms && formatTimeResult(avg_ms)}</span>
       </span>
       {solve_set
-        .filter((solve) => solve.state === 'submitted')
+        .filter((solve) => solve.state !== 'changed_to_extra')
         .map(({ id, time_ms }, index) => {
           return (
             <ReconstructTimeButton
