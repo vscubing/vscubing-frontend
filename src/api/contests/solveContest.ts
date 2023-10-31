@@ -31,7 +31,7 @@ export const postSolveResult = async (
   scrambleId: number,
   payload: { reconstruction: string; time_ms: number } | { dnf: true },
 ) => {
-  if ('dnf' in payload) {
+  if ('dnf' in payload && payload.dnf) {
     alert('posting dnf results is not implemented yet')
     throw Error('posting dnf results is not implemented yet')
   }
