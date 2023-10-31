@@ -1,4 +1,4 @@
-import { MouseEventHandler, createContext, useMemo, useState } from 'react'
+import { createContext, useMemo, useState } from 'react'
 import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
 import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
 import { formatTimeResult } from '@/utils'
