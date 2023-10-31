@@ -24,7 +24,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     return parseReconstructionResponse(data)
   }, [data])
 
-  const closeHandler: MouseEventHandler = (event) => {
+  const handleClose = (event: React.MouseEvent) => {
     if (event.target !== event.currentTarget) {
       return
     }
@@ -34,7 +34,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     setSavedCloseCallback(undefined)
   }
 
-  const value = useMemo(
+  const contextValue = useMemo(
     () => ({
       showReconstruction: (solve: number, closeCallback?: () => void) => {
         setSolveId(solve)
@@ -43,11 +43,15 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     }),
     [],
   )
+
   return (
-    <ReconstructorContext.Provider value={value}>
+    <ReconstructorContext.Provider value={contextValue}>
       <div
-        onClick={closeHandler}
-        className={classNames({ invisible: !content }, 'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20')}
+        onClick={handleClose}
+        className={classNames(
+          { invisible: !content },
+          'fixed	inset-0 flex justify-center bg-black bg-opacity-40 px-[146px] py-[5%]',
+        )}
       >
         <Reconstructor content={content} />
       </div>

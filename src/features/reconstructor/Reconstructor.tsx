@@ -30,24 +30,24 @@ export const Reconstructor = ({ content }: ReconstructorProps) => {
       ref={iframeRef}
       className='rounded-[5px]'
       src={isLoaded ? '/alg.cubing.net/index.html' : undefined}
-      width='1300'
-      height='550'
+      width='100%'
+      height='100%'
     ></iframe>
   )
 }
 
 const importSolveOnLoad = (() => {
-  let loaded = false
+  let isLoaded = false
 
   return (iframeElement: HTMLIFrameElement, reconstruction: Reconstruction, metadata: ReconstructionMetadata) => {
     const importSolve = () =>
       iframeElement.contentWindow?.postMessage({ source: 'vs-integration', payload: { reconstruction, metadata } })
 
-    if (loaded) {
+    if (isLoaded) {
       importSolve()
     }
     iframeElement.onload = () => {
-      loaded = true
+      isLoaded = true
       importSolve()
     }
   }
