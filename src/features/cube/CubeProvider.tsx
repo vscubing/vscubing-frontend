@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { MouseEventHandler, createContext, useCallback, useMemo, useState } from 'react'
 import { CubeSolveFinishCallback, CubeSolveResult, Cube } from './Cube'
 import classNames from 'classnames'
 
@@ -18,20 +18,33 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
   const [savedSolveFinishCallback, setSavedSolveFinishCallback] = useState<CubeSolveFinishCallback>()
   const [isTimeStarted, setIsTimeStarted] = useState(false)
 
-  useEffect(() => console.log(isTimeStarted), [isTimeStarted])
+  const handleTimeStart = useCallback(() => setIsTimeStarted(true), [])
 
-  const timeStartHandler = useCallback(() => setIsTimeStarted(true), [])
-
-  const solveFinishHandler = useCallback(
+  const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
       if (!savedSolveFinishCallback) throw Error('no saved solve callback')
       savedSolveFinishCallback(result)
+
       setIsTimeStarted(false)
       setSavedSolveFinishCallback(undefined)
       setScramble(undefined)
     },
     [savedSolveFinishCallback],
   )
+
+  const handleAbort: MouseEventHandler = (event) => {
+    if (event.target !== event.currentTarget) {
+      return
+    }
+
+    if (isTimeStarted) {
+      handleSolveFinish({ time_ms: null, dnf: true, reconstruction: null })
+      return
+    }
+
+    setSavedSolveFinishCallback(undefined)
+    setScramble(undefined)
+  }
 
   const value = useMemo(
     () => ({
@@ -45,12 +58,13 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
   return (
     <CubeContext.Provider value={value}>
       <div
+        onClick={handleAbort}
         className={classNames(
           { invisible: !scramble },
           'fixed	inset-0 flex justify-center bg-black bg-opacity-40 pt-20',
         )}
       >
-        <Cube scramble={scramble} onSolveFinish={solveFinishHandler} onTimeStart={timeStartHandler} />
+        <Cube scramble={scramble} onSolveFinish={handleSolveFinish} onTimeStart={handleTimeStart} />
       </div>
       {children}
     </CubeContext.Provider>
