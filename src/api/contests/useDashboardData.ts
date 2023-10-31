@@ -7,7 +7,7 @@ export type DashboardResponse = {
     id: number
     contest_number: number // TODO fix to camelCase
     time_ms: number // TODO fix to camelCase
-    username: string
+    user: { username: string }
     discipline: { name: Discipline }
   }>
   contests: Array<{

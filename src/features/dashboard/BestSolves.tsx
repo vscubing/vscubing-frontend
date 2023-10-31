@@ -15,7 +15,7 @@ export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
             <div key={solve.id} className='flex items-center rounded-[5px] bg-panels py-[13px] pl-[17px] pr-[12px]'>
               <CubeIcon className='mr-[12px] w-[23px] text-[#35424B]' />
               <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 py-[3px] pr-[12px]'>
-                {solve.username}
+                {solve.user.username}
               </span>
               <ReconstructTimeButton time_ms={solve.time_ms} onClick={() => showReconstruction(solve.id)} />
               <Link className='btn-action ml-auto' to={`/contest/${solve.contest_number}`}>
