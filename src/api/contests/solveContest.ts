@@ -32,8 +32,8 @@ export const postSolveResult = async (
   payload: { reconstruction: string; time_ms: number } | { dnf: true },
 ) => {
   if ('dnf' in payload && payload.dnf) {
-    alert('posting dnf results is not implemented yet')
-    throw Error('posting dnf results is not implemented yet')
+    alert('aborting solves is not implemented yet')
+    throw Error('aborting solves is not implemented yet')
   }
 
   const { data } = await axiosClient.post<{ solve_id: number }>(

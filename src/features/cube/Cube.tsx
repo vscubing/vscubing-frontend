@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 
 export type CubeSolveResult =
   | { reconstruction: string; time_ms: number; dnf: false }
@@ -6,17 +6,21 @@ export type CubeSolveResult =
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 
-type CubeProps = { scramble?: string; onTimeStart: CubeTimeStartCallback; onSolveFinish: CubeSolveFinishCallback }
-export const Cube = ({ scramble, onTimeStart, onSolveFinish }: CubeProps) => {
+type CubeProps = {
+  scramble?: string
+  onTimeStart: CubeTimeStartCallback
+  onSolveFinish: CubeSolveFinishCallback
+  iframeRef: RefObject<HTMLIFrameElement>
+}
+export const Cube = ({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubeProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
-  const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
   useEffect(() => {
     if (scramble && iframeRef.current) {
       setIsLoaded(true)
       startSolveOnLoad(iframeRef.current, scramble, onTimeStart, onSolveFinish)
     }
-  }, [scramble, onTimeStart, onSolveFinish])
+  }, [scramble, onTimeStart, onSolveFinish, iframeRef])
 
   return (
     <iframe
@@ -31,7 +35,7 @@ export const Cube = ({ scramble, onTimeStart, onSolveFinish }: CubeProps) => {
 
 const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 const startSolveOnLoad = (() => {
-  let loaded = false
+  let isLoaded = false
   let savedOnTimeStart: (() => void) | undefined
   let savedOnSolveFinish: CubeSolveFinishCallback | undefined
 
@@ -66,13 +70,13 @@ const startSolveOnLoad = (() => {
         scramble: scramble,
       })
 
-    if (loaded) {
+    if (isLoaded) {
       startSolve()
       return
     }
 
     iframeElement.onload = () => {
-      loaded = true
+      isLoaded = true
       startSolve()
     }
   }
