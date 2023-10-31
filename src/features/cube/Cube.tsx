@@ -27,8 +27,8 @@ export const Cube = ({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubePr
       ref={iframeRef}
       className='rounded-[5px]'
       src={isLoaded ? '/cstimer/timer.php' : undefined}
-      width='1300'
-      height='550'
+      width='100%'
+      height='100%'
     ></iframe>
   )
 }
