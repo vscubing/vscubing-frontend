@@ -4,8 +4,8 @@ import { Discipline } from '@/types'
 import { SolveContest } from './SolveContest'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useReconstructor } from '../reconstructor'
-import { PublishedSessionResults } from './PublishedSessionResults'
 import { useRequiredParams } from '@/utils'
+import { PublishedSession } from './PublishedSession'
 
 export const ContestDiscipline = () => {
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
@@ -14,7 +14,7 @@ export const ContestDiscipline = () => {
   const disciplineName = routeParams.discipline as Discipline // TODO add type guard
 
   useReconstructorFromSearchParam()
-  const { data: results, error } = useContestResults(contestNumber, disciplineName)
+  const { data: sessions, error } = useContestResults(contestNumber, disciplineName)
 
   if (error?.response.status === 403) {
     return <SolveContest contestNumber={contestNumber} discipline={disciplineName} />
@@ -28,13 +28,11 @@ export const ContestDiscipline = () => {
     return 'unknown error'
   }
 
-  if (!results) {
+  if (!sessions) {
     return 'loading...'
   }
 
-  return results.map(({ id, avg_ms, solve_set }) => (
-    <PublishedSessionResults key={id} username={'not implemented'} avgMs={avg_ms ?? 0} solves={solve_set} />
-  ))
+  return sessions.map((session) => <PublishedSession key={session.id} {...session} />)
 }
 
 const useReconstructorFromSearchParam = () => {

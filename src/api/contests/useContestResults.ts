@@ -6,10 +6,12 @@ export type ContestResultsResponse = Array<{
   id: number
   avg_ms: number | null // TODO fix to camelCase
   discipline: { name: Discipline }
+  user: { username: string }
   solve_set: Array<{
     id: number
     time_ms: number // TODO fix to camelCase
     scramble: Pick<Scramble, 'position'>
+    state: 'submitted' | 'changed_to_extra'
   }>
 }>
 
