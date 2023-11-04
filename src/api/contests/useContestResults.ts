@@ -10,6 +10,7 @@ export type ContestResultsResponse = Array<{
   solve_set: Array<{
     id: number
     time_ms: number // TODO fix to camelCase
+    dnf: boolean
     scramble: Pick<Scramble, 'position'>
     state: 'submitted' | 'changed_to_extra'
   }>
