@@ -1,3 +1,3 @@
-export * from './useCurrentUser'
+export * from './useUserData'
 export * from './postLogin'
 export * from './refreshAccessToken'

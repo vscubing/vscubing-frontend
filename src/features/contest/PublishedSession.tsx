@@ -22,8 +22,9 @@ export const PublishedSession = ({ user: { username }, avg_ms, solve_set }: Publ
       </span>
       {submittedSolves
         .filter((solve) => solve.state !== 'changed_to_extra')
-        .map(({ id, time_ms, scramble: { position } }, index) => {
-          const isExtra = position.startsWith('E')
+        .map(({ id, time_ms /* scramble: { position } */ }, index) => {
+          // const isExtra = position.startsWith('E')
+          const isExtra = false
           return (
             <ReconstructTimeButton
               className={classNames({
@@ -31,7 +32,7 @@ export const PublishedSession = ({ user: { username }, avg_ms, solve_set }: Publ
                 'text-[#E45B5B]': worstIndex === index,
                 'underline underline-offset-4': isExtra,
               })}
-              title={isExtra ? `Extra ${position[1]}` : undefined}
+              // title={isExtra ? `Extra ${position[1]}` : undefined}
               onClick={() => navigateToSolve(id)}
               key={id}
               time_ms={time_ms}

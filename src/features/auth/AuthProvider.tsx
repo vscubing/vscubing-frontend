@@ -1,15 +1,17 @@
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '.'
-import { postLogin } from '@/api/accounts'
+import { UserData, postLogin, useUserData } from '@/api/accounts'
 
 type AuthContextValue = {
-  loggedIn: boolean
+  isAuthenticated: boolean
+  userData: UserData | null
   login: (googleToken: string) => void
   logout: () => void
 }
 
 export const AuthContext = createContext<AuthContextValue>({
-  loggedIn: false,
+  isAuthenticated: false,
+  userData: null,
   login: () => {
     throw new Error('context is missing')
   },
@@ -20,14 +22,11 @@ export const AuthContext = createContext<AuthContextValue>({
 
 type AuthProviderProps = { children: React.ReactNode }
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { data: userData } = useUserData(isAuthenticated)
 
   useEffect(() => {
-    const authenticated = !!getAuthTokens()
-
-    if (authenticated) {
-      setLoggedIn(true)
-    }
+    setIsAuthenticated(!!getAuthTokens())
   }, [])
 
   const login = async (googleCode: string) => {
@@ -35,21 +34,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const { refresh, access } = response.data
 
     setAuthTokens({ refresh, access })
-    window.location.reload()
+    setIsAuthenticated(true)
   }
 
   const logout = () => {
     deleteAuthTokens()
-    window.location.reload()
+    setIsAuthenticated(false)
   }
 
   const value = useMemo(
     () => ({
-      loggedIn,
+      isAuthenticated,
+      userData,
       login,
       logout,
     }),
-    [loggedIn],
+    [isAuthenticated, userData],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
