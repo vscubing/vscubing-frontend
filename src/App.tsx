@@ -1,6 +1,6 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Layout, redirectToOngoingContest, ContestPage, DashboardPage } from './pages'
+import { Layout, redirectToOngoingContest, ContestPage, DashboardPage, redirectToDefaultDiscipline } from './pages'
 import './App.tw.css'
 import { ReconstructorProvider } from './features/reconstructor'
 import { AuthProvider } from './features/auth'
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'contest/:contestNumber',
-        // rename all page componente to <AcmePage/>
+        loader: redirectToDefaultDiscipline,
         element: <ContestPage />,
         children: [
           {

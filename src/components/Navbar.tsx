@@ -11,8 +11,8 @@ export const NavBar = () => {
 
   const links = useMemo(() => {
     const list = [
-      { text: 'Dashboard', to: '/', active: true },
-      { text: 'Ongoing contest', to: `/contest/${ongoingContestNumber}/${DEFAULT_DISCIPLINE}` },
+      { text: 'Dashboard', to: '/' },
+      { text: 'Ongoing contest', to: `/contest` },
     ]
 
     if (openedContestNumber && openedContestNumber !== ongoingContestNumber) {
@@ -31,7 +31,7 @@ export const NavBar = () => {
               to={to}
               className={({ isActive }) =>
                 classNames(
-                  isActive ? 'border-primary text-white' : 'border-transparent text-white/50',
+                  isActive ? 'pointer-events-none border-primary text-white' : 'border-transparent text-white/50',
                   'block border-t-[3px] py-[12px] text-[20px]',
                 )
               }
