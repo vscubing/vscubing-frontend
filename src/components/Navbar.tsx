@@ -1,5 +1,4 @@
 import { useOngoingContestNumber } from '@/api/contests'
-import { DEFAULT_DISCIPLINE } from '@/constants'
 import classNames from 'classnames'
 import { useMemo } from 'react'
 import { useParams, NavLink } from 'react-router-dom'
@@ -12,7 +11,7 @@ export const NavBar = () => {
   const links = useMemo(() => {
     const list = [
       { text: 'Dashboard', to: '/' },
-      { text: 'Ongoing contest', to: `/contest` },
+      { text: 'Ongoing contest', to: `/contest/${ongoingContestNumber}` },
     ]
 
     if (openedContestNumber && openedContestNumber !== ongoingContestNumber) {
