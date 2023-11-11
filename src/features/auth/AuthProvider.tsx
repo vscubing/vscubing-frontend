@@ -22,12 +22,8 @@ export const AuthContext = createContext<AuthContextValue>({
 
 type AuthProviderProps = { children: React.ReactNode }
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!getAuthTokens())
   const { data: userData } = useUserData(isAuthenticated)
-
-  useEffect(() => {
-    setIsAuthenticated(!!getAuthTokens())
-  }, [])
 
   const login = async (googleCode: string) => {
     const response = await postLogin(googleCode)
