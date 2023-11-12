@@ -36,7 +36,7 @@ export const ContestDiscipline = () => {
 }
 
 const useReconstructorFromSearchParam = () => {
-  const { showReconstruction } = useReconstructor()
+  const { showReconstruction, closeReconstruction } = useReconstructor()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const deleteParam = useCallback(
@@ -50,9 +50,11 @@ const useReconstructorFromSearchParam = () => {
 
   useEffect(() => {
     const openedSolveId = Number(searchParams.get('solveId'))
-    if (openedSolveId) {
-      showReconstruction(openedSolveId, deleteParam)
+    if (!openedSolveId) {
+      closeReconstruction()
+      return
     }
+    showReconstruction(openedSolveId, deleteParam)
   }, [searchParams, showReconstruction, deleteParam])
 }
 

@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react'
+import { createContext, useCallback, useMemo, useState } from 'react'
 import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
 import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
 import { formatTimeResult } from '@/utils'
@@ -6,10 +6,14 @@ import classNames from 'classnames'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void
+  closeReconstruction: () => void
 }
 
 export const ReconstructorContext = createContext<ReconstructorContextValue>({
   showReconstruction: () => {
+    throw new Error('context is missing')
+  },
+  closeReconstruction: () => {
     throw new Error('context is missing')
   },
 })
@@ -24,14 +28,17 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     return parseReconstructionResponse(data)
   }, [data])
 
-  const handleClose = (event: React.MouseEvent) => {
+  const close = useCallback(() => {
+    setSolveId(null)
+    savedCloseCallback?.()
+    setSavedCloseCallback(undefined)
+  }, [savedCloseCallback])
+
+  const handleOverlayClick = (event: React.MouseEvent) => {
     if (event.target !== event.currentTarget) {
       return
     }
-    setSolveId(null)
-    if (!savedCloseCallback) throw Error('no saved close callback provided')
-    savedCloseCallback()
-    setSavedCloseCallback(undefined)
+    close()
   }
 
   const contextValue = useMemo(
@@ -40,14 +47,15 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
         setSolveId(solve)
         setSavedCloseCallback(() => closeCallback)
       },
+      closeReconstruction: close,
     }),
-    [],
+    [close],
   )
 
   return (
     <ReconstructorContext.Provider value={contextValue}>
       <div
-        onClick={handleClose}
+        onClick={handleOverlayClick}
         className={classNames(
           { invisible: !content },
           'fixed	inset-0 flex justify-center bg-black bg-opacity-40 px-[146px] py-[5%]',
