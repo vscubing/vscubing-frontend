@@ -55,7 +55,7 @@ const useReconstructorFromSearchParam = () => {
       return
     }
     showReconstruction(openedSolveId, deleteParam)
-  }, [searchParams, showReconstruction, deleteParam])
+  }, [searchParams, deleteParam, showReconstruction, closeReconstruction])
 }
 
 export const useNavigateToSolve = () => {
