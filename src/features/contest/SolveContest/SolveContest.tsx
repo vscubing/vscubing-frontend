@@ -2,11 +2,16 @@ import { Discipline } from '@/types'
 import { CubeSolveResult } from '@/features/cube/Cube'
 import { useSolveContestState, postSolveResult, changeToExtra, submitSolve } from '@/api/contests'
 import { CurrentSolve, SubmittedSolve } from './components'
+import { useAuth } from '@/features/auth'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
+  const { userData } = useAuth()
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 
+  if (!userData?.hasFinishedRegistration) {
+    return 'finish registration first'
+  }
   if (!state) {
     return 'loading'
   }

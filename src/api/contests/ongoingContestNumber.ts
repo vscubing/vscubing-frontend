@@ -3,7 +3,7 @@ import { axiosClient } from '../axios'
 
 type Response = number
 
-const API_ROUTE = '/contests/ongoing_contest_number'
+const API_ROUTE = '/contests/ongoing_contest_number/'
 export const getOngoingContestNumber = async () => {
   const res = await axiosClient.get<Response>(API_ROUTE)
   return res.data

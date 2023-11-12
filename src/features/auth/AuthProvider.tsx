@@ -1,6 +1,7 @@
 import { createContext, useEffect, useMemo, useState } from 'react'
-import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '.'
-import { UserData, postLogin, useUserData } from '@/api/accounts'
+import { setAuthTokens, deleteAuthTokens } from '.'
+import { UserData, putChangeUsername, postLogin, useUserData } from '@/api/accounts'
+import { PickUsernameModal } from './PickUsernameModal'
 
 type AuthContextValue = {
   isAuthenticated: boolean
@@ -22,31 +23,49 @@ export const AuthContext = createContext<AuthContextValue>({
 
 type AuthProviderProps = { children: React.ReactNode }
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => !!getAuthTokens())
-  const { data: userData } = useUserData(isAuthenticated)
+  const { data: userData } = useUserData()
+  const [isPickUsernameVisible, setIsPickUsernameVisible] = useState(false)
+
+  useEffect(() => {
+    if (userData && !userData?.hasFinishedRegistration) {
+      setIsPickUsernameVisible(true)
+    }
+  }, [userData])
+
+  const handleUsernameSubmit = async (username: string) => {
+    await putChangeUsername(username)
+    window.location.reload()
+  }
 
   const login = async (googleCode: string) => {
     const response = await postLogin(googleCode)
     const { refresh, access } = response.data
 
     setAuthTokens({ refresh, access })
-    setIsAuthenticated(true)
+    window.location.reload()
   }
 
   const logout = () => {
     deleteAuthTokens()
-    setIsAuthenticated(false)
+    window.location.reload()
   }
 
   const value = useMemo(
     () => ({
-      isAuthenticated,
+      isAuthenticated: !!userData,
       userData,
       login,
       logout,
     }),
-    [isAuthenticated, userData],
+    [userData],
   )
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={value}>
+      <>
+        {isPickUsernameVisible ? <PickUsernameModal onSubmit={handleUsernameSubmit} /> : null}
+        {children}
+      </>
+    </AuthContext.Provider>
+  )
 }
