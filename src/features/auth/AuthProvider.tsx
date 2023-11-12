@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isPickUsernameVisible, setIsPickUsernameVisible] = useState(false)
 
   useEffect(() => {
-    if (userData && !userData?.hasFinishedRegistration) {
+    if (userData && !userData.auth_completed) {
       setIsPickUsernameVisible(true)
     }
   }, [userData])

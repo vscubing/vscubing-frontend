@@ -2,13 +2,13 @@ import { axiosClient } from '../axios'
 import useSWRImmutable from 'swr/immutable'
 
 const API_ROUTE = 'accounts/current_user/'
-export type UserData = { username: string; hasFinishedRegistration: boolean }
+export type UserData = { username: string; auth_completed: boolean }
 
 export const useUserData = () => {
-  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: string }>(API_ROUTE, axiosClient.get)
+  const { data, error, isLoading, mutate } = useSWRImmutable<{ data: UserData }>(API_ROUTE, axiosClient.get)
 
   return {
-    data: data ? { username: data.data, hasFinishedRegistration: data.data !== 'user' } : null, // TODO remove mock data after backend is updated
+    data: data ? data.data : null,
     isLoading,
     isError: error,
     mutate,

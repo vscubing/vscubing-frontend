@@ -9,7 +9,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   const { userData } = useAuth()
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 
-  if (!userData?.hasFinishedRegistration) {
+  if (userData && !userData.auth_completed) {
     return 'finish registration first'
   }
   if (!state) {
