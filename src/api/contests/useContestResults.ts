@@ -9,7 +9,7 @@ export type ContestResultsResponse = Array<{
   user: { username: string }
   solve_set: Array<{
     id: number
-    time_ms: number // TODO fix to camelCase
+    time_ms: number | null // TODO fix to camelCase
     dnf: boolean
     scramble: Pick<Scramble, 'position'>
     state: 'submitted' | 'changed_to_extra'
