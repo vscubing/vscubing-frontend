@@ -1,4 +1,4 @@
-import { useContestResults } from '@/api/contests'
+import { ContestResultsResponse, useContestResults } from '@/api/contests'
 import { useCallback, useEffect } from 'react'
 import { Discipline } from '@/types'
 import { SolveContest } from './SolveContest'
@@ -6,8 +6,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useReconstructor } from '../reconstructor'
 import { useRequiredParams } from '@/utils'
 import { PublishedSession } from './PublishedSession'
+import { useAuth } from '../auth'
 
 export const ContestDiscipline = () => {
+  const { isAuthenticated, userData } = useAuth()
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
 
   const contestNumber = Number(routeParams.contestNumber)
@@ -32,7 +34,19 @@ export const ContestDiscipline = () => {
     return 'loading...'
   }
 
-  return sessions.map((session) => <PublishedSession key={session.id} {...session} />)
+  let ownSession: ContestResultsResponse[number] | undefined = undefined
+  if (isAuthenticated) {
+    ownSession = sessions.find((session) => session.user.username === userData?.username)
+  }
+
+  return (
+    <>
+      {ownSession && <PublishedSession {...ownSession} isOwnSession />}
+      {sessions.map((session) => (
+        <PublishedSession key={session.id} {...session} />
+      ))}
+    </>
+  )
 }
 
 const useReconstructorFromSearchParam = () => {
