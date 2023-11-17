@@ -19,7 +19,11 @@ export const SubmittedSolve = ({ className, time_ms, scramble, id }: SubmittedSo
     >
       <div className='pr-[10px] text-right'>{scramble.position}.</div>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
-        {isSuccessfull ? <ReconstructTimeButton time_ms={time_ms} onClick={() => navigateToSolve(id)} /> : 'DNF'}
+        {isSuccessfull ? (
+          <ReconstructTimeButton time_ms={time_ms} onClick={() => navigateToSolve(id)} />
+        ) : (
+          <span className='block w-[80px] pl-[7px]'>DNF</span>
+        )}
       </div>
       {scramble.scramble}
     </div>

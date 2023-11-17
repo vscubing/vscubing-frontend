@@ -31,11 +31,6 @@ export const postSolveResult = async (
   scrambleId: number,
   payload: { reconstruction: string; time_ms: number } | { dnf: true },
 ) => {
-  if ('dnf' in payload && payload.dnf) {
-    alert('aborting solves is not implemented yet')
-    throw Error('aborting solves is not implemented yet')
-  }
-
   const { data } = await axiosClient.post<{ solve_id: number }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
     payload,

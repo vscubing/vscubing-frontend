@@ -24,7 +24,7 @@ export const CurrentSolve = ({
   const { navigateToSolve } = useNavigateToSolve()
 
   const isInited = !!solve
-  const isSuccessful = isInited && !!solve.time_ms
+  const isSuccessful = isInited && !solve.dnf
 
   return (
     <div

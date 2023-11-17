@@ -53,6 +53,7 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
   }
 
   const handleAbortConfirm = useCallback(() => {
+    setIsAbortPromptVisible(false)
     handleSolveFinish({ time_ms: null, dnf: true, reconstruction: null })
   }, [handleSolveFinish])
 
