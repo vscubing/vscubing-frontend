@@ -25,7 +25,12 @@ export default defineConfig({
         target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/cstimer/, ''),
+        rewrite: (path) => {
+          if (path === '/cstimer/php') {
+            return '/timer.php' // to sync with our backend which produces a /php route
+          }
+          return path.replace(/^\/cstimer/, '')
+        },
       },
     },
   },
