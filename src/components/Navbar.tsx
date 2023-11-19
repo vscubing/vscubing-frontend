@@ -11,6 +11,7 @@ export const NavBar = () => {
   const links = useMemo(() => {
     const list = [
       { text: 'Dashboard', to: '/' },
+      { text: 'Leaderboard', to: `/leaderboard` },
       { text: 'Ongoing contest', to: `/contest/${ongoingContestNumber}` },
     ]
 
