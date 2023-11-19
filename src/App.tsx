@@ -1,5 +1,5 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import { Layout, ContestPage, DashboardPage, LeaderboardPage } from './pages'
 import './App.tw.css'
 import { ReconstructorProvider } from './features/reconstructor'
@@ -18,6 +18,7 @@ const router = createBrowserRouter([
         path: '/',
         element: <DashboardPage />,
       },
+      { path: '*', loader: () => redirect('/') },
       {
         path: 'contest',
         loader: redirectToOngoingContest,
