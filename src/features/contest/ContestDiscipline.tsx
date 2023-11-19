@@ -41,9 +41,9 @@ export const ContestDiscipline = () => {
 
   return (
     <>
-      {ownSession && <PublishedSession {...ownSession} isOwnSession />}
-      {sessions.map((session) => (
-        <PublishedSession key={session.id} {...session} />
+      {ownSession && <PublishedSession {...ownSession} isOwnSession placeNumber={sessions.indexOf(ownSession) + 1} />}
+      {sessions.map((session, index) => (
+        <PublishedSession key={session.id} {...session} placeNumber={index + 1} />
       ))}
     </>
   )

@@ -11,7 +11,8 @@ export const PublishedSession = ({
   avg_ms,
   solve_set,
   isOwnSession,
-}: PublishedSessionProps & { isOwnSession?: boolean }) => {
+  placeNumber,
+}: PublishedSessionProps & { isOwnSession?: boolean; placeNumber: number }) => {
   const { navigateToSolve } = useNavigateToSolve()
 
   const submittedSolves = useMemo(() => solve_set.filter(({ state }) => state === 'submitted'), [solve_set])
@@ -21,9 +22,10 @@ export const PublishedSession = ({
     <div
       className={classNames(
         isOwnSession ? 'bg-[#233D50]' : 'bg-panels',
-        'mb-[26px] grid grid-cols-[1fr_repeat(6,min-content)] items-center gap-[8px] rounded-[5px] py-[12px] pl-[27px] pr-[56px] last:mb-0',
+        'mb-[26px] grid grid-cols-[min-content_1fr_repeat(6,min-content)] items-center gap-[8px] rounded-[5px] py-[12px] pl-3 pr-12 last:mb-0',
       )}
     >
+      <span className='w-[40px] pr-[5px] text-right'>{placeNumber}.</span>
       <span>{username}</span>
       <span className='mr-[22px] border-r-[1px] border-[#A0A0A0]/50 pr-[30px]'>
         <span className='block w-[80px] text-center text-[#79A1EF]'>{avg_ms ? formatTimeResult(avg_ms) : 'DNF'}</span>

@@ -22,9 +22,9 @@ export const LeaderboardDiscipline = () => {
 
   return (
     <>
-      {ownResult && <LeaderboardResult {...ownResult} index={results.indexOf(ownResult)} isOwnResult />}
+      {ownResult && <LeaderboardResult {...ownResult} placeNumber={results.indexOf(ownResult) + 1} isOwnResult />}
       {results.map((result, index) => (
-        <LeaderboardResult {...result} index={index} />
+        <LeaderboardResult {...result} placeNumber={index + 1} />
       ))}
     </>
   )
@@ -37,9 +37,9 @@ const LeaderboardResult = ({
   created,
   contest: { contest_number },
   discipline,
-  index,
+  placeNumber,
   isOwnResult,
-}: LeaderboardResponse[number] & { index: number; isOwnResult?: boolean }) => {
+}: LeaderboardResponse[number] & { placeNumber: number; isOwnResult?: boolean }) => {
   const { showReconstruction } = useReconstructor()
   const dateString = formatSolveDate(created)
 
@@ -48,10 +48,10 @@ const LeaderboardResult = ({
       key={id}
       className={classNames(
         isOwnResult ? 'bg-[#233D50]' : 'bg-panels',
-        'mb-[26px] grid grid-cols-[40px_1fr_repeat(3,min-content)] items-center gap-[8px] rounded-[5px] py-[12px] pl-[10px] pr-[56px] last:mb-0',
+        'mb-[26px] grid grid-cols-[min-content_1fr_repeat(3,min-content)] items-center gap-[8px] rounded-[5px] py-[12px] pl-3 pr-12 last:mb-0',
       )}
     >
-      <span className='pr-[5px] text-right'>{index + 1}.</span>
+      <span className='w-[40px] pr-[5px] text-right'>{placeNumber}.</span>
       <span>{username}</span>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
         <ReconstructTimeButton onClick={() => showReconstruction(id)} time_ms={time_ms} />
