@@ -22,7 +22,7 @@ export const SubmittedSolve = ({ className, time_ms, scramble, id }: SubmittedSo
         {isSuccessfull ? (
           <ReconstructTimeButton time_ms={time_ms} onClick={() => navigateToSolve(id)} />
         ) : (
-          <span className='block w-[80px] pl-[7px]'>DNF</span>
+          <span className='block w-[80px] pl-2'>DNF</span>
         )}
       </div>
       {scramble.scramble}

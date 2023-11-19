@@ -36,11 +36,11 @@ export const CurrentSolve = ({
       <div className='pr-[10px] text-right'>{scramble.position}.</div>
       <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
         {!isInited ? (
-          <div className='w-[80px] text-center'>??:??.??</div>
+          <span className='w-[80px] text-center'>??:??.??</span>
         ) : isSuccessful ? (
           <ReconstructTimeButton onClick={() => navigateToSolve(solve.id)} time_ms={solve.time_ms} />
         ) : (
-          'DNF'
+          <span className='block w-[80px] pl-2'>DNF</span>
         )}
       </div>
       <div>{isInited ? scramble.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
