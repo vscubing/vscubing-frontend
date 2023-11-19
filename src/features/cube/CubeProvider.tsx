@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CubeSolveFinishCallback, CubeSolveResult, Cube } from './Cube'
 import classNames from 'classnames'
 
@@ -25,7 +25,9 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
     setScramble(undefined)
   }
 
-  const handleTimeStart = useCallback(() => setWasTimeStarted(true), [])
+  const handleTimeStart = useCallback(() => {
+    return setWasTimeStarted(true)
+  }, [])
 
   const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
@@ -34,10 +36,13 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
       savedSolveFinishCallback(result)
 
       setWasTimeStarted(false)
+
       hideCube()
     },
     [savedSolveFinishCallback],
   )
+
+  useBeforeUnload(wasTimeStarted, () => handleSolveFinish({ dnf: true, time_ms: null, reconstruction: null }))
 
   const handleOverlayClick = (event: React.MouseEvent) => {
     if (event.target !== event.currentTarget) {
@@ -91,6 +96,16 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
       {children}
     </CubeContext.Provider>
   )
+}
+
+const useBeforeUnload = (condition: boolean, callback: () => void) => {
+  useEffect(() => {
+    if (condition) {
+      window.addEventListener('beforeunload', callback)
+    }
+
+    return () => window.removeEventListener('beforeunload', callback)
+  }, [condition, callback])
 }
 
 type AbortPromptProps = { onConfirm: () => void; onCancel: () => void }
