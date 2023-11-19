@@ -11,14 +11,14 @@ export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
   return (
     <div>
       {bestSolves
-        ? bestSolves.map((solve) => (
-            <div key={solve.id} className='flex items-center rounded-[5px] bg-panels py-[13px] pl-[17px] pr-[12px]'>
+        ? bestSolves.map(({ id, user: { username }, time_ms, discipline }) => (
+            <div key={id} className='flex items-center rounded-[5px] bg-panels py-[13px] pl-[17px] pr-[12px]'>
               <CubeIcon className='mr-[12px] w-[23px] text-[#35424B]' />
               <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 py-[3px] pr-[12px]'>
-                {solve.user.username}
+                {username}
               </span>
-              <ReconstructTimeButton time_ms={solve.time_ms} onClick={() => showReconstruction(solve.id)} />
-              <Link className='btn-action ml-auto' to={`/contest/${solve.contest_number}`}>
+              <ReconstructTimeButton time_ms={time_ms} onClick={() => showReconstruction(id)} />
+              <Link className='btn-action ml-auto' to={`/leaderboard/${discipline.name}`}>
                 leaderboard
               </Link>
             </div>

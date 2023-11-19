@@ -1,11 +1,13 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Layout, redirectToOngoingContest, ContestPage, DashboardPage, redirectToDefaultDiscipline } from './pages'
+import { Layout, ContestPage, DashboardPage, LeaderboardPage } from './pages'
 import './App.tw.css'
 import { ReconstructorProvider } from './features/reconstructor'
 import { AuthProvider } from './features/auth'
 import { ContestDiscipline } from './features/contest'
 import { CubeProvider } from './features/cube'
+import { redirectToOngoingContest, redirectToDefaultDiscipline } from './loaders'
+import { LeaderboardDiscipline } from './features/leaderboard/LeaderboardDiscipline'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,17 @@ const router = createBrowserRouter([
           {
             path: ':discipline',
             element: <ContestDiscipline />,
+          },
+        ],
+      },
+      {
+        path: 'leaderboard',
+        loader: redirectToDefaultDiscipline,
+        element: <LeaderboardPage />,
+        children: [
+          {
+            path: ':discipline',
+            element: <LeaderboardDiscipline />,
           },
         ],
       },
