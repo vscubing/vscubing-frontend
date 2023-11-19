@@ -3,6 +3,7 @@ import { CubeSolveResult } from '@/features/cube/Cube'
 import { useSolveContestState, postSolveResult, changeToExtra, submitSolve } from '@/api/contests'
 import { CurrentSolve, SubmittedSolve } from './components'
 import { useAuth } from '@/features/auth'
+import { InfoBox } from '@/components'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
@@ -10,10 +11,10 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 
   if (userData && !userData.auth_completed) {
-    return 'finish registration first'
+    return <InfoBox>Please finish registration first</InfoBox>
   }
   if (!state) {
-    return 'loading'
+    return <InfoBox>loading...</InfoBox>
   }
   const { current_solve, submitted_solves } = state
 
@@ -62,11 +63,7 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
         onSubmit={submitHandler}
       />
       {submitted_solves.length === 0 ? (
-        <div className='flex justify-center rounded-[5px] bg-panels py-[80px]'>
-          <p className='max-w-[609px] text-center text-[24px]'>
-            You can't see results of an ongoing round until you solve all scrambles or the round ends
-          </p>
-        </div>
+        <InfoBox>You can't see results of an ongoing round until you solve all scrambles or the round ends</InfoBox>
       ) : null}
     </>
   )

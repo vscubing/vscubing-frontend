@@ -7,6 +7,7 @@ import { useReconstructor } from '../reconstructor'
 import { useRequiredParams } from '@/utils'
 import { PublishedSession } from './PublishedSession'
 import { useAuth } from '../auth'
+import { InfoBox } from '@/components'
 
 export const ContestDiscipline = () => {
   const { isAuthenticated, userData } = useAuth()
@@ -16,22 +17,22 @@ export const ContestDiscipline = () => {
   const disciplineName = routeParams.discipline as Discipline // TODO add type guard
 
   useReconstructorFromSearchParam()
-  const { data: sessions, error } = useContestResults(contestNumber, disciplineName)
+  const { data: sessions, error, isLoading } = useContestResults(contestNumber, disciplineName)
+
+  if (isLoading) {
+    return <InfoBox>loading...</InfoBox>
+  }
 
   if (error?.response.status === 403) {
     return <SolveContest contestNumber={contestNumber} discipline={disciplineName} />
   }
 
   if (error?.response.status === 401) {
-    return "unauthorized, can't solve"
+    return <InfoBox>You need to be signed in to participate in a contest</InfoBox>
   }
 
-  if (error) {
-    return 'unknown error'
-  }
-
-  if (!sessions) {
-    return 'loading...'
+  if (error || !sessions) {
+    return <InfoBox>An unknown error occured</InfoBox>
   }
 
   let ownSession: ContestResultsResponse[number] | undefined = undefined
