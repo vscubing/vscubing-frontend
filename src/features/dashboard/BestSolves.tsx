@@ -12,10 +12,12 @@ export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
     <div>
       {bestSolves
         ? bestSolves.map(({ id, user: { username }, time_ms, discipline }) => (
-            <div key={id} className='flex items-center rounded-[5px] bg-panels py-[13px] pl-[17px] pr-[12px]'>
+            <div key={id} className='flex items-center rounded-md bg-panels px-4 py-2 md:py-3 md:pl-4 md:pr-6'>
               <CubeIcon className='mr-[12px] w-[23px] text-[#35424B]' />
-              <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 py-[3px] pr-[12px]'>
-                {username}
+              <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 pr-[12px]'>
+                <span className='text-ellipsis' title={username}>
+                  {username}
+                </span>
               </span>
               <ReconstructTimeButton time_ms={time_ms} onClick={() => showReconstruction(id)} />
               <Link className='btn-action ml-auto' to={`/leaderboard/${discipline.name}`}>

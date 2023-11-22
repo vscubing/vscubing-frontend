@@ -24,7 +24,7 @@ export const NavBar = () => {
 
   return (
     <nav>
-      <ul className='flex gap-16'>
+      <ul className='flex md:gap-6 lg:gap-12 xl:gap-16'>
         {links.map(({ text, to }) => (
           <li key={text}>
             <NavLink
@@ -32,7 +32,7 @@ export const NavBar = () => {
               className={({ isActive }) =>
                 classNames(
                   isActive ? 'pointer-events-none border-primary text-white' : 'border-transparent text-white/50',
-                  'block border-t-[3px] py-[12px] text-[20px]',
+                  'block border-t-[3px] py-3 lg:text-xl',
                 )
               }
             >
