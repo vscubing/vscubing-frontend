@@ -13,13 +13,13 @@ export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
       {bestSolves
         ? bestSolves.map(({ id, user: { username }, time_ms, discipline }) => (
             <div key={id} className='flex items-center rounded-md bg-panels px-4 py-2 md:py-3 md:pl-4 md:pr-6'>
-              <CubeIcon className='mr-[12px] w-[23px] text-[#35424B]' />
-              <span className='mr-[12px] w-[140px] border-r-[1px] border-[#A0A0A0]/50 pr-[12px]'>
+              <CubeIcon className='mr-3 w-[23px] text-[#35424B]' />
+              <span className='mr-3 w-[140px] border-r-[1px] border-[#A0A0A0]/50 pr-3'>
                 <span className='text-ellipsis' title={username}>
                   {username}
                 </span>
               </span>
-              <ReconstructTimeButton time_ms={time_ms} onClick={() => showReconstruction(id)} />
+              <ReconstructTimeButton className='mr-3' time_ms={time_ms} onClick={() => showReconstruction(id)} />
               <Link className='btn-action ml-auto' to={`/leaderboard/${discipline.name}`}>
                 leaderboard
               </Link>
