@@ -64,7 +64,7 @@ const LeaderboardResult = ({
   )
 }
 
-export const formatSolveDate = (dateStr: string) => {
+const formatSolveDate = (dateStr: string) => {
   const date = new Date(dateStr)
   let dd = String(date.getDate())
   if (dd.length === 1) {
