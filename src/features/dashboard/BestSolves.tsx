@@ -12,7 +12,10 @@ export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
     <div>
       {bestSolves
         ? bestSolves.map(({ id, user: { username }, time_ms, discipline }) => (
-            <div key={id} className='flex items-center rounded-md bg-panels px-4 py-2 md:py-3 md:pl-4 md:pr-6'>
+            <div
+              key={id}
+              className='flex items-center rounded-md bg-panels py-2 pl-4 pr-2 text-sm md:py-3 md:pl-4 md:pr-6'
+            >
               <CubeIcon className='mr-3 w-[23px] text-[#35424B]' />
               <span className='mr-3 w-[140px] border-r-[1px] border-[#A0A0A0]/50 pr-3'>
                 <span className='text-ellipsis' title={username}>
