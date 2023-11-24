@@ -22,34 +22,41 @@ export const PublishedSession = ({
     <div
       className={classNames(
         isOwnSession ? 'bg-[#233D50]' : 'bg-panels',
-        'mb-[26px] grid grid-cols-[min-content_1fr_repeat(6,min-content)] items-center gap-[8px] rounded-[5px] py-[12px] pl-3 pr-12 last:mb-0',
+        'mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md px-1 pb-1 pt-3 text-[13px] last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:py-3 md:text-base lg:pr-8',
       )}
     >
-      <span className='w-[40px] pr-[5px] text-right'>{placeNumber}.</span>
-      <span>{username}</span>
-      <span className='mr-[22px] border-r-[1px] border-[#A0A0A0]/50 pr-[30px]'>
-        <span className='block w-[80px] text-center text-[#79A1EF]'>{avg_ms ? formatTimeResult(avg_ms) : 'DNF'}</span>
+      <div className='flex gap-2 overflow-x-hidden pr-1 lg:gap-3'>
+        <span className='pl-2 text-right md:w-[30px] md:pl-0 lg:w-[40px]'>{placeNumber}.</span>
+        <span className='overflow-x-hidden text-ellipsis'>{username}</span>
+      </div>
+      <span className='border-[#A0A0A0]/50 pr-2 text-right md:mr-5 md:border-r-[1px] md:pr-5 lg:mr-[30px] lg:pr-[30px]'>
+        <span className='inline-block text-center text-[#79A1EF]'>{avg_ms ? formatTimeResult(avg_ms) : 'DNF'}</span>
       </span>
-      {submittedSolves.map(({ id, time_ms, scramble: { position } }) => {
-        const isExtra = position.startsWith('E')
-        return time_ms ? (
-          <ReconstructTimeButton
-            className={classNames({
-              'text-[#69C382]': bestId === id,
-              'text-[#E45B5B]': worstId === id,
-              'underline underline-offset-4': isExtra,
-            })}
-            title={isExtra ? `Extra ${position[1]}` : undefined}
-            onClick={() => navigateToSolve(id)}
-            key={id}
-            time_ms={time_ms}
-          />
-        ) : (
-          <span key={id} className='w-[80px] text-center text-[#E45B5B]'>
-            DNF
-          </span>
-        )
-      })}
+      <div className='col-span-3 flex justify-between md:col-span-1 md:-ml-[5px] md:gap-1 lg:gap-2'>
+        {submittedSolves.map(({ id, time_ms, scramble: { position } }) => {
+          const isExtra = position.startsWith('E')
+          return time_ms ? (
+            <ReconstructTimeButton
+              className={classNames(
+                {
+                  'text-[#69C382]': bestId === id,
+                  'text-[#E45B5B]': worstId === id,
+                  'underline underline-offset-4': isExtra,
+                },
+                'w-[70px] md:w-[80px]',
+              )}
+              title={isExtra ? `Extra ${position[1]}` : undefined}
+              onClick={() => navigateToSolve(id)}
+              key={id}
+              time_ms={time_ms}
+            />
+          ) : (
+            <span key={id} className='w-[80px] text-center text-[#E45B5B]'>
+              DNF
+            </span>
+          )
+        })}
+      </div>
     </div>
   )
 }

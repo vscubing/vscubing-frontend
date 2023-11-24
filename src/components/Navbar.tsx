@@ -32,7 +32,7 @@ export const NavBar = () => {
       />
       <ul
         className={classNames(
-          { 'pointer-events-none opacity-0 md:opacity-100': !isMobileNavVisible },
+          { 'pointer-events-none opacity-0 md:pointer-events-auto md:opacity-100': !isMobileNavVisible },
           'fixed bottom-0 left-0 right-0 top-[44px] z-10 py-8 text-2xl backdrop-blur-3xl transition-all duration-300 md:static md:flex md:gap-6 md:py-0 md:text-base lg:gap-12 xl:gap-16',
         )}
       >
