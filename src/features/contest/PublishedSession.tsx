@@ -1,4 +1,4 @@
-import { ReconstructTimeButton } from '@/components'
+import { ReconstructTimeButton, ResultCard } from '@/components'
 import { useNavigateToSolve } from './ContestDiscipline'
 import { ContestResultsResponse } from '@/api/contests'
 import { cn, formatTimeResult } from '@/utils'
@@ -18,14 +18,12 @@ export const PublishedSession = ({
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(submittedSolves), [submittedSolves])
 
   return (
-    <div
-      className={cn(
-        isOwnSession ? 'bg-[#233D50]' : 'bg-panels',
-        'mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md px-1 pb-1 pt-3 text-[13px] last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:py-3 md:pr-3 md:text-base lg:pr-8',
-      )}
+    <ResultCard
+      kind={isOwnSession ? 'highlighted' : 'default'}
+      className='mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:text-base'
     >
-      <div className='flex gap-2 overflow-x-hidden pr-1 lg:gap-3'>
-        <span className='pl-[9px] text-right md:w-[30px] md:pl-0 lg:w-[40px]'>{placeNumber}.</span>
+      <div className='flex gap-2 overflow-x-hidden pr-1 md:-ml-2 lg:-ml-5 lg:gap-3'>
+        <span className='pl-[9px] text-right md:w-[30px] md:pl-0'>{placeNumber}.</span>
         <span className='overflow-x-hidden text-ellipsis'>{username}</span>
       </div>
       <span className='border-[#A0A0A0]/50 pr-[9px] text-right md:mr-5 md:border-r-[1px] md:pr-5 lg:mr-[30px] lg:pr-[30px]'>
@@ -56,7 +54,7 @@ export const PublishedSession = ({
           )
         })}
       </div>
-    </div>
+    </ResultCard>
   )
 }
 
