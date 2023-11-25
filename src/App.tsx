@@ -1,6 +1,6 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
-import { Layout, ContestPage, DashboardPage, LeaderboardPage } from './pages'
+import { Layout, DashboardPage, DisciplinesTabsLayout } from './pages'
 import './App.tw.css'
 import { ReconstructorProvider } from './features/reconstructor'
 import { AuthProvider } from './features/auth'
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       {
         path: 'contest/:contestNumber',
         loader: redirectToDefaultDiscipline,
-        element: <ContestPage />,
+        element: <DisciplinesTabsLayout />,
         children: [
           {
             path: ':discipline',
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       {
         path: 'leaderboard',
         loader: redirectToDefaultDiscipline,
-        element: <LeaderboardPage />,
+        element: <DisciplinesTabsLayout />,
         children: [
           {
             path: ':discipline',
