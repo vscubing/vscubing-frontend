@@ -12,7 +12,7 @@ export const LoginSection = () => {
   })
 
   return (
-    <div>
+    <div className='py-1'>
       {userData ? userData.username : null}
       {isAuthenticated ? (
         <>
@@ -22,7 +22,7 @@ export const LoginSection = () => {
         </>
       ) : (
         <button
-          className='rounded-md bg-panels py-[10px] pl-[12px] pr-[31px] text-[#CBCBCB]'
+          className='rounded-md bg-panels py-[10px] pl-[12px] pr-[20px] text-[#CBCBCB]'
           onClick={() => handleLogin()}
         >
           <img src={googleLogo} alt='google logo' className='mr-[20px] inline-block' />

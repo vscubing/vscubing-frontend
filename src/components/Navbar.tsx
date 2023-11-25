@@ -25,15 +25,13 @@ export const NavBar = () => {
 
   return (
     <nav>
-      <HamburgerButton
-        isOpen={isMobileNavVisible}
-        onClick={() => setIsMovileNavVisible((prev) => !prev)}
-        className='md:hidden'
-      />
+      <div className='flex h-full items-center md:hidden' onClick={() => setIsMovileNavVisible((prev) => !prev)}>
+        <HamburgerButton isOpen={isMobileNavVisible} />
+      </div>
       <ul
         className={cn(
           { 'pointer-events-none opacity-0 md:pointer-events-auto md:opacity-100': !isMobileNavVisible },
-          'fixed bottom-0 left-0 right-0 top-[44px] z-10 py-8 text-2xl backdrop-blur-3xl transition-all duration-300 md:static md:flex md:gap-6 md:py-0 md:text-base lg:gap-12 xl:gap-16',
+          'fixed bottom-0 left-0 right-0 top-[44px] z-10 py-8 text-2xl backdrop-blur-3xl transition-all duration-300 md:static md:flex md:gap-6 md:py-0 md:text-base lg:gap-8 xl:gap-16',
         )}
       >
         {links.map(({ text, to }) => (
