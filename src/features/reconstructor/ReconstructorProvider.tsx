@@ -1,8 +1,7 @@
 import { createContext, useCallback, useMemo, useState } from 'react'
 import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
 import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
-import { formatTimeResult } from '@/utils'
-import classNames from 'classnames'
+import { cn, formatTimeResult } from '@/utils'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void
@@ -56,7 +55,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     <ReconstructorContext.Provider value={contextValue}>
       <div
         onClick={handleOverlayClick}
-        className={classNames(
+        className={cn(
           { invisible: !content },
           'fixed	inset-0 flex justify-center bg-black bg-opacity-40 px-[146px] py-[5%]',
         )}

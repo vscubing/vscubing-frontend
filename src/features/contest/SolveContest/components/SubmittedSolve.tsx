@@ -1,7 +1,7 @@
 import { SolveContestStateResponse } from '@/api/contests'
 import { ReconstructTimeButton } from '@/components'
-import classNames from 'classnames'
 import { useNavigateToSolve } from '../../ContestDiscipline'
+import { cn } from '@/utils'
 
 type SubmittedSolveProps = SolveContestStateResponse['submitted_solves'][number] & {
   className?: string
@@ -12,9 +12,9 @@ export const SubmittedSolve = ({ className, time_ms, scramble, id }: SubmittedSo
 
   return (
     <div
-      className={classNames(
-        className,
+      className={cn(
         'grid h-[54px] grid-cols-[30px_min-content_1fr] items-center rounded-[5px] bg-panels py-[7px] pl-[27px] pr-[20px]',
+        className,
       )}
     >
       <div className='pr-[10px] text-right'>{scramble.position}.</div>

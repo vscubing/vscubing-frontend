@@ -1,6 +1,6 @@
 import { DashboardResponse } from '@/api/contests'
 import { DEFAULT_DISCIPLINE } from '@/constants'
-import classNames from 'classnames'
+import { cn } from '@/utils'
 import { Link } from 'react-router-dom'
 
 type ContestsListProps = { contests?: DashboardResponse['contests'] }
@@ -22,10 +22,7 @@ type ContestLinkProps = { number: number; ongoing: boolean }
 export const ContestLink = ({ number, ongoing }: ContestLinkProps) => {
   return (
     <Link
-      className={classNames(
-        ongoing ? 'bg-[#233D50]' : 'bg-panels',
-        'rounded-md py-2 pl-4 pr-2 md:px-6 md:py-2 md:text-lg',
-      )}
+      className={cn(ongoing ? 'bg-[#233D50]' : 'bg-panels', 'rounded-md py-2 pl-4 pr-2 md:px-6 md:py-2 md:text-lg')}
       to={`/contest/${number}/${DEFAULT_DISCIPLINE}`}
     >
       Contest {number} {ongoing ? '(ongoing)' : null}

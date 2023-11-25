@@ -1,11 +1,10 @@
 import { ReconstructTimeButton } from '@/components'
 import { Discipline } from '@/types'
-import { useRequiredParams } from '@/utils'
+import { cn, useRequiredParams } from '@/utils'
 import { useReconstructor } from '../reconstructor'
 import { Link } from 'react-router-dom'
 import { useLeaderboard, LeaderboardResponse } from '@/api/contests'
 import { useAuth } from '../auth'
-import classNames from 'classnames'
 
 export const LeaderboardDiscipline = () => {
   const { userData } = useAuth()
@@ -46,7 +45,7 @@ const LeaderboardResult = ({
   return (
     <div
       key={id}
-      className={classNames(
+      className={cn(
         isOwnResult ? 'bg-[#233D50]' : 'bg-panels',
         'mb-[26px] grid grid-cols-[min-content_1fr_repeat(3,min-content)] items-center gap-[8px] rounded-[5px] py-[12px] pl-3 pr-12 last:mb-0',
       )}

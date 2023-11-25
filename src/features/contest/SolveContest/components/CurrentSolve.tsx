@@ -1,9 +1,9 @@
 import { ReconstructTimeButton } from '@/components'
 import { useCube } from '@/features/cube'
 import { CubeSolveResult } from '@/features/cube/Cube'
-import classNames from 'classnames'
 import { useNavigateToSolve } from '../../ContestDiscipline'
 import { SolveContestStateResponse } from '@/api/contests'
+import { cn } from '@/utils'
 
 type CurrentSolveProps = SolveContestStateResponse['current_solve'] & {
   className?: string
@@ -28,7 +28,7 @@ export const CurrentSolve = ({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         className,
         'grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center rounded-[5px] bg-panels pl-[27px] pr-[20px]',
       )}

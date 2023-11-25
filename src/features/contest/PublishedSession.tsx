@@ -1,8 +1,7 @@
 import { ReconstructTimeButton } from '@/components'
-import classNames from 'classnames'
 import { useNavigateToSolve } from './ContestDiscipline'
 import { ContestResultsResponse } from '@/api/contests'
-import { formatTimeResult } from '@/utils'
+import { cn, formatTimeResult } from '@/utils'
 import { useMemo } from 'react'
 
 type PublishedSessionProps = ContestResultsResponse[number]
@@ -20,7 +19,7 @@ export const PublishedSession = ({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         isOwnSession ? 'bg-[#233D50]' : 'bg-panels',
         'mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md px-1 pb-1 pt-3 text-[13px] last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:py-3 md:text-base lg:pr-8',
       )}
@@ -37,7 +36,7 @@ export const PublishedSession = ({
           const isExtra = position.startsWith('E')
           return time_ms ? (
             <ReconstructTimeButton
-              className={classNames(
+              className={cn(
                 {
                   'text-[#69C382]': bestId === id,
                   'text-[#E45B5B]': worstId === id,

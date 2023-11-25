@@ -1,5 +1,4 @@
-import { formatTimeResult } from '@/utils'
-import classNames from 'classnames'
+import { cn, formatTimeResult } from '@/utils'
 import { ButtonHTMLAttributes } from 'react'
 
 type SolveTimeButtonProps = {
@@ -7,7 +6,7 @@ type SolveTimeButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>
 export const ReconstructTimeButton = ({ time_ms, className, ...props }: SolveTimeButtonProps) => {
   return (
-    <button {...props} type='button' className={classNames(className, 'btn-action w-[80px] text-center')}>
+    <button {...props} type='button' className={cn('btn-action w-[80px] text-center', className)}>
       {formatTimeResult(time_ms)}
     </button>
   )

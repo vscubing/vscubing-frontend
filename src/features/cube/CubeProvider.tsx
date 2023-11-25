@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CubeSolveFinishCallback, CubeSolveResult, Cube } from './Cube'
-import classNames from 'classnames'
+import { cn } from '@/utils'
 
 type CubeContextValue = {
   startSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
@@ -81,7 +81,7 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
     <CubeContext.Provider value={contextValue}>
       <div
         onClick={handleOverlayClick}
-        className={classNames({ invisible: !scramble }, 'fixed	inset-0 bg-black bg-opacity-40 px-[146px] py-[5%]')}
+        className={cn({ invisible: !scramble }, 'fixed	inset-0 bg-black bg-opacity-40 px-[146px] py-[5%]')}
       >
         <div className='relative h-full'>
           {isAbortPromptVisible ? <AbortPrompt onConfirm={handleAbortConfirm} onCancel={handleAbortCancel} /> : null}
