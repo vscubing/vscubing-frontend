@@ -6,7 +6,7 @@ type SolveTimeButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>
 export const ReconstructTimeButton = ({ time_ms, className, ...props }: SolveTimeButtonProps) => {
   return (
-    <button {...props} type='button' className={cn('btn-action w-[80px] text-center', className)}>
+    <button {...props} type='button' className={cn('btn-action w-[70px] text-center md:w-[80px]', className)}>
       {formatTimeResult(time_ms)}
     </button>
   )

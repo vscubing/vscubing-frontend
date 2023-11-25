@@ -22,7 +22,7 @@ export const PublishedSession = ({
       kind={isOwnSession ? 'highlighted' : 'default'}
       className='mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:text-base'
     >
-      <div className='flex gap-2 overflow-x-hidden pr-1 md:-ml-2 lg:-ml-5 lg:gap-3'>
+      <div className='mt-1 flex gap-2 overflow-x-hidden pr-1 md:-ml-2 md:mt-0 lg:-ml-5 lg:gap-3'>
         <span className='pl-[9px] text-right md:w-[30px] md:pl-0'>{placeNumber}.</span>
         <span className='overflow-x-hidden text-ellipsis'>{username}</span>
       </div>
