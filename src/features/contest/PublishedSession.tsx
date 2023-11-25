@@ -21,14 +21,14 @@ export const PublishedSession = ({
     <div
       className={cn(
         isOwnSession ? 'bg-[#233D50]' : 'bg-panels',
-        'mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md px-1 pb-1 pt-3 text-[13px] last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:py-3 md:text-base lg:pr-8',
+        'mb-3 grid grid-cols-2 items-center gap-y-1 rounded-md px-1 pb-1 pt-3 text-[13px] last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:py-3 md:pr-3 md:text-base lg:pr-8',
       )}
     >
       <div className='flex gap-2 overflow-x-hidden pr-1 lg:gap-3'>
-        <span className='pl-2 text-right md:w-[30px] md:pl-0 lg:w-[40px]'>{placeNumber}.</span>
+        <span className='pl-[9px] text-right md:w-[30px] md:pl-0 lg:w-[40px]'>{placeNumber}.</span>
         <span className='overflow-x-hidden text-ellipsis'>{username}</span>
       </div>
-      <span className='border-[#A0A0A0]/50 pr-2 text-right md:mr-5 md:border-r-[1px] md:pr-5 lg:mr-[30px] lg:pr-[30px]'>
+      <span className='border-[#A0A0A0]/50 pr-[9px] text-right md:mr-5 md:border-r-[1px] md:pr-5 lg:mr-[30px] lg:pr-[30px]'>
         <span className='inline-block text-center text-[#79A1EF]'>{avg_ms ? formatTimeResult(avg_ms) : 'DNF'}</span>
       </span>
       <div className='col-span-3 flex justify-between md:col-span-1 md:-ml-[5px] md:gap-1 lg:gap-2'>
