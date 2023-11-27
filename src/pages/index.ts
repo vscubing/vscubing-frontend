@@ -1,3 +1,3 @@
-export * from './Layout'
-export * from './DashboardPage'
-export * from './DisciplinesTabsLayout'
+export * from './dashboard'
+export * from './leaderboard'
+export * from './contest'

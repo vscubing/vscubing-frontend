@@ -1,8 +1,8 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
-import { useNavigateToSolve } from './ContestDiscipline'
 import { ContestResultsResponse } from '@/api/contests'
 import { cn, formatTimeResult } from '@/utils'
 import { useMemo } from 'react'
+import { useNavigateToSolve } from '../ContestDiscipline'
 
 type PublishedSessionProps = ContestResultsResponse[number]
 export const PublishedSession = ({

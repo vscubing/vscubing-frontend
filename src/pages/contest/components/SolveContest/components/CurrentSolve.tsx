@@ -1,9 +1,9 @@
 import { ReconstructTimeButton } from '@/components'
-import { useCube } from '@/features/cube'
-import { CubeSolveResult } from '@/features/cube/Cube'
-import { useNavigateToSolve } from '../../ContestDiscipline'
 import { SolveContestStateResponse } from '@/api/contests'
 import { cn } from '@/utils'
+import { useNavigateToSolve } from '@/pages/contest'
+import { useCube } from '@/integrations/cube'
+import { CubeSolveResult } from '@/integrations/cube'
 
 type CurrentSolveProps = SolveContestStateResponse['current_solve'] & {
   className?: string

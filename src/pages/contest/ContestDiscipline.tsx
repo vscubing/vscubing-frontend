@@ -1,16 +1,16 @@
 import { ContestResultsResponse, useContestResults } from '@/api/contests'
 import { useCallback, useEffect } from 'react'
 import { Discipline } from '@/types'
-import { SolveContest } from './SolveContest'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useReconstructor } from '../reconstructor'
 import { useRequiredParams } from '@/utils'
-import { PublishedSession } from './PublishedSession'
-import { useAuth } from '../auth'
+import { PublishedSession } from './components/PublishedSession'
+import { SolveContest } from './components/SolveContest'
 import { InfoBox } from '@/components'
+import { useUser } from '@/api/accounts'
+import { useReconstructor } from '@/integrations/reconstructor'
 
 export const ContestDiscipline = () => {
-  const { isAuthenticated, userData } = useAuth()
+  const { userData } = useUser()
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
 
   const contestNumber = Number(routeParams.contestNumber)
@@ -36,7 +36,7 @@ export const ContestDiscipline = () => {
   }
 
   let ownSession: ContestResultsResponse[number] | undefined = undefined
-  if (isAuthenticated) {
+  if (userData) {
     ownSession = sessions.find((session) => session.user.username === userData?.username)
   }
 

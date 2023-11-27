@@ -1,6 +1,6 @@
 import { SolveContestStateResponse } from '@/api/contests'
 import { ReconstructTimeButton } from '@/components'
-import { useNavigateToSolve } from '../../ContestDiscipline'
+import { useNavigateToSolve } from '@/pages/contest'
 import { cn } from '@/utils'
 
 type SubmittedSolveProps = SolveContestStateResponse['submitted_solves'][number] & {

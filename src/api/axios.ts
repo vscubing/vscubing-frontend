@@ -1,7 +1,7 @@
-import { createAuthorizedRequestInterceptor } from '@/features/auth'
 import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import { refreshAccessToken } from './accounts'
+import { createAuthorizedRequestInterceptor } from './authTokens'
 
 const axiosParams = {
   baseURL: `/api`,

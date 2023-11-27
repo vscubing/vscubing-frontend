@@ -1,9 +1,10 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import googleLogo from '@/assets/google-logo.svg'
-import { useAuth } from '@/features/auth'
+import { useUser } from '@/api/accounts'
+import { login, logout } from '@/api/auth'
 
 export const LoginSection = () => {
-  const { isAuthenticated, userData, login, logout } = useAuth()
+  const { userData } = useUser()
 
   const handleLogin = useGoogleLogin({
     onSuccess: ({ code }) => login(code),
@@ -13,9 +14,9 @@ export const LoginSection = () => {
 
   return (
     <div className='py-1'>
-      {userData ? userData.username : null}
-      {isAuthenticated ? (
+      {userData ? (
         <>
+          {userData.username}
           <button className='border-2 px-5 py-2' onClick={() => logout()}>
             log out
           </button>

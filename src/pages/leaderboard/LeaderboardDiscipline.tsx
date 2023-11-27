@@ -1,13 +1,13 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
 import { Discipline } from '@/types'
-import { cn, useRequiredParams } from '@/utils'
-import { useReconstructor } from '../reconstructor'
+import { useRequiredParams } from '@/utils'
 import { Link } from 'react-router-dom'
 import { useLeaderboard, LeaderboardResponse } from '@/api/contests'
-import { useAuth } from '../auth'
+import { useUser } from '@/api/accounts'
+import { useReconstructor } from '@/integrations/reconstructor'
 
 export const LeaderboardDiscipline = () => {
-  const { userData } = useAuth()
+  const { userData } = useUser()
   const routeParams = useRequiredParams<{ discipline: string }>()
   const discipline = routeParams.discipline as Discipline // TODO add type guard
 
