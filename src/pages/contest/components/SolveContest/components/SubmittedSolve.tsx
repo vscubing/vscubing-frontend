@@ -13,19 +13,19 @@ export const SubmittedSolve = ({ className, time_ms, scramble, id }: SubmittedSo
   return (
     <div
       className={cn(
-        'grid h-[54px] grid-cols-[30px_min-content_1fr] items-center rounded-[5px] bg-panels py-[7px] pl-[27px] pr-[20px]',
+        'grid grid-cols-[30px_1fr] items-center rounded-md bg-panels md:grid-cols-[30px_min-content_1fr]',
         className,
       )}
     >
-      <div className='pr-[10px] text-right'>{scramble.position}.</div>
-      <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
+      <span className='md:mr-[10px] md:text-right'>{scramble.position}.</span>
+      <span className='md:mr-[20px] md:border-r-[1px] md:border-[#A0A0A0]/50 md:pr-[20px]'>
         {isSuccessfull ? (
           <ReconstructTimeButton time_ms={time_ms} onClick={() => navigateToSolve(id)} />
         ) : (
           <span className='block w-[80px] pl-2'>DNF</span>
         )}
-      </div>
-      {scramble.scramble}
+      </span>
+      <span className='col-span-full md:col-span-1'>{scramble.scramble}</span>
     </div>
   )
 }

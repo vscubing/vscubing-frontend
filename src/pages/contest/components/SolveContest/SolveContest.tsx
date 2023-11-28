@@ -51,13 +51,13 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
 
   return (
-    <>
+    <div className='flex flex-col gap-3 md:gap-6'>
       {submitted_solves.map((solve) => (
-        <SubmittedSolve className='mb-[25px]' key={solve.id} {...solve} />
+        <SubmittedSolve className='px-3 py-2 md:h-[54px] md:px-4 md:py-0 lg:px-7' key={solve.id} {...solve} />
       ))}
 
       <CurrentSolve
-        className='mb-6'
+        className='px-3 py-2 md:h-[54px] md:py-0 md:pl-4 md:pr-3 lg:pl-7 lg:pr-4'
         {...current_solve}
         onSolveFinish={solveFinishHandler}
         onExtra={takeExtraHandler}
@@ -66,6 +66,6 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       {submitted_solves.length === 0 ? (
         <InfoBox>You can't see results of an ongoing round until you solve all scrambles or the round ends</InfoBox>
       ) : null}
-    </>
+    </div>
   )
 }

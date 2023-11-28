@@ -28,11 +28,14 @@ export const CurrentSolve = ({
 
   return (
     <>
-      <ResultCard
-        className={cn('grid h-[54px] grid-cols-[30px_min-content_1fr_min-content] items-center md:py-0', className)}
+      <div
+        className={cn(
+          'grid grid-cols-[30px_1fr_min-content] items-center rounded-md bg-panels md:grid-cols-[30px_min-content_1fr_min-content]',
+          className,
+        )}
       >
-        <div className='pr-[10px] text-right'>{scramble.position}.</div>
-        <div className='mr-[20px] border-r-[1px] border-[#A0A0A0]/50 pr-[20px]'>
+        <div className='pr-[10px] md:text-right'>{scramble.position}.</div>
+        <div className='md:mr-[20px] md:border-r-[1px] md:border-[#A0A0A0]/50 md:pr-[20px]'>
           {!isInited ? (
             <span className='block w-[80px] text-center'>??:??.??</span>
           ) : isSuccessful ? (
@@ -41,28 +44,32 @@ export const CurrentSolve = ({
             <span className='block w-[80px] pl-2'>DNF</span>
           )}
         </div>
-        <div>{isInited ? scramble.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}</div>
-        {isInited ? (
-          <div className='flex gap-[17px]'>
-            {can_change_to_extra ? (
-              <button onClick={onExtra} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
-                extra
+        <div className='pr-2 max-md:col-span-2'>
+          {isInited ? scramble.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}
+        </div>
+        <div className='justify-center max-md:col-start-3 max-md:row-start-1 max-md:row-end-3 max-md:flex max-md:h-full max-md:flex-col'>
+          {isInited ? (
+            <div className='flex gap-[17px]'>
+              {can_change_to_extra ? (
+                <button onClick={onExtra} className='w-[82px] rounded-md bg-[#9B2527] py-2'>
+                  extra
+                </button>
+              ) : null}
+              <button onClick={onSubmit} className='w-[82px] rounded-md bg-primary py-2'>
+                submit
               </button>
-            ) : null}
-            <button onClick={onSubmit} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
-              submit
+            </div>
+          ) : (
+            <button
+              className='w-[82px] rounded-md bg-primary py-2 disabled:brightness-50'
+              onClick={() => startSolve(scramble.scramble, onSolveFinish)}
+              disabled={isTouchDevice}
+            >
+              solve
             </button>
-          </div>
-        ) : (
-          <button
-            className='w-[82px] rounded-[5px] bg-primary py-[8px] disabled:brightness-50'
-            onClick={() => startSolve(scramble.scramble, onSolveFinish)}
-            disabled={isTouchDevice}
-          >
-            solve
-          </button>
-        )}
-      </ResultCard>
+          )}
+        </div>
+      </div>
       {isTouchDevice && !isInited && <InfoBox>Solving on touch devices isn't currently supported</InfoBox>}
     </>
   )
