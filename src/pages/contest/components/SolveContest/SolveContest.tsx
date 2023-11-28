@@ -55,8 +55,9 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
       {submitted_solves.map((solve) => (
         <SubmittedSolve className='mb-[25px]' key={solve.id} {...solve} />
       ))}
+
       <CurrentSolve
-        className='mb-[25px]'
+        className='mb-6'
         {...current_solve}
         onSolveFinish={solveFinishHandler}
         onExtra={takeExtraHandler}
