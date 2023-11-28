@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 export const PickUsernameModal = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [username, setUsername] = useState('')
-  const { data: userData } = useUser()
+  const { userData } = useUser()
 
   useEffect(() => {
     if (userData && !userData.auth_completed) {
