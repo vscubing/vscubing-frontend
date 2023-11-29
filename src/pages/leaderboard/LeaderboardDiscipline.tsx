@@ -45,7 +45,7 @@ const LeaderboardResult = ({
   return (
     <ResultCard
       kind={isOwnResult ? 'highlighted' : 'default'}
-      className='mb-[26px] grid grid-cols-2 items-center px-4 last:mb-0 md:grid-cols-[1fr_min-content_min-content] md:gap-2'
+      className='mb-3 grid grid-cols-2 items-center px-4 last:mb-0 md:mb-6 md:grid-cols-[1fr_min-content_min-content] md:gap-2'
     >
       <div className='flex gap-2 md:-ml-2 lg:-ml-5 lg:gap-3'>
         <span className='text-right md:w-[30px]'>{placeNumber}.</span>
