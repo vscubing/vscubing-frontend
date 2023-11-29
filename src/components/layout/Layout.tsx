@@ -7,7 +7,7 @@ export const Layout = () => {
     <>
       <PickUsernameModal />
       <div className='min-h-screen bg-background text-white'>
-        <div className='flex justify-between gap-4 border-b-[1px] border-white/10 px-5 lg:px-20 xl:px-36'>
+        <div className='flex h-[50px] justify-between gap-4 border-b-[1px] border-white/10 px-5 lg:h-[55px] lg:px-20 xl:px-36'>
           <NavBar />
           <LoginSection />
         </div>

@@ -23,7 +23,7 @@ export const LoginSection = () => {
         </>
       ) : (
         <button
-          className='rounded-md bg-panels py-[10px] pl-[12px] pr-[20px] text-[#CBCBCB]'
+          className='h-full rounded-md bg-panels pl-[12px] pr-[20px] text-[#CBCBCB]'
           onClick={() => handleLogin()}
         >
           <img src={googleLogo} alt='google logo' className='mr-[20px] inline-block' />
