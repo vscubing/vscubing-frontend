@@ -1,6 +1,6 @@
-import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { CubeSolveFinishCallback, CubeSolveResult, Cube } from './Cube'
-import { cn } from '@/utils'
+import { cn, useConditionalBeforeUnload } from '@/utils'
 
 type CubeContextValue = {
   startSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
@@ -42,7 +42,9 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
     [savedSolveFinishCallback],
   )
 
-  useBeforeUnload(wasTimeStarted, () => handleSolveFinish({ dnf: true, time_ms: null, reconstruction: null }))
+  useConditionalBeforeUnload(wasTimeStarted, () =>
+    handleSolveFinish({ dnf: true, time_ms: null, reconstruction: null }),
+  )
 
   const handleOverlayClick = (event: React.MouseEvent) => {
     if (event.target !== event.currentTarget) {
@@ -96,16 +98,6 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
       {children}
     </CubeContext.Provider>
   )
-}
-
-const useBeforeUnload = (condition: boolean, callback: () => void) => {
-  useEffect(() => {
-    if (condition) {
-      window.addEventListener('beforeunload', callback)
-    }
-
-    return () => window.removeEventListener('beforeunload', callback)
-  }, [condition, callback])
 }
 
 type AbortPromptProps = { onConfirm: () => void; onCancel: () => void }
