@@ -14,35 +14,29 @@ export const CubeContext = createContext<CubeContextValue>({
 
 type CubeProviderProps = { children: React.ReactNode }
 export const CubeProvider = ({ children }: CubeProviderProps) => {
-  const [scramble, setScramble] = useState<string>()
-  const [savedSolveFinishCallback, setSavedSolveFinishCallback] = useState<CubeSolveFinishCallback>()
-  const [wasTimeStarted, setWasTimeStarted] = useState(false)
+  const [solve, setSolve] = useState<{
+    scramble: string
+    savedSolveCallback: CubeSolveFinishCallback
+    wasTimeStarted: boolean
+  } | null>(null)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const hideCube = () => {
-    setSavedSolveFinishCallback(undefined)
-    setScramble(undefined)
-  }
-
   const handleTimeStart = useCallback(() => {
-    return setWasTimeStarted(true)
+    setSolve((prev) => prev && { ...prev, wasTimeStarted: true })
   }, [])
 
+  const savedSolveCallback = solve?.savedSolveCallback
   const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
-      if (!savedSolveFinishCallback) throw Error('no saved solve callback')
-
-      savedSolveFinishCallback(result)
-
-      setWasTimeStarted(false)
-
-      hideCube()
+      if (!savedSolveCallback) throw Error('no saved solve callback')
+      savedSolveCallback(result)
+      setSolve(null)
     },
-    [savedSolveFinishCallback],
+    [savedSolveCallback],
   )
 
-  useConditionalBeforeUnload(wasTimeStarted, () =>
+  useConditionalBeforeUnload(solve ? solve.wasTimeStarted : false, () =>
     handleSolveFinish({ dnf: true, time_ms: null, reconstruction: null }),
   )
 
@@ -51,8 +45,8 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
       return
     }
 
-    if (!wasTimeStarted) {
-      hideCube()
+    if (!solve || !solve.wasTimeStarted) {
+      setSolve(null)
       return
     }
 
@@ -72,8 +66,7 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
   const contextValue = useMemo(
     () => ({
       startSolve: (scramble: string, solveCallback: CubeSolveFinishCallback) => {
-        setSavedSolveFinishCallback(() => solveCallback)
-        setScramble(scramble)
+        setSolve({ scramble, savedSolveCallback: solveCallback, wasTimeStarted: false })
       },
     }),
     [],
@@ -83,12 +76,12 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
     <CubeContext.Provider value={contextValue}>
       <div
         onClick={handleOverlayClick}
-        className={cn({ invisible: !scramble }, 'fixed	inset-0 bg-black bg-opacity-40 px-[146px] py-[5%]')}
+        className={cn({ invisible: !solve?.scramble }, 'fixed	inset-0 bg-black bg-opacity-40 px-[146px] py-[5%]')}
       >
         <div className='relative h-full'>
           {isAbortPromptVisible ? <AbortPrompt onConfirm={handleAbortConfirm} onCancel={handleAbortCancel} /> : null}
           <Cube
-            scramble={scramble}
+            scramble={solve?.scramble}
             onSolveFinish={handleSolveFinish}
             onTimeStart={handleTimeStart}
             iframeRef={iframeRef}

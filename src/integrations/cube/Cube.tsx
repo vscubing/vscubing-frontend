@@ -13,11 +13,11 @@ type CubeProps = {
   iframeRef: RefObject<HTMLIFrameElement>
 }
 export const Cube = ({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubeProps) => {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isInited, setIsInited] = useState(false)
 
   useEffect(() => {
     if (scramble && iframeRef.current) {
-      setIsLoaded(true)
+      setIsInited(true)
       startSolveOnLoad(iframeRef.current, scramble, onTimeStart, onSolveFinish)
     }
   }, [scramble, onTimeStart, onSolveFinish, iframeRef])
@@ -26,7 +26,7 @@ export const Cube = ({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubePr
     <iframe
       ref={iframeRef}
       className='rounded-[5px]'
-      src={isLoaded ? '/cstimer/php' : undefined}
+      src={isInited ? '/cstimer/php' : undefined}
       width='100%'
       height='100%'
     ></iframe>
