@@ -23,8 +23,8 @@ export const CurrentSolve = ({
   const { initSolve } = useCube()
   const { navigateToSolve } = useNavigateToSolve()
 
-  const isInited = !!solve
-  const isSuccessful = isInited && !solve.dnf
+  const isFinished = !!solve
+  const isSuccessful = isFinished && !solve.dnf
 
   return (
     <>
@@ -36,7 +36,7 @@ export const CurrentSolve = ({
       >
         <div className='pr-[10px] md:text-right'>{scramble.position}.</div>
         <div className='md:mr-[20px] md:border-r-[1px] md:border-[#A0A0A0]/50 md:pr-[20px]'>
-          {!isInited ? (
+          {!isFinished ? (
             <span className='block w-[80px] text-center'>??:??.??</span>
           ) : isSuccessful ? (
             <ReconstructTimeButton onClick={() => navigateToSolve(solve.id)} time_ms={solve.time_ms} />
@@ -45,10 +45,10 @@ export const CurrentSolve = ({
           )}
         </div>
         <div className='pr-2 max-md:col-span-2'>
-          {isInited ? scramble.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}
+          {isFinished ? scramble.scramble : '? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?'}
         </div>
         <div className='justify-center max-md:col-start-3 max-md:row-start-1 max-md:row-end-3 max-md:flex max-md:h-full max-md:flex-col'>
-          {isInited ? (
+          {isFinished ? (
             <div className='flex gap-[17px]'>
               {can_change_to_extra ? (
                 <button onClick={onExtra} className='w-[82px] rounded-md bg-[#9B2527] py-2'>
