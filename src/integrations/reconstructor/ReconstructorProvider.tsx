@@ -57,7 +57,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
         onClick={handleOverlayClick}
         className={cn(
           { invisible: !content },
-          'fixed	inset-0 flex justify-center bg-black bg-opacity-40 px-[146px] py-[5%]',
+          'wrapper fixed	inset-0 flex justify-center bg-black bg-opacity-40 py-[max(5%,50px)]',
         )}
       >
         <Reconstructor content={content} />

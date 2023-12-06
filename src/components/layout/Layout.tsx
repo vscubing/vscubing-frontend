@@ -7,11 +7,11 @@ export const Layout = () => {
     <>
       <PickUsernameModal />
       <div className='min-h-screen bg-background text-white'>
-        <header className='flex h-[50px] justify-between gap-4 border-b-[1px] border-white/10 px-5 lg:h-[55px] lg:px-20 xl:px-36'>
+        <header className='wrapper flex h-[50px] justify-between gap-4 border-b-[1px] border-white/10 lg:h-[55px]'>
           <NavBar />
           <LoginSection />
         </header>
-        <main className='px-5 py-8 lg:px-20 lg:py-16 xl:px-36 xl:py-24'>
+        <main className='wrapper py-8 lg:py-16 xl:py-24'>
           <Outlet />
         </main>
       </div>

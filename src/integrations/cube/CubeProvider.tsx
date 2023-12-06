@@ -97,7 +97,10 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
       )}
       <div
         onClick={handleOverlayClick}
-        className={cn({ invisible: !solveState?.scramble }, 'fixed	inset-0 bg-black bg-opacity-40 px-[146px] py-[5%]')}
+        className={cn(
+          { invisible: !solveState?.scramble },
+          'wrapper fixed inset-0 bg-black bg-opacity-40 px-10 py-[max(5%,50px)]',
+        )}
       >
         <div className='relative h-full'>
           {isAbortPromptVisible && <AbortPrompt onConfirm={handleAbortConfirm} onCancel={handleAbortCancel} />}
