@@ -1,6 +1,6 @@
-import { InfoBox, ReconstructTimeButton, ResultCard } from '@/components'
+import { ReconstructTimeButton } from '@/components'
 import { SolveContestStateResponse } from '@/api/contests'
-import { cn, isTouchDevice } from '@/utils'
+import { cn } from '@/utils'
 import { useNavigateToSolve } from '@/pages/contest'
 import { useCube } from '@/integrations/cube'
 import { CubeSolveResult } from '@/integrations/cube'
@@ -63,14 +63,12 @@ export const CurrentSolve = ({
             <button
               className='w-[82px] rounded-md bg-primary py-2 disabled:brightness-50'
               onClick={() => startSolve(scramble.scramble, onSolveFinish)}
-              disabled={isTouchDevice}
             >
               solve
             </button>
           )}
         </div>
       </div>
-      {isTouchDevice && !isInited && <InfoBox>Solving on touch devices isn't currently supported</InfoBox>}
     </>
   )
 }
