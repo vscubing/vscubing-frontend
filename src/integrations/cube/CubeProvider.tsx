@@ -4,11 +4,11 @@ import { cn, isTouchDevice, useConditionalBeforeUnload } from '@/utils'
 import { useLocalStorage } from 'usehooks-ts'
 
 type CubeContextValue = {
-  startSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
+  initSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({
-  startSolve: () => {
+  initSolve: () => {
     throw new Error('cube context is missing')
   },
 })
@@ -68,14 +68,14 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
 
   const contextValue = useMemo(
     () => ({
-      startSolve: (scramble: string, solveCallback: CubeSolveFinishCallback) => {
-        const startSolve = () => setSolveState({ scramble, solveCallback, wasTimeStarted: false })
+      initSolve: (scramble: string, solveCallback: CubeSolveFinishCallback) => {
+        const initSolve = () => setSolveState({ scramble, solveCallback, wasTimeStarted: false })
         if (!isTouchDevice || isIgnoreDeviceWarning) {
-          startSolve()
+          initSolve()
           return
         }
 
-        setDeviceWarningCallback(() => startSolve)
+        setDeviceWarningCallback(() => initSolve)
       },
     }),
     [isIgnoreDeviceWarning],

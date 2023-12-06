@@ -20,7 +20,7 @@ export const CurrentSolve = ({
   onExtra,
   className,
 }: CurrentSolveProps) => {
-  const { startSolve } = useCube()
+  const { initSolve } = useCube()
   const { navigateToSolve } = useNavigateToSolve()
 
   const isInited = !!solve
@@ -62,7 +62,7 @@ export const CurrentSolve = ({
           ) : (
             <button
               className='w-[82px] rounded-md bg-primary py-2 disabled:brightness-50'
-              onClick={() => startSolve(scramble.scramble, onSolveFinish)}
+              onClick={() => initSolve(scramble.scramble, onSolveFinish)}
             >
               solve
             </button>
