@@ -48,7 +48,7 @@ export const PublishedSession = ({
               time_ms={time_ms}
             />
           ) : (
-            <span key={id} className='w-[80px] text-center text-[#E45B5B]'>
+            <span key={id} className='flex w-[80px] items-center justify-center text-[#E45B5B]'>
               DNF
             </span>
           )
