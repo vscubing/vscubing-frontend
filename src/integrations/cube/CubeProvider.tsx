@@ -99,7 +99,7 @@ export const CubeProvider = ({ children }: CubeProviderProps) => {
         onClick={handleOverlayClick}
         className={cn(
           { invisible: !solveState?.scramble },
-          'wrapper fixed inset-0 bg-black bg-opacity-40 px-10 pb-5 pt-[50px] md:py-[max(5%,55px)]',
+          'wrapper fixed inset-0 z-20 bg-black bg-opacity-40 px-10 pb-5 pt-[50px] md:py-[max(5%,55px)]',
         )}
       >
         <div className='relative h-full'>
