@@ -15,7 +15,7 @@ type SolveNotInited = null
 type SolveSuccessful = { id: number; time_ms: number; dnf: false }
 type SolveDnf = { id: number; time_ms: null; dnf: true }
 
-const API_ROUTE = '/contests/solve_contest/'
+const API_ROUTE = '/contests/solve-contest/'
 export const useSolveContestState = (contestNumber: number, discipline: Discipline) => {
   const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolveContestStateResponse }>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,

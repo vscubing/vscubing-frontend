@@ -2,7 +2,7 @@ import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
 import { Discipline, Scramble } from '@/types'
 
-const API_ROUTE = 'contests/solve_reconstruction/'
+const API_ROUTE = 'contests/solve-reconstruction/'
 export type SolveReconstructionResponse = {
   id: number
   reconstruction: string
