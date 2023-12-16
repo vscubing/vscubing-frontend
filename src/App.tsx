@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import { DashboardPage, LeaderboardDiscipline, ContestDiscipline } from './pages'
 import './App.tw.css'
 import { redirectToOngoingContest, redirectToDefaultDiscipline } from './loaders'
-import { DisciplinesTabsLayout, Layout } from './components'
+import { DevResetSession, DisciplinesTabsLayout, Layout } from './components'
 import { CubeProvider } from './integrations/cube'
 import { ReconstructorProvider } from './integrations/reconstructor'
 
@@ -43,6 +43,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: 'dev/reset-session', element: <DevResetSession /> },
     ],
   },
 ])
