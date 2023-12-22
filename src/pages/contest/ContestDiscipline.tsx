@@ -9,7 +9,7 @@ import { InfoBox } from '@/components'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
 
-export const ContestDiscipline = () => {
+export function ContestDiscipline() {
   const { userData } = useUser()
   const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
 
@@ -50,7 +50,7 @@ export const ContestDiscipline = () => {
   )
 }
 
-const useReconstructorFromSearchParam = () => {
+function useReconstructorFromSearchParam() {
   const { showReconstruction, closeReconstruction } = useReconstructor()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -73,7 +73,7 @@ const useReconstructorFromSearchParam = () => {
   }, [searchParams, deleteParam, showReconstruction, closeReconstruction])
 }
 
-export const useNavigateToSolve = () => {
+export function useNavigateToSolve() {
   const navigate = useNavigate()
   const navigateToSolve = (solveId: number) => navigate(`?solveId=${solveId}`)
   return { navigateToSolve }

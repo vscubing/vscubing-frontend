@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { CubeContext } from './CubeProvider'
 
-export const useCube = () => {
+export function useCube() {
   return useContext(CubeContext)
 }

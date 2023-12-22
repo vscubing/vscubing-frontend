@@ -5,13 +5,13 @@ import { useMemo } from 'react'
 import { useNavigateToSolve } from '../ContestDiscipline'
 
 type PublishedSessionProps = ContestResultsResponse[number]
-export const PublishedSession = ({
+export function PublishedSession({
   user: { username },
   avg_ms,
   solve_set,
   isOwnSession,
   placeNumber,
-}: PublishedSessionProps & { isOwnSession?: boolean; placeNumber: number }) => {
+}: PublishedSessionProps & { isOwnSession?: boolean; placeNumber: number }) {
   const { navigateToSolve } = useNavigateToSolve()
 
   const submittedSolves = useMemo(() => solve_set.filter(({ state }) => state === 'submitted'), [solve_set])
@@ -58,7 +58,7 @@ export const PublishedSession = ({
   )
 }
 
-const getBestAndWorstIds = (submittedSolves: ContestResultsResponse[number]['solve_set']) => {
+function getBestAndWorstIds(submittedSolves: ContestResultsResponse[number]['solve_set']) {
   const dnfSolve = submittedSolves.find(({ dnf }) => dnf)
   const timeArr = submittedSolves
     .filter(({ time_ms, dnf }) => typeof time_ms === 'number' && !dnf)

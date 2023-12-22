@@ -4,7 +4,7 @@ import { cn } from '@/utils'
 import { Link } from 'react-router-dom'
 
 type ContestsListProps = { contests?: DashboardResponse['contests'] }
-export const ContestsList = ({ contests }: ContestsListProps) => {
+export function ContestsList({ contests }: ContestsListProps) {
   const sortedContests = contests && [...contests].reverse()
 
   return sortedContests ? (
@@ -19,7 +19,7 @@ export const ContestsList = ({ contests }: ContestsListProps) => {
 }
 
 type ContestLinkProps = { number: number; ongoing: boolean }
-export const ContestLink = ({ number, ongoing }: ContestLinkProps) => {
+export function ContestLink({ number, ongoing }: ContestLinkProps) {
   return (
     <Link
       className={cn(ongoing ? 'bg-[#233D50]' : 'bg-panels', 'rounded-md py-2 pl-4 pr-2 md:px-6 md:py-2 md:text-lg')}

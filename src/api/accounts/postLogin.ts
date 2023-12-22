@@ -4,7 +4,8 @@ type RequestBody = { code: string }
 type Response = { access: string; refresh: string }
 
 const API_ROUTE = 'accounts/google/login/'
-export const postLogin = (googleCode: string) =>
-  axiosClient.post<RequestBody, { data: Response }>(API_ROUTE, {
+export function postLogin(googleCode: string) {
+  return axiosClient.post<RequestBody, { data: Response }>(API_ROUTE, {
     code: googleCode,
   })
+}

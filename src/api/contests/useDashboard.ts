@@ -20,7 +20,7 @@ export type DashboardResponse = {
 }
 
 const API_ROUTE = 'contests/dashboard/'
-export const useDashboard = () => {
+export function useDashboard() {
   const { data, error, isLoading } = useSWRImmutable<{ data: DashboardResponse }>(API_ROUTE, axiosClient.get)
 
   return {

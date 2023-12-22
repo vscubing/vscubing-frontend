@@ -13,19 +13,19 @@ export function createAuthorizedRequestInterceptor(client: AxiosInstance) {
   })
 }
 
-export const setAuthTokens = ({ refresh, access }: { refresh: string; access: string }) => {
+export function setAuthTokens({ refresh, access }: { refresh: string; access: string }) {
   localStorage.setItem(LS_REFRESH_TOKEN, refresh)
   localStorage.setItem(LS_ACCESS_TOKEN, access)
 }
 
-export const getAuthTokens = () => {
+export function getAuthTokens() {
   const refresh = localStorage.getItem(LS_REFRESH_TOKEN)
   const access = localStorage.getItem(LS_ACCESS_TOKEN)
 
   return refresh && access ? { refresh, access } : null
 }
 
-export const deleteAuthTokens = () => {
+export function deleteAuthTokens() {
   localStorage.removeItem(LS_REFRESH_TOKEN)
   localStorage.removeItem(LS_ACCESS_TOKEN)
 }

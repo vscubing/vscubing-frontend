@@ -12,7 +12,7 @@ type CubeProps = {
   onSolveFinish: CubeSolveFinishCallback
   iframeRef: RefObject<HTMLIFrameElement>
 }
-export const Cube = ({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubeProps) => {
+export function Cube({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubeProps) {
   const [isInited, setIsInited] = useState(false)
 
   useEffect(() => {
@@ -64,11 +64,12 @@ const startSolveOnLoad = (() => {
   ) => {
     savedOnSolveFinish = onSolveFinish
     savedOnTimeStart = onTimeStart
-    const startSolve = () =>
+    function startSolve() {
       iframeElement.contentWindow?.postMessage({
         source: POST_MESSAGE_SOURCE,
         scramble: scramble,
       })
+    }
 
     if (isLoaded) {
       startSolve()

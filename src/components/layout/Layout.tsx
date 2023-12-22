@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { LoginSection, NavBar } from './components'
 import { PickUsernameModal } from '..'
 
-export const Layout = () => {
+export function Layout() {
   return (
     <>
       <PickUsernameModal />

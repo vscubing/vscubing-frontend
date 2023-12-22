@@ -3,7 +3,7 @@ import { cn } from '@/utils'
 import { ButtonHTMLAttributes, useMemo, useState } from 'react'
 import { useParams, NavLink } from 'react-router-dom'
 
-export const NavBar = () => {
+export function NavBar() {
   const { data: ongoingContestNumber } = useOngoingContestNumber()
   const params = useParams()
   const openedContestNumber = params?.contestNumber ? Number(params?.contestNumber) : null
@@ -55,29 +55,31 @@ export const NavBar = () => {
   )
 }
 
-const HamburgerButton = ({
+function HamburgerButton({
   isOpen,
   className,
   ...props
-}: { isOpen: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) => (
-  <button {...props} className={cn('flex flex-col items-center justify-center', className)}>
-    <span
-      className={cn(
-        'ease-out-expo block h-0.5 w-6 rounded-sm bg-white transition-all duration-300',
-        isOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5',
-      )}
-    ></span>
-    <span
-      className={cn(
-        'ease-out-expo my-0.5 block h-0.5 w-6 rounded-sm bg-white transition-all duration-300',
-        isOpen ? 'opacity-0' : 'opacity-100',
-      )}
-    ></span>
-    <span
-      className={cn(
-        'ease-out-expo block h-0.5 w-6 rounded-sm bg-white transition-all duration-300',
-        isOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5',
-      )}
-    ></span>
-  </button>
-)
+}: { isOpen: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button {...props} className={cn('flex flex-col items-center justify-center', className)}>
+      <span
+        className={cn(
+          'block h-0.5 w-6 rounded-sm bg-white transition-all duration-300 ease-out-expo',
+          isOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5',
+        )}
+      ></span>
+      <span
+        className={cn(
+          'my-0.5 block h-0.5 w-6 rounded-sm bg-white transition-all duration-300 ease-out-expo',
+          isOpen ? 'opacity-0' : 'opacity-100',
+        )}
+      ></span>
+      <span
+        className={cn(
+          'block h-0.5 w-6 rounded-sm bg-white transition-all duration-300 ease-out-expo',
+          isOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5',
+        )}
+      ></span>
+    </button>
+  )
+}

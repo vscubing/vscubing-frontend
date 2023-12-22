@@ -6,7 +6,7 @@ import { useUser } from '@/api/accounts'
 import { CubeSolveResult } from '@/integrations/cube'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
-export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) => {
+export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
   const { userData } = useUser()
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 
@@ -18,7 +18,8 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
   }
   const { current_solve, submitted_solves } = state
 
-  const solveFinishHandler = async (result: CubeSolveResult) => {
+  async function solveFinishHandler(result: CubeSolveResult) {
+    if (!state) return
     const { solve_id: newSolveId } = await postSolveResult(contestNumber, discipline, current_solve.scramble.id, result)
 
     mutateState(
@@ -35,12 +36,12 @@ export const SolveContest = ({ contestNumber, discipline }: SolveContestProps) =
     )
   }
 
-  const takeExtraHandler = async () => {
+  async function takeExtraHandler() {
     const { newSolvesState } = await changeToExtra(contestNumber, discipline)
     mutateState({ data: newSolvesState }, { revalidate: false })
   }
 
-  const submitHandler = async () => {
+  async function submitHandler() {
     const { newSolvesState, roundFinished } = await submitSolve(contestNumber, discipline)
 
     if (roundFinished) {

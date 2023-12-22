@@ -1,3 +1,5 @@
 import { useParams } from 'react-router-dom'
 
-export const useRequiredParams = <T extends Record<string, unknown>>() => useParams() as T
+export function useRequiredParams<T extends Record<string, unknown>>() {
+  return useParams() as T
+}

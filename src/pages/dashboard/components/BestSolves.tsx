@@ -5,7 +5,7 @@ import { DashboardResponse } from '@/api/contests'
 import { useReconstructor } from '@/integrations/reconstructor'
 
 type BestSolvesProps = { bestSolves?: DashboardResponse['best_solves'] }
-export const BestSolves = ({ bestSolves }: BestSolvesProps) => {
+export function BestSolves({ bestSolves }: BestSolvesProps) {
   const { showReconstruction } = useReconstructor()
 
   return (

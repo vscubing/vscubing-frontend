@@ -1,7 +1,7 @@
 import { postLogin } from '@/api/accounts'
 import { setAuthTokens, deleteAuthTokens } from './authTokens'
 
-export const login = async (googleCode: string) => {
+export async function login(googleCode: string) {
   const response = await postLogin(googleCode)
   const { refresh, access } = response.data
 
@@ -9,7 +9,7 @@ export const login = async (googleCode: string) => {
   window.location.reload()
 }
 
-export const logout = () => {
+export function logout() {
   deleteAuthTokens()
   window.location.reload()
 }

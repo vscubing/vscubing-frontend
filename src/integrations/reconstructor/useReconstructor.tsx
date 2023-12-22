@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { ReconstructorContext } from './ReconstructorProvider'
 
-export const useReconstructor = () => {
+export function useReconstructor() {
   return useContext(ReconstructorContext)
 }

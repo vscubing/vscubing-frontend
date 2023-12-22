@@ -13,7 +13,7 @@ export type LeaderboardResponse = Array<{
 }>
 
 const API_ROUTE = 'contests/leaderboard/'
-export const useLeaderboard = (discipline: Discipline) => {
+export function useLeaderboard(discipline: Discipline) {
   const { data, error, isLoading } = useSWRImmutable<{ data: LeaderboardResponse }>(
     `${API_ROUTE}${discipline}/`,
     axiosClient.get,

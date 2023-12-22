@@ -12,7 +12,7 @@ export type SolveReconstructionResponse = {
   user: { username: string }
 }
 
-export const useSolveReconstruction = (solveId: number | null) => {
+export function useSolveReconstruction(solveId: number | null) {
   const { data, error, isLoading } = useSWRImmutable<{
     data: SolveReconstructionResponse
   }>(solveId === null ? null : `${API_ROUTE}${solveId}/`, axiosClient.get)

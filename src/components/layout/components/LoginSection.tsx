@@ -3,7 +3,7 @@ import googleLogo from '@/assets/google-logo.svg'
 import { useUser } from '@/api/accounts'
 import { login, logout } from '@/api/auth'
 
-export const LoginSection = () => {
+export function LoginSection() {
   const { userData } = useUser()
 
   const handleLogin = useGoogleLogin({

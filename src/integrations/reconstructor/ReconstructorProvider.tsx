@@ -18,7 +18,7 @@ export const ReconstructorContext = createContext<ReconstructorContextValue>({
 })
 
 type ReconstructorProviderProps = { children: React.ReactNode }
-export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) => {
+export function ReconstructorProvider({ children }: ReconstructorProviderProps) {
   const [solveId, setSolveId] = useState<number | null>(null)
   const [savedCloseCallback, setSavedCloseCallback] = useState<() => void>()
   const { data } = useSolveReconstruction(solveId)
@@ -33,7 +33,7 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
     setSavedCloseCallback(undefined)
   }, [savedCloseCallback])
 
-  const handleOverlayClick = (event: React.MouseEvent) => {
+  function handleOverlayClick(event: React.MouseEvent) {
     if (event.target !== event.currentTarget) {
       return
     }
@@ -67,14 +67,14 @@ export const ReconstructorProvider = ({ children }: ReconstructorProviderProps) 
   )
 }
 
-const parseReconstructionResponse = ({
+function parseReconstructionResponse({
   contest_number,
   discipline,
   id,
   scramble,
   user: { username },
   reconstruction: solution,
-}: SolveReconstructionResponse) => {
+}: SolveReconstructionResponse) {
   const link = `${window.location.origin}/contest/${contest_number}/${discipline.name}?solveId=${id}`
   const reconstruction = { scramble: scramble.scramble, solution } satisfies Reconstruction
   const metadata = {
@@ -87,7 +87,7 @@ const parseReconstructionResponse = ({
   return { reconstruction, metadata }
 }
 
-const parseTimeMsFromSolution = (solution: string) => {
+function parseTimeMsFromSolution(solution: string) {
   const withoutLastTwoChars = solution.slice(0, -2)
   const parts = withoutLastTwoChars.split('/*')
   const timeMs = Number(parts[parts.length - 1])

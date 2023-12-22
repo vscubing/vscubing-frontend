@@ -11,7 +11,7 @@ type CurrentSolveProps = SolveContestStateResponse['current_solve'] & {
   onSubmit: () => void
   onExtra: () => void
 }
-export const CurrentSolve = ({
+export function CurrentSolve({
   scramble,
   solve,
   can_change_to_extra,
@@ -19,7 +19,7 @@ export const CurrentSolve = ({
   onSubmit,
   onExtra,
   className,
-}: CurrentSolveProps) => {
+}: CurrentSolveProps) {
   const { initSolve } = useCube()
   const { navigateToSolve } = useNavigateToSolve()
 

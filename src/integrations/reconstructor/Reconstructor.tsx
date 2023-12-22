@@ -14,7 +14,7 @@ type ReconstructorProps = {
     metadata: ReconstructionMetadata
   } | null
 }
-export const Reconstructor = ({ content }: ReconstructorProps) => {
+export function Reconstructor({ content }: ReconstructorProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 

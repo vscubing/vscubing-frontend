@@ -5,7 +5,7 @@ export const MINUTE_IN_MS = MINUTE_IN_SECONDS * SECOND_IN_MS
 const getSeconds = (ms: number): number => Math.floor(ms / SECOND_IN_MS)
 const getMinutes = (ms: number): number => Math.floor(ms / MINUTE_IN_MS)
 
-export const formatTimeResult = (ms: number): string => {
+export function formatTimeResult(ms: number): string {
   const fullSeconds = getSeconds(ms)
   const minutes = getMinutes(ms)
   const seconds = fullSeconds - minutes * MINUTE_IN_SECONDS

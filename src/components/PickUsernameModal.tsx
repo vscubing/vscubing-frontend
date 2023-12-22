@@ -1,7 +1,7 @@
 import { putChangeUsername, useUser } from '@/api/accounts'
 import { useEffect, useState } from 'react'
 
-export const PickUsernameModal = () => {
+export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
   const [username, setUsername] = useState('')
   const { userData } = useUser()
@@ -12,7 +12,7 @@ export const PickUsernameModal = () => {
     }
   }, [userData])
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     const trimmedUsername = username.trim()
 
     if (!trimmedUsername) {

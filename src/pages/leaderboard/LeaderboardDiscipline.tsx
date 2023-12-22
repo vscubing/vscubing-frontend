@@ -6,7 +6,7 @@ import { useLeaderboard, LeaderboardResponse } from '@/api/contests'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
 
-export const LeaderboardDiscipline = () => {
+export function LeaderboardDiscipline() {
   const { userData } = useUser()
   const routeParams = useRequiredParams<{ discipline: string }>()
   const discipline = routeParams.discipline as Discipline // TODO add type guard
@@ -29,7 +29,7 @@ export const LeaderboardDiscipline = () => {
   )
 }
 
-const LeaderboardResult = ({
+function LeaderboardResult({
   user: { username },
   id,
   time_ms,
@@ -38,7 +38,7 @@ const LeaderboardResult = ({
   discipline,
   placeNumber,
   isOwnResult,
-}: LeaderboardResponse[number] & { placeNumber: number; isOwnResult?: boolean }) => {
+}: LeaderboardResponse[number] & { placeNumber: number; isOwnResult?: boolean }) {
   const { showReconstruction } = useReconstructor()
   const dateString = formatSolveDate(created)
 

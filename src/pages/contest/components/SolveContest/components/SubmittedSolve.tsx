@@ -6,7 +6,7 @@ import { cn } from '@/utils'
 type SubmittedSolveProps = SolveContestStateResponse['submitted_solves'][number] & {
   className?: string
 }
-export const SubmittedSolve = ({ className, time_ms, scramble, id }: SubmittedSolveProps) => {
+export function SubmittedSolve({ className, time_ms, scramble, id }: SubmittedSolveProps) {
   const { navigateToSolve } = useNavigateToSolve()
   const isSuccessfull = time_ms !== null
 

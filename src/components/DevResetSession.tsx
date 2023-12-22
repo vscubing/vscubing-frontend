@@ -1,7 +1,7 @@
 import { axiosClient } from '@/api/axios'
 import { useNavigate } from 'react-router-dom'
 
-export const DevResetSession = () => {
+export function DevResetSession() {
   const navigate = useNavigate()
   const resetSession = async () => {
     try {

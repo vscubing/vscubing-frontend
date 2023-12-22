@@ -1,8 +1,8 @@
 import { DEFAULT_DISCIPLINE } from '@/constants'
 import { isDiscipline } from '@/types'
-import { LoaderFunction, redirect } from 'react-router-dom'
+import { LoaderFunctionArgs, redirect } from 'react-router-dom'
 
-export const redirectToDefaultDiscipline: LoaderFunction<null> = async ({ params }) => {
+export async function redirectToDefaultDiscipline({ params }: LoaderFunctionArgs) {
   const discipline = params.discipline
 
   if (!discipline || !isDiscipline(discipline)) {

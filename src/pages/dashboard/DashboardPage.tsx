@@ -2,7 +2,7 @@ import { useDashboard } from '@/api/contests'
 import { ContestsList } from './components/ContestsList'
 import { BestSolves } from './components/BestSolves'
 
-export const DashboardPage = () => {
+export function DashboardPage() {
   const { data } = useDashboard()
 
   return (

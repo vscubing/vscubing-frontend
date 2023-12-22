@@ -21,7 +21,7 @@ type ContestResultsError = {
 }
 
 const API_ROUTE = 'contests/contest/'
-export const useContestResults = (contestNumber: number, discipline: Discipline) => {
+export function useContestResults(contestNumber: number, discipline: Discipline) {
   const { data, error, isLoading } = useSWRImmutable<{ data: ContestResultsResponse }, ContestResultsError>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,

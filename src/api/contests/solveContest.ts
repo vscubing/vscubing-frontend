@@ -16,7 +16,7 @@ type SolveSuccessful = { id: number; time_ms: number; dnf: false }
 type SolveDnf = { id: number; time_ms: null; dnf: true }
 
 const API_ROUTE = '/contests/solve-contest/'
-export const useSolveContestState = (contestNumber: number, discipline: Discipline) => {
+export function useSolveContestState(contestNumber: number, discipline: Discipline) {
   const { data, error, isLoading, mutate } = useSWRImmutable<{ data: SolveContestStateResponse }>(
     `${API_ROUTE}${contestNumber}/${discipline}/`,
     axiosClient.get,
@@ -25,12 +25,12 @@ export const useSolveContestState = (contestNumber: number, discipline: Discipli
   return { data: data?.data, isLoading, error, mutate }
 }
 
-export const postSolveResult = async (
+export async function postSolveResult(
   contestNumber: number,
   discipline: Discipline,
   scrambleId: number,
   payload: { reconstruction: string; time_ms: number } | { dnf: true },
-) => {
+) {
   const { data } = await axiosClient.post<{ solve_id: number }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
     payload,
@@ -39,7 +39,7 @@ export const postSolveResult = async (
   return data
 }
 
-export const submitSolve = async (contestNumber: number, discipline: Discipline) => {
+export async function submitSolve(contestNumber: number, discipline: Discipline) {
   const { data } = await axiosClient.put<SolveContestStateResponse | { detail: 'contest submitted' }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?action=submit`,
   )
@@ -48,7 +48,7 @@ export const submitSolve = async (contestNumber: number, discipline: Discipline)
   return roundFinished ? { roundFinished } : { newSolvesState: data }
 }
 
-export const changeToExtra = async (contestNumber: number, discipline: Discipline) => {
+export async function changeToExtra(contestNumber: number, discipline: Discipline) {
   const { data } = await axiosClient.put<SolveContestStateResponse>(
     `${API_ROUTE}${contestNumber}/${discipline}/?action=change_to_extra`,
   )

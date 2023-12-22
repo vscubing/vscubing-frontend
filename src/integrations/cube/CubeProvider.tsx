@@ -14,7 +14,7 @@ export const CubeContext = createContext<CubeContextValue>({
 })
 
 type CubeProviderProps = { children: React.ReactNode }
-export const CubeProvider = ({ children }: CubeProviderProps) => {
+export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
     scramble: string
     solveCallback: CubeSolveFinishCallback
@@ -138,13 +138,13 @@ const AbortPrompt = ({ onCancel, onConfirm }: AbortPromptProps) => (
   </div>
 )
 
-const DeviceWarningModal = ({
+function DeviceWarningModal({
   onCancel,
   onConfirm,
 }: {
   onCancel: () => void
   onConfirm: (isIgnoreChecked: boolean) => void
-}) => {
+}) {
   const [isIgnoreChecked, setIsIgnoreChecked] = useState(false)
 
   return (

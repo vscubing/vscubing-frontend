@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const useConditionalBeforeUnload = (condition: boolean, callback: () => void) => {
+export function useConditionalBeforeUnload(condition: boolean, callback: () => void) {
   useEffect(() => {
     if (condition) {
       window.addEventListener('beforeunload', callback)

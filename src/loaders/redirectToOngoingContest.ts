@@ -1,7 +1,7 @@
 import { getOngoingContestNumber } from '@/api/contests'
-import { LoaderFunction, redirect } from 'react-router-dom'
+import { redirect } from 'react-router-dom'
 
-export const redirectToOngoingContest: LoaderFunction<null> = async () => {
+export async function redirectToOngoingContest() {
   const ongoing = await getOngoingContestNumber()
   return redirect(String(ongoing))
 }
