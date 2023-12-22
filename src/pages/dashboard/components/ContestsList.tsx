@@ -9,8 +9,8 @@ export function ContestsList({ contests }: ContestsListProps) {
 
   return sortedContests ? (
     <div className='flex flex-col gap-2 md:gap-4 xl:gap-6'>
-      {sortedContests.map(({ contest_number, ongoing }) => (
-        <ContestLink key={contest_number} number={contest_number} ongoing={ongoing} />
+      {sortedContests.map(({ contestNumber, ongoing }) => (
+        <ContestLink key={contestNumber} number={contestNumber} ongoing={ongoing} />
       ))}
     </div>
   ) : (

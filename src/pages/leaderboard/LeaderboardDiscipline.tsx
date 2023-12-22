@@ -32,9 +32,9 @@ export function LeaderboardDiscipline() {
 function LeaderboardResult({
   user: { username },
   id,
-  time_ms,
+  timeMs,
   created,
-  contest: { contest_number },
+  contest: { contestNumber },
   discipline,
   placeNumber,
   isOwnResult,
@@ -52,14 +52,11 @@ function LeaderboardResult({
         <span>{username}</span>
       </div>
       <div className='flex justify-end border-[#A0A0A0]/50 md:mr-[20px] md:justify-start md:border-r-[1px] md:pr-[20px]'>
-        <ReconstructTimeButton onClick={() => showReconstruction(id)} time_ms={time_ms} />
+        <ReconstructTimeButton onClick={() => showReconstruction(id)} timeMs={timeMs} />
       </div>
       <div className='col-span-full flex items-center justify-between md:col-span-1 md:justify-start'>
         <span className='w-[110px] pr-[30px]'>{dateString}</span>
-        <Link
-          className='btn-action w-[70px] text-center md:w-auto'
-          to={`/contest/${contest_number}/${discipline.name}`}
-        >
+        <Link className='btn-action w-[70px] text-center md:w-auto' to={`/contest/${contestNumber}/${discipline.name}`}>
           contest
         </Link>
       </div>

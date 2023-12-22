@@ -5,7 +5,7 @@ import { useNavigateToSolve } from '@/pages/contest'
 import { useCube } from '@/integrations/cube'
 import { CubeSolveResult } from '@/integrations/cube'
 
-type CurrentSolveProps = SolveContestStateResponse['current_solve'] & {
+type CurrentSolveProps = SolveContestStateResponse['currentSolve'] & {
   className?: string
   onSolveFinish: (result: CubeSolveResult) => void
   onSubmit: () => void
@@ -14,7 +14,7 @@ type CurrentSolveProps = SolveContestStateResponse['current_solve'] & {
 export function CurrentSolve({
   scramble,
   solve,
-  can_change_to_extra,
+  canChangeToExtra,
   onSolveFinish,
   onSubmit,
   onExtra,
@@ -39,7 +39,7 @@ export function CurrentSolve({
           {!isFinished ? (
             <span className='block w-[80px] text-center'>??:??.??</span>
           ) : isSuccessful ? (
-            <ReconstructTimeButton onClick={() => navigateToSolve(solve.id)} time_ms={solve.time_ms} />
+            <ReconstructTimeButton onClick={() => navigateToSolve(solve.id)} timeMs={solve.timeMs} />
           ) : (
             <span className='block w-[80px] pl-2'>DNF</span>
           )}
@@ -50,7 +50,7 @@ export function CurrentSolve({
         <div className='justify-center max-md:col-start-3 max-md:row-start-1 max-md:row-end-3 max-md:flex max-md:h-full max-md:flex-col'>
           {isFinished ? (
             <div className='flex gap-[17px]'>
-              {can_change_to_extra ? (
+              {canChangeToExtra ? (
                 <button onClick={onExtra} className='w-[82px] rounded-md bg-[#9B2527] py-2'>
                   extra
                 </button>

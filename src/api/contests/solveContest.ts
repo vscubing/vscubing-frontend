@@ -3,17 +3,17 @@ import { Discipline, Scramble } from '@/types'
 import useSWRImmutable from 'swr/immutable'
 
 export type SolveContestStateResponse = {
-  current_solve: {
-    can_change_to_extra: boolean
+  currentSolve: {
+    canChangeToExtra: boolean
     scramble: Scramble
     solve: SolveNotInited | SolveSuccessful | SolveDnf
   }
-  submitted_solves: Array<(SolveSuccessful | SolveDnf) & { scramble: Scramble }>
+  submittedSolves: Array<(SolveSuccessful | SolveDnf) & { scramble: Scramble }>
 }
 
 type SolveNotInited = null
-type SolveSuccessful = { id: number; time_ms: number; dnf: false }
-type SolveDnf = { id: number; time_ms: null; dnf: true }
+type SolveSuccessful = { id: number; timeMs: number; dnf: false }
+type SolveDnf = { id: number; timeMs: null; dnf: true }
 
 const API_ROUTE = '/contests/solve-contest/'
 export function useSolveContestState(contestNumber: number, discipline: Discipline) {
@@ -29,9 +29,9 @@ export async function postSolveResult(
   contestNumber: number,
   discipline: Discipline,
   scrambleId: number,
-  payload: { reconstruction: string; time_ms: number } | { dnf: true },
+  payload: { reconstruction: string; timeMs: number } | { dnf: true },
 ) {
-  const { data } = await axiosClient.post<{ solve_id: number }>(
+  const { data } = await axiosClient.post<{ solveId: number }>(
     `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
     payload,
   )

@@ -68,18 +68,18 @@ export function ReconstructorProvider({ children }: ReconstructorProviderProps) 
 }
 
 function parseReconstructionResponse({
-  contest_number,
+  contestNumber: contestNumber,
   discipline,
   id,
   scramble,
   user: { username },
   reconstruction: solution,
 }: SolveReconstructionResponse) {
-  const link = `${window.location.origin}/contest/${contest_number}/${discipline.name}?solveId=${id}`
+  const link = `${window.location.origin}/contest/${contestNumber}/${discipline.name}?solveId=${id}`
   const reconstruction = { scramble: scramble.scramble, solution } satisfies Reconstruction
   const metadata = {
     link,
-    contestNumber: contest_number,
+    contestNumber,
     username,
     scramblePosition: scramble.position,
     formattedTime: formatTimeResult(parseTimeMsFromSolution(reconstruction.solution)),

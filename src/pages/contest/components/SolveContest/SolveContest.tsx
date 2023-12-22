@@ -10,24 +10,24 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
   const { userData } = useUser()
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 
-  if (userData && !userData.auth_completed) {
+  if (userData && !userData.authCompleted) {
     return <InfoBox>Please finish registration first</InfoBox>
   }
   if (!state) {
     return <InfoBox>loading...</InfoBox>
   }
-  const { current_solve, submitted_solves } = state
+  const { currentSolve, submittedSolves } = state
 
   async function solveFinishHandler(result: CubeSolveResult) {
     if (!state) return
-    const { solve_id: newSolveId } = await postSolveResult(contestNumber, discipline, current_solve.scramble.id, result)
+    const { solveId: newSolveId } = await postSolveResult(contestNumber, discipline, currentSolve.scramble.id, result)
 
     mutateState(
       {
         data: {
           ...state,
-          current_solve: {
-            ...current_solve,
+          currentSolve: {
+            ...currentSolve,
             solve: { id: newSolveId, ...result },
           },
         },
@@ -53,18 +53,18 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
 
   return (
     <div className='flex flex-col gap-3 md:gap-6'>
-      {submitted_solves.map((solve) => (
+      {submittedSolves.map((solve) => (
         <SubmittedSolve className='px-3 py-2 md:h-[54px] md:px-4 md:py-0 lg:px-7' key={solve.id} {...solve} />
       ))}
 
       <CurrentSolve
         className='px-3 py-2 md:h-[54px] md:py-0 md:pl-4 md:pr-3 lg:pl-7 lg:pr-4'
-        {...current_solve}
+        {...currentSolve}
         onSolveFinish={solveFinishHandler}
         onExtra={takeExtraHandler}
         onSubmit={submitHandler}
       />
-      {submitted_solves.length === 0 ? (
+      {submittedSolves.length === 0 ? (
         <InfoBox>You can't see results of an ongoing round until you solve all scrambles or the round ends</InfoBox>
       ) : null}
     </div>

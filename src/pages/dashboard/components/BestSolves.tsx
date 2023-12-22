@@ -4,14 +4,14 @@ import CubeIcon from '@/assets/3by3.svg?react'
 import { DashboardResponse } from '@/api/contests'
 import { useReconstructor } from '@/integrations/reconstructor'
 
-type BestSolvesProps = { bestSolves?: DashboardResponse['best_solves'] }
+type BestSolvesProps = { bestSolves?: DashboardResponse['bestSolves'] }
 export function BestSolves({ bestSolves }: BestSolvesProps) {
   const { showReconstruction } = useReconstructor()
 
   return (
     <div>
       {bestSolves
-        ? bestSolves.map(({ id, user: { username }, time_ms, discipline }) => (
+        ? bestSolves.map(({ id, user: { username }, timeMs, discipline }) => (
             <div
               key={id}
               className='flex items-center rounded-md bg-panels py-2 pl-4 pr-2 text-sm md:py-3 md:pl-4 md:pr-6'
@@ -23,7 +23,7 @@ export function BestSolves({ bestSolves }: BestSolvesProps) {
               >
                 {username}
               </span>
-              <ReconstructTimeButton className='mr-3' time_ms={time_ms} onClick={() => showReconstruction(id)} />
+              <ReconstructTimeButton className='mr-3' timeMs={timeMs} onClick={() => showReconstruction(id)} />
               <Link className='btn-action ml-auto' to={`/leaderboard/${discipline.name}`}>
                 leaderboard
               </Link>

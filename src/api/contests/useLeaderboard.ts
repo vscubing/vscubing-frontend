@@ -4,12 +4,12 @@ import { Discipline, Scramble } from '@/types'
 
 export type LeaderboardResponse = Array<{
   id: number
-  time_ms: number
+  timeMs: number
   created: string
   scramble: Pick<Scramble, 'id' | 'scramble'>
   discipline: { name: Discipline }
   user: { id: number; username: string }
-  contest: { contest_number: number }
+  contest: { contestNumber: number }
 }>
 
 const API_ROUTE = 'contests/leaderboard/'

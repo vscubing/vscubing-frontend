@@ -1,8 +1,8 @@
 import { RefObject, useEffect, useState } from 'react'
 
 export type CubeSolveResult =
-  | { reconstruction: string; time_ms: number; dnf: false }
-  | { reconstruction: null; time_ms: null; dnf: true } // TODO fix to camelCase
+  | { reconstruction: string; timeMs: number; dnf: false }
+  | { reconstruction: null; timeMs: null; dnf: true } // TODO fix to camelCase
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 
@@ -51,7 +51,7 @@ const startSolveOnLoad = (() => {
 
     if (event.data.event === 'solveFinish') {
       const { reconstruction, timeMs }: { reconstruction: string; timeMs: number } = event.data.payload
-      savedOnSolveFinish?.({ reconstruction, time_ms: timeMs, dnf: false })
+      savedOnSolveFinish?.({ reconstruction, timeMs, dnf: false })
       savedOnSolveFinish = undefined
     }
   })

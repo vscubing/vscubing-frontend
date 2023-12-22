@@ -7,7 +7,7 @@ export function PickUsernameModal() {
   const { userData } = useUser()
 
   useEffect(() => {
-    if (userData && !userData.auth_completed) {
+    if (userData && !userData.authCompleted) {
       setIsVisible(true)
     }
   }, [userData])

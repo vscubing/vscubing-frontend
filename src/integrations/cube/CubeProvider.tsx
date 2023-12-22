@@ -40,7 +40,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
   )
 
   useConditionalBeforeUnload(solveState ? solveState.wasTimeStarted : false, () =>
-    handleSolveFinish({ dnf: true, time_ms: null, reconstruction: null }),
+    handleSolveFinish({ dnf: true, timeMs: null, reconstruction: null }),
   )
 
   const handleOverlayClick = (event: React.MouseEvent) => {
@@ -58,7 +58,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   const handleAbortConfirm = useCallback(() => {
     setIsAbortPromptVisible(false)
-    handleSolveFinish({ time_ms: null, dnf: true, reconstruction: null })
+    handleSolveFinish({ timeMs: null, dnf: true, reconstruction: null })
   }, [handleSolveFinish])
 
   const handleAbortCancel = useCallback(() => {

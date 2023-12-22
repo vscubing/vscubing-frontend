@@ -13,7 +13,7 @@ export function DashboardPage() {
       </div>
       <div>
         <h2 className='mb-3 text-xl md:mb-6 lg:text-2xl'>Best Solves</h2>
-        <BestSolves bestSolves={data?.best_solves} />
+        <BestSolves bestSolves={data?.bestSolves} />
       </div>
     </div>
   )

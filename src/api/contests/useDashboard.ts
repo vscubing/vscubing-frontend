@@ -3,16 +3,16 @@ import { axiosClient } from '../axios'
 import { Discipline } from '@/types'
 
 export type DashboardResponse = {
-  best_solves: Array<{
+  bestSolves: Array<{
     id: number
-    contest_number: number // TODO fix to camelCase
-    time_ms: number // TODO fix to camelCase
+    contestNumber: number
+    timeMs: number
     user: { username: string }
     discipline: { name: Discipline }
   }>
   contests: Array<{
     id: number
-    contest_number: number // TODO fix to camelCase
+    contestNumber: number
     start: string
     end: string | null
     ongoing: boolean

@@ -4,12 +4,12 @@ import { axiosClient } from '../axios'
 
 export type ContestResultsResponse = Array<{
   id: number
-  avg_ms: number | null // TODO fix to camelCase
+  avgMs: number | null // TODO fix to camelCase
   discipline: { name: Discipline }
   user: { username: string }
-  solve_set: Array<{
+  solveSet: Array<{
     id: number
-    time_ms: number | null // TODO fix to camelCase
+    timeMs: number | null // TODO fix to camelCase
     dnf: boolean
     scramble: Pick<Scramble, 'position'>
     state: 'submitted' | 'changed_to_extra'
