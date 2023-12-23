@@ -1,17 +1,16 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
-import { LeaderboardResponse, leaderboardQuery } from '@/api/contests'
+import { LeaderboardResponse } from '@/api/contests'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
 import { Link } from '@tanstack/react-router'
 import { leaderboardDisciplineRoute } from './leaderboardRoute'
-import { Discipline } from '@/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
 export function LeaderboardDiscipline() {
   const { userData } = useUser()
 
-  const { discipline } = leaderboardDisciplineRoute.useParams()
-  const { data: results } = useSuspenseQuery(leaderboardQuery(discipline as Discipline))
+  const query = leaderboardDisciplineRoute.useLoaderData()
+  const { data: results } = useSuspenseQuery(query)
 
   const ownResult = userData && results.find((result) => result.user.username === userData.username)
 

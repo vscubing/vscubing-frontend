@@ -22,10 +22,10 @@ export const leaderboardDisciplineRoute = new Route({
   pendingComponent: () => <div>Loading...</div>,
   loader: ({ params: { discipline }, navigate, context: { queryClient } }) => {
     if (!isDiscipline(discipline)) {
-      navigate({ to: '../', replace: true })
-      return
+      throw navigate({ to: '../', replace: true })
     }
     queryClient.ensureQueryData(leaderboardQuery(discipline))
+    return leaderboardQuery(discipline)
   },
   component: () => (
     <DisciplinesTabsLayout>
