@@ -1,13 +1,13 @@
 import { SolveContestStateResponse } from '@/api/contests'
 import { ReconstructTimeButton } from '@/components'
-import { useNavigateToSolve } from '@/pages/contest'
+import { useReconstructor } from '@/integrations/reconstructor'
 import { cn } from '@/utils'
 
 type SubmittedSolveProps = SolveContestStateResponse['submittedSolves'][number] & {
   className?: string
 }
 export function SubmittedSolve({ className, timeMs, scramble, id }: SubmittedSolveProps) {
-  const { navigateToSolve } = useNavigateToSolve()
+  const { showReconstruction } = useReconstructor()
   const isSuccessfull = timeMs !== null
 
   return (
@@ -20,7 +20,7 @@ export function SubmittedSolve({ className, timeMs, scramble, id }: SubmittedSol
       <span className='md:mr-[10px] md:text-right'>{scramble.position}.</span>
       <span className='md:mr-[20px] md:border-r-[1px] md:border-[#A0A0A0]/50 md:pr-[20px]'>
         {isSuccessfull ? (
-          <ReconstructTimeButton timeMs={timeMs} onClick={() => navigateToSolve(id)} />
+          <ReconstructTimeButton timeMs={timeMs} onClick={() => showReconstruction(id)} />
         ) : (
           <span className='block w-[80px] pl-2'>DNF</span>
         )}

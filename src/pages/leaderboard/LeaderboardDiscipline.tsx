@@ -1,15 +1,15 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
 import { Discipline } from '@/types'
-import { useRequiredParams } from '@/utils'
-import { Link } from 'react-router-dom'
 import { useLeaderboard, LeaderboardResponse } from '@/api/contests'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
+import { leaderboardDisciplineRoute } from '@/App'
+import { Link } from '@tanstack/react-router'
 
 export function LeaderboardDiscipline() {
   const { userData } = useUser()
-  const routeParams = useRequiredParams<{ discipline: string }>()
-  const discipline = routeParams.discipline as Discipline // TODO add type guard
+  const params = leaderboardDisciplineRoute.useParams()
+  const discipline = params.discipline as Discipline // TODO add type guard
 
   const { data: results } = useLeaderboard(discipline)
 
@@ -56,7 +56,11 @@ function LeaderboardResult({
       </div>
       <div className='col-span-full flex items-center justify-between md:col-span-1 md:justify-start'>
         <span className='w-[110px] pr-[30px]'>{dateString}</span>
-        <Link className='btn-action w-[70px] text-center md:w-auto' to={`/contest/${contestNumber}/${discipline.name}`}>
+        <Link
+          className='btn-action w-[70px] text-center md:w-auto'
+          to={'/contest/$contestNumber/$discipline'}
+          params={{ contestNumber: String(contestNumber), discipline: discipline.name }}
+        >
           contest
         </Link>
       </div>

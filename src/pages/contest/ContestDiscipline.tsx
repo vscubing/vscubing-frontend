@@ -1,22 +1,18 @@
 import { ContestResultsResponse, useContestResults } from '@/api/contests'
-import { useCallback, useEffect } from 'react'
 import { Discipline } from '@/types'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useRequiredParams } from '@/utils'
 import { PublishedSession } from './components/PublishedSession'
 import { SolveContest } from './components/SolveContest'
 import { InfoBox } from '@/components'
 import { useUser } from '@/api/accounts'
-import { useReconstructor } from '@/integrations/reconstructor'
+import { contestDisciplineRoute } from '@/App'
 
 export function ContestDiscipline() {
   const { userData } = useUser()
-  const routeParams = useRequiredParams<{ contestNumber: string; discipline: string }>()
+  const routeParams = contestDisciplineRoute.useParams()
 
   const contestNumber = Number(routeParams.contestNumber)
   const disciplineName = routeParams.discipline as Discipline // TODO add type guard
 
-  useReconstructorFromSearchParam()
   const { data: sessions, error, isLoading } = useContestResults(contestNumber, disciplineName)
 
   if (isLoading) {
@@ -48,33 +44,4 @@ export function ContestDiscipline() {
       ))}
     </>
   )
-}
-
-function useReconstructorFromSearchParam() {
-  const { showReconstruction, closeReconstruction } = useReconstructor()
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const deleteParam = useCallback(
-    () =>
-      setSearchParams((params) => {
-        params.delete('solveId')
-        return params
-      }),
-    [setSearchParams],
-  )
-
-  useEffect(() => {
-    const openedSolveId = Number(searchParams.get('solveId'))
-    if (!openedSolveId) {
-      closeReconstruction()
-      return
-    }
-    showReconstruction(openedSolveId, deleteParam)
-  }, [searchParams, deleteParam, showReconstruction, closeReconstruction])
-}
-
-export function useNavigateToSolve() {
-  const navigate = useNavigate()
-  const navigateToSolve = (solveId: number) => navigate(`?solveId=${solveId}`)
-  return { navigateToSolve }
 }

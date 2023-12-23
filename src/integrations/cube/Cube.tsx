@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from 'react'
 
 export type CubeSolveResult =
   | { reconstruction: string; timeMs: number; dnf: false }
-  | { reconstruction: null; timeMs: null; dnf: true } // TODO fix to camelCase
+  | { reconstruction: null; timeMs: null; dnf: true }
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 

@@ -1,7 +1,7 @@
 import { DashboardResponse } from '@/api/contests'
-import { DEFAULT_DISCIPLINE } from '@/constants'
+import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
-import { Link } from 'react-router-dom'
+import { Link } from '@tanstack/react-router'
 
 type ContestsListProps = { contests?: DashboardResponse['contests'] }
 export function ContestsList({ contests }: ContestsListProps) {
@@ -23,7 +23,8 @@ export function ContestLink({ number, ongoing }: ContestLinkProps) {
   return (
     <Link
       className={cn(ongoing ? 'bg-[#233D50]' : 'bg-panels', 'rounded-md py-2 pl-4 pr-2 md:px-6 md:py-2 md:text-lg')}
-      to={`/contest/${number}/${DEFAULT_DISCIPLINE}`}
+      to={`/contest/$contestNumber/$discipline`}
+      params={{ contestNumber: String(number), discipline: DEFAULT_DISCIPLINE }}
     >
       Contest {number} {ongoing ? '(ongoing)' : null}
     </Link>

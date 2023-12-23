@@ -1,9 +1,9 @@
 import { ReconstructTimeButton } from '@/components'
 import { SolveContestStateResponse } from '@/api/contests'
 import { cn } from '@/utils'
-import { useNavigateToSolve } from '@/pages/contest'
 import { useCube } from '@/integrations/cube'
 import { CubeSolveResult } from '@/integrations/cube'
+import { useReconstructor } from '@/integrations/reconstructor'
 
 type CurrentSolveProps = SolveContestStateResponse['currentSolve'] & {
   className?: string
@@ -21,7 +21,7 @@ export function CurrentSolve({
   className,
 }: CurrentSolveProps) {
   const { initSolve } = useCube()
-  const { navigateToSolve } = useNavigateToSolve()
+  const { showReconstruction } = useReconstructor()
 
   const isFinished = !!solve
   const isSuccessful = isFinished && !solve.dnf
@@ -39,7 +39,7 @@ export function CurrentSolve({
           {!isFinished ? (
             <span className='block w-[80px] text-center'>??:??.??</span>
           ) : isSuccessful ? (
-            <ReconstructTimeButton onClick={() => navigateToSolve(solve.id)} timeMs={solve.timeMs} />
+            <ReconstructTimeButton onClick={() => showReconstruction(solve.id)} timeMs={solve.timeMs} />
           ) : (
             <span className='block w-[80px] pl-2'>DNF</span>
           )}

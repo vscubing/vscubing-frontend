@@ -2,7 +2,7 @@ import { ReconstructTimeButton, ResultCard } from '@/components'
 import { ContestResultsResponse } from '@/api/contests'
 import { cn, formatTimeResult } from '@/utils'
 import { useMemo } from 'react'
-import { useNavigateToSolve } from '../ContestDiscipline'
+import { useReconstructor } from '@/integrations/reconstructor'
 
 type PublishedSessionProps = ContestResultsResponse[number]
 export function PublishedSession({
@@ -12,7 +12,7 @@ export function PublishedSession({
   isOwnSession,
   placeNumber,
 }: PublishedSessionProps & { isOwnSession?: boolean; placeNumber: number }) {
-  const { navigateToSolve } = useNavigateToSolve()
+  const { showReconstruction } = useReconstructor()
 
   const submittedSolves = useMemo(() => solveSet.filter(({ state }) => state === 'submitted'), [solveSet])
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(submittedSolves), [submittedSolves])
@@ -43,7 +43,7 @@ export function PublishedSession({
                 'w-[70px] md:w-[80px]',
               )}
               title={isExtra ? `Extra ${position[1]}` : undefined}
-              onClick={() => navigateToSolve(id)}
+              onClick={() => showReconstruction(id)}
               key={id}
               timeMs={timeMs}
             />

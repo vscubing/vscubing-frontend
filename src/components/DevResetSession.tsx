@@ -1,12 +1,12 @@
 import { axiosClient } from '@/api/axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 
 export function DevResetSession() {
   const navigate = useNavigate()
   const resetSession = async () => {
     try {
       await axiosClient.delete('/contests/round-session/')
-      navigate('/contest')
+      navigate({ to: '/contest' })
     } catch (err) {
       alert("either you don't have any results to reset or something went wrong")
     }

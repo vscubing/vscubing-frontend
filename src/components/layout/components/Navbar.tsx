@@ -1,22 +1,22 @@
 import { useOngoingContestNumber } from '@/api/contests'
 import { cn } from '@/utils'
+import { Link, useParams } from '@tanstack/react-router'
 import { ButtonHTMLAttributes, useMemo, useState } from 'react'
-import { useParams, NavLink } from 'react-router-dom'
 
 export function NavBar() {
   const { data: ongoingContestNumber } = useOngoingContestNumber()
-  const params = useParams()
+  const params = useParams({ strict: false })
   const openedContestNumber = params?.contestNumber ? Number(params?.contestNumber) : null
   const [isMobileNavVisible, setIsMovileNavVisible] = useState(false)
 
   const links = useMemo(() => {
     const list = [
       { text: 'Dashboard', to: '/' },
-      { text: 'Leaderboard', to: `/leaderboard` },
+      { text: 'Leaderboard', to: '/leaderboard' },
       { text: 'Ongoing contest', to: `/contest/${ongoingContestNumber}` },
     ]
 
-    if (openedContestNumber && openedContestNumber !== ongoingContestNumber) {
+    if (ongoingContestNumber && openedContestNumber && openedContestNumber !== ongoingContestNumber) {
       list.push({ text: `Contest ${openedContestNumber}`, to: `/contest/${openedContestNumber}` })
     }
 
@@ -36,18 +36,15 @@ export function NavBar() {
       >
         {links.map(({ text, to }) => (
           <li key={text} className='md:h-full'>
-            <NavLink
+            <Link
               to={to}
-              className={({ isActive }) =>
-                cn(
-                  isActive ? 'pointer-events-none border-primary text-white' : 'text-white/50 md:border-transparent',
-                  'block px-5 py-3 md:flex md:h-full md:items-center md:border-t-[3px] md:px-0 md:py-0 lg:text-xl',
-                )
-              }
+              className='block px-5 py-3 md:flex md:h-full md:items-center md:border-t-[3px] md:px-0 md:py-0 lg:text-xl'
+              activeProps={{ className: 'pointer-events-none border-primary text-white' }}
+              inactiveProps={{ className: 'text-white/50 md:border-transparent' }}
               onClick={() => setIsMovileNavVisible(false)}
             >
               {text}
-            </NavLink>
+            </Link>
           </li>
         ))}
       </ul>
