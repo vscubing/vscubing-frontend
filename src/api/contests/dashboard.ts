@@ -1,6 +1,6 @@
-import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
 import { Discipline } from '@/types'
+import { queryOptions } from '@tanstack/react-query'
 
 export type DashboardResponse = {
   bestSolves: Array<{
@@ -20,12 +20,10 @@ export type DashboardResponse = {
 }
 
 const API_ROUTE = 'contests/dashboard/'
-export function useDashboard() {
-  const { data, error, isLoading } = useSWRImmutable<{ data: DashboardResponse }>(API_ROUTE, axiosClient.get)
 
-  return {
-    data: data?.data,
-    isLoading,
-    isError: error,
-  }
+async function fetchDashboard() {
+  const res = await axiosClient.get<DashboardResponse>(API_ROUTE)
+  return res.data
 }
+
+export const dashboardQuery = queryOptions({ queryKey: ['dashboard'], queryFn: fetchDashboard })

@@ -1,4 +1,4 @@
-import { leaderboardQueryOptions } from '@/api/contests'
+import { leaderboardQuery } from '@/api/contests'
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
@@ -25,7 +25,7 @@ export const leaderboardDisciplineRoute = new Route({
       navigate({ to: '../', replace: true })
       return
     }
-    queryClient.ensureQueryData(leaderboardQueryOptions(discipline))
+    queryClient.ensureQueryData(leaderboardQuery(discipline))
   },
   component: () => (
     <DisciplinesTabsLayout>

@@ -18,7 +18,7 @@ async function fetchLeaderboard(discipline: Discipline) {
   return res.data
 }
 
-export const leaderboardQueryOptions = (discipline: Discipline) =>
+export const leaderboardQuery = (discipline: Discipline) =>
   queryOptions({
     queryKey: ['leaderboard', { discipline }],
     queryFn: () => fetchLeaderboard(discipline),

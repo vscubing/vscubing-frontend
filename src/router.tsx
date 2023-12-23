@@ -1,5 +1,5 @@
 import { Layout, DevResetSession } from './components'
-import { DashboardPage } from './pages'
+import { DashboardPage, dashboardLoader } from './pages'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Route, Router, rootRouteWithContext } from '@tanstack/react-router'
 import leaderboardRoute from './pages/leaderboard/leaderboardRoute'
@@ -20,7 +20,12 @@ export const rootRoute = rootRouteWithContext<{ queryClient: QueryClient }>()({
     </>
   ),
 })
-const indexRoute = new Route({ getParentRoute: () => rootRoute, path: '/', component: DashboardPage })
+const indexRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: DashboardPage,
+  loader: dashboardLoader,
+})
 
 const devResetSessionRoute = new Route({
   getParentRoute: () => rootRoute,
