@@ -1,4 +1,4 @@
-export * from './useDashboard'
+export * from './dashboard'
 export * from './useContestResults'
 export * from './ongoingContestNumber'
 export * from './useSolveReconstruction'
