@@ -1,10 +1,11 @@
-import { putChangeUsername, useUser } from '@/api/accounts'
+import { putChangeUsername, userQuery } from '@/api/accounts'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
   const [username, setUsername] = useState('')
-  const { userData } = useUser()
+  const { data: userData } = useQuery(userQuery)
 
   useEffect(() => {
     if (userData && !userData.authCompleted) {

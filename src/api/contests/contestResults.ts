@@ -1,6 +1,8 @@
 import { Discipline, Scramble } from '@/types'
 import { axiosClient } from '../axios'
 import { queryOptions } from '@tanstack/react-query'
+import { USER_QUERY_KEY } from '../accounts'
+import { AxiosError } from 'axios'
 
 export type ContestResultsResponse = Array<{
   id: number
@@ -24,6 +26,8 @@ async function fetchContestResults(contestNumber: number, discipline: Discipline
 
 export const contestResultsQuery = (contestNumber: number, discipline: Discipline) =>
   queryOptions({
-    queryKey: ['contestResults', { contestNumber, discipline }],
-    queryFn: () => fetchContestResults(contestNumber, discipline),
+    queryKey: [USER_QUERY_KEY, 'contestResults', { contestNumber, discipline }],
+    queryFn: () => {
+      return fetchContestResults(contestNumber, discipline)
+    },
   })

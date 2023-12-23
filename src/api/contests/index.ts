@@ -1,5 +1,5 @@
 export * from './dashboard'
-export * from './useContestResults'
+export * from './contestResults'
 export * from './ongoingContestNumber'
 export * from './useSolveReconstruction'
 export * from './solveContest'

@@ -2,13 +2,13 @@ import { ContestResultsResponse } from '@/api/contests'
 import { PublishedSession } from './components/PublishedSession'
 import { SolveContest } from './components/SolveContest'
 import { InfoBox } from '@/components'
-import { useUser } from '@/api/accounts'
+import { userQuery } from '@/api/accounts'
 import { contestDisciplineRoute } from './contestsRoute'
 import { useQuery } from '@tanstack/react-query'
 import { Discipline } from '@/types'
 
 export function ContestDiscipline() {
-  const { userData } = useUser()
+  const { data: userData } = useQuery(userQuery)
   const routeParams = contestDisciplineRoute.useParams()
   const query = contestDisciplineRoute.useLoaderData()
   const { data: sessions, error, isLoading } = useQuery(query)

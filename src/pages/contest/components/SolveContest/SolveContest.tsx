@@ -2,12 +2,13 @@ import { Discipline } from '@/types'
 import { useSolveContestState, postSolveResult, changeToExtra, submitSolve } from '@/api/contests'
 import { CurrentSolve, SubmittedSolve } from './components'
 import { InfoBox } from '@/components'
-import { useUser } from '@/api/accounts'
+import { userQuery } from '@/api/accounts'
 import { CubeSolveResult } from '@/integrations/cube'
+import { useQuery } from '@tanstack/react-query'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
-  const { userData } = useUser()
+  const { data: userData } = useQuery(userQuery)
   const { data: state, mutate: mutateState } = useSolveContestState(contestNumber, discipline)
 
   if (userData && !userData.authCompleted) {
