@@ -1,4 +1,4 @@
-import { fetchLeaderboard } from '@/api/contests'
+import { leaderboardQueryOptions } from '@/api/contests'
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
@@ -19,11 +19,13 @@ const leaderboardIndexRoute = new Route({
 export const leaderboardDisciplineRoute = new Route({
   getParentRoute: () => leaderboardRoute,
   path: '$discipline',
-  loader: ({ params, navigate }) => {
-    if (isDiscipline(params.discipline)) {
-      return fetchLeaderboard(params.discipline)
+  pendingComponent: () => <div>Loading...</div>,
+  loader: ({ params: { discipline }, navigate, context: { queryClient } }) => {
+    if (!isDiscipline(discipline)) {
+      navigate({ to: '../', replace: true })
+      return
     }
-    navigate({ to: '../', replace: true })
+    queryClient.ensureQueryData(leaderboardQueryOptions(discipline))
   },
   component: () => (
     <DisciplinesTabsLayout>

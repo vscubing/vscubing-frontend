@@ -1,10 +1,11 @@
-import { useOngoingContestNumber } from '@/api/contests'
+import { ongoingContestNumberQuery } from '@/api/contests'
 import { cn } from '@/utils'
+import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'
 import { ButtonHTMLAttributes, useMemo, useState } from 'react'
 
 export function NavBar() {
-  const { data: ongoingContestNumber } = useOngoingContestNumber()
+  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   const params = useParams({ strict: false })
   const openedContestNumber = params?.contestNumber ? Number(params?.contestNumber) : null
   const [isMobileNavVisible, setIsMovileNavVisible] = useState(false)

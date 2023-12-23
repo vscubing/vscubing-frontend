@@ -1,3 +1,4 @@
+import { queryOptions } from '@tanstack/react-query'
 import { axiosClient } from '../axios'
 import { Discipline, Scramble } from '@/types'
 
@@ -12,7 +13,13 @@ export type LeaderboardResponse = Array<{
 }>
 const API_ROUTE = 'contests/leaderboard/'
 
-export async function fetchLeaderboard(discipline: Discipline) {
+async function fetchLeaderboard(discipline: Discipline) {
   const res = await axiosClient.get<LeaderboardResponse>(`${API_ROUTE}${discipline}/`)
   return res.data
 }
+
+export const leaderboardQueryOptions = (discipline: Discipline) =>
+  queryOptions({
+    queryKey: ['leaderboard', { discipline }],
+    queryFn: () => fetchLeaderboard(discipline),
+  })

@@ -1,14 +1,17 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
-import { LeaderboardResponse } from '@/api/contests'
+import { LeaderboardResponse, leaderboardQueryOptions } from '@/api/contests'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
 import { Link } from '@tanstack/react-router'
 import { leaderboardDisciplineRoute } from './leaderboardRoute'
+import { Discipline } from '@/types'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export function LeaderboardDiscipline() {
   const { userData } = useUser()
 
-  const results = leaderboardDisciplineRoute.useLoaderData()
+  const { discipline } = leaderboardDisciplineRoute.useParams()
+  const { data: results } = useSuspenseQuery(leaderboardQueryOptions(discipline as Discipline))
 
   if (!results) {
     return 'loading...'

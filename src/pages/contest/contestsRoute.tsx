@@ -1,16 +1,20 @@
-import { getOngoingContestNumber } from '@/api/contests'
 import { DisciplinesTabsLayout } from '@/components'
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
 import { ContestDiscipline } from './ContestDiscipline'
+import { ongoingContestNumberQuery } from '@/api/contests'
 
 const allContestsRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
 const allContestsIndexRoute = new Route({
   getParentRoute: () => allContestsRoute,
   path: '/',
-  beforeLoad: async ({ navigate }) => {
-    navigate({ to: '$contestNumber', params: { contestNumber: await getOngoingContestNumber() }, replace: true })
+  beforeLoad: async ({ navigate, context: { queryClient } }) => {
+    navigate({
+      to: '$contestNumber',
+      params: { contestNumber: await queryClient.fetchQuery(ongoingContestNumberQuery) },
+      replace: true,
+    })
   },
 })
 const contestRoute = new Route({
