@@ -1,1 +1,1 @@
-export * from './ContestDiscipline'
+export * from './contestsRoute'

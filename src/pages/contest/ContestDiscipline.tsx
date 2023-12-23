@@ -4,7 +4,7 @@ import { PublishedSession } from './components/PublishedSession'
 import { SolveContest } from './components/SolveContest'
 import { InfoBox } from '@/components'
 import { useUser } from '@/api/accounts'
-import { contestDisciplineRoute } from '@/router'
+import { contestDisciplineRoute } from './contestsRoute'
 
 export function ContestDiscipline() {
   const { userData } = useUser()

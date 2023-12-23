@@ -1,17 +1,14 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
-import { Discipline } from '@/types'
-import { useLeaderboard, LeaderboardResponse } from '@/api/contests'
+import { LeaderboardResponse } from '@/api/contests'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
 import { Link } from '@tanstack/react-router'
-import { leaderboardDisciplineRoute } from '@/router'
+import { leaderboardDisciplineRoute } from './leaderboardRoute'
 
 export function LeaderboardDiscipline() {
   const { userData } = useUser()
-  const params = leaderboardDisciplineRoute.useParams()
-  const discipline = params.discipline as Discipline // TODO add type guard
 
-  const { data: results } = useLeaderboard(discipline)
+  const results = leaderboardDisciplineRoute.useLoaderData()
 
   if (!results) {
     return 'loading...'
