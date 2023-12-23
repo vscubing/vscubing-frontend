@@ -1,4 +1,3 @@
-import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
 import { Discipline, Scramble } from '@/types'
 import { queryOptions } from '@tanstack/react-query'

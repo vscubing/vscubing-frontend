@@ -17,6 +17,7 @@ export type ContestResultsResponse = Array<{
   }>
 }>
 const API_ROUTE = 'contests/contest/'
+export const CONTEST_RESULTS_QUERY_KEY = 'contestResults'
 
 async function fetchContestResults(contestNumber: number, discipline: Discipline) {
   const res = await axiosClient.get<ContestResultsResponse>(`${API_ROUTE}${contestNumber}/${discipline}/`)
@@ -25,7 +26,7 @@ async function fetchContestResults(contestNumber: number, discipline: Discipline
 
 export const contestResultsQuery = (contestNumber: number, discipline: Discipline) =>
   queryOptions({
-    queryKey: [USER_QUERY_KEY, 'contestResults', { contestNumber, discipline }],
+    queryKey: [USER_QUERY_KEY, CONTEST_RESULTS_QUERY_KEY, { contestNumber, discipline }],
     queryFn: () => {
       return fetchContestResults(contestNumber, discipline)
     },
