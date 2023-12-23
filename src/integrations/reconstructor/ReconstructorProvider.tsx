@@ -1,7 +1,8 @@
 import { createContext, useCallback, useMemo, useState } from 'react'
 import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
-import { SolveReconstructionResponse, useSolveReconstruction } from '@/api/contests'
+import { SolveReconstructionResponse, solveReconstructionQuery } from '@/api/contests'
 import { cn, formatTimeResult } from '@/utils'
+import { useQuery } from '@tanstack/react-query'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void
@@ -21,7 +22,7 @@ type ReconstructorProviderProps = { children: React.ReactNode }
 export function ReconstructorProvider({ children }: ReconstructorProviderProps) {
   const [solveId, setSolveId] = useState<number | null>(null)
   const [savedCloseCallback, setSavedCloseCallback] = useState<() => void>()
-  const { data } = useSolveReconstruction(solveId)
+  const { data } = useQuery(solveReconstructionQuery(solveId))
   const content = useMemo(() => {
     if (!data) return null
     return parseReconstructionResponse(data)

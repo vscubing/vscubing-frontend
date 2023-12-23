@@ -2,7 +2,6 @@ import { Discipline, Scramble } from '@/types'
 import { axiosClient } from '../axios'
 import { queryOptions } from '@tanstack/react-query'
 import { USER_QUERY_KEY } from '../accounts'
-import { AxiosError } from 'axios'
 
 export type ContestResultsResponse = Array<{
   id: number

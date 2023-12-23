@@ -1,6 +1,6 @@
 export * from './dashboard'
 export * from './contestResults'
 export * from './ongoingContestNumber'
-export * from './useSolveReconstruction'
+export * from './solveReconstruction'
 export * from './solveContest'
 export * from './leaderboard'
