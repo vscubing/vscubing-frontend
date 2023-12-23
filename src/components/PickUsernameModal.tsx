@@ -1,4 +1,5 @@
-import { putChangeUsername, userQuery } from '@/api/accounts'
+import { USER_QUERY_KEY, putChangeUsername, userQuery } from '@/api/accounts'
+import { queryClient } from '@/api/reactQuery'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
@@ -21,7 +22,8 @@ export function PickUsernameModal() {
     }
 
     await putChangeUsername(trimmedUsername)
-    window.location.reload()
+    queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+    setIsVisible(false)
   }
 
   return (
