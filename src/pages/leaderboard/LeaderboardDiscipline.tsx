@@ -3,8 +3,8 @@ import { Discipline } from '@/types'
 import { useLeaderboard, LeaderboardResponse } from '@/api/contests'
 import { useUser } from '@/api/accounts'
 import { useReconstructor } from '@/integrations/reconstructor'
-import { leaderboardDisciplineRoute } from '@/App'
 import { Link } from '@tanstack/react-router'
+import { leaderboardDisciplineRoute } from '@/router'
 
 export function LeaderboardDiscipline() {
   const { userData } = useUser()
