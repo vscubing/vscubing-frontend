@@ -1,6 +1,6 @@
 import { Discipline, Scramble } from '@/types'
-import useSWRImmutable from 'swr/immutable'
 import { axiosClient } from '../axios'
+import { queryOptions } from '@tanstack/react-query'
 
 export type ContestResultsResponse = Array<{
   id: number
@@ -15,22 +15,15 @@ export type ContestResultsResponse = Array<{
     state: 'submitted' | 'changed_to_extra'
   }>
 }>
-
-type ContestResultsError = {
-  response: { status: number }
-}
-
 const API_ROUTE = 'contests/contest/'
-export function useContestResults(contestNumber: number, discipline: Discipline) {
-  const { data, error, isLoading } = useSWRImmutable<{ data: ContestResultsResponse }, ContestResultsError>(
-    `${API_ROUTE}${contestNumber}/${discipline}/`,
-    axiosClient.get,
-    { shouldRetryOnError: false },
-  )
 
-  return {
-    data: data?.data,
-    isLoading,
-    error,
-  }
+async function fetchContestResults(contestNumber: number, discipline: Discipline) {
+  const res = await axiosClient.get<ContestResultsResponse>(`${API_ROUTE}${contestNumber}/${discipline}/`)
+  return res.data
 }
+
+export const contestResultsQuery = (contestNumber: number, discipline: Discipline) =>
+  queryOptions({
+    queryKey: ['contestResults', { contestNumber, discipline }],
+    queryFn: () => fetchContestResults(contestNumber, discipline),
+  })

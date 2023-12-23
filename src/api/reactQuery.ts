@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -6,7 +7,12 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       staleTime: Infinity,
-      retry: false,
     },
   },
 })
+
+declare module '@tanstack/react-query' {
+  interface Register {
+    defaultError: AxiosError
+  }
+}

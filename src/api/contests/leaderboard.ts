@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 import { axiosClient } from '../axios'
 import { Discipline, Scramble } from '@/types'
+import { AxiosError } from 'axios'
 
 export type LeaderboardResponse = Array<{
   id: number
@@ -19,7 +20,8 @@ async function fetchLeaderboard(discipline: Discipline) {
 }
 
 export const leaderboardQuery = (discipline: Discipline) =>
-  queryOptions({
+  queryOptions<unknown, AxiosError>({
     queryKey: ['leaderboard', { discipline }],
     queryFn: () => fetchLeaderboard(discipline),
+    retry: false,
   })

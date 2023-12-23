@@ -24,8 +24,10 @@ export const leaderboardDisciplineRoute = new Route({
     if (!isDiscipline(discipline)) {
       throw navigate({ to: '../', replace: true })
     }
-    queryClient.ensureQueryData(leaderboardQuery(discipline))
-    return leaderboardQuery(discipline)
+
+    const query = leaderboardQuery(discipline)
+    queryClient.ensureQueryData(query)
+    return query
   },
   component: () => (
     <DisciplinesTabsLayout>

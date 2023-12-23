@@ -3,7 +3,7 @@ import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
 import { ContestDiscipline } from './ContestDiscipline'
-import { ongoingContestNumberQuery } from '@/api/contests'
+import { contestResultsQuery, ongoingContestNumberQuery } from '@/api/contests'
 
 const allContestsRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
 const allContestsIndexRoute = new Route({
@@ -32,14 +32,18 @@ const contestIndexRoute = new Route({
 export const contestDisciplineRoute = new Route({
   getParentRoute: () => contestRoute,
   path: '$discipline',
-  loader: ({ params, navigate }) => {
+  loader: ({ params, navigate, context: { queryClient } }) => {
     const contestNumber = Number(params.contestNumber)
     if (isNaN(contestNumber)) {
-      navigate({ to: '../../', replace: true })
+      throw navigate({ to: '../../', replace: true })
     }
     if (!isDiscipline(params.discipline)) {
-      navigate({ to: '../', replace: true })
+      throw navigate({ to: '../', replace: true })
     }
+
+    const query = contestResultsQuery(contestNumber, params.discipline)
+    queryClient.ensureQueryData(query)
+    return query
   },
   component: () => (
     <DisciplinesTabsLayout>
