@@ -1,6 +1,5 @@
 import { axiosClient } from '@/lib/axios'
 import { queryOptions } from '@tanstack/react-query'
-import { ONGOING_CONTEST_NUMBER_QUERY_KEY } from '../queryKeys'
 
 async function getOngoingContestNumber() {
   const res = await axiosClient.get<number>('/contests/ongoing-contest-number/')
@@ -8,6 +7,6 @@ async function getOngoingContestNumber() {
 }
 
 export const ongoingContestNumberQuery = queryOptions({
-  queryKey: [ONGOING_CONTEST_NUMBER_QUERY_KEY],
+  queryKey: ['ongoing-contest-number'],
   queryFn: () => getOngoingContestNumber(),
 })

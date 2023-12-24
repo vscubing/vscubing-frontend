@@ -1,3 +1,1 @@
-const PREFIX = 'auth-'
-
-export const USER_QUERY_KEY = PREFIX + 'user'
+export const USER_QUERY_KEY = 'user' as const
