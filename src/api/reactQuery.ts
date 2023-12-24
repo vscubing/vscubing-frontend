@@ -7,6 +7,7 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       staleTime: Infinity,
+      retry: (_, err) => err.response?.status !== 403 && err.response?.status !== 401 && err.response?.status !== 404,
     },
   },
 })
