@@ -11,10 +11,14 @@ export function ContestDiscipline() {
   const { data: userData } = useQuery(userQuery)
   const routeParams = contestDisciplineRoute.useParams()
   const query = contestDisciplineRoute.useLoaderData()
-  const { data: sessions, error, isLoading } = useQuery(query)
+  const { data: sessions, error, isLoading } = useQuery({ ...query, enabled: !!userData })
 
   if (isLoading) {
-    return <InfoBox>loading...</InfoBox>
+    return <InfoBox>Loading...</InfoBox>
+  }
+
+  if (userData === null) {
+    return <InfoBox>You need to be signed in to participate in a contest</InfoBox>
   }
 
   if (error?.response?.status === 403) {
@@ -24,10 +28,6 @@ export function ContestDiscipline() {
         discipline={routeParams.discipline as Discipline}
       />
     )
-  }
-
-  if (error?.response?.status === 401) {
-    return <InfoBox>You need to be signed in to participate in a contest</InfoBox>
   }
 
   if (error || sessions === undefined) {
