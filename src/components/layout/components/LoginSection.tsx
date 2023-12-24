@@ -1,8 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import googleLogo from '@/assets/google-logo.svg'
-import { userQuery } from '@/api/accounts'
-import { login, logout } from '@/api/auth'
 import { useQuery } from '@tanstack/react-query'
+import { login, logout, userQuery } from '@/features/auth'
 
 export function LoginSection() {
   const { data: userData } = useQuery(userQuery)

@@ -1,5 +1,6 @@
-import { axiosClient } from '@/api/axios'
-import { CONTEST_RESULTS_QUERY_KEY, SOLVE_CONTEST_STATE_QUERY_KEY } from '@/api/contests'
+import { CONTEST_RESULTS_QUERY_KEY } from '@/features/contests/api'
+import { SOLVE_CONTEST_STATE_QUERY_KEY } from '@/features/solveContest/api'
+import { axiosClient } from '@/lib/axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 

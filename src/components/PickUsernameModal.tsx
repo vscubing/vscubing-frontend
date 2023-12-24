@@ -1,5 +1,5 @@
-import { USER_QUERY_KEY, putChangeUsername, userQuery } from '@/api/accounts'
-import { queryClient } from '@/api/reactQuery'
+import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
+import { queryClient } from '@/lib/reactQuery'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 

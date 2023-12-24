@@ -1,11 +1,11 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import './App.tw.css'
 import { RouterProvider } from '@tanstack/react-router'
-import { CubeProvider } from './integrations/cube'
-import { ReconstructorProvider } from './integrations/reconstructor'
 import { router } from './router'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from './api/reactQuery'
+import { ReconstructorProvider } from './features/reconstructor'
+import { queryClient } from './lib/reactQuery'
+import { CubeProvider } from './features/cube'
 
 export function App() {
   return (

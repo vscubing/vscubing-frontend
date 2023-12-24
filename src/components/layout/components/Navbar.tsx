@@ -1,4 +1,4 @@
-import { ongoingContestNumberQuery } from '@/api/contests'
+import { ongoingContestNumberQuery } from '@/features/contests'
 import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'

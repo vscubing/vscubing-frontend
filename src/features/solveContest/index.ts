@@ -1,0 +1,1 @@
+export { SolveContest } from './SolveContest'
