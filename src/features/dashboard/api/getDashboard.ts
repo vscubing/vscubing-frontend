@@ -1,6 +1,7 @@
 import { axiosClient } from '@/lib/axios'
 import { Discipline } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
+import { DASHBOARD_QUERY_KEY } from '../queryKeys'
 
 export type DashboardDTO = {
   bestSolves: Array<{
@@ -24,4 +25,4 @@ async function getDashboard() {
   return res.data
 }
 
-export const dashboardQuery = queryOptions({ queryKey: ['dashboard'], queryFn: getDashboard })
+export const dashboardQuery = queryOptions({ queryKey: [DASHBOARD_QUERY_KEY], queryFn: getDashboard })

@@ -1,5 +1,4 @@
-import { CONTEST_RESULTS_QUERY_KEY } from '@/features/contests/api'
-import { SOLVE_CONTEST_STATE_QUERY_KEY } from '@/features/solveContest/api'
+import { CONTEST_RESULTS_QUERY_KEY } from '@/features/contests'
 import { axiosClient } from '@/lib/axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'

@@ -1,6 +1,7 @@
 import { axiosClient } from '@/lib/axios'
 import { Discipline, Scramble } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
+import { RECONSTRUTOR_SOLVE_QUERY_KEY } from '../queryKeys'
 
 export type ReconstructionDTO = {
   id: number
@@ -18,7 +19,7 @@ async function getReconstruction(solveId: number) {
 
 export const reconstructionQuery = (solveId: number | null) =>
   queryOptions({
-    queryKey: ['solveReconstruction', solveId],
+    queryKey: [RECONSTRUTOR_SOLVE_QUERY_KEY, solveId],
     queryFn: () => getReconstruction(solveId as number),
     enabled: typeof solveId === 'number',
   })

@@ -1,7 +1,8 @@
-import { USER_QUERY_KEY } from '@/features/auth'
 import { axiosClient } from '@/lib/axios'
 import { Discipline, Scramble } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
+import { CONTEST_RESULTS_QUERY_KEY } from '../queryKeys'
+import { USER_QUERY_KEY } from '@/features/auth'
 
 export type ContestResultsDTO = Array<{
   id: number
@@ -16,7 +17,6 @@ export type ContestResultsDTO = Array<{
     state: 'submitted' | 'changed_to_extra'
   }>
 }>
-export const CONTEST_RESULTS_QUERY_KEY = 'contestResults'
 
 async function getContestResults(contestNumber: number, discipline: Discipline) {
   const res = await axiosClient.get<ContestResultsDTO>(`contests/contest/${contestNumber}/${discipline}/`)

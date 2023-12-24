@@ -3,8 +3,7 @@ import { Discipline } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
 import { SolveContestStateDTO } from '../types'
 import { API_ROUTE } from './constants'
-
-export const SOLVE_CONTEST_STATE_QUERY_KEY = 'solveContestState'
+import { SOLVE_CONTEST_STATE_QUERY_KEY } from '../queryKeys'
 
 export const solveContestStateQuery = (contestNumber: number, discipline: Discipline) =>
   queryOptions({
