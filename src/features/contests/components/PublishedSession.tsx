@@ -1,10 +1,10 @@
 import { ReconstructTimeButton, ResultCard } from '@/components'
-import { ContestResultsResponse } from '@/api/contests'
 import { cn, formatTimeResult } from '@/utils'
 import { useMemo } from 'react'
 import { useReconstructor } from '@/features/reconstructor'
+import { ContestResultsDTO } from '../api'
 
-type PublishedSessionProps = ContestResultsResponse[number]
+type PublishedSessionProps = ContestResultsDTO[number]
 export function PublishedSession({
   user: { username },
   avgMs,
