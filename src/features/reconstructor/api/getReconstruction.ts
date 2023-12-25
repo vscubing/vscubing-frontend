@@ -19,6 +19,6 @@ async function getReconstruction(solveId: number) {
 export const reconstructionQuery = (solveId: number | null) =>
   queryOptions({
     queryKey: ['reconstructor', solveId],
-    queryFn: () => getReconstruction(solveId as number),
+    queryFn: () => getReconstruction(solveId!),
     enabled: typeof solveId === 'number',
   })

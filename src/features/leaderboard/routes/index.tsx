@@ -13,7 +13,7 @@ const indexRoute = new Route({
   getParentRoute: () => route,
   path: '/',
   beforeLoad: ({ navigate }) => {
-    navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
+    void navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
   },
 })
 export const disciplineRoute = new Route({
@@ -26,7 +26,7 @@ export const disciplineRoute = new Route({
     }
 
     const query = leaderboardQuery(discipline)
-    queryClient.ensureQueryData(query)
+    void queryClient.ensureQueryData(query)
     return query
   },
   component: () => (

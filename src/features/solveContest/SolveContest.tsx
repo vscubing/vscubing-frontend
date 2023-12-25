@@ -22,7 +22,7 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
   }
   const { currentSolve, submittedSolves } = state
 
-  async function solveFinishHandler(result: CubeSolveResult) {
+  function solveFinishHandler(result: CubeSolveResult) {
     postSolveResult({ scrambleId: currentSolve.scramble.id, result })
   }
 

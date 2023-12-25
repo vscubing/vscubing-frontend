@@ -10,7 +10,7 @@ const allContestsIndexRoute = new Route({
   getParentRoute: () => allContestsRoute,
   path: '/',
   beforeLoad: async ({ navigate, context: { queryClient } }) => {
-    navigate({
+    void navigate({
       to: '$contestNumber',
       params: { contestNumber: await queryClient.fetchQuery(ongoingContestNumberQuery) },
       replace: true,
@@ -25,7 +25,7 @@ const contestIndexRoute = new Route({
   getParentRoute: () => contestRoute,
   path: '/',
   beforeLoad: ({ navigate }) => {
-    navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
+    void navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
   },
 })
 
@@ -42,7 +42,7 @@ export const contestDisciplineRoute = new Route({
     }
 
     const query = contestResultsQuery(contestNumber, params.discipline)
-    queryClient.ensureQueryData(query)
+    void queryClient.ensureQueryData(query)
     return query
   },
   component: () => (

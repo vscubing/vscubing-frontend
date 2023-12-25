@@ -33,13 +33,18 @@ export function Cube({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubePr
   )
 }
 
+type EventMessage =
+  | { source: undefined }
+  | ({ source: typeof POST_MESSAGE_SOURCE } & (TimeStartEvent | SolveFinishEvent))
+type TimeStartEvent = { event: 'timeStart' }
+type SolveFinishEvent = { event: 'solveFinish'; payload: { reconstruction: string; timeMs: number } }
 const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 const startSolveOnLoad = (() => {
   let isLoaded = false
   let savedOnTimeStart: (() => void) | undefined
   let savedOnSolveFinish: CubeSolveFinishCallback | undefined
 
-  window.addEventListener('message', (event) => {
+  window.addEventListener('message', (event: { data: EventMessage }) => {
     if (event.data.source !== POST_MESSAGE_SOURCE) {
       return
     }

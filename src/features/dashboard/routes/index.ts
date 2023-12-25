@@ -8,7 +8,7 @@ export const dashboardRoute = new Route({
   path: '/',
   component: Dashboard,
   loader: ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(dashboardQuery)
+    void queryClient.ensureQueryData(dashboardQuery)
     return dashboardQuery
   },
 })

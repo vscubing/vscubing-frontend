@@ -7,7 +7,7 @@ export function LoginSection() {
   const { data: userData } = useQuery(userQuery)
 
   const handleLogin = useGoogleLogin({
-    onSuccess: ({ code }) => login(code),
+    onSuccess: ({ code }) => void login(code),
     onError: () => console.log('error'),
     flow: 'auth-code',
   })

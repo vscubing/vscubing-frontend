@@ -22,7 +22,7 @@ export function PickUsernameModal() {
     }
 
     await putChangeUsername(trimmedUsername)
-    queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+    await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
     setIsVisible(false)
   }
 

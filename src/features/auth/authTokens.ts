@@ -4,7 +4,7 @@ const LS_REFRESH_TOKEN = 'refresh-token'
 const LS_ACCESS_TOKEN = 'access-token'
 
 export function createAuthorizedRequestInterceptor(client: AxiosInstance) {
-  client.interceptors.request.use(async (config) => {
+  client.interceptors.request.use((config) => {
     const accessToken = localStorage.getItem(LS_ACCESS_TOKEN)
     if (accessToken) {
       config.headers.set('Authorization', `Bearer ${accessToken}`)

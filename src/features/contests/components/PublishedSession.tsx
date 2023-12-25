@@ -62,7 +62,7 @@ function getBestAndWorstIds(submittedSolves: ContestResultsDTO[number]['solveSet
   const dnfSolve = submittedSolves.find(({ dnf }) => dnf)
   const timeArr = submittedSolves
     .filter(({ timeMs, dnf }) => typeof timeMs === 'number' && !dnf)
-    .map(({ timeMs }) => timeMs as number)
+    .map(({ timeMs }) => timeMs!)
 
   const bestTime = Math.min(...timeArr)
   const bestId = submittedSolves.find(({ timeMs }) => timeMs === bestTime)?.id

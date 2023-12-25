@@ -9,8 +9,8 @@ export function DevResetSession() {
   const resetSession = async () => {
     try {
       await axiosClient.delete('/contests/round-session/')
-      queryClient.refetchQueries({ queryKey: [USER_QUERY_KEY] })
-      navigate({ to: '/contest' })
+      await queryClient.refetchQueries({ queryKey: [USER_QUERY_KEY] })
+      await navigate({ to: '/contest' })
     } catch (err) {
       alert("either you don't have any results to reset or something went wrong")
     }

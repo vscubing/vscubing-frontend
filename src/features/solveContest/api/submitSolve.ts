@@ -16,7 +16,7 @@ export const useSubmitSolve = (contestNumber: number, discipline: Discipline) =>
 
       const isSessionOver = 'detail' in data
       if (isSessionOver) {
-        queryClient.invalidateQueries(contestResultsQuery(contestNumber, discipline))
+        void queryClient.invalidateQueries(contestResultsQuery(contestNumber, discipline))
         return
       }
       const newSolvesState = data
