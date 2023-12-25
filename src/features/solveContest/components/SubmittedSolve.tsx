@@ -1,9 +1,9 @@
-import { SolveContestStateResponse } from '@/api/contests'
 import { ReconstructTimeButton } from '@/components'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
+import { SolveContestStateDTO } from '../types'
 
-type SubmittedSolveProps = SolveContestStateResponse['submittedSolves'][number] & {
+type SubmittedSolveProps = SolveContestStateDTO['submittedSolves'][number] & {
   className?: string
 }
 export function SubmittedSolve({ className, timeMs, scramble, id }: SubmittedSolveProps) {

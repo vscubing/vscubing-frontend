@@ -1,7 +1,7 @@
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
-import { DashboardDTO } from '../api/dashboard'
+import { DashboardDTO } from '../api'
 
 type ContestsListProps = { contests?: DashboardDTO['contests'] }
 export function ContestsList({ contests }: ContestsListProps) {

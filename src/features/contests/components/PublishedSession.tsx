@@ -58,7 +58,7 @@ export function PublishedSession({
   )
 }
 
-function getBestAndWorstIds(submittedSolves: ContestResultsResponse[number]['solveSet']) {
+function getBestAndWorstIds(submittedSolves: ContestResultsDTO[number]['solveSet']) {
   const dnfSolve = submittedSolves.find(({ dnf }) => dnf)
   const timeArr = submittedSolves
     .filter(({ timeMs, dnf }) => typeof timeMs === 'number' && !dnf)

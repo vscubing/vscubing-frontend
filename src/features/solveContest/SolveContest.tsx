@@ -1,10 +1,10 @@
 import { Discipline } from '@/types'
 import { CurrentSolve, SubmittedSolve } from './components'
 import { InfoBox } from '@/components'
-import { CubeSolveResult } from '@/integrations/cube'
 import { useQuery } from '@tanstack/react-query'
 import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
 import { userQuery } from '../auth'
+import { CubeSolveResult } from '../cube'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
