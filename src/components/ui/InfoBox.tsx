@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 export function InfoBox({ children }: { children: ReactNode }) {
   return (

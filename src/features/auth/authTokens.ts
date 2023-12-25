@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import { type AxiosInstance } from 'axios'
 
 const LS_REFRESH_TOKEN = 'refresh-token'
 const LS_ACCESS_TOKEN = 'access-token'

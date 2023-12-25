@@ -1,7 +1,7 @@
 import { ReconstructTimeButton } from '@/components'
 import CubeIcon from '@/assets/3by3.svg?react'
 import { Link } from '@tanstack/react-router'
-import { DashboardDTO } from '../api/getDashboard'
+import { type DashboardDTO } from '../api/getDashboard'
 import { useReconstructor } from '@/features/reconstructor'
 
 type BestSolvesProps = { bestSolves?: DashboardDTO['bestSolves'] }

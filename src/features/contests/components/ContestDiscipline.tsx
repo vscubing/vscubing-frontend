@@ -1,10 +1,10 @@
 import { InfoBox } from '@/components'
 import { useQuery } from '@tanstack/react-query'
-import { Discipline } from '@/types'
+import { type Discipline } from '@/types'
 import { SolveContest } from '@/features/solveContest'
 import { contestDisciplineRoute } from '../routes'
 import { PublishedSession } from './PublishedSession'
-import { ContestResultsDTO } from '../api'
+import { type ContestResultsDTO } from '../api'
 import { userQuery } from '@/features/auth'
 
 export function ContestDiscipline() {

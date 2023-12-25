@@ -1,8 +1,8 @@
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { cn, isTouchDevice, useConditionalBeforeUnload } from '@/utils'
 import { useLocalStorage } from 'usehooks-ts'
-import { CubeSolveResult } from '..'
-import { CubeSolveFinishCallback, Cube } from './Cube'
+import { type CubeSolveResult } from '..'
+import { type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import { DeviceWarningModal } from './DeviceWarningModal'
 

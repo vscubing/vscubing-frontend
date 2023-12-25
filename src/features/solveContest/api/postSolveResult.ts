@@ -1,6 +1,6 @@
 import { queryClient } from '@/lib/reactQuery'
 import { axiosClient } from '@/lib/axios'
-import { Discipline } from '@/types'
+import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
 import { API_ROUTE } from './constants'
 import { solveContestStateQuery } from './getSolveContestState'

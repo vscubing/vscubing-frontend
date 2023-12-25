@@ -1,4 +1,4 @@
-import { Scramble } from '@/types'
+import { type Scramble } from '@/types'
 
 export type SolveContestStateDTO = {
   currentSolve: {

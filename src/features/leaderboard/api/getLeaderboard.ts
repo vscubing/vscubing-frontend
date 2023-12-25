@@ -1,5 +1,5 @@
 import { axiosClient } from '@/lib/axios'
-import { Discipline, Scramble } from '@/types'
+import { type Discipline, type Scramble } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
 
 export type LeaderboardDTO = Array<{

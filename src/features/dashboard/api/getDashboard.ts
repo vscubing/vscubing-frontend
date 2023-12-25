@@ -1,5 +1,5 @@
 import { axiosClient } from '@/lib/axios'
-import { Discipline } from '@/types'
+import { type Discipline } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
 
 export type DashboardDTO = {

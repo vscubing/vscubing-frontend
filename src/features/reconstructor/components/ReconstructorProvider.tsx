@@ -1,8 +1,8 @@
 import { createContext, useCallback, useMemo, useState } from 'react'
-import { Reconstruction, ReconstructionMetadata, Reconstructor } from './Reconstructor'
+import { type Reconstruction, type ReconstructionMetadata, Reconstructor } from './Reconstructor'
 import { cn, formatTimeResult } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
-import { reconstructionQuery, ReconstructionDTO } from '../api'
+import { reconstructionQuery, type ReconstructionDTO } from '../api'
 
 type ReconstructorContextValue = {
   showReconstruction: (solveId: number, onClose?: () => void) => void

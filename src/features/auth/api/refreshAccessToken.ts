@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { type AxiosRequestConfig } from 'axios'
 import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '../authTokens'
 
 export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {

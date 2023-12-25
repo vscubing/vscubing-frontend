@@ -1,7 +1,7 @@
 import { ReconstructTimeButton } from '@/components'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
-import { SolveContestStateDTO } from '../types'
+import { type SolveContestStateDTO } from '../types'
 
 type SubmittedSolveProps = SolveContestStateDTO['submittedSolves'][number] & {
   className?: string

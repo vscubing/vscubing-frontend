@@ -2,7 +2,7 @@ import { ongoingContestNumberQuery } from '@/features/contests'
 import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'
-import { ButtonHTMLAttributes, useMemo, useState } from 'react'
+import { type ButtonHTMLAttributes, useMemo, useState } from 'react'
 
 export function NavBar() {
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)

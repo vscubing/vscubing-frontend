@@ -1,5 +1,5 @@
 import CubeIcon from '@/assets/3by3.svg?react'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 export function DisciplinesTabsLayout({ children }: { children: ReactNode }) {
   return (

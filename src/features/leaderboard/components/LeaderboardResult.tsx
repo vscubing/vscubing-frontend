@@ -1,6 +1,6 @@
 import { ResultCard, ReconstructTimeButton } from '@/components'
 import { Link } from '@tanstack/react-router'
-import { LeaderboardDTO } from '../api'
+import { type LeaderboardDTO } from '../api'
 import { useReconstructor } from '@/features/reconstructor'
 
 export function LeaderboardResult({

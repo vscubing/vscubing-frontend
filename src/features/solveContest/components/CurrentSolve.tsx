@@ -1,8 +1,8 @@
 import { ReconstructTimeButton } from '@/components'
 import { cn } from '@/utils'
 import { useReconstructor } from '@/features/reconstructor'
-import { SolveContestStateDTO } from '../types'
-import { CubeSolveResult, useCube } from '@/features/cube'
+import { type SolveContestStateDTO } from '../types'
+import { type CubeSolveResult, useCube } from '@/features/cube'
 
 type CurrentSolveProps = SolveContestStateDTO['currentSolve'] & {
   className?: string

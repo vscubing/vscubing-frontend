@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from 'react'
+import { type RefObject, useEffect, useState } from 'react'
 
 export type CubeSolveResult =
   | { reconstruction: string; timeMs: number; dnf: false }

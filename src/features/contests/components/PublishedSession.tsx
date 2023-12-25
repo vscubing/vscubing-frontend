@@ -2,7 +2,7 @@ import { ReconstructTimeButton, ResultCard } from '@/components'
 import { cn, formatTimeResult } from '@/utils'
 import { useMemo } from 'react'
 import { useReconstructor } from '@/features/reconstructor'
-import { ContestResultsDTO } from '../api'
+import { type ContestResultsDTO } from '../api'
 
 type PublishedSessionProps = ContestResultsDTO[number]
 export function PublishedSession({
