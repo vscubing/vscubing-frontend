@@ -1,0 +1,1 @@
+export { leaderboardRoute } from './routes'

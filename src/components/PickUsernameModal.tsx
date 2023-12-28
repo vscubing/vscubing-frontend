@@ -1,10 +1,12 @@
-import { putChangeUsername, useUser } from '@/api/accounts'
+import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
+import { queryClient } from '@/lib/reactQuery'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
   const [username, setUsername] = useState('')
-  const { userData } = useUser()
+  const { data: userData } = useQuery(userQuery)
 
   useEffect(() => {
     if (userData && !userData.authCompleted) {
@@ -20,7 +22,8 @@ export function PickUsernameModal() {
     }
 
     await putChangeUsername(trimmedUsername)
-    window.location.reload()
+    await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+    setIsVisible(false)
   }
 
   return (

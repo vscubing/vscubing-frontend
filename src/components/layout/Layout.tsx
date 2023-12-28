@@ -1,6 +1,6 @@
-import { Outlet } from 'react-router-dom'
 import { LoginSection, NavBar } from './components'
 import { PickUsernameModal } from '..'
+import { Outlet } from '@tanstack/react-router'
 
 export function Layout() {
   return (

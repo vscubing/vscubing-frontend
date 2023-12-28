@@ -1,6 +1,6 @@
 import { cn } from '@/utils'
-import { VariantProps, cva } from 'class-variance-authority'
-import { HTMLAttributes, forwardRef } from 'react'
+import { type VariantProps, cva } from 'class-variance-authority'
+import { type HTMLAttributes, forwardRef } from 'react'
 
 const variants = cva('rounded-md px-1 pb-2 pt-2 text-[13px] md:py-3 md:px-3 md:text-base lg:px-8', {
   variants: {

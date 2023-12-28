@@ -1,5 +1,4 @@
 export * from './formatTimeResult'
-export * from './useRequiredParams'
 export * from './useConditionalBeforeUnload'
 export * from './cn'
 export * from './isTouchDevice'

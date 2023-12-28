@@ -1,5 +1,5 @@
 import { cn, formatTimeResult } from '@/utils'
-import { ButtonHTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes } from 'react'
 
 type SolveTimeButtonProps = {
   timeMs: number
