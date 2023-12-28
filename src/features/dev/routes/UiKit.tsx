@@ -28,7 +28,7 @@ import {
 
 export function UiKit() {
   return (
-    <div className='text-secondary-60 flex gap-1'>
+    <div className='text-primary-100 bg-gradient flex h-40 gap-1 rounded-2xl'>
       <AllContestsIcon />
       <ArrowBackUpIcon />
       <ArrowRightIcon />
