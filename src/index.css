@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@400;500&family=Kanit&display=swap');
+
+@layer base {
+  body {
+    @apply font-hind text-[16px] leading-[150%];
+    background: #11191f;
+  }
+}
+
+@layer utilities {
+  .title-large {
+    @apply font-kanit text-[60px] -tracking-[0.01em];
+  }
+  .title-h1 {
+    @apply font-kanit text-[36px];
+  }
+  .title-h2 {
+    @apply font-kanit text-[28px];
+  }
+  .title-h3 {
+    @apply font-kanit text-[22px];
+  }
+  .button-large {
+    @apply font-kanit text-[20px];
+  }
+  .text-body-lg {
+    @apply text-[18px];
+  }
+  .caption {
+    @apply text-[14px];
+  }
+  .caption-sm {
+    @apply text-[12px];
+  }
+}

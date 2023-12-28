@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google'
-import googleLogo from '@/assets/google-logo.svg'
 import { useQuery } from '@tanstack/react-query'
 import { login, logout, userQuery } from '@/features/auth'
+import { GoogleIcon } from '@/components'
 
 export function LoginSection() {
   const { data: userData } = useQuery(userQuery)
@@ -26,7 +26,7 @@ export function LoginSection() {
           className='h-full rounded-md bg-panels pl-[12px] pr-[20px] text-[#CBCBCB]'
           onClick={() => handleLogin()}
         >
-          <img src={googleLogo} alt='google logo' className='mr-[20px] inline-block' />
+          <GoogleIcon className='mr-[20px] inline-block' />
           Sign in with Google
         </button>
       )}
