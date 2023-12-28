@@ -3,7 +3,7 @@ import { axiosClient } from '@/lib/axios'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
-export function DevResetSession() {
+export function ResetSession() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const resetSession = async () => {

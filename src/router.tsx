@@ -1,12 +1,13 @@
-import { Layout, DevResetSession } from './components'
+import { Layout } from './components'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Route, Router, rootRouteWithContext } from '@tanstack/react-router'
+import { Router, rootRouteWithContext } from '@tanstack/react-router'
 import { leaderboardRoute } from './features/leaderboard'
 import { contestsRoute } from './features/contests'
 import { type QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { dashboardRoute } from './features/dashboard'
 import { queryClient } from './lib/reactQuery'
+import { devRoute } from './features/dev'
 
 export const rootRoute = rootRouteWithContext<{ queryClient: QueryClient }>()({
   component: () => (
@@ -22,13 +23,8 @@ export const rootRoute = rootRouteWithContext<{ queryClient: QueryClient }>()({
 })
 
 const indexRoute = dashboardRoute
-const devResetSessionRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: 'dev/reset-session',
-  component: DevResetSession,
-})
 
-const routeTree = rootRoute.addChildren([indexRoute, leaderboardRoute, contestsRoute, devResetSessionRoute])
+const routeTree = rootRoute.addChildren([indexRoute, leaderboardRoute, contestsRoute, devRoute])
 export const router = new Router({
   routeTree,
   defaultPreloadStaleTime: 0,

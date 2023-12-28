@@ -9,7 +9,7 @@ const config = {
     'plugin:react-hooks/recommended',
     'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
-  ignorePatterns: ['dist', 'node_modules', '!.*.*'],
+  ignorePatterns: ['dist', 'node_modules', '!.*.*', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: { project: true },
   plugins: ['react-refresh', '@typescript-eslint'],
