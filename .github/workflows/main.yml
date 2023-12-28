@@ -1,0 +1,19 @@
+name: build-check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main', 'dev']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - name: Build
+        run: |
+          bun install
+          bun run build
