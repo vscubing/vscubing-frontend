@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.wrapper {
+  @apply px-5 lg:px-20 xl:px-36;
+}
+
+.btn-action {
+  @apply block rounded-[5px] px-[5px] py-[3px] hover:bg-[#829BCB]/10;
+}
