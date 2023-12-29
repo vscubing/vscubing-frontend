@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind:wght@400;500&family=Kanit&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind&family=Kanit:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,25 +6,28 @@
 
 @layer base {
   body {
-    @apply font-hind bg-black-100 text-[16px] leading-[150%];
+    @apply bg-black-100 font-hind text-[16px] leading-[1.5] text-white;
   }
 }
 
 @layer utilities {
-  .title-large {
-    @apply font-kanit text-[60px] -tracking-[0.01em];
+  .title-lg {
+    @apply font-kanit text-[60px] leading-[1.5] -tracking-[0.01em];
   }
   .title-h1 {
-    @apply font-kanit text-[36px];
+    @apply font-kanit text-[36px] leading-[1.5];
   }
   .title-h2 {
-    @apply font-kanit text-[28px];
+    @apply font-kanit text-[28px] leading-[1.5];
   }
   .title-h3 {
-    @apply font-kanit text-[22px];
+    @apply font-kanit text-[22px] leading-[1.5];
   }
-  .button-large {
-    @apply font-kanit text-[20px];
+  .btn-lg {
+    @apply font-kanit text-[20px] font-medium leading-[1.5];
+  }
+  .btn-sm {
+    @apply font-kanit text-[16px] font-medium leading-[1.5];
   }
   .text-body-lg {
     @apply text-[18px];
@@ -39,5 +42,11 @@
     background: linear-gradient(126deg, rgba(255, 255, 255, 0.3) 13.84%, rgba(255, 255, 255, 0.1) 74.14%);
     box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(20px);
+  }
+  .transition-base {
+    @apply transition duration-300 ease-in-out;
+  }
+  .outline-ring {
+    @apply ring-white focus-visible:outline-none focus-visible:ring-2;
   }
 }

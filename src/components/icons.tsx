@@ -10,7 +10,8 @@ import DiscordIcon from '@/assets/icons/discord.svg?react'
 import ExclamationCircleIcon from '@/assets/icons/exclamation-circle.svg?react'
 import GoogleIcon from '@/assets/icons/google.svg?react'
 import LeaderboardIcon from '@/assets/icons/leaderboard.svg?react'
-import LeftIcon from '@/assets/icons/left.svg?react'
+import ChevronLeftIcon from '@/assets/icons/chevron-left.svg?react'
+import ChevronRightIcon from '@/assets/icons/chevron-right.svg?react'
 import LinkedinIcon from '@/assets/icons/linkedin.svg?react'
 import LogoutIcon from '@/assets/icons/logout.svg?react'
 import MenuIcon from '@/assets/icons/menu.svg?react'
@@ -20,7 +21,6 @@ import PlayForwardIcon from '@/assets/icons/play-forward.svg?react'
 import PlaySkipBackIcon from '@/assets/icons/play-skip-back.svg?react'
 import PlaySkipForwardIcon from '@/assets/icons/play-skip-forward.svg?react'
 import PlayIcon from '@/assets/icons/play.svg?react'
-import RightIcon from '@/assets/icons/right.svg?react'
 import ShareIcon from '@/assets/icons/share.svg?react'
 import SortIcon from '@/assets/icons/sort.svg?react'
 import StopIcon from '@/assets/icons/stop.svg?react'
@@ -38,7 +38,7 @@ export {
   ExclamationCircleIcon,
   GoogleIcon,
   LeaderboardIcon,
-  LeftIcon,
+  ChevronLeftIcon,
   LinkedinIcon,
   LogoutIcon,
   MenuIcon,
@@ -48,7 +48,7 @@ export {
   PlaySkipBackIcon,
   PlaySkipForwardIcon,
   PlaybackIcon,
-  RightIcon,
+  ChevronRightIcon,
   ShareIcon,
   SortIcon,
   StopIcon,

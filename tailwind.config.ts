@@ -5,6 +5,10 @@ export default {
   theme: {
     extend: {
       fontFamily: { kanit: 'Kanit, sans-serif', hind: 'Hind, sans-serif' },
+      transitionDelay: {
+        default: '300ms',
+      },
+      transitionTimingFunction: { default: 'ease-in-out' },
       colors: {
         primary: {
           80: '#81FC05',
