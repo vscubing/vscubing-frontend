@@ -1,5 +1,3 @@
-import { Slot } from '@radix-ui/react-slot'
-
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 import { Cube3Icon } from '@/components'
@@ -12,7 +10,7 @@ type CubeButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'>
 
 const CubeButton = forwardRef<HTMLButtonElement, CubeButtonProps>(
   ({ className, cube, asButton = true, ...props }, ref) => {
-    const Comp = asButton ? 'button' : Slot
+    const Comp = asButton ? 'button' : 'span'
     return (
       <Comp
         className={cn(

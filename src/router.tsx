@@ -15,7 +15,8 @@ export const rootRoute = rootRouteWithContext<{ queryClient: QueryClient }>()({
       <Layout />
       {import.meta.env.MODE === 'development' && (
         <>
-          <TanStackRouterDevtools /> <ReactQueryDevtools />
+          <TanStackRouterDevtools />
+          <ReactQueryDevtools />
         </>
       )}
     </>

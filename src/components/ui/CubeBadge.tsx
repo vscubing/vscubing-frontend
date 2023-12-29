@@ -10,7 +10,10 @@ type CubeBadgeProps = HTMLAttributes<HTMLDivElement> & {
 const CubeBadge = forwardRef<HTMLDivElement, CubeBadgeProps>(({ cube, className, ...props }, ref) => {
   return (
     <span
-      className={cn('h-15 w-15 flex items-center justify-center rounded-xl bg-secondary-20 text-black-100', className)}
+      className={cn(
+        'h-15 w-15 inline-flex items-center justify-center rounded-xl bg-secondary-20 text-black-100',
+        className,
+      )}
       ref={ref}
       {...props}
     >

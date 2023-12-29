@@ -1,5 +1,11 @@
-import { CubeBadge, CubeButton, GhostButton, PrimaryButton, SecondaryButton, UnderlineButton } from '@/components'
 import {
+  CubeBadge,
+  CubeButton,
+  GhostButton,
+  GoogleIcon,
+  PrimaryButton,
+  SecondaryButton,
+  UnderlineButton,
   AllContestsIcon,
   ArrowBackUpIcon,
   ArrowRightIcon,
@@ -26,7 +32,7 @@ import {
   ShareIcon,
   SortIcon,
   StopIcon,
-} from '@/components/icons'
+} from '@/components'
 
 export function UiKit() {
   return (
@@ -58,6 +64,7 @@ export function UiKit() {
         <SortIcon />
         <StopIcon />
         <GithubIcon />
+        <GoogleIcon />
       </div>
 
       <div className='mt-2 flex flex-wrap items-start gap-2 [&>div]:flex [&>div]:items-start [&>div]:gap-2'>

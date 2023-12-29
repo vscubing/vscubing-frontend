@@ -12,7 +12,7 @@
 
 @layer utilities {
   .title-lg {
-    @apply font-kanit text-[60px] -tracking-[0.01em];
+    @apply font-kanit text-[60px] leading-[1.2] -tracking-[0.01em];
   }
   .title-h1 {
     @apply font-kanit text-[36px];
