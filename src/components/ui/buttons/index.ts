@@ -1,2 +1,4 @@
-export * from './Button'
-export * from './ButtonUnderline'
+export * from './PrimaryButton'
+export * from './SecondaryButton'
+export * from './UnderlineButton'
+export * from './GhostButton'

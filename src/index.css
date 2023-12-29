@@ -12,24 +12,24 @@
 
 @layer utilities {
   .title-lg {
-    @apply font-kanit text-[60px] leading-[1.5] -tracking-[0.01em];
+    @apply font-kanit text-[60px] -tracking-[0.01em];
   }
   .title-h1 {
-    @apply font-kanit text-[36px] leading-[1.5];
+    @apply font-kanit text-[36px];
   }
   .title-h2 {
-    @apply font-kanit text-[28px] leading-[1.5];
+    @apply font-kanit text-[28px];
   }
   .title-h3 {
-    @apply font-kanit text-[22px] leading-[1.5];
+    @apply font-kanit text-[22px];
   }
   .btn-lg {
-    @apply font-kanit text-[20px] font-medium leading-[1.5];
+    @apply font-kanit text-[20px] font-medium;
   }
   .btn-sm {
-    @apply font-kanit text-[16px] font-medium leading-[1.5];
+    @apply font-kanit text-[16px] font-medium;
   }
-  .text-body-lg {
+  .text-lg {
     @apply text-[18px];
   }
   .caption {

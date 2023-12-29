@@ -1,3 +1,4 @@
+import { GhostButton, PrimaryButton, SecondaryButton, UnderlineButton } from '@/components'
 import {
   AllContestsIcon,
   ArrowBackUpIcon,
@@ -25,7 +26,6 @@ import {
   SortIcon,
   StopIcon,
 } from '@/components/icons'
-import { Button, ButtonUnderline } from '@/components'
 
 export function UiKit() {
   return (
@@ -60,46 +60,56 @@ export function UiKit() {
 
       <div className='mt-2 flex flex-wrap items-start gap-2 [&>div]:flex [&>div]:items-start [&>div]:gap-2'>
         <div>
-          <Button>Button</Button>
-          <Button disabled>Button</Button>
-          <Button size='sm'>Button</Button>
-          <Button size='sm' disabled>
+          <PrimaryButton>Button text</PrimaryButton>
+          <PrimaryButton disabled>Button text</PrimaryButton>
+          <PrimaryButton size='sm'>Button</PrimaryButton>
+          <PrimaryButton size='sm' disabled>
             Button
-          </Button>
+          </PrimaryButton>
         </div>
         <div>
-          <Button variant='secondary'>Button</Button>
-          <Button variant='secondary' disabled>
+          <SecondaryButton>Button text</SecondaryButton>
+          <SecondaryButton disabled>Button text</SecondaryButton>
+          <SecondaryButton size='sm'>Button</SecondaryButton>
+          <SecondaryButton size='sm' disabled>
             Button
-          </Button>
-          <Button variant='secondary' size='sm'>
-            Button
-          </Button>
-          <Button variant='secondary' size='sm' disabled>
-            Button
-          </Button>
+          </SecondaryButton>
         </div>
         <div>
-          <Button variant='secondary' size='icon'>
+          <SecondaryButton size='icon'>
             <ArrowRightIcon />
-          </Button>
-          <Button variant='secondary' size='icon' disabled>
+          </SecondaryButton>
+          <SecondaryButton size='icon' disabled>
             <ArrowRightIcon />
-          </Button>
-          <Button variant='secondary' size='iconSm'>
+          </SecondaryButton>
+          <SecondaryButton size='iconSm'>
             <ArrowRightIcon />
-          </Button>
-          <Button variant='secondary' size='iconSm' disabled>
+          </SecondaryButton>
+          <SecondaryButton size='iconSm' disabled>
             <ArrowRightIcon />
-          </Button>
+          </SecondaryButton>
         </div>
         <div>
-          <ButtonUnderline>Button</ButtonUnderline>
-          <ButtonUnderline disabled>Button</ButtonUnderline>
-          <ButtonUnderline size='sm'>Button</ButtonUnderline>
-          <ButtonUnderline size='sm' disabled>
+          <UnderlineButton>Button text</UnderlineButton>
+          <UnderlineButton disabled>Button text</UnderlineButton>
+          <UnderlineButton size='sm'>Button</UnderlineButton>
+          <UnderlineButton size='sm' disabled>
             Button
-          </ButtonUnderline>
+          </UnderlineButton>
+        </div>
+        <div>
+          <GhostButton>
+            Button text <LogoutIcon />
+          </GhostButton>
+          <GhostButton disabled>
+            Button text <LogoutIcon />
+          </GhostButton>
+          <GhostButton size='sm'>
+            <ArrowBackUpIcon /> Go back
+          </GhostButton>
+          <GhostButton size='sm' disabled>
+            <ArrowBackUpIcon /> Go back
+          </GhostButton>
         </div>
       </div>
     </>
