@@ -24,6 +24,7 @@ import PlayIcon from '@/assets/icons/play.svg?react'
 import ShareIcon from '@/assets/icons/share.svg?react'
 import SortIcon from '@/assets/icons/sort.svg?react'
 import StopIcon from '@/assets/icons/stop.svg?react'
+import GithubIcon from '@/assets/icons/github.svg?react'
 
 export {
   AllContestsIcon,
@@ -37,6 +38,7 @@ export {
   DiscordIcon,
   ExclamationCircleIcon,
   GoogleIcon,
+  GithubIcon,
   LeaderboardIcon,
   ChevronLeftIcon,
   LinkedinIcon,

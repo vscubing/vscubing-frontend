@@ -12,6 +12,7 @@ import {
   DashboardIcon,
   DiscordIcon,
   ExclamationCircleIcon,
+  GithubIcon,
   LeaderboardIcon,
   LinkedinIcon,
   LogoutIcon,
@@ -56,6 +57,7 @@ export function UiKit() {
         <ShareIcon />
         <SortIcon />
         <StopIcon />
+        <GithubIcon />
       </div>
 
       <div className='mt-2 flex flex-wrap items-start gap-2 [&>div]:flex [&>div]:items-start [&>div]:gap-2'>
