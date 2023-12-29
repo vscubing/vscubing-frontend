@@ -1,4 +1,4 @@
-import { GhostButton, PrimaryButton, SecondaryButton, UnderlineButton } from '@/components'
+import { CubeBadge, CubeButton, GhostButton, PrimaryButton, SecondaryButton, UnderlineButton } from '@/components'
 import {
   AllContestsIcon,
   ArrowBackUpIcon,
@@ -110,6 +110,10 @@ export function UiKit() {
           <GhostButton size='sm' disabled>
             <ArrowBackUpIcon /> Go back
           </GhostButton>
+        </div>
+        <div>
+          <CubeBadge cube='3by3' />
+          <CubeButton cube='3by3' />
         </div>
       </div>
     </>

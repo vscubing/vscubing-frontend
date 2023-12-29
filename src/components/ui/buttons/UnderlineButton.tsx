@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 
-const underlineButtonVariants = cva('animate transition-base outline-ring inline-flex items-center justify-center', {
+const underlineButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
   variants: {
     variant: {
       default:
@@ -32,6 +32,6 @@ const UnderlineButton = forwardRef<HTMLButtonElement, UnderlineButtonProps>(
     return <Comp className={cn(underlineButtonVariants({ variant, size, className }))} ref={ref} {...props} />
   },
 )
-UnderlineButton.displayName = 'Button'
+UnderlineButton.displayName = 'UnderlineButton'
 
 export { UnderlineButton, underlineButtonVariants }

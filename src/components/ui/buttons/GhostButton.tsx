@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 
-const ghostButtonVariants = cva('animate transition-base outline-ring inline-flex items-center justify-center', {
+const ghostButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
   variants: {
     variant: {
       default: 'rounded-xl disabled:text-grey-60',
@@ -31,6 +31,6 @@ const GhostButton = forwardRef<HTMLButtonElement, GhostButtonProps>(
     return <Comp className={cn(ghostButtonVariants({ variant, size, className }))} ref={ref} {...props} />
   },
 )
-GhostButton.displayName = 'Button'
+GhostButton.displayName = 'GhostButton'
 
 export { GhostButton, ghostButtonVariants }

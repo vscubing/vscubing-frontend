@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 
-const primaryButtonVariants = cva('animate transition-base outline-ring inline-flex items-center justify-center', {
+const primaryButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
   variants: {
     variant: {
       default:
@@ -32,6 +32,6 @@ const PrimaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(
     return <Comp className={cn(primaryButtonVariants({ variant, size, className }))} ref={ref} {...props} />
   },
 )
-PrimaryButton.displayName = 'Button'
+PrimaryButton.displayName = 'PrimaryButton'
 
 export { PrimaryButton, primaryButtonVariants }

@@ -4,6 +4,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      spacing: {
+        15: '3.75rem',
+      },
       fontFamily: { kanit: 'Kanit, sans-serif', hind: 'Hind, sans-serif' },
       transitionDelay: {
         default: '300ms',
@@ -31,6 +34,9 @@ export default {
           80: '#505B60',
           100: '#363C40',
         },
+        yellow: '#DBDF00',
+        red: '#D65961',
+        white: '#F9F9F9',
       },
     },
   },
