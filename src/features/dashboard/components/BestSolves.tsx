@@ -1,4 +1,4 @@
-import { Cube3Icon, ReconstructTimeButton, SecondaryButton } from '@/components'
+import { CubeIcon, ReconstructTimeButton, SecondaryButton } from '@/components'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
 import { useReconstructor } from '@/features/reconstructor'
@@ -16,10 +16,10 @@ export function BestSolves({ solves }: BestSolvesProps) {
       <ul>
         {solves
           ? solves.map(({ id, user: { username }, timeMs, discipline }) => (
-              <li key={id} className='h-15 flex items-center rounded-xl bg-grey-100 pl-3'>
-                <Cube3Icon className='mr-3' />
+              <li key={id} className='flex h-15 items-center rounded-xl bg-grey-100 pl-3'>
+                <CubeIcon className='mr-3' cube='3by3' />
                 <div
-                  className='relative w-0 flex-1 overflow-x-clip text-ellipsis border-r border-grey-60 pr-1'
+                  className='relative w-0 min-w-[20ch] flex-1 overflow-x-clip text-ellipsis text-nowrap border-r border-grey-60 pr-2'
                   title={username}
                 >
                   {username}

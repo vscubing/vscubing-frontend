@@ -1,7 +1,7 @@
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
-import { Cube3Icon } from '@/components'
 import { type Discipline } from '@/types'
+import { CubeIcon } from '..'
 
 type CubeButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   asButton?: boolean
@@ -14,13 +14,13 @@ const CubeButton = forwardRef<HTMLButtonElement, CubeButtonProps>(
     return (
       <Comp
         className={cn(
-          'outline-ring transition-base h-15 w-15 inline-flex cursor-pointer items-center justify-center rounded-xl border border-transparent bg-grey-100 text-grey-60 hover:border-secondary-20 active:bg-secondary-20 active:text-black-100',
+          'outline-ring transition-base inline-flex h-15 w-15 cursor-pointer items-center justify-center rounded-xl border border-transparent bg-grey-100 text-grey-60 hover:border-secondary-20 active:bg-secondary-20 active:text-black-100',
           className,
         )}
         ref={ref}
         {...props}
       >
-        {cube === '3by3' && <Cube3Icon />}
+        <CubeIcon cube={cube} />
       </Comp>
     )
   },

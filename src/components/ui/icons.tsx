@@ -25,6 +25,9 @@ import ShareIcon from '@/assets/icons/share.svg?react'
 import SortIcon from '@/assets/icons/sort.svg?react'
 import StopIcon from '@/assets/icons/stop.svg?react'
 import GithubIcon from '@/assets/icons/github.svg?react'
+import { type Discipline } from '@/types'
+import { cn } from '@/utils'
+import { type HTMLAttributes, forwardRef } from 'react'
 
 export {
   AllContestsIcon,
@@ -33,7 +36,6 @@ export {
   AvatarIcon,
   CheckIcon,
   CloseIcon,
-  Cube3Icon,
   DashboardIcon,
   DiscordIcon,
   ExclamationCircleIcon,
@@ -55,3 +57,16 @@ export {
   SortIcon,
   StopIcon,
 }
+
+type CubeIconProps = HTMLAttributes<SVGSVGElement> & {
+  cube: Discipline
+}
+
+const ICONS = { '3by3': Cube3Icon } as const
+const CubeIcon = forwardRef<SVGSVGElement, CubeIconProps>(({ cube, className, ...props }, ref) => {
+  const Comp = ICONS[cube]
+  return <Comp {...props} ref={ref} className={cn('text-[1.6875rem]', className)} />
+})
+CubeIcon.displayName = 'CubeIcon'
+
+export { CubeIcon }

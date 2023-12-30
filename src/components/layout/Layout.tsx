@@ -9,9 +9,9 @@ export function Layout() {
   return (
     <>
       <PickUsernameModal />
-      <div className='flex min-h-screen gap-3 p-[26px]'>
-        <aside className='flex w-[clamp(251px,23vw,338px)] flex-col gap-3 text-grey-20'>
-          <div className='title-h2 flex h-[114px] items-center justify-center rounded-2xl bg-black-80'>
+      <div className='flex min-h-screen gap-3 p-[1.625rem]'>
+        <aside className='flex w-[clamp(15rem,23vw,21rem)] flex-col gap-3 text-grey-20'>
+          <div className='title-h2 flex h-[7.1rem] items-center justify-center rounded-2xl bg-black-80'>
             <Link to='/'>LOGO</Link>
           </div>
           <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-4'>

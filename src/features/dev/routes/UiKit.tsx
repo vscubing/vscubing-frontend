@@ -14,7 +14,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
-  Cube3Icon,
   DashboardIcon,
   DiscordIcon,
   ExclamationCircleIcon,
@@ -32,6 +31,7 @@ import {
   ShareIcon,
   SortIcon,
   StopIcon,
+  CubeIcon,
 } from '@/components'
 
 export function UiKit() {
@@ -44,7 +44,7 @@ export function UiKit() {
         <AvatarIcon />
         <CheckIcon />
         <CloseIcon />
-        <Cube3Icon />
+        <CubeIcon cube='3by3' />
         <DashboardIcon />
         <DiscordIcon />
         <ExclamationCircleIcon />
@@ -85,10 +85,10 @@ export function UiKit() {
           </SecondaryButton>
         </div>
         <div>
-          <SecondaryButton size='icon'>
+          <SecondaryButton size='iconLg'>
             <ArrowRightIcon />
           </SecondaryButton>
-          <SecondaryButton size='icon' disabled>
+          <SecondaryButton size='iconLg' disabled>
             <ArrowRightIcon />
           </SecondaryButton>
           <SecondaryButton size='iconSm'>

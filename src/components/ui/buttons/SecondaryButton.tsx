@@ -8,7 +8,7 @@ const secondaryButtonVariants = cva('transition-base outline-ring inline-flex it
   variants: {
     variant: {
       default:
-        'rounded-xl border border-secondary-20 text-primary-100 hover:border-transparent hover:bg-secondary-40 hover:text-primary-80 active:border-transparent active:bg-secondary-60 active:text-primary-80 disabled:border-grey-40 disabled:bg-transparent disabled:text-grey-40',
+        'rounded-xl border border-secondary-20 text-primary-100 hover:border-transparent hover:bg-secondary-40 hover:text-primary-80 active:border-transparent active:bg-secondary-60 active:text-primary-80 disabled:border-grey-40 disabled:bg-transparent disabled:text-grey-40 [&>svg]:h-6 [&>svg]:w-6',
     },
     size: {
       lg: 'btn-sm h-15 px-4',

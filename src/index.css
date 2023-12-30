@@ -5,38 +5,43 @@
 @tailwind utilities;
 
 @layer base {
+  @media screen and (max-height: 920px), (max-width: 1200px) {
+    :root {
+      @apply text-[12px];
+    }
+  }
   body {
-    @apply bg-black-100 font-hind text-[16px] leading-[1.5] text-white;
+    @apply bg-black-100 font-hind text-base leading-[1.5] text-white;
   }
 }
 
 @layer utilities {
   .title-lg {
-    @apply font-kanit text-[60px] leading-[1.2] -tracking-[0.01em];
+    @apply font-kanit text-6xl leading-[1.2] -tracking-[0.01em];
   }
   .title-h1 {
-    @apply font-kanit text-[36px];
+    @apply font-kanit text-4xl;
   }
   .title-h2 {
-    @apply font-kanit text-[28px];
+    @apply font-kanit text-[1.75rem];
   }
   .title-h3 {
-    @apply font-kanit text-[22px];
+    @apply font-kanit text-[1.375rem];
   }
   .btn-lg {
-    @apply font-kanit text-[20px] font-medium;
+    @apply font-kanit text-xl font-medium;
   }
   .btn-sm {
-    @apply font-kanit text-[16px] font-medium;
+    @apply font-kanit text-base font-medium;
   }
   .text-lg {
-    @apply text-[18px];
+    @apply text-[1.125rem];
   }
   .caption {
-    @apply text-[14px];
+    @apply text-sm;
   }
   .caption-sm {
-    @apply text-[12px];
+    @apply text-xs;
   }
   .card-gradient {
     @apply rounded-xl;
