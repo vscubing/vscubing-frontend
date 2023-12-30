@@ -1,22 +1,32 @@
 import { DisciplinesTabsLayout } from '@/components'
 import { rootRoute } from '@/router'
-import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
+import { DEFAULT_DISCIPLINE, DISCIPLINES, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
 import { ContestDiscipline } from '../components'
 import { ongoingContestNumberQuery, contestResultsQuery } from '../api'
+import { z } from 'zod'
 
+const ongoingContestRedirectSchema = z.object({
+  discipline: z.enum(DISCIPLINES).optional().default(DEFAULT_DISCIPLINE),
+})
 const allContestsRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
 const allContestsIndexRoute = new Route({
   getParentRoute: () => allContestsRoute,
   path: '/',
-  beforeLoad: async ({ navigate, context: { queryClient } }) => {
+  validateSearch: ongoingContestRedirectSchema,
+  beforeLoad: async ({ navigate, search: { discipline }, context: { queryClient } }) => {
+    const contestNumber = await queryClient.fetchQuery(ongoingContestNumberQuery)
     void navigate({
-      to: '$contestNumber',
-      params: { contestNumber: await queryClient.fetchQuery(ongoingContestNumberQuery) },
+      to: '/contest/$contestNumber/$discipline',
+      params: {
+        discipline,
+        contestNumber: String(contestNumber),
+      },
       replace: true,
     })
   },
 })
+
 const contestRoute = new Route({
   getParentRoute: () => allContestsRoute,
   path: '$contestNumber',

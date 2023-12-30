@@ -18,6 +18,7 @@ export function Layout() {
             <Navbar />
             <div className='flex flex-col items-center'>
               <SocialLinks className='mb-10' />
+              {/* TODO: animate the social links to slide up after login before the log out button appears */}
               {user && (
                 <GhostButton className='mb-8' onClick={() => logout()}>
                   Log out <LogoutIcon />

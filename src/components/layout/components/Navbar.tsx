@@ -17,7 +17,7 @@ export function Navbar() {
               </>
             ),
             to: '/',
-            params: {},
+            params: undefined,
           },
           {
             children: (
@@ -27,7 +27,7 @@ export function Navbar() {
               </>
             ),
             to: '/leaderboard',
-            params: {},
+            params: undefined,
           },
           {
             children: (
@@ -37,7 +37,7 @@ export function Navbar() {
               </>
             ),
             to: '/dev/ui-kit',
-            params: {},
+            params: undefined,
           },
           {
             children: (
@@ -47,7 +47,7 @@ export function Navbar() {
               </>
             ),
             to: `/contest/$contestNumber`,
-            params: { contestNumber: String(ongoingContestNumber) },
+            params: { contestNumber: ongoingContestNumber === undefined ? '' : String(ongoingContestNumber) },
           },
         ] as const
       ).map(({ children, to, params }) => (

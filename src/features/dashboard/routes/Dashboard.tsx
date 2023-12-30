@@ -6,11 +6,11 @@ import { Link } from '@tanstack/react-router'
 import { BestSolves, LatestContests } from '../components'
 import { dashboardQuery } from '../api'
 import { ongoingContestNumberQuery } from '@/features/contests'
+import { cn } from '@/utils'
 
 export function Dashboard() {
   const { data: userData } = useQuery(userQuery)
   const { data } = useQuery(dashboardQuery)
-  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
 
   return (
     <div className='flex h-full flex-col gap-3'>
@@ -34,11 +34,7 @@ export function Dashboard() {
           <div className='text-right'>
             <p className='title-h3 mb-3'>Duration</p>
             <p className='mb-6 text-lg'>10 Dec 2023-17 Dec 2023</p>
-            <Link
-              to='/contest/$contestNumber/$discipline'
-              params={{ contestNumber: String(ongoingContestNumber), discipline: '3by3' }}
-              className='inline-block rounded-xl'
-            >
+            <Link to='/contest' search={{ discipline: '3by3' }} className='inline-block rounded-xl'>
               <CubeBadge
                 cube='3by3'
                 className='transition-base outline-ring bg-secondary-40 hover:bg-secondary-20 active:bg-secondary-40'
@@ -55,7 +51,7 @@ export function Dashboard() {
               <Link>View all</Link>
             </UnderlineButton>
           </div>
-          <LatestContests contests={data?.contests} />
+          <LatestContests contests={data?.contests} /> {/* TODO: add loading state */}
         </section>
         <section className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(59%-0.75rem/2)] rounded-2xl bg-black-80 px-6 py-4'>
           <div className='mb-6 flex justify-between'>
@@ -64,7 +60,7 @@ export function Dashboard() {
               <Link to='/leaderboard'>View all</Link>
             </UnderlineButton>
           </div>
-          <BestSolves solves={data?.bestSolves} />
+          <BestSolves solves={data?.bestSolves} /> {/* TODO: add loading state */}
         </section>
       </div>
     </div>
