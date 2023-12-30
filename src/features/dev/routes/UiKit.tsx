@@ -1,5 +1,4 @@
 import {
-  CubeBadge,
   CubeButton,
   GhostButton,
   GoogleIcon,
@@ -32,6 +31,7 @@ import {
   SortIcon,
   StopIcon,
   CubeIcon,
+  CubeBadge,
 } from '@/components'
 
 export function UiKit() {

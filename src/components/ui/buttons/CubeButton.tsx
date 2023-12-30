@@ -14,7 +14,7 @@ const CubeButton = forwardRef<HTMLButtonElement, CubeButtonProps>(
     return (
       <Comp
         className={cn(
-          'outline-ring transition-base inline-flex h-15 w-15 cursor-pointer items-center justify-center rounded-xl border border-transparent bg-grey-100 text-grey-60 hover:border-secondary-20 active:bg-secondary-20 active:text-black-100',
+          'inline-flex h-15 w-15 cursor-pointer items-center justify-center rounded-xl border border-transparent bg-grey-100 text-grey-60 hover:border-secondary-20 active:bg-secondary-20 active:text-black-100',
           className,
         )}
         ref={ref}

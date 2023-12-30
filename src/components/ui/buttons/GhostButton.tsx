@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 
-const ghostButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
+const ghostButtonVariants = cva('inline-flex items-center justify-center', {
   variants: {
     variant: {
       default: 'rounded-xl text-white disabled:text-grey-60',

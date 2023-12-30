@@ -57,9 +57,7 @@ export function Navbar() {
           params={params}
           activeProps={{ className: 'border-current text-primary-100' }}
           inactiveProps={{ className: 'border-transparent' }}
-          className={
-            'title-h3 transition-base flex items-center gap-4 border-b-2 p-4 hover:text-primary-100 [&>svg]:h-6 [&>svg]:w-6'
-          }
+          className='title-h3 flex items-center gap-4 border-b-2 p-4 hover:text-primary-100 [&>svg]:h-6 [&>svg]:w-6'
         >
           {children}
         </Link>

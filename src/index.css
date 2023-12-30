@@ -13,6 +13,11 @@
   body {
     @apply bg-black-100 font-hind text-base leading-[1.5] text-white;
   }
+  a,
+  button,
+  input {
+    @apply transition-base outline-ring;
+  }
 }
 
 @layer utilities {

@@ -7,12 +7,12 @@ export function SocialLinks({ className }: { className: string }) {
       {[
         { href: 'https://github.com/vscubing', children: <GithubIcon /> },
         { href: 'https://www.linkedin.com/company/vscubing', children: <LinkedinIcon /> },
-        { href: '#', children: <DiscordIcon /> },
+        { href: '#', children: <DiscordIcon /> } /* TODO: add discord link */,
       ].map(({ href, children }) => (
         <a
           href={href}
           key={href}
-          className='transition-base flex h-11 w-11 items-center justify-center text-[1.5rem] hover:text-primary-100'
+          className='flex h-11 w-11 items-center justify-center text-[1.5rem] hover:text-primary-100'
         >
           {children}
         </a>

@@ -1,5 +1,4 @@
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import './App.tw.css'
 import { RouterProvider } from '@tanstack/react-router'
 import { router } from './router'
 import { QueryClientProvider } from '@tanstack/react-query'
