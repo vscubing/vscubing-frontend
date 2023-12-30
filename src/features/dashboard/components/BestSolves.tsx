@@ -1,38 +1,43 @@
-import { Cube3Icon, ReconstructTimeButton } from '@/components'
+import { Cube3Icon, ReconstructTimeButton, SecondaryButton } from '@/components'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
 import { useReconstructor } from '@/features/reconstructor'
 
-type BestSolvesProps = { bestSolves?: DashboardDTO['bestSolves'] }
-export function BestSolves({ bestSolves }: BestSolvesProps) {
+type BestSolvesProps = { solves?: DashboardDTO['bestSolves'] }
+export function BestSolves({ solves }: BestSolvesProps) {
   const { showReconstruction } = useReconstructor()
 
   return (
-    <div>
-      {bestSolves
-        ? bestSolves.map(({ id, user: { username }, timeMs, discipline }) => (
-            <div
-              key={id}
-              className='flex items-center rounded-md bg-panels py-2 pl-4 pr-2 text-sm md:py-3 md:pl-4 md:pr-6'
-            >
-              <Cube3Icon className='mr-3 w-[23px] text-[#35424B]' />
-              <span
-                className='mr-3 w-[140px] overflow-x-hidden text-ellipsis border-r-[1px] border-[#A0A0A0]/50 pr-3'
-                title={username}
-              >
-                {username}
-              </span>
-              <ReconstructTimeButton className='mr-3' timeMs={timeMs} onClick={() => showReconstruction(id)} />
-              <Link
-                className='btn-action ml-auto'
-                to={'/leaderboard/$discipline'}
-                params={{ discipline: discipline.name }}
-              >
-                leaderboard
-              </Link>
-            </div>
-          ))
-        : 'loading...'}
-    </div>
+    <>
+      <div className='mb-1 flex gap-3 text-grey-40'>
+        <span>Type</span>
+        <span>Nickname</span>
+      </div>
+      <ul>
+        {solves
+          ? solves.map(({ id, user: { username }, timeMs, discipline }) => (
+              <li key={id} className='h-15 flex items-center rounded-xl bg-grey-100 pl-3'>
+                <Cube3Icon className='mr-3' />
+                <div
+                  className='relative w-0 flex-1 overflow-x-clip text-ellipsis border-r border-grey-60 pr-1'
+                  title={username}
+                >
+                  {username}
+                </div>
+                <ReconstructTimeButton className='mr-3' timeMs={timeMs} onClick={() => showReconstruction(id)} />
+                <SecondaryButton asChild>
+                  <Link
+                    className='btn-action ml-auto'
+                    to='/leaderboard/$discipline'
+                    params={{ discipline: discipline.name }}
+                  >
+                    leaderboard
+                  </Link>
+                </SecondaryButton>
+              </li>
+            ))
+          : 'Loading...'}
+      </ul>
+    </>
   )
 }

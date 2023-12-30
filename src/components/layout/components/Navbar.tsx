@@ -1,7 +1,10 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components'
+import { ongoingContestNumberQuery } from '@/features/contests'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 
 export function Navbar() {
+  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   return (
     <nav className='flex flex-col gap-4'>
       {(
@@ -14,6 +17,7 @@ export function Navbar() {
               </>
             ),
             to: '/',
+            params: {},
           },
           {
             children: (
@@ -23,6 +27,7 @@ export function Navbar() {
               </>
             ),
             to: '/leaderboard',
+            params: {},
           },
           {
             children: (
@@ -32,6 +37,7 @@ export function Navbar() {
               </>
             ),
             to: '/dev/ui-kit',
+            params: {},
           },
           {
             children: (
@@ -40,13 +46,15 @@ export function Navbar() {
                 Ongoing contest
               </>
             ),
-            to: `/contest`,
+            to: `/contest/$contestNumber`,
+            params: { contestNumber: String(ongoingContestNumber) },
           },
         ] as const
-      ).map(({ children, to }) => (
+      ).map(({ children, to, params }) => (
         <Link
           key={to}
           to={to}
+          params={params}
           activeProps={{ className: 'border-current text-primary-100' }}
           inactiveProps={{ className: 'border-transparent' }}
           className={'title-h3 transition-base flex items-center gap-4 border-b-2 p-4 hover:text-primary-100'}

@@ -1,2 +1,2 @@
 export * from './BestSolves'
-export * from './ContestsList'
+export * from './LatestContests'

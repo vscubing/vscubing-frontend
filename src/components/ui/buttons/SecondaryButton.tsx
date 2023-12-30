@@ -13,7 +13,7 @@ const secondaryButtonVariants = cva('transition-base outline-ring inline-flex it
     size: {
       lg: 'btn-sm h-15 px-4',
       sm: 'btn-sm h-11 px-4',
-      icon: 'h-20 w-20',
+      iconLg: 'h-20 w-20',
       iconSm: 'h-15 w-15',
     },
   },
