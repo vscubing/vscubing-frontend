@@ -2,10 +2,10 @@ import { cn, formatSolveTime } from '@/utils'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { forwardRef, type ButtonHTMLAttributes } from 'react'
 
-const solveTimeButtonVariants = cva('after-border-bottom w-[5.9375rem] py-1 text-center hover:after:scale-x-100', {
+const solveTimeButtonVariants = cva('after-border-bottom w-24 py-1 text-center hover:after:scale-x-100', {
   variants: {
     variant: {
-      default: '',
+      default: 'active:text-grey-20', // TODO: add variants
     },
   },
   defaultVariants: {
