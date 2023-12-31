@@ -7,7 +7,7 @@ export function Header({ caption }: { caption: string }) {
   const login = useLogin()
 
   return (
-    <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-3'>
+    <div className='flex min-h-[4.375rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
       <p className='title-h3'>{caption}</p>
       {userData ? (
         <div>
