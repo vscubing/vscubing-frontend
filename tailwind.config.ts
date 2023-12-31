@@ -38,6 +38,12 @@ export default {
         red: '#D65961',
         white: '#F9F9F9',
       },
+      screens: {
+        xl: { min: '1800px' },
+        lg: { raw: '(max-width: 1280px), (max-height: 920px)' },
+        md: { max: '767px' },
+        sm: { max: '639px' },
+      },
     },
   },
   plugins: [],

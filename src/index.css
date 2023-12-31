@@ -5,10 +5,8 @@
 @tailwind utilities;
 
 @layer base {
-  @media screen and (max-height: 920px), (max-width: 1200px) {
-    :root {
-      @apply text-[12px];
-    }
+  :root {
+    @apply lg:text-[12px];
   }
   body {
     @apply bg-black-100 font-hind text-base leading-[1.5] text-white;
@@ -65,7 +63,7 @@
 @layer components {
   .after-border-bottom {
     @apply relative after:absolute after:bottom-0 after:left-0;
-    @apply after:transition-transform after:duration-300 after:ease-in-out;
+    @apply after:transition-transform;
     @apply after:block after:h-[.5px] after:w-full after:scale-x-0 after:bg-current;
   }
 }
