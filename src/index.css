@@ -62,3 +62,10 @@
     @apply ring-white focus-visible:outline-none focus-visible:ring-2;
   }
 }
+@layer components {
+  .after-border-bottom {
+    @apply relative after:absolute after:bottom-0 after:left-0;
+    @apply after:transition-base after:transition-transform;
+    @apply after:block after:h-px after:w-full after:scale-x-0 after:bg-current;
+  }
+}

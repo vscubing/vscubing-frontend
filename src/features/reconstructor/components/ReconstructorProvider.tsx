@@ -1,6 +1,6 @@
 import { createContext, useCallback, useMemo, useState } from 'react'
 import { type Reconstruction, type ReconstructionMetadata, Reconstructor } from './Reconstructor'
-import { cn, formatTimeResult } from '@/utils'
+import { cn, formatSolveTime } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { reconstructionQuery, type ReconstructionDTO } from '../api'
 
@@ -57,7 +57,7 @@ export function ReconstructorProvider({ children }: { children: React.ReactNode 
         onClick={handleOverlayClick}
         className={cn(
           { invisible: !content },
-          'wrapper fixed  inset-0	z-20 flex justify-center bg-black bg-opacity-40 pb-5 pt-[50px] md:py-[max(5%,55px)]',
+          'wrapper bg-black  fixed	inset-0 z-20 flex justify-center bg-opacity-40 pb-5 pt-[50px] md:py-[max(5%,55px)]',
         )}
       >
         <Reconstructor content={content} />
@@ -82,7 +82,7 @@ function parseReconstructionDTO({
     contestNumber,
     username,
     scramblePosition: scramble.position,
-    formattedTime: formatTimeResult(parseTimeMsFromSolution(reconstruction.solution)),
+    formattedTime: formatSolveTime(parseTimeMsFromSolution(reconstruction.solution)),
   } satisfies ReconstructionMetadata
   return { reconstruction, metadata }
 }

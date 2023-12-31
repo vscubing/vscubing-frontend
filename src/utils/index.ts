@@ -1,4 +1,4 @@
-export * from './formatTimeResult'
+export * from './formatSolveTime'
 export * from './useConditionalBeforeUnload'
 export * from './cn'
 export * from './isTouchDevice'

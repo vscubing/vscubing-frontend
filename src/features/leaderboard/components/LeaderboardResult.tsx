@@ -1,4 +1,4 @@
-import { ResultCard, ReconstructTimeButton } from '@/components'
+import { ResultCard, SolveTimeButton } from '@/components'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardDTO } from '../api'
 import { useReconstructor } from '@/features/reconstructor'
@@ -26,7 +26,7 @@ export function LeaderboardResult({
         <span>{username}</span>
       </div>
       <div className='flex justify-end border-[#A0A0A0]/50 md:mr-[20px] md:justify-start md:border-r-[1px] md:pr-[20px]'>
-        <ReconstructTimeButton onClick={() => showReconstruction(id)} timeMs={timeMs} />
+        <SolveTimeButton onClick={() => showReconstruction(id)} timeMs={timeMs} />
       </div>
       <div className='col-span-full flex items-center justify-between md:col-span-1 md:justify-start'>
         <span className='w-[110px] pr-[30px]'>{dateString}</span>

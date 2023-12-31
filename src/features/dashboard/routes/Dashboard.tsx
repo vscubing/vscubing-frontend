@@ -14,7 +14,9 @@ export function Dashboard() {
     <div className='flex h-full flex-col gap-3'>
       <Header caption={userData ? `Greetings, ${userData.username}` : 'Greetings, SpeedCubers'} />
       <h1 className='title-h1 flex min-h-28 items-center justify-center px-4 text-center text-secondary-20'>
-        Are you ready to take your love for cubing to the next level?
+        <span>
+          Are you ready to take your love for cubing <span className='text-nowrap'>to the next level?</span>
+        </span>
       </h1>
       <section className='card-gradient'>
         <div
@@ -51,9 +53,9 @@ export function Dashboard() {
           </div>
           <LatestContests contests={data?.contests} /> {/* TODO: add loading state */}
         </section>
-        <section className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(59%-0.75rem/2)] rounded-2xl bg-black-80 px-6 py-4'>
+        <section className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)] rounded-2xl bg-black-80 px-6 py-4'>
           <div className='mb-6 flex justify-between'>
-            <h2 className='title-h3'>Best Solves Ever</h2>
+            <h2 className='title-h3'>Best solves ever</h2>
             <UnderlineButton asChild>
               <Link to='/leaderboard'>View all</Link>
             </UnderlineButton>

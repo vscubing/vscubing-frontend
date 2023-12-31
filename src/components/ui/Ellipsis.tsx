@@ -2,11 +2,11 @@ import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef, useEffect, useImperativeHandle } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
 
-type EllipsisProps = HTMLAttributes<HTMLSpanElement> & {
-  text: string
+type EllipsisProps = Omit<HTMLAttributes<HTMLSpanElement>, 'children'> & {
+  children: string
 }
 
-const Ellipsis = forwardRef<HTMLSpanElement, EllipsisProps>(({ text, className, ...props }, ref) => {
+const Ellipsis = forwardRef<HTMLSpanElement, EllipsisProps>(({ children: text, className, ...props }, ref) => {
   const { width, ref: innerRef } = useResizeDetector<HTMLSpanElement>()
   useEffect(() => {
     const elem = innerRef.current

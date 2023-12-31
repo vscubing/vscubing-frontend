@@ -1,4 +1,4 @@
-import { ReconstructTimeButton } from '@/components'
+import { SolveTimeButton } from '@/components'
 import { cn } from '@/utils'
 import { useReconstructor } from '@/features/reconstructor'
 import { type SolveContestStateDTO } from '../types'
@@ -29,7 +29,7 @@ export function CurrentSolve({
     <>
       <div
         className={cn(
-          'grid grid-cols-[30px_1fr_min-content] items-center rounded-md bg-panels md:grid-cols-[30px_min-content_1fr_min-content]',
+          'bg-panels grid grid-cols-[30px_1fr_min-content] items-center rounded-md md:grid-cols-[30px_min-content_1fr_min-content]',
           className,
         )}
       >
@@ -38,7 +38,7 @@ export function CurrentSolve({
           {!isFinished ? (
             <span className='block w-[80px] text-center'>??:??.??</span>
           ) : isSuccessful ? (
-            <ReconstructTimeButton onClick={() => showReconstruction(solve.id)} timeMs={solve.timeMs} />
+            <SolveTimeButton onClick={() => showReconstruction(solve.id)} timeMs={solve.timeMs} />
           ) : (
             <span className='block w-[80px] pl-2'>DNF</span>
           )}
@@ -54,13 +54,13 @@ export function CurrentSolve({
                   extra
                 </button>
               ) : null}
-              <button onClick={onSubmit} className='w-[82px] rounded-md bg-primary py-2'>
+              <button onClick={onSubmit} className='bg-primary w-[82px] rounded-md py-2'>
                 submit
               </button>
             </div>
           ) : (
             <button
-              className='w-[82px] rounded-md bg-primary py-2 disabled:brightness-50'
+              className='bg-primary w-[82px] rounded-md py-2 disabled:brightness-50'
               onClick={() => initSolve(scramble.scramble, onSolveFinish)}
             >
               solve

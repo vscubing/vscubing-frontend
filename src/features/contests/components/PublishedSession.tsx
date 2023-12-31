@@ -1,5 +1,5 @@
-import { ReconstructTimeButton, ResultCard } from '@/components'
-import { cn, formatTimeResult } from '@/utils'
+import { SolveTimeButton, ResultCard } from '@/components'
+import { cn, formatSolveTime } from '@/utils'
 import { useMemo } from 'react'
 import { useReconstructor } from '@/features/reconstructor'
 import { type ContestResultsDTO } from '../api'
@@ -27,13 +27,13 @@ export function PublishedSession({
         <span className='overflow-x-hidden text-ellipsis'>{username}</span>
       </div>
       <span className='border-[#A0A0A0]/50 pr-[9px] text-right md:mr-5 md:border-r-[1px] md:pr-5 lg:mr-[30px] lg:pr-[30px]'>
-        <span className='inline-block text-center text-[#79A1EF]'>{avgMs ? formatTimeResult(avgMs) : 'DNF'}</span>
+        <span className='inline-block text-center text-[#79A1EF]'>{avgMs ? formatSolveTime(avgMs) : 'DNF'}</span>
       </span>
       <div className='col-span-3 flex justify-between md:col-span-1 md:-ml-[5px] md:gap-1 lg:gap-2'>
         {submittedSolves.map(({ id, timeMs, scramble: { position } }) => {
           const isExtra = position.startsWith('E')
           return timeMs ? (
-            <ReconstructTimeButton
+            <SolveTimeButton
               className={cn(
                 {
                   'text-[#69C382]': bestId === id,
