@@ -15,7 +15,7 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
       result: { reconstruction: string; timeMs: number; dnf: false } | { dnf: true; timeMs: null }
     }) => {
       const res = await axiosClient.post<{ solveId: number }>(
-        `${getApiRoute(contestNumber, discipline)}?scramble_id=${scrambleId}`,
+        getApiRoute(contestNumber, discipline, `?scramble_id=${scrambleId}`),
         result,
       )
 

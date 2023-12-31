@@ -10,7 +10,7 @@ export const useChangeToExtra = (contestNumber: number, discipline: Discipline) 
   useMutation({
     mutationFn: async () => {
       const { data: newSolvesState } = await axiosClient.put<SolveContestStateDTO>(
-        getApiRoute(contestNumber, discipline) + '?action=change_to_extra',
+        getApiRoute(contestNumber, discipline, '?action=change_to_extra'),
       )
 
       const query = solveContestStateQuery(contestNumber, discipline)
