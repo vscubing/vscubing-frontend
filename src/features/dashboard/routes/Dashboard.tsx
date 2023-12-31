@@ -5,8 +5,6 @@ import { userQuery } from '@/features/auth'
 import { Link } from '@tanstack/react-router'
 import { BestSolves, LatestContests } from '../components'
 import { dashboardQuery } from '../api'
-import { ongoingContestNumberQuery } from '@/features/contests'
-import { cn } from '@/utils'
 
 export function Dashboard() {
   const { data: userData } = useQuery(userQuery)

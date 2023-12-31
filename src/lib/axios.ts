@@ -1,10 +1,10 @@
 import { createAuthorizedRequestInterceptor, refreshAccessToken } from '@/features/auth'
 import { getAuthTokens } from '@/features/auth/authTokens'
-import axios from 'axios'
+import axios, { type AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import applyCaseMiddleware from 'axios-case-converter'
 
-const axiosParams = {
+const axiosParams: AxiosRequestConfig = {
   baseURL: `/api`,
   headers: {
     Accept: 'application/json',
