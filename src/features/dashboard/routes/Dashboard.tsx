@@ -53,14 +53,14 @@ export function Dashboard() {
           </div>
           <LatestContests className='flex-1' contests={data?.contests} /> {/* TODO: add loading state */}
         </section>
-        <section className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)] rounded-2xl bg-black-80 px-6 py-4'>
+        <section className='flex min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)] flex-col rounded-2xl bg-black-80 px-6 py-4'>
           <div className='mb-6 flex justify-between'>
             <h2 className='title-h3'>Best solves ever</h2>
             <UnderlineButton asChild>
               <Link to='/leaderboard'>View all</Link>
             </UnderlineButton>
           </div>
-          <BestSolves solves={data?.bestSolves} /> {/* TODO: add loading state */}
+          <BestSolves className='flex-1' solves={data?.bestSolves} /> {/* TODO: add loading state */}
         </section>
       </div>
     </div>

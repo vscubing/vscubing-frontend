@@ -1,54 +1,23 @@
-import { cn, formatDate } from '@/utils'
+import { cn, formatDate, useAutofillHeight } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
 import { ArrowRightIcon, SecondaryButton } from '@/components'
-import { useEffect, useRef, useState } from 'react'
-import { flushSync } from 'react-dom'
 
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
 
-  const containerRef = useRef<HTMLUListElement>(null)
-  const mockElementRef = useRef<HTMLDivElement>(null)
-  const [fittingAmount, setFittingAmount] = useState(0)
-
-  useEffect(() => {
-    function computeFittingAmount() {
-      flushSync(() => setFittingAmount(0))
-      const containerHeight = containerRef.current?.clientHeight
-      const mockElementHeight = mockElementRef.current?.clientHeight
-      if (mockElementHeight && containerHeight) {
-        const gap = parseInt(getComputedStyle(containerRef.current).gap)
-        setFittingAmount(Math.floor((containerHeight + gap) / (mockElementHeight + gap)))
-      }
-    }
-    addEventListener('resize', computeFittingAmount)
-    setTimeout(() => computeFittingAmount(), 0) // setTimeout to suppress "flushSync was called from inside a lifecycle method" warning
-    return () => removeEventListener('resize', computeFittingAmount)
-  }, [containerRef, mockElementRef])
+  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLDivElement>()
 
   return (
-    <>
-      {
-        <ul className={cn('flex flex-col gap-3', className)} ref={containerRef}>
-          <div className='invisible fixed' aria-hidden='true' ref={mockElementRef}>
-            <Contest contest={MOCK_CONTEST} />
-          </div>
-          {sortedContests
-            ? sortedContests.slice(0, fittingAmount).map((contest) => <Contest contest={contest} key={contest.id} />)
-            : 'Loading...'}
-        </ul>
-      }
-    </>
+    <ul className={cn('flex flex-col gap-3', className)} ref={containerRef}>
+      <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
+        <Contest contest={FAKE_CONTEST} />
+      </div>
+      {sortedContests
+        ? sortedContests.slice(0, fittingCount).map((contest) => <Contest contest={contest} key={contest.id} />)
+        : 'Loading...'}
+    </ul>
   )
-}
-
-const MOCK_CONTEST: DashboardDTO['contests'][number] = {
-  id: 1,
-  contestNumber: 1,
-  start: '2021-01-01T00:00:00.000Z',
-  end: '2021-01-01T00:00:00.000Z',
-  ongoing: false,
 }
 
 function Contest({ contest: { contestNumber, start, end } }: { contest: DashboardDTO['contests'][number] }) {
@@ -71,4 +40,12 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
       </SecondaryButton>
     </li>
   )
+}
+
+const FAKE_CONTEST: DashboardDTO['contests'][number] = {
+  id: 1,
+  contestNumber: 1,
+  start: '2021-01-01T00:00:00.000Z',
+  end: '2021-01-01T00:00:00.000Z',
+  ongoing: false,
 }

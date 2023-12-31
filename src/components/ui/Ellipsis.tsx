@@ -17,7 +17,7 @@ const Ellipsis = forwardRef<HTMLSpanElement, EllipsisProps>(({ children: text, c
   }, [text, ref, innerRef, width])
   useImperativeHandle(ref, () => innerRef.current!, [innerRef])
   return (
-    <span className={cn('overflow-x-clip text-ellipsis text-nowrap', className)} ref={innerRef} {...props}>
+    <span className={cn('w-0 overflow-x-clip text-ellipsis text-nowrap', className)} ref={innerRef} {...props}>
       {text}
     </span>
   )
