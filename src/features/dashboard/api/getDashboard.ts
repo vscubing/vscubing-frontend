@@ -21,6 +21,14 @@ export type DashboardDTO = {
 
 async function getDashboard() {
   const res = await axiosClient.get<DashboardDTO>('contests/dashboard/')
+  if (res.data && !res.data.bestSolves.length)
+    res.data.bestSolves.push({
+      id: 1,
+      contestNumber: 1,
+      timeMs: 12134,
+      user: { username: 'test-user' },
+      discipline: { name: '3by3' },
+    }) // TODO: replace with proper mock data
   return res.data
 }
 

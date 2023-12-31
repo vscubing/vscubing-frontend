@@ -3,15 +3,15 @@ import { queryClient } from '@/lib/reactQuery'
 import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
 import { type SolveContestStateDTO } from '../types'
-import { API_ROUTE } from './constants'
 import { solveContestStateQuery } from './getSolveContestState'
 import { contestResultsQuery } from '@/features/contests/api'
+import { getApiRoute } from './apiRoute'
 
 export const useSubmitSolve = (contestNumber: number, discipline: Discipline) =>
   useMutation({
     mutationFn: async () => {
       const { data } = await axiosClient.put<SolveContestStateDTO | { detail: 'contest submitted' }>(
-        `${API_ROUTE}${contestNumber}/${discipline}/?action=submit`,
+        getApiRoute(contestNumber, discipline) + '?action=submit',
       )
 
       const isSessionOver = 'detail' in data

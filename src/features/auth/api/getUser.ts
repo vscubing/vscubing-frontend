@@ -5,7 +5,7 @@ type UserData = { username: string; authCompleted: boolean }
 
 async function getUser() {
   try {
-    const res = await axiosClient.get<UserData>('accounts/current_user/')
+    const res = await axiosClient.get<UserData>('accounts/current-user/')
     return res.data
   } catch (err) {
     return null

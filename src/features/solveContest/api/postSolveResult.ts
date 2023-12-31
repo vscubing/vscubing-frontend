@@ -2,8 +2,8 @@ import { queryClient } from '@/lib/reactQuery'
 import { axiosClient } from '@/lib/axios'
 import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
-import { API_ROUTE } from './constants'
 import { solveContestStateQuery } from './getSolveContestState'
+import { getApiRoute } from './apiRoute'
 
 export const usePostSolveResult = (contestNumber: number, discipline: Discipline) =>
   useMutation({
@@ -15,7 +15,7 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
       result: { reconstruction: string; timeMs: number; dnf: false } | { dnf: true; timeMs: null }
     }) => {
       const res = await axiosClient.post<{ solveId: number }>(
-        `${API_ROUTE}${contestNumber}/${discipline}/?scramble_id=${scrambleId}`,
+        `${getApiRoute(contestNumber, discipline)}?scramble_id=${scrambleId}`,
         result,
       )
 

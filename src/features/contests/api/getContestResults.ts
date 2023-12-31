@@ -18,7 +18,7 @@ export type ContestResultsDTO = Array<{
 }>
 
 async function getContestResults(contestNumber: number, discipline: Discipline) {
-  const res = await axiosClient.get<ContestResultsDTO>(`contests/contest/${contestNumber}/${discipline}/`)
+  const res = await axiosClient.get<ContestResultsDTO>(`contests/contest/${contestNumber}/discipline/${discipline}/`)
   return res.data
 }
 

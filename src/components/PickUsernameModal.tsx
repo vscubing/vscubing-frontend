@@ -2,6 +2,7 @@ import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { SecondaryButton } from '.'
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
@@ -28,8 +29,8 @@ export function PickUsernameModal() {
 
   return (
     isVisible && (
-      <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-40'>
-        <div className='bg-panels p-[20px] text-white'>
+      <div className='fixed inset-0 z-10 flex items-center justify-center bg-black-100 bg-opacity-40'>
+        <div className='bg-black-100 p-10 text-white'>
           <div>Choose a nickname</div>
           <input
             className='block bg-[#11191F]'
@@ -37,9 +38,9 @@ export function PickUsernameModal() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <button type='button' onClick={handleSubmit}>
+          <SecondaryButton onClick={handleSubmit} className='mt-4'>
             Submit
-          </button>
+          </SecondaryButton>
         </div>
       </div>
     )
