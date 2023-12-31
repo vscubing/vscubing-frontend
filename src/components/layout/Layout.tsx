@@ -14,17 +14,17 @@ export function Layout() {
           <div className='title-h2 flex h-[7.1rem] items-center justify-center rounded-2xl bg-black-80'>
             <Link to='/'>LOGO</Link>
           </div>
-          <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-4'>
+          <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
             <div className='flex flex-col items-center'>
-              <SocialLinks className='mb-10' />
+              <SocialLinks />
               {/* TODO: animate the social links to slide up after login before the log out button appears */}
               {user && (
-                <GhostButton className='mb-8' onClick={() => logout()}>
+                <GhostButton className='mt-4' onClick={() => logout()}>
                   Log out <LogoutIcon />
                 </GhostButton>
               )}
-              <p className='text-caption text-white'>© Virtual Speedcubing, 2023</p>
+              <p className='text-caption mt-6 text-white'>© Virtual Speedcubing, 2023</p>
             </div>
           </div>
         </aside>

@@ -1,9 +1,8 @@
 import { GithubIcon, LinkedinIcon, DiscordIcon } from '@/components'
-import { cn } from '@/utils'
 
-export function SocialLinks({ className }: { className: string }) {
+export function SocialLinks() {
   return (
-    <div className={cn('flex justify-center gap-4', className)}>
+    <div className='flex justify-center gap-4'>
       {[
         { href: 'https://github.com/vscubing', children: <GithubIcon /> },
         { href: 'https://www.linkedin.com/company/vscubing', children: <LinkedinIcon /> },
