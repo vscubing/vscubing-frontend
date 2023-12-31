@@ -44,14 +44,14 @@ export function Dashboard() {
         </div>
       </section>
       <div className='flex flex-1 flex-wrap gap-3'>
-        <section className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)] whitespace-nowrap rounded-2xl bg-black-80 px-6 py-4'>
+        <section className='flex min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)] flex-col whitespace-nowrap rounded-2xl bg-black-80 px-6 py-4'>
           <div className='mb-6 flex justify-between'>
             <h2 className='title-h3'>Latest contests</h2>
             <UnderlineButton asChild>
               <Link>View all</Link>
             </UnderlineButton>
           </div>
-          <LatestContests contests={data?.contests} /> {/* TODO: add loading state */}
+          <LatestContests className='flex-1' contests={data?.contests} /> {/* TODO: add loading state */}
         </section>
         <section className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)] rounded-2xl bg-black-80 px-6 py-4'>
           <div className='mb-6 flex justify-between'>
