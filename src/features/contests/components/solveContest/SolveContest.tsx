@@ -3,8 +3,8 @@ import { CurrentSolve, SubmittedSolve } from './components'
 import { InfoBox } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
-import { userQuery } from '../auth'
-import { type CubeSolveResult } from '../cube'
+import { userQuery } from '@/features/auth'
+import { type CubeSolveResult } from '@/features/cube'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export function SolveContest({ contestNumber, discipline }: SolveContestProps) {

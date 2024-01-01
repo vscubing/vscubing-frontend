@@ -1,11 +1,11 @@
 import { InfoBox } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { type Discipline } from '@/types'
-import { SolveContest } from '@/features/solveContest'
 import { PublishedSession } from './PublishedSession'
 import { type ContestResultsDTO } from '../api'
 import { userQuery } from '@/features/auth'
 import { RouteApi } from '@tanstack/react-router'
+import { SolveContest } from './solveContest'
 
 const route = new RouteApi({ id: '/contest/$contestNumber/$discipline' })
 export function ContestDiscipline() {
