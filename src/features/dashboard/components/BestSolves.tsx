@@ -1,4 +1,4 @@
-import { CubeIcon, Ellipsis, SolveTimeButton, SecondaryButton } from '@/components/ui'
+import { CubeIcon, Ellipsis, SolveTimeButton, SecondaryButton, UnderlineButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
 import { useReconstructor } from '@/features/reconstructor'
@@ -8,20 +8,31 @@ import { DEFAULT_DISCIPLINE } from '@/types'
 type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
   const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLDivElement>()
+  const allFit = solves && solves.length <= fittingCount
 
   return (
-    <div className={cn('flex flex-col', className)}>
-      <div className='mb-1 flex gap-3 text-grey-40'>
-        <span>Type</span>
-        <span>Nickname</span>
+    <section className={cn('flex flex-col rounded-2xl bg-black-80 px-6 py-4', className)}>
+      <div className='mb-6 flex h-[2.3rem] justify-between'>
+        <h2 className='title-h3'>Best solves ever</h2>
+        {!allFit && (
+          <UnderlineButton asChild>
+            <Link to='/leaderboard'>View all</Link>
+          </UnderlineButton>
+        )}
       </div>
-      <ul className='flex min-w-[29.5rem] flex-1 flex-col gap-3' ref={containerRef}>
-        <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
-          <Solve solve={FAKE_SOLVE} />
+      <div className='flex flex-1 flex-col'>
+        <div className='mb-1 flex gap-3 text-grey-40'>
+          <span>Type</span>
+          <span>Nickname</span>
         </div>
-        {solves ? solves.slice(0, fittingCount).map((solve) => <Solve solve={solve} key={solve.id} />) : 'Loading...'}
-      </ul>
-    </div>
+        <ul className='flex min-w-[29.5rem] flex-1 flex-col gap-3' ref={containerRef}>
+          <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
+            <Solve solve={FAKE_SOLVE} />
+          </div>
+          {solves ? solves.slice(0, fittingCount).map((solve) => <Solve solve={solve} key={solve.id} />) : 'Loading...'}
+        </ul>
+      </div>
+    </section>
   )
 }
 

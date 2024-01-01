@@ -59,36 +59,6 @@ function getLinks(ongoingContestNumber?: number) {
     {
       children: (
         <>
-          <AllContestsIcon />
-          All contests
-        </>
-      ),
-      to: '/dev/ui-kit',
-      params: undefined,
-    },
-    {
-      children: (
-        <>
-          <AllContestsIcon />
-          All contests
-        </>
-      ),
-      to: '/dev/ui-kit',
-      params: undefined,
-    },
-    {
-      children: (
-        <>
-          <AllContestsIcon />
-          All contests
-        </>
-      ),
-      to: '/dev/ui-kit',
-      params: undefined,
-    },
-    {
-      children: (
-        <>
           <OngoingContestIcon />
           Ongoing contest
         </>

@@ -46,24 +46,16 @@ export function Dashboard() {
         </div>
       </section>
       <div className='flex flex-1 flex-wrap gap-3'>
-        <section className='flex min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)] flex-col whitespace-nowrap rounded-2xl bg-black-80 px-6 py-4'>
-          <div className='mb-6 flex justify-between'>
-            <h2 className='title-h3'>Latest contests</h2>
-            <UnderlineButton asChild>
-              <Link>View all</Link>
-            </UnderlineButton>
-          </div>
-          <LatestContests className='flex-1' contests={data?.contests} /> {/* TODO: add loading state */}
-        </section>
-        <section className='flex min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)] flex-col rounded-2xl bg-black-80 px-6 py-4'>
-          <div className='mb-6 flex justify-between'>
-            <h2 className='title-h3'>Best solves ever</h2>
-            <UnderlineButton asChild>
-              <Link to='/leaderboard'>View all</Link>
-            </UnderlineButton>
-          </div>
-          <BestSolves className='flex-1' solves={data?.bestSolves} /> {/* TODO: add loading state */}
-        </section>
+        <LatestContests
+          className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)]'
+          contests={data?.contests}
+        />
+        {/* TODO: add loading state */}
+        <BestSolves
+          className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)]'
+          solves={data?.bestSolves}
+        />
+        {/* TODO: add loading state */}
       </div>
     </div>
   )

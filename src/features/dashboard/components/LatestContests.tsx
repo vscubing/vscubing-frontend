@@ -1,22 +1,34 @@
 import { cn, formatDate, useAutofillHeight } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
-import { ArrowRightIcon, SecondaryButton } from '@/components/ui'
+import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/ui'
 
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
 
   const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLDivElement>()
+  const allFit = sortedContests && sortedContests.length <= fittingCount
 
   return (
-    <ul className={cn('flex flex-col gap-3', className)} ref={containerRef}>
-      <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
-        <Contest contest={FAKE_CONTEST} />
+    <section className={cn('flex flex-col rounded-2xl bg-black-80 px-6 py-4', className)}>
+      <div className='mb-6 flex h-[2.3rem] justify-between'>
+        <h2 className='title-h3'>Latest contests</h2>
+        {!allFit && (
+          <UnderlineButton asChild>
+            <Link>View all</Link>
+          </UnderlineButton>
+        )}
+        {/* TODO: add a link to all contests */}
       </div>
-      {sortedContests
-        ? sortedContests.slice(0, fittingCount).map((contest) => <Contest contest={contest} key={contest.id} />)
-        : 'Loading...'}
-    </ul>
+      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+        <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
+          <Contest contest={FAKE_CONTEST} />
+        </div>
+        {sortedContests
+          ? sortedContests.slice(0, fittingCount).map((contest) => <Contest contest={contest} key={contest.id} />)
+          : 'Loading...'}
+      </ul>
+    </section>
   )
 }
 
