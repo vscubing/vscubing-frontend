@@ -1,11 +1,11 @@
 import { Layout } from './components'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { RootRoute, Router } from '@tanstack/react-router'
 import { leaderboardRoute } from './features/leaderboard'
 import { contestsRoute } from './features/contests'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { dashboardRoute } from './features/dashboard'
 import { devRoute } from './features/dev'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const rootRoute = new RootRoute({
   component: () => (

@@ -1,6 +1,6 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, isDiscipline } from '@/types'
-import { Route, redirect } from '@tanstack/react-router'
+import { Route } from '@tanstack/react-router'
 import { ContestDiscipline } from '../components'
 import { contestResultsQuery } from '../api'
 import { z } from 'zod'
