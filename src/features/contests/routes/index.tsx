@@ -1,6 +1,6 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, isDiscipline } from '@/types'
-import { Route } from '@tanstack/react-router'
+import { Route, redirect } from '@tanstack/react-router'
 import { ContestDiscipline } from '../components'
 import { contestResultsQuery } from '../api'
 import { z } from 'zod'
@@ -16,10 +16,10 @@ const allContestsIndexRoute = new Route({
   getParentRoute: () => allContestsRoute,
   path: '/',
   validateSearch: ongoingContestRedirectSchema,
-  beforeLoad: async ({ navigate, search: { discipline }, context: { queryClient } }) => {
+  beforeLoad: async ({ navigate, search: { discipline } }) => {
     const contestNumber = await queryClient.fetchQuery(ongoingContestNumberQuery)
     void navigate({
-      to: '/contest/$contestNumber/$discipline',
+      to: '$contestNumber/$discipline',
       params: {
         discipline,
         contestNumber: String(contestNumber),
