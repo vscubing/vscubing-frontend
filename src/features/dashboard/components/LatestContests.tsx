@@ -42,11 +42,7 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild>
-        <Link
-          className={cn('rounded-md py-2 pl-4 pr-2 md:px-6 md:py-2 md:text-lg')}
-          to='/contest/$contestNumber'
-          params={{ contestNumber: String(contestNumber) }}
-        >
+        <Link to='/contest/$contestNumber' params={{ contestNumber: String(contestNumber) }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>
