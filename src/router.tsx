@@ -1,15 +1,13 @@
 import { Layout } from './components'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Router, rootRouteWithContext } from '@tanstack/react-router'
+import { RootRoute, Router } from '@tanstack/react-router'
 import { leaderboardRoute } from './features/leaderboard'
 import { contestsRoute } from './features/contests'
-import { type QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { dashboardRoute } from './features/dashboard'
-import { queryClient } from './lib/reactQuery'
 import { devRoute } from './features/dev'
 
-export const rootRoute = rootRouteWithContext<{ queryClient: QueryClient }>()({
+export const rootRoute = new RootRoute({
   component: () => (
     <>
       <Layout />
@@ -29,9 +27,6 @@ const routeTree = rootRoute.addChildren([indexRoute, leaderboardRoute, contestsR
 export const router = new Router({
   routeTree,
   defaultPreloadStaleTime: 0,
-  context: {
-    queryClient,
-  },
 })
 
 declare module '@tanstack/react-router' {

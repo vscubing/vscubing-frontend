@@ -4,6 +4,7 @@ import { Route } from '@tanstack/react-router'
 import { LeaderboardDiscipline } from '../components'
 import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { leaderboardQuery } from '../api'
+import { queryClient } from '@/lib/reactQuery'
 
 const route = new Route({
   getParentRoute: () => rootRoute,
@@ -20,7 +21,7 @@ export const disciplineRoute = new Route({
   getParentRoute: () => route,
   path: '$discipline',
   pendingComponent: () => <div>Loading...</div>,
-  loader: ({ params: { discipline }, navigate, context: { queryClient } }) => {
+  loader: ({ params: { discipline }, navigate }) => {
     if (!isDiscipline(discipline)) {
       throw navigate({ to: '../', replace: true })
     }

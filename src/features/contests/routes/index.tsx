@@ -6,6 +6,7 @@ import { contestResultsQuery } from '../api'
 import { z } from 'zod'
 import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { ongoingContestNumberQuery } from '@/features/misc'
+import { queryClient } from '@/lib/reactQuery'
 
 const ongoingContestRedirectSchema = z.object({
   discipline: z.enum(DISCIPLINES).optional().default(DEFAULT_DISCIPLINE),
@@ -43,7 +44,7 @@ const contestIndexRoute = new Route({
 export const contestDisciplineRoute = new Route({
   getParentRoute: () => contestRoute,
   path: '$discipline',
-  loader: ({ params, navigate, context: { queryClient } }) => {
+  loader: ({ params, navigate }) => {
     const contestNumber = Number(params.contestNumber)
     if (isNaN(contestNumber)) {
       throw navigate({ to: '../../', replace: true })
