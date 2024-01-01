@@ -17,15 +17,17 @@ export function Layout() {
           </div>
           <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
-            <div className='flex flex-col items-center'>
-              <SocialLinks />
-              {/* TODO: animate the social links to slide up after login before the log out button appears */}
-              {user && (
-                <GhostButton className='mt-4' onClick={() => logout()}>
-                  Log out <LogoutIcon />
-                </GhostButton>
-              )}
-              <p className='text-caption mt-6 text-white'>© Virtual Speedcubing, 2023</p>
+            <div>
+              <div className='lg-short:flex-row lg-short:gap-1 lg-short:justify-center flex flex-col items-center gap-4'>
+                <SocialLinks />
+                {/* TODO: animate the social links to slide up after login before the log out button appears */}
+                {user && (
+                  <GhostButton onClick={() => logout()}>
+                    Log out <LogoutIcon />
+                  </GhostButton>
+                )}
+              </div>
+              <p className='text-caption mt-6 text-center text-white'>© Virtual Speedcubing, 2023</p>
             </div>
           </div>
         </aside>

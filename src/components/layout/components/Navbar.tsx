@@ -6,51 +6,8 @@ import { Link } from '@tanstack/react-router'
 export function Navbar() {
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   return (
-    <nav className='flex flex-col gap-4'>
-      {(
-        [
-          {
-            children: (
-              <>
-                <DashboardIcon />
-                Dashboard
-              </>
-            ),
-            to: '/',
-            params: undefined,
-          },
-          {
-            children: (
-              <>
-                <LeaderboardIcon />
-                Leaderboard
-              </>
-            ),
-            to: '/leaderboard',
-            params: undefined,
-          },
-          {
-            children: (
-              <>
-                <AllContestsIcon />
-                All contests
-              </>
-            ),
-            to: '/dev/ui-kit',
-            params: undefined,
-          },
-          {
-            children: (
-              <>
-                <OngoingContestIcon />
-                Ongoing contest
-              </>
-            ),
-            to: `/contest/$contestNumber`,
-            params: { contestNumber: ongoingContestNumber === undefined ? '' : String(ongoingContestNumber) },
-          },
-        ] as const
-      ).map(({ children, to, params }) => (
+    <nav className='lg-short:gap-1 flex flex-col gap-4'>
+      {getLinks(ongoingContestNumber).map(({ children, to, params }) => (
         <Link
           key={to}
           to={to}
@@ -65,4 +22,79 @@ export function Navbar() {
       ))}
     </nav>
   )
+}
+
+function getLinks(ongoingContestNumber?: number) {
+  return [
+    {
+      children: (
+        <>
+          <DashboardIcon />
+          Dashboard
+        </>
+      ),
+      to: '/',
+      params: undefined,
+    },
+    {
+      children: (
+        <>
+          <LeaderboardIcon />
+          Leaderboard
+        </>
+      ),
+      to: '/leaderboard',
+      params: undefined,
+    },
+    {
+      children: (
+        <>
+          <AllContestsIcon />
+          All contests
+        </>
+      ),
+      to: '/dev/ui-kit',
+      params: undefined,
+    },
+    {
+      children: (
+        <>
+          <AllContestsIcon />
+          All contests
+        </>
+      ),
+      to: '/dev/ui-kit',
+      params: undefined,
+    },
+    {
+      children: (
+        <>
+          <AllContestsIcon />
+          All contests
+        </>
+      ),
+      to: '/dev/ui-kit',
+      params: undefined,
+    },
+    {
+      children: (
+        <>
+          <AllContestsIcon />
+          All contests
+        </>
+      ),
+      to: '/dev/ui-kit',
+      params: undefined,
+    },
+    {
+      children: (
+        <>
+          <OngoingContestIcon />
+          Ongoing contest
+        </>
+      ),
+      to: `/contest/$contestNumber`,
+      params: { contestNumber: ongoingContestNumber === undefined ? '' : String(ongoingContestNumber) },
+    },
+  ] as const
 }

@@ -40,7 +40,8 @@ export default {
       },
       screens: {
         xl: { min: '1800px' },
-        lg: { raw: '(max-width: 1280px), (max-height: 920px)' },
+        lg: { raw: '(max-width: 1280px), (max-height: 950px)' },
+        ['lg-short']: { raw: '(min-width: 768px) and (max-height: 730px)' },
         md: { max: '767px' },
         sm: { max: '639px' },
       },
