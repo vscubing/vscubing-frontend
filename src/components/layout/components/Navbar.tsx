@@ -1,5 +1,5 @@
-import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components'
-import { ongoingContestNumberQuery } from '@/features/contests'
+import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
+import { ongoingContestNumberQuery } from '@/features/misc'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 

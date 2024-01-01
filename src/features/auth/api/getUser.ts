@@ -1,5 +1,6 @@
 import { axiosClient } from '@/lib/axios'
 import { queryOptions } from '@tanstack/react-query'
+import { USER_QUERY_KEY } from '../userQueryKey'
 
 type UserData = { username: string; authCompleted: boolean }
 
@@ -12,7 +13,6 @@ async function getUser() {
   }
 }
 
-export const USER_QUERY_KEY = 'user'
 export const userQuery = queryOptions({
   queryKey: [USER_QUERY_KEY],
   queryFn: getUser,

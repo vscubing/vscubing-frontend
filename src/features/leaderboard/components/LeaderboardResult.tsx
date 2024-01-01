@@ -1,4 +1,4 @@
-import { ResultCard, SolveTimeButton } from '@/components'
+import { ResultCard, SolveTimeButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardDTO } from '../api'
 import { useReconstructor } from '@/features/reconstructor'

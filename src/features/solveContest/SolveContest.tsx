@@ -1,6 +1,6 @@
 import { type Discipline } from '@/types'
 import { CurrentSolve, SubmittedSolve } from './components'
-import { InfoBox } from '@/components'
+import { InfoBox } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
 import { userQuery } from '../auth'

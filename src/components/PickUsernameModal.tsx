@@ -2,7 +2,7 @@ import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { SecondaryButton } from '.'
+import { SecondaryButton } from './ui'
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)

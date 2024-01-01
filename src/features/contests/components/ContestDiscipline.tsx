@@ -1,16 +1,17 @@
-import { InfoBox } from '@/components'
+import { InfoBox } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { type Discipline } from '@/types'
 import { SolveContest } from '@/features/solveContest'
-import { contestDisciplineRoute } from '../routes'
 import { PublishedSession } from './PublishedSession'
 import { type ContestResultsDTO } from '../api'
 import { userQuery } from '@/features/auth'
+import { RouteApi } from '@tanstack/react-router'
 
+const route = new RouteApi({ id: '/contest/$contestNumber/$discipline' })
 export function ContestDiscipline() {
   const { data: userData } = useQuery(userQuery)
-  const routeParams = contestDisciplineRoute.useParams()
-  const query = contestDisciplineRoute.useLoaderData()
+  const routeParams = route.useParams()
+  const query = route.useLoaderData()
   const { data: sessions, error, isLoading } = useQuery(query)
 
   if (isLoading) {

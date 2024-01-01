@@ -32,7 +32,7 @@ import {
   StopIcon,
   CubeIcon,
   CubeBadge,
-} from '@/components'
+} from '@/components/ui'
 
 export function UiKit() {
   return (

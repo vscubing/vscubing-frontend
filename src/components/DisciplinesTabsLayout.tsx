@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react'
-import { CubeIcon } from '.'
+import { CubeIcon } from './ui'
 
 export function DisciplinesTabsLayout({ children }: { children: ReactNode }) {
   return (

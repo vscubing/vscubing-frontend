@@ -1,14 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 import cubesCardBg from '@/assets/images/cubes-card-bg.svg'
-import { CubeBadge, Header, PrimaryButton, UnderlineButton } from '@/components'
+import { CubeBadge, PrimaryButton, UnderlineButton } from '@/components/ui'
+import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
-import { Link } from '@tanstack/react-router'
+import { Link, RouteApi } from '@tanstack/react-router'
 import { BestSolves, LatestContests } from '../components'
-import { dashboardQuery } from '../api'
 
+const route = new RouteApi({ id: '/' })
 export function Dashboard() {
   const { data: userData } = useQuery(userQuery)
-  const { data } = useQuery(dashboardQuery)
+  const query = route.useLoaderData()
+  const { data } = useQuery(query)
 
   return (
     <div className='flex h-full flex-col gap-3'>

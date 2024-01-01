@@ -1,5 +1,5 @@
-import { createAuthorizedRequestInterceptor, refreshAccessToken } from '@/features/auth'
-import { getAuthTokens } from '@/features/auth/authTokens'
+import { refreshAccessToken } from '@/features/auth/api/refreshAccessToken'
+import { createAuthorizedRequestInterceptor, getAuthTokens } from '@/utils'
 import axios, { type AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import applyCaseMiddleware from 'axios-case-converter'

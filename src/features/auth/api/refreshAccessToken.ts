@@ -1,7 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios'
-import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '../authTokens'
 import { queryClient } from '@/lib/reactQuery'
-import { USER_QUERY_KEY } from '.'
+import { deleteAuthTokens, getAuthTokens, setAuthTokens } from '@/utils'
+import { USER_QUERY_KEY } from '../userQueryKey'
 
 export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {
   const tokens = getAuthTokens()

@@ -1,4 +1,4 @@
-import { CubeIcon, Ellipsis, SolveTimeButton, SecondaryButton } from '@/components'
+import { CubeIcon, Ellipsis, SolveTimeButton, SecondaryButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
 import { useReconstructor } from '@/features/reconstructor'

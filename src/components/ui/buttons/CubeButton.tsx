@@ -1,7 +1,7 @@
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 import { type Discipline } from '@/types'
-import { CubeIcon } from '..'
+import { CubeIcon } from '../icons.tsx'
 
 type CubeButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   asButton?: boolean

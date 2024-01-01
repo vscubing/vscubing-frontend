@@ -1,10 +1,11 @@
-import { DisciplinesTabsLayout } from '@/components'
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
 import { ContestDiscipline } from '../components'
-import { ongoingContestNumberQuery, contestResultsQuery } from '../api'
+import { contestResultsQuery } from '../api'
 import { z } from 'zod'
+import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
+import { ongoingContestNumberQuery } from '@/features/misc'
 
 const ongoingContestRedirectSchema = z.object({
   discipline: z.enum(DISCIPLINES).optional().default(DEFAULT_DISCIPLINE),

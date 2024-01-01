@@ -1,8 +1,9 @@
-import { GhostButton, LogoutIcon, PickUsernameModal } from '..'
+import { GhostButton, LogoutIcon } from '../ui'
 import { Link, Outlet } from '@tanstack/react-router'
 import { SocialLinks, Navbar } from './components'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery, logout } from '@/features/auth'
+import { PickUsernameModal } from '../PickUsernameModal'
 
 export function Layout() {
   const { data: user } = useQuery(userQuery)

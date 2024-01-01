@@ -2,7 +2,7 @@ import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
 import { LeaderboardDiscipline } from '../components'
-import { DisciplinesTabsLayout } from '@/components'
+import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { leaderboardQuery } from '../api'
 
 const route = new Route({

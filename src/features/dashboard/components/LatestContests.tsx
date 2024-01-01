@@ -1,7 +1,7 @@
 import { cn, formatDate, useAutofillHeight } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
-import { ArrowRightIcon, SecondaryButton } from '@/components'
+import { ArrowRightIcon, SecondaryButton } from '@/components/ui'
 
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)

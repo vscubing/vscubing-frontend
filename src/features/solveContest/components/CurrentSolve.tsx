@@ -1,4 +1,4 @@
-import { SolveTimeButton } from '@/components'
+import { SolveTimeButton } from '@/components/ui'
 import { cn } from '@/utils'
 import { useReconstructor } from '@/features/reconstructor'
 import { type SolveContestStateDTO } from '../types'

@@ -1,4 +1,4 @@
-import { SolveTimeButton, ResultCard } from '@/components'
+import { SolveTimeButton, ResultCard } from '@/components/ui'
 import { cn, formatSolveTime } from '@/utils'
 import { useMemo } from 'react'
 import { useReconstructor } from '@/features/reconstructor'

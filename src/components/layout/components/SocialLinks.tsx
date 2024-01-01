@@ -1,4 +1,4 @@
-import { GithubIcon, LinkedinIcon, DiscordIcon } from '@/components'
+import { GithubIcon, LinkedinIcon, DiscordIcon } from '@/components/ui'
 
 export function SocialLinks() {
   return (

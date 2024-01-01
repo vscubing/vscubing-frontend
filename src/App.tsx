@@ -6,6 +6,12 @@ import { ReconstructorProvider } from './features/reconstructor'
 import { queryClient } from './lib/reactQuery'
 import { CubeProvider } from './features/cube'
 
+if (import.meta.hot) {
+  // disable HMR because tanstack router breaks it
+  import.meta.hot.accept(() => {
+    import.meta.hot!.invalidate()
+  })
+}
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,4 +1,4 @@
-import { AvatarIcon, GhostButton, GoogleIcon } from '@/components'
+import { AvatarIcon, GhostButton, GoogleIcon } from '@/components/ui'
 import { useLogin, userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 
