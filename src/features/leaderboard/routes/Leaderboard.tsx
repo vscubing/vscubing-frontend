@@ -13,7 +13,7 @@ export function Leaderboard() {
 
   const query = route.useLoaderData()
   const params = route.useParams()
-  const { data: results } = useQuery(query)
+  const { data } = useQuery(query)
 
   const caption = user ? `${user.username}, check out our best solves` : 'Check out our best solves'
   return (
@@ -27,7 +27,7 @@ export function Leaderboard() {
       </div>
       <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-6'>
         <ResultsHeader className='mb-1' />
-        <ResultsList results={results} />
+        <ResultsList results={data?.results} ownResult={data?.ownResult ?? undefined} />
       </div>
     </section>
   )

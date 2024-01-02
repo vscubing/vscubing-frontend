@@ -1,1 +1,2 @@
-export * from './routes'
+export { contestsRoute } from './routes'
+export { getContestsQuery } from './api'

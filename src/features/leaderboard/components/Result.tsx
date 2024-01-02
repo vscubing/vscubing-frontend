@@ -1,30 +1,20 @@
 import { CubeIcon, Ellipsis, SecondaryButton, SolveTimeButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
-import { type LeaderboardDTO } from '../api'
+import { type LeaderboardResult } from '../api'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
-import { userQuery } from '@/features/auth'
-import { useQuery } from '@tanstack/react-query'
 
 export function Result({
   className,
-  result: {
-    user: { username },
-    id,
-    timeMs,
-    created,
-    contest: { contestNumber },
-    discipline,
-  },
-  placeNumber,
-}: { result: LeaderboardDTO[number] } & {
+  isOwnResult = false,
+  result,
+}: { result: LeaderboardResult } & {
+  isOwnResult?: boolean
   className?: string
-  placeNumber: number
 }) {
   const { showReconstruction } = useReconstructor()
-  const { data: currentUser } = useQuery(userQuery)
 
-  const isOwnResult = currentUser?.username === username
+  let username = result.user.username
   if (isOwnResult) {
     username = username + ' (you)'
   }
@@ -38,17 +28,17 @@ export function Result({
       )}
     >
       <span className='my-2 mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-80 text-lg'>
-        {placeNumber}
+        {result.placeNumber}
       </span>
-      <CubeIcon className='mr-3' cube={discipline.name} />
+      <CubeIcon className='mr-3' cube={result.discipline.name} />
       <Ellipsis className='flex-1'>{username}</Ellipsis>
-      <SolveTimeButton className='mr-6' timeMs={timeMs} onClick={() => showReconstruction(id)} />
-      <span className='w-36 border-l border-grey-60 text-center'>{formatSolveDate(created)}</span>
-      <span className='mr-10 w-[9.375rem] text-center'>Contest {contestNumber}</span>
+      <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
+      <span className='w-36 border-l border-grey-60 text-center'>{formatSolveDate(result.created)}</span>
+      <span className='mr-10 w-[9.375rem] text-center'>Contest {result.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
           to='/contest/$contestNumber/$discipline'
-          params={{ contestNumber: String(contestNumber), discipline: discipline.name }}
+          params={{ contestNumber: String(result.contest.contestNumber), discipline: result.discipline.name }}
         >
           view contest
         </Link>

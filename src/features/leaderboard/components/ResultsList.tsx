@@ -1,19 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
 import { Result } from './Result'
-import { userQuery } from '@/features/auth'
-import { type LeaderboardDTO } from '../api'
+import { type LeaderboardResult } from '../api'
 import { useAutofillHeight } from '@/utils'
 
-export function ResultsList({ results }: { results?: LeaderboardDTO }) {
-  results = results && Array(8).fill(results[0])
-  results = results && [
-    ...results
-      .slice(1)
-      .map((result) => ({ ...result, id: Math.random(), user: { id: 123, username: String(Math.random()) } })),
-    results[0],
-  ]
-
-  const { data: currentUser } = useQuery(userQuery)
+export function ResultsList({ results, ownResult }: { results?: LeaderboardResult[]; ownResult?: LeaderboardResult }) {
   const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>(!!results)
 
   if (results === undefined) {
@@ -25,7 +14,6 @@ export function ResultsList({ results }: { results?: LeaderboardDTO }) {
 
   const fittingResults = results.slice(0, fittingCount)
 
-  const ownResult = currentUser && results.find((result) => result.user.username === currentUser.username)
   const isOwnResultDisplayedSeparately = ownResult && !fittingResults.includes(ownResult)
 
   if (isOwnResultDisplayedSeparately) {
@@ -35,20 +23,21 @@ export function ResultsList({ results }: { results?: LeaderboardDTO }) {
   return (
     <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
       <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
-        <Result result={FAKE_RESULT} placeNumber={1} />
+        <Result result={FAKE_RESULT} />
       </li>
-      {isOwnResultDisplayedSeparately && <Result result={ownResult} placeNumber={results.indexOf(ownResult) + 1} />}
-      {fittingResults.map((result, index) => (
+      {isOwnResultDisplayedSeparately && <Result isOwnResult result={ownResult} />}
+      {fittingResults.map((result) => (
         <li key={result.id}>
-          <Result result={result} placeNumber={index + 1} />
+          <Result result={result} isOwnResult={ownResult && result.id === ownResult.id} />
         </li>
       ))}
     </ul>
   )
 }
 
-const FAKE_RESULT: LeaderboardDTO[number] = {
+const FAKE_RESULT: LeaderboardResult = {
   id: 1,
+  placeNumber: 1,
   user: {
     id: 1,
     username: 'username',

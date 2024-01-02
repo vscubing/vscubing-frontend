@@ -24,7 +24,7 @@ export const disciplineRoute = new Route({
       throw navigate({ to: '../', replace: true })
     }
 
-    const query = getLeaderboardQuery(discipline)
+    const query = getLeaderboardQuery(discipline, 0, 15)
     void queryClient.ensureQueryData(query)
     return query
   },
