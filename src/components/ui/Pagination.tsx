@@ -1,7 +1,7 @@
-import { Link, type LinkProps, type RegisteredRouter, type AnyRoute, type RoutePaths } from '@tanstack/react-router'
+import { cn } from '@/utils'
+import { Link, type LinkProps } from '@tanstack/react-router'
 import type { ComponentProps } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from './icons'
-import { cn } from '@/utils'
 
 export function Pagination({
   className,
@@ -31,15 +31,7 @@ export function Pagination({
   )
 }
 
-type LinkComponentProps<
-  TRouteTree extends AnyRoute = RegisteredRouter['routeTree'],
-  TFrom extends RoutePaths<TRouteTree> = '/',
-  TTo extends string = '',
-  TMaskFrom extends RoutePaths<TRouteTree> = '/',
-  TMaskTo extends string = '',
-> = LinkProps<TRouteTree, TFrom, TTo, TMaskFrom, TMaskTo>
-
-function PaginationLink({ from, search, children, className }: LinkComponentProps) {
+function PaginationLink({ from, search, children, className }: LinkProps) {
   return (
     <li>
       <Link
