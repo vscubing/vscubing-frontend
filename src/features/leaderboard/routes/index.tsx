@@ -1,40 +1,34 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
-import { LeaderboardDiscipline } from '../components'
-import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
-import { leaderboardQuery } from '../api'
+import { getLeaderboardQuery } from '../api'
 import { queryClient } from '@/lib/reactQuery'
+import { Leaderboard } from './Leaderboard'
 
-const route = new Route({
+const leaderboardRootRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/leaderboard',
 })
 const indexRoute = new Route({
-  getParentRoute: () => route,
+  getParentRoute: () => leaderboardRootRoute,
   path: '/',
   beforeLoad: ({ navigate }) => {
     void navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
   },
 })
 export const disciplineRoute = new Route({
-  getParentRoute: () => route,
+  getParentRoute: () => leaderboardRootRoute,
   path: '$discipline',
-  pendingComponent: () => <div>Loading...</div>,
   loader: ({ params: { discipline }, navigate }) => {
     if (!isDiscipline(discipline)) {
       throw navigate({ to: '../', replace: true })
     }
 
-    const query = leaderboardQuery(discipline)
+    const query = getLeaderboardQuery(discipline)
     void queryClient.ensureQueryData(query)
     return query
   },
-  component: () => (
-    <DisciplinesTabsLayout>
-      <LeaderboardDiscipline />
-    </DisciplinesTabsLayout>
-  ),
+  component: Leaderboard,
 })
 
-export const leaderboardRoute = route.addChildren([indexRoute, disciplineRoute])
+export const leaderboardRoute = leaderboardRootRoute.addChildren([indexRoute, disciplineRoute])
