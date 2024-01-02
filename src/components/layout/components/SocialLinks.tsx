@@ -11,7 +11,7 @@ export function SocialLinks() {
         <a
           href={href}
           key={href}
-          className='flex h-11 w-11 items-center justify-center text-[1.5rem] hover:text-primary-100'
+          className='transition-base outline-ring flex h-11 w-11 items-center justify-center text-[1.5rem] hover:text-primary-100'
         >
           {children}
         </a>

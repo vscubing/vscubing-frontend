@@ -1,4 +1,4 @@
-import { Layout } from './components'
+import { Layout } from './components/layout/'
 import { RootRoute, Router } from '@tanstack/react-router'
 import { leaderboardRoute } from './features/leaderboard'
 import { contestsRoute } from './features/contests'

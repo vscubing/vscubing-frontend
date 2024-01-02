@@ -7,9 +7,16 @@ import { DEFAULT_DISCIPLINE } from '@/types'
 
 type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLDivElement>()
-  const allFit = solves && solves.length <= fittingCount
+  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>(!!solves)
 
+  if (solves === undefined) {
+    return 'Loading...'
+  }
+  if (solves.length === 0) {
+    return 'Seems like there are no solves here yet'
+  }
+
+  const allFit = solves.length <= fittingCount
   return (
     <section className={cn('flex flex-col rounded-2xl bg-black-80 px-6 py-4', className)}>
       <div className='mb-6 flex h-[2.3rem] justify-between'>
@@ -26,10 +33,14 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           <span>Nickname</span>
         </div>
         <ul className='flex min-w-[29.5rem] flex-1 flex-col gap-3' ref={containerRef}>
-          <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
+          <li className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
             <Solve solve={FAKE_SOLVE} />
-          </div>
-          {solves ? solves.slice(0, fittingCount).map((solve) => <Solve solve={solve} key={solve.id} />) : 'Loading...'}
+          </li>
+          {solves.slice(0, fittingCount).map((solve) => (
+            <li key={solve.id}>
+              <Solve solve={solve} />
+            </li>
+          ))}
         </ul>
       </div>
     </section>
@@ -48,7 +59,7 @@ function Solve({
 }) {
   const { showReconstruction } = useReconstructor()
   return (
-    <li className='flex h-15 items-center rounded-xl bg-grey-100 pl-3'>
+    <div className='flex h-15 items-center rounded-xl bg-grey-100 pl-3'>
       <CubeIcon className='mr-3' cube={discipline.name} />
       <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{username}</Ellipsis>
       <SolveTimeButton className='mr-4' timeMs={timeMs} onClick={() => showReconstruction(id)} />
@@ -57,7 +68,7 @@ function Solve({
           leaderboard
         </Link>
       </SecondaryButton>
-    </li>
+    </div>
   )
 }
 

@@ -15,7 +15,7 @@ export function Navbar() {
           activeProps={{
             className: 'text-primary-100 after:h-[1.5px] after:scale-x-100',
           }}
-          className='title-h3 after-border-bottom flex items-center gap-4 p-4 after:origin-[0%_50%] after:bg-primary-100 hover:text-primary-100 [&>svg]:h-6 [&>svg]:w-6'
+          className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 after:origin-[0%_50%] after:bg-primary-100 hover:text-primary-100 [&>svg]:h-6 [&>svg]:w-6'
         >
           {children}
         </Link>

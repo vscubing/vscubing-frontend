@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import cubesCardBg from '@/assets/images/cubes-card-bg.svg'
-import { CubeBadge, PrimaryButton, UnderlineButton } from '@/components/ui'
+import { CubeBadge, PrimaryButton } from '@/components/ui'
 import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { Link, RouteApi } from '@tanstack/react-router'
@@ -17,7 +17,7 @@ export function Dashboard() {
       <Header caption={userData ? `Greetings, ${userData.username}` : 'Greetings, SpeedCubers'} />
       <h1 className='title-h1 flex min-h-28 items-center justify-center px-4 text-center text-secondary-20'>
         <span>
-          Are you ready to take your love for cubing <span className='text-nowrap'>to the next level?</span>
+          Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
         </span>
       </h1>
       <section className='card-gradient'>

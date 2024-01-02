@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 
-const underlineButtonVariants = cva('inline-flex items-center justify-center', {
+const underlineButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
   variants: {
     variant: {
       default:

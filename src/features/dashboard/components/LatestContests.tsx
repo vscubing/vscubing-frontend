@@ -6,8 +6,18 @@ import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/u
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
 
-  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLDivElement>()
-  const allFit = sortedContests && sortedContests.length <= fittingCount
+  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>(
+    !!sortedContests,
+  )
+
+  if (sortedContests === undefined) {
+    return 'Loading...' // TODO: add loading state
+  }
+  if (sortedContests.length === 0) {
+    return 'Seems like there are no contests here yet' // TODO: add empty state
+  }
+
+  const allFit = sortedContests.length <= fittingCount
 
   return (
     <section className={cn('flex flex-col rounded-2xl bg-black-80 px-6 py-4', className)}>
@@ -21,12 +31,14 @@ export function LatestContests({ className, contests }: { className: string; con
         {/* TODO: add a link to all contests */}
       </div>
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <div className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
+        <li className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
           <Contest contest={FAKE_CONTEST} />
-        </div>
-        {sortedContests
-          ? sortedContests.slice(0, fittingCount).map((contest) => <Contest contest={contest} key={contest.id} />)
-          : 'Loading...'}
+        </li>
+        {sortedContests.slice(0, fittingCount).map((contest) => (
+          <li key={contest.id}>
+            <Contest contest={contest} />
+          </li>
+        ))}
       </ul>
     </section>
   )
@@ -34,7 +46,7 @@ export function LatestContests({ className, contests }: { className: string; con
 
 function Contest({ contest: { contestNumber, start, end } }: { contest: DashboardDTO['contests'][number] }) {
   return (
-    <li className='flex justify-between rounded-xl bg-grey-100'>
+    <div className='flex justify-between rounded-xl bg-grey-100'>
       <div className='py-3 pl-4 pr-8'>
         <p className='title-h3'>Contest {contestNumber}</p>
         <p className='text-grey-40'>
@@ -46,7 +58,7 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>
-    </li>
+    </div>
   )
 }
 

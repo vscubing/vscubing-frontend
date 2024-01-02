@@ -11,16 +11,11 @@
   body {
     @apply bg-black-100 font-hind text-base leading-[1.5] text-white;
   }
-  a,
-  button,
-  input {
-    @apply transition-base outline-ring;
-  }
 }
 
 @layer utilities {
   .title-lg {
-    @apply font-kanit text-6xl leading-[1.2] -tracking-[0.01em];
+    @apply font-kanit text-6xl leading-[1.2] -tracking-[0.02em];
   }
   .title-h1 {
     @apply font-kanit text-4xl;
