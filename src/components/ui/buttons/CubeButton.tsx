@@ -5,18 +5,18 @@ import { CubeIcon } from '../icons.tsx'
 
 type CubeButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   asButton?: boolean
-  active?: boolean
+  isActive?: boolean
   cube: Discipline
 }
 
 const CubeButton = forwardRef<HTMLButtonElement, CubeButtonProps>(
-  ({ className, active, cube, asButton = true, ...props }, ref) => {
+  ({ className, isActive, cube, asButton = true, ...props }, ref) => {
     const Comp = asButton ? 'button' : 'span'
     return (
       <Comp
         className={cn(
           'transition-base outline-ring inline-flex h-15 w-15 cursor-pointer items-center justify-center rounded-xl border border-transparent bg-grey-100 text-grey-60 hover:border-secondary-20 active:bg-secondary-20 active:text-black-100',
-          { 'bg-secondary-20 text-black-100': active },
+          { 'bg-secondary-20 text-black-100': isActive },
           className,
         )}
         ref={ref}
