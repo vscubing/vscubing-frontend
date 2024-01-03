@@ -25,6 +25,7 @@ import ShareIcon from '@/assets/icons/share.svg?react'
 import SortIcon from '@/assets/icons/sort.svg?react'
 import StopIcon from '@/assets/icons/stop.svg?react'
 import GithubIcon from '@/assets/icons/github.svg?react'
+import EllipsisIcon from '@/assets/icons/ellipsis.svg?react'
 import { type Discipline } from '@/types'
 import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef } from 'react'
@@ -56,6 +57,7 @@ export {
   ShareIcon,
   SortIcon,
   StopIcon,
+  EllipsisIcon,
 }
 
 type CubeIconProps = HTMLAttributes<SVGSVGElement> & {

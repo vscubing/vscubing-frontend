@@ -1,7 +1,7 @@
 import { cn } from '@/utils'
 import { Link, type LinkProps } from '@tanstack/react-router'
 import type { ComponentProps } from 'react'
-import { ChevronLeftIcon, ChevronRightIcon } from './icons'
+import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon } from './icons'
 
 export function Pagination({
   className,
@@ -20,7 +20,7 @@ export function Pagination({
         </PaginationLink>
         {getLinks(currentPage, totalPages).map((link) => (
           <PaginationLink key={link.page} search={{ page: link.page }}>
-            {link.type === 'ellipsis' ? '...' : link.page}
+            {link.type === 'ellipsis' ? <EllipsisIcon className='mt-[0.375rem]' /> : link.page}
           </PaginationLink>
         ))}
         <PaginationLink className={cn({ invisible: currentPage === totalPages })} search={{ page: currentPage + 1 }}>
