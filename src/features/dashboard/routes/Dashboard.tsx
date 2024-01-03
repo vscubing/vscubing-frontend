@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import cubesCardBg from '@/assets/images/cubes-card-bg.svg'
 import { CubeBadge, PrimaryButton } from '@/components/ui'
 import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { Link, RouteApi } from '@tanstack/react-router'
 import { BestSolves, LatestContests } from '../components'
+import BannerDivider from '@/assets/images/banner-divider.svg?react'
 
 const route = new RouteApi({ id: '/' })
 export function Dashboard() {
@@ -20,11 +20,9 @@ export function Dashboard() {
           Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
         </span>
       </h1>
-      <section className='card-gradient'>
-        <div
-          style={{ backgroundImage: `url(${cubesCardBg})` }}
-          className='flex justify-between bg-contain bg-[position:35%,center] bg-no-repeat p-4'
-        >
+      <section className='card-gradient @container relative'>
+        <BannerDivider className='absolute right-44 top-0 h-full text-black-100' />
+        <div className='@8xl:bg-banner-cubes-wide bg-banner-cubes relative flex justify-between bg-contain bg-center bg-no-repeat p-4'>
           <div className='flex flex-col items-start justify-between gap-2'>
             <h2 className='title-lg'>
               <span className='text-secondary-20'>Ongoing</span> Contest
