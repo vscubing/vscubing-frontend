@@ -1,21 +1,48 @@
 import { Header } from '@/components/layout'
-import { ResultsList } from '../components'
+import { AdaptiveResultsList } from '../components'
 import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
-import { Link, RouteApi } from '@tanstack/react-router'
+import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, Pagination } from '@/components/ui'
 import { ResultsHeader } from '../components/Result'
+import { getLeaderboardQuery } from '../api'
+import { useEffect, useState } from 'react'
 
 const route = new RouteApi({ id: '/leaderboard/$discipline' })
 export function Leaderboard() {
   const { data: user } = useQuery(userQuery)
 
-  const query = route.useLoaderData()
   const search = route.useSearch()
-  const { data } = useQuery(query)
+  const navigate = useNavigate()
+
+  const { discipline } = route.useLoaderData()
+  const [pageSize, setPageSize] = useState<number>()
+  const [totalPages, setTotalPages] = useState<number>()
+
+  const query = getLeaderboardQuery({
+    discipline,
+    page: search.page,
+    pageSize: pageSize ?? 0,
+    isEnabled: pageSize !== undefined,
+  })
+
+  const { data, error } = useQuery(query)
+
+  useEffect(() => {
+    if (data?.totalResults && pageSize) {
+      setTotalPages(Math.ceil(data?.totalResults / pageSize))
+    }
+  }, [data?.totalResults, pageSize])
+
+  useEffect(() => {
+    if (error?.response?.status === 400) {
+      void navigate({ search: { page: 1 } })
+    }
+  }, [error?.response?.status, navigate])
 
   const caption = user ? `${user.username}, check out our best solves` : 'Check out our best solves'
+
   return (
     <section className='flex h-full flex-col'>
       <Header caption={caption} />
@@ -27,15 +54,17 @@ export function Leaderboard() {
           to='/leaderboard/$discipline'
           params={{ discipline: '3by3' }}
         >
-          {({ isActive }) => {
-            return <CubeButton asButton={false} cube='3by3' isActive={isActive} />
-          }}
+          {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
-        <Pagination currentPage={search.page} totalPages={10} />
+        {totalPages && <Pagination currentPage={search.page} totalPages={totalPages} />}
       </div>
       <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-6'>
         <ResultsHeader className='mb-1' />
-        <ResultsList results={data?.results} ownResult={data?.ownResult ?? undefined} />
+        <AdaptiveResultsList
+          onPageSizeChange={setPageSize}
+          results={data?.results}
+          ownResult={data?.ownResult ?? undefined}
+        />
       </div>
     </section>
   )
