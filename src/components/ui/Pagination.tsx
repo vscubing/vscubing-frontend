@@ -49,9 +49,9 @@ function PaginationLink({ from, search, children, className }: LinkProps) {
 }
 
 function getLinks(currentPage: number, totalPages: number) {
-  const totalLinks = 7
-  const reach = Math.floor(totalLinks / 2)
-  const pages: number[] = []
+  const TOTAL_LINKS = 7
+  const reach = Math.floor(TOTAL_LINKS / 2)
+  let pages: number[] = []
 
   let diffLeft = 0
   let diffRight = 0
@@ -79,11 +79,16 @@ function getLinks(currentPage: number, totalPages: number) {
     pages[pages.length - 1] = totalPages
   }
 
-  return pages
-    .filter((page) => page >= 1 && page <= totalPages)
-    .map((page, index) => {
-      const isLeftEllipsis = index === 1 && page - 1 !== pages[index - 1]
-      const isRightEllipsis = index === pages.length - 2 && page + 1 !== pages[index + 1]
-      return { page, type: isLeftEllipsis || isRightEllipsis ? 'ellipsis' : 'number' }
-    })
+  pages = pages.filter((page) => page >= 1 && page <= totalPages)
+
+  const canHaveEllipsis = totalPages > TOTAL_LINKS
+  if (!canHaveEllipsis) {
+    return pages.map((page) => ({ page, type: 'number' }))
+  }
+
+  return pages.map((page, index) => {
+    const isLeftEllipsis = index === 1 && page - 1 !== pages[index - 1]
+    const isRightEllipsis = index === pages.length - 2 && page + 1 !== pages[index + 1]
+    return { page, type: isLeftEllipsis || isRightEllipsis ? 'ellipsis' : 'number' }
+  })
 }
