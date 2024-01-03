@@ -54,7 +54,7 @@ export function ResultsHeader({ className }: { className: string }) {
       <span className='mr-3'>Type</span>
       <span className='flex-1'>Nickname</span>
       <span className='mr-6 w-24 text-center'>Single time</span>
-      <span className='w-36 text-center'>Contest date</span>
+      <span className='w-36 text-center'>Solve date</span>
       <span className='mr-10 w-[9.375rem] text-center'>Contest name</span>
       <SecondaryButton aria-hidden className='invisible h-px'>
         view contest
