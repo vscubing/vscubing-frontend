@@ -24,11 +24,11 @@ const MOCK_CONTEST_RESULTS = Array(Math.floor(Math.random() * 100))
 export const contestResultsQuery = (
   contestNumber: number,
   discipline: Discipline,
-  startIndex: number,
-  endIndex: number,
+  startIndex?: number,
+  endIndex?: number,
 ) =>
   queryOptions({
-    queryKey: [USER_QUERY_KEY, 'contest-results', contestNumber, discipline, startIndex, endIndex],
+    queryKey: [USER_QUERY_KEY, 'contest-results', contestNumber, discipline, { startIndex, endIndex }],
     queryFn: async () => {
       await timeout(500)
       return MOCK_CONTEST_RESULTS.slice(startIndex, endIndex)

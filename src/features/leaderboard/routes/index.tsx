@@ -14,7 +14,12 @@ const indexRoute = new Route({
   getParentRoute: () => leaderboardRootRoute,
   path: '/',
   beforeLoad: ({ navigate }) => {
-    void navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
+    void navigate({
+      to: '$discipline',
+      search: { page: 1 },
+      params: { discipline: DEFAULT_DISCIPLINE },
+      replace: true,
+    })
   },
 })
 

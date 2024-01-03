@@ -64,7 +64,12 @@ function Solve({
       <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{username}</Ellipsis>
       <SolveTimeButton className='mr-4' timeMs={timeMs} onClick={() => showReconstruction(id)} />
       <SecondaryButton asChild>
-        <Link className='btn-action' to='/leaderboard/$discipline' params={{ discipline: discipline.name }}>
+        <Link
+          search={{ page: 1 }}
+          className='btn-action'
+          to='/leaderboard/$discipline'
+          params={{ discipline: discipline.name }}
+        >
           leaderboard
         </Link>
       </SecondaryButton>

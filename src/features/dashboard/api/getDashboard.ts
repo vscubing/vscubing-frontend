@@ -21,7 +21,6 @@ export type DashboardDTO = {
 
 async function getDashboard() {
   const res = await axiosClient.get<DashboardDTO>('contests/dashboard/')
-  console.log(res.data)
   return res.data
 }
 
