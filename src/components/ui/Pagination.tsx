@@ -1,6 +1,6 @@
 import { cn } from '@/utils'
 import { Link, type LinkProps } from '@tanstack/react-router'
-import type { ComponentProps } from 'react'
+import { useState, type ComponentProps, useEffect } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon } from './icons'
 
 export function Pagination({
@@ -10,15 +10,21 @@ export function Pagination({
   ...props
 }: Omit<ComponentProps<'nav'>, 'children'> & {
   currentPage: number
-  totalPages: number
+  totalPages?: number
 }) {
+  const cachedTotalPages = useCachedTotalPages(totalPages)
+
+  if (!cachedTotalPages) {
+    return null
+  }
+
   return (
     <nav role='navigation' aria-label='pagination' className={className} {...props}>
       <ul className='flex'>
         <PaginationLink className={cn({ invisible: currentPage === 1 })} search={{ page: currentPage - 1 }}>
           <ChevronLeftIcon />
         </PaginationLink>
-        {getLinks(currentPage, totalPages).map((link) => (
+        {getLinks(currentPage, cachedTotalPages).map((link) => (
           <PaginationLink key={link.page} search={{ page: link.page }}>
             {link.type === 'ellipsis' ? <EllipsisIcon className='mt-[0.375rem]' /> : link.page}
           </PaginationLink>
@@ -31,6 +37,16 @@ export function Pagination({
   )
 }
 
+function useCachedTotalPages(totalPages?: number) {
+  const [cachedTotalPages, setCachedTotalPages] = useState(totalPages)
+
+  useEffect(() => {
+    if (totalPages) setCachedTotalPages(totalPages)
+  }, [totalPages])
+
+  return cachedTotalPages
+}
+
 function PaginationLink({ from, search, children, className }: LinkProps) {
   return (
     <li>
@@ -38,7 +54,7 @@ function PaginationLink({ from, search, children, className }: LinkProps) {
         from={from}
         search={search}
         className={cn(
-          'outline-ring transition-base flex h-11 w-11 items-center justify-center text-grey-40 hover:text-primary-60 active:text-primary-80 [&.active]:text-primary-60',
+          'outline-ring transition-base hover:text-primary-60 [&.active]:text-primary-60 flex h-11 w-11 items-center justify-center text-grey-40 active:text-primary-80',
           className,
         )}
       >

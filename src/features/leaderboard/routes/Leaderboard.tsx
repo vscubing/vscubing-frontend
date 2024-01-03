@@ -18,7 +18,6 @@ export function Leaderboard() {
 
   const { discipline } = route.useLoaderData()
   const [pageSize, setPageSize] = useState<number>()
-  const [totalPages, setTotalPages] = useState<number>()
 
   const query = getLeaderboardQuery({
     discipline,
@@ -27,13 +26,7 @@ export function Leaderboard() {
     isEnabled: pageSize !== undefined,
   })
 
-  const { data, error } = useQuery(query)
-
-  useEffect(() => {
-    if (data?.totalResults && pageSize) {
-      setTotalPages(Math.ceil(data?.totalResults / pageSize))
-    }
-  }, [data?.totalResults, pageSize])
+  const { data: leaderboard, error } = useQuery(query)
 
   useEffect(() => {
     if (error?.response?.status === 400) {
@@ -56,15 +49,11 @@ export function Leaderboard() {
         >
           {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
-        {totalPages && <Pagination currentPage={search.page} totalPages={totalPages} />}
+        <Pagination currentPage={search.page} totalPages={leaderboard?.totalPages} />
       </div>
       <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-6'>
         <ResultsHeader className='mb-1' />
-        <AdaptiveResultsList
-          onPageSizeChange={setPageSize}
-          results={data?.results}
-          ownResult={data?.ownResult ?? undefined}
-        />
+        <AdaptiveResultsList onPageSizeChange={setPageSize} results={leaderboard?.results} />
       </div>
     </section>
   )

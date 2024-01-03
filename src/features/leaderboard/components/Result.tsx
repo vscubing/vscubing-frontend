@@ -30,13 +30,13 @@ export function Result({ result }: { result: LeaderboardResult }) {
       </span>
       <CubeIcon className='mr-3' cube={result.discipline.name} />
       <Ellipsis className='flex-1'>{username}</Ellipsis>
-      <SolveTimeButton className='mr-6' timeMs={result?.timeMs || 0} onClick={() => showReconstruction(result.id)} />
+      <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
       <span className='w-36 border-l border-grey-60 text-center'>{formatSolveDate(result.created)}</span>
       <span className='mr-10 w-[9.375rem] text-center'>Contest {result.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
           to='/contest/$contestNumber/$discipline'
-          params={{ contestNumber: String(result.contest.contestNumber), discipline: result?.discipline.name }}
+          params={{ contestNumber: String(result.contest.contestNumber), discipline: result.discipline.name }}
         >
           view contest
         </Link>

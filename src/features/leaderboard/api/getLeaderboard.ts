@@ -5,9 +5,8 @@ import { queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
 export type LeaderboardDTO = {
-  ownResult: LeaderboardResult | null
   results: LeaderboardResult[]
-  totalResults: number
+  totalPages: number
 }
 
 export type LeaderboardResult = {
@@ -45,39 +44,60 @@ export const getLeaderboardQuery = ({
   })
 
 async function fetchMockLeaderboard(page: number, pageSize: number): Promise<LeaderboardDTO> {
-  let realPageSize = pageSize
-  console.log('leaderboard backend', page, pageSize)
-  if (MOCK_OWN_RESULT && MOCK_LEADERBOARD_RESULTS.includes(MOCK_OWN_RESULT)) {
-    realPageSize--
-  }
-  const results = MOCK_LEADERBOARD_RESULTS.slice((page - 1) * realPageSize, page * realPageSize)
-
+  let totalRows = MOCK_LEADERBOARD_RESULTS.length
   if (MOCK_OWN_RESULT) {
-    if (!results.includes(MOCK_OWN_RESULT)) {
+    totalRows += Math.ceil((totalRows - pageSize) / pageSize)
+  }
+  const totalPages = Math.ceil(totalRows / pageSize)
+  if (page > totalPages) {
+    throw new AxiosError('Page number is too big for this pageSize', undefined, undefined, undefined, {
+      status: 400,
+    } as AxiosResponse)
+  }
+
+  let ownResultPage: number | undefined
+  if (MOCK_OWN_RESULT) {
+    const ownResultPlace = MOCK_OWN_RESULT.placeNumber
+    const baseOwnResultPage = Math.ceil(ownResultPlace / pageSize)
+    ownResultPage = Math.ceil((ownResultPlace + baseOwnResultPage) / pageSize)
+  }
+
+  let ownResultShift = 0
+  if (ownResultPage) {
+    ownResultShift = page
+    if (page >= ownResultPage) {
+      ownResultShift--
+    }
+  }
+
+  const results = MOCK_LEADERBOARD_RESULTS.slice(
+    Math.max(0, (page - 1) * pageSize - ownResultShift),
+    page * pageSize - ownResultShift,
+  )
+
+  if (MOCK_OWN_RESULT && !results.includes(MOCK_OWN_RESULT)) {
+    if (page !== 1) {
+      results[0] = MOCK_OWN_RESULT
+    } else {
       results.unshift(MOCK_OWN_RESULT)
     }
   }
 
-  // const ownResultRow = MOCK_OWN_RESULT ? 1 : 0
-
-  // if ((page - 1) * (pageSize - ownResultRow) - pageSize > MOCK_LEADERBOARD_RESULTS.length) {
-  // throw new AxiosError('Too big page', '400', undefined, undefined, { status: 400 } as AxiosResponse)
-  // }
-
-  // await timeout(1000)
+  await timeout(200)
   return {
-    ownResult: MOCK_OWN_RESULT,
-    results: MOCK_LEADERBOARD_RESULTS.slice((page - 1) * pageSize, page * pageSize + 1),
-    totalResults: MOCK_LEADERBOARD_RESULTS.length,
+    results,
+    totalPages,
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 22 }, (_, i) => getMockResult(i + 1))
-// const withOwnResult = Math.random() > 0.1
-const withOwnResult = true
-const MOCK_OWN_RESULT: LeaderboardResult | null = withOwnResult
-  ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length)]
-  : null
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 100) }, (_, i) =>
+  getMockResult(i + 1),
+)
+console.log(MOCK_LEADERBOARD_RESULTS)
+const withOwnResult = Math.random() > 0.1
+const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult
+  ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)]
+  : undefined
 if (MOCK_OWN_RESULT) MOCK_OWN_RESULT.user.username = 'ddd'
 
 function getMockResult(placeNumber: number): LeaderboardResult {
