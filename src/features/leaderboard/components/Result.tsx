@@ -1,8 +1,8 @@
 import { CubeIcon, Ellipsis, SecondaryButton, SolveTimeButton } from '@/components/ui'
-import { Link } from '@tanstack/react-router'
-import { type LeaderboardResult } from '../api'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
+import { Link } from '@tanstack/react-router'
+import { type LeaderboardResult } from '../api'
 
 export function Result({
   className,
@@ -27,7 +27,7 @@ export function Result({
         className,
       )}
     >
-      <span className='my-2 mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-80 text-lg'>
+      <span className='my-2 mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 text-lg'>
         {result.placeNumber}
       </span>
       <CubeIcon className='mr-3' cube={result.discipline.name} />

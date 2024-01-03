@@ -37,7 +37,7 @@ import {
 export function UiKit() {
   return (
     <>
-      <div className='card-gradient flex h-40 gap-1 rounded-2xl text-primary-100'>
+      <div className='card-gradient flex h-40 gap-1 rounded-2xl text-primary-80'>
         <AllContestsIcon />
         <ArrowBackUpIcon />
         <ArrowRightIcon />

@@ -14,8 +14,9 @@ export default {
       transitionTimingFunction: { default: 'ease-in-out' },
       colors: {
         primary: {
-          80: '#81FC05',
-          100: '#70DF00',
+          60: '#81FC05',
+          80: '#70DF00',
+          100: '#60BD02',
         },
         secondary: {
           20: '#8F8FFE',

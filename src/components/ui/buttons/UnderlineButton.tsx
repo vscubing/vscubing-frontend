@@ -8,7 +8,7 @@ const underlineButtonVariants = cva('transition-base outline-ring inline-flex it
   variants: {
     variant: {
       default:
-        'border-b border-current py-1 text-primary-100 hover:text-primary-80 active:text-primary-100 disabled:text-grey-60',
+        'border-b border-current py-1 text-primary-80 hover:text-primary-60 active:text-primary-80 disabled:text-grey-60',
     },
     size: {
       lg: 'btn-lg',

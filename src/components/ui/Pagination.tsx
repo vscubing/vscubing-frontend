@@ -38,7 +38,7 @@ function PaginationLink({ from, search, children, className }: LinkProps) {
         from={from}
         search={search}
         className={cn(
-          'outline-ring transition-base flex h-11 w-11 items-center justify-center text-grey-40 hover:text-primary-80 active:text-primary-100 [&.active]:text-primary-80',
+          'outline-ring transition-base flex h-11 w-11 items-center justify-center text-grey-40 hover:text-primary-60 active:text-primary-80 [&.active]:text-primary-60',
           className,
         )}
       >

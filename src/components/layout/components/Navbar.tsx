@@ -6,16 +6,16 @@ import { Link } from '@tanstack/react-router'
 export function Navbar() {
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   return (
-    <nav className='lg-short:gap-1 flex flex-col gap-4'>
+    <nav className='flex flex-col gap-4 lg-short:gap-1'>
       {getLinks(ongoingContestNumber).map(({ children, to, params }) => (
         <Link
           key={to}
           to={to}
           params={params}
           activeProps={{
-            className: 'text-primary-100 after:h-[1.5px] after:scale-x-100',
+            className: 'text-primary-80 after:h-[1.5px] after:scale-x-100',
           }}
-          className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 after:origin-[0%_50%] after:bg-primary-100 hover:text-primary-100 [&>svg]:h-6 [&>svg]:w-6'
+          className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-80 [&>svg]:h-6 [&>svg]:w-6'
         >
           {children}
         </Link>
