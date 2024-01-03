@@ -40,13 +40,21 @@ export default {
         white: '#F9F9F9',
       },
       screens: {
-        xl: { min: '1800px' },
+        '2xl': { min: '1800px' },
+        xl: { min: '1600px' },
         lg: { raw: '(max-width: 1280px), (max-height: 950px)' },
         ['lg-short']: { raw: '(min-width: 768px) and (max-height: 730px)' },
         md: { max: '767px' },
         sm: { max: '639px' },
       },
+      backgroundImage: {
+        'banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
+        'banner-cubes-wide': "url('./assets/images/dashboard-banner-cubes-wide.svg')",
+      },
+      containers: {
+        '8xl': '88rem',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/container-queries')],
 } satisfies Config
