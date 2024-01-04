@@ -1,9 +1,10 @@
-import { cn, formatDate } from '@/utils'
+import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
 import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/ui'
 import { AutofillHeightList } from '@/components/AutofillHeightList'
 import { useState } from 'react'
+import dayjs from 'dayjs'
 
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
@@ -56,6 +57,10 @@ function Contest({ data: { contestNumber, start, end } }: { data: DashboardDTO['
 
 function ContestSkeleton() {
   return <div className='h-20 animate-pulse rounded-xl bg-grey-100'></div>
+}
+
+export function formatDate(string: string) {
+  return dayjs(string).format('DD MMM YYYY')
 }
 
 const FAKE_CONTEST: DashboardDTO['contests'][number] = {

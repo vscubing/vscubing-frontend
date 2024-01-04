@@ -5,6 +5,7 @@ import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery } from '@/features/auth'
+import dayjs from 'dayjs'
 
 export function Result({ data }: { data: LeaderboardResult }) {
   const { showReconstruction } = useReconstructor()
@@ -31,7 +32,7 @@ export function Result({ data }: { data: LeaderboardResult }) {
       <CubeIcon className='mr-3' cube={data.discipline.name} />
       <Ellipsis className='flex-1'>{username}</Ellipsis>
       <SolveTimeButton className='mr-6' timeMs={data.timeMs} onClick={() => showReconstruction(data.id)} />
-      <span className='w-36 border-l border-grey-60 text-center'>{formatSolveDate(data.created)}</span>
+      <span className='w-36 border-l border-grey-60 text-center'>{dayjs(data.created).format('DD.MM.YYYY')}</span>
       <span className='mr-10 w-[9.375rem] text-center'>Contest {data.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
@@ -77,16 +78,4 @@ export const FAKE_RESULT: LeaderboardResult = {
   scramble: { id: 1, scramble: '' },
   contest: { contestNumber: 1 },
   created: '2021-01-01T00:00:00.000Z',
-}
-
-const formatSolveDate = (dateStr: string) => {
-  const date = new Date(dateStr)
-  let dd = String(date.getDate())
-  if (dd.length === 1) {
-    dd = `0${dd}`
-  }
-
-  const mm = String(date.getMonth())
-  const yyyy = String(date.getFullYear())
-  return `${dd}.${mm}.${yyyy}`
 }
