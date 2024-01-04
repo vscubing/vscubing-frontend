@@ -1,2 +1,2 @@
 export { contestsRoute } from './routes'
-export { getContestsQuery } from './api'
+export { getContestsQuery, ongoingContestNumberQuery } from './api'

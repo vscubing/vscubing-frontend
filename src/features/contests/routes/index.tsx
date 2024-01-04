@@ -2,10 +2,9 @@ import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, isDiscipline } from '@/types'
 import { Route } from '@tanstack/react-router'
 import { ContestDiscipline } from '../components'
-import { contestResultsQuery } from '../api'
+import { contestResultsQuery, ongoingContestNumberQuery } from '../api'
 import { z } from 'zod'
 import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
-import { ongoingContestNumberQuery } from '@/features/misc'
 import { queryClient } from '@/lib/reactQuery'
 
 const ongoingContestRedirectSchema = z.object({
