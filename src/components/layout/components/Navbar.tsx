@@ -1,17 +1,16 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
 import { ongoingContestNumberQuery } from '@/features/contests'
 import { useQuery } from '@tanstack/react-query'
-import { Link } from '@tanstack/react-router'
+import { Link, type LinkProps } from '@tanstack/react-router'
 
 export function Navbar() {
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   return (
     <nav className='flex flex-col gap-4 lg-short:gap-1'>
-      {getLinks(ongoingContestNumber).map(({ children, to, params }) => (
+      {getLinks(ongoingContestNumber).map(({ children, ...props }) => (
         <Link
-          key={to}
-          to={to}
-          params={params}
+          {...props}
+          key={props.to}
           activeProps={{
             className: 'text-primary-80 after:h-[1.5px] after:scale-x-100',
           }}
@@ -24,7 +23,7 @@ export function Navbar() {
   )
 }
 
-function getLinks(ongoingContestNumber?: number) {
+function getLinks(ongoingContestNumber?: number): LinkProps[] {
   return [
     {
       children: (
@@ -34,7 +33,6 @@ function getLinks(ongoingContestNumber?: number) {
         </>
       ),
       to: '/',
-      params: undefined,
     },
     {
       children: (
@@ -44,7 +42,6 @@ function getLinks(ongoingContestNumber?: number) {
         </>
       ),
       to: '/leaderboard',
-      params: undefined,
     },
     {
       children: (
@@ -53,8 +50,7 @@ function getLinks(ongoingContestNumber?: number) {
           All contests
         </>
       ),
-      to: '/dev/ui-kit',
-      params: undefined,
+      to: '/contest',
     },
     {
       children: (
@@ -64,7 +60,7 @@ function getLinks(ongoingContestNumber?: number) {
         </>
       ),
       to: `/contest/$contestNumber`,
-      params: { contestNumber: ongoingContestNumber === undefined ? '' : String(ongoingContestNumber) },
+      params: { contestNumber: ongoingContestNumber === undefined ? undefined : String(ongoingContestNumber) },
     },
-  ] as const
+  ]
 }

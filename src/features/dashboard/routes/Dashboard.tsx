@@ -20,15 +20,15 @@ export function Dashboard() {
           Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
         </span>
       </h1>
-      <section className='card-gradient @container relative'>
+      <section className='card-gradient relative @container'>
         <BannerDivider className='absolute right-44 top-0 h-full text-black-100' />
-        <div className='@8xl:bg-banner-cubes-wide bg-banner-cubes relative flex justify-between bg-contain bg-center bg-no-repeat p-4'>
+        <div className='relative flex justify-between bg-banner-cubes bg-contain bg-center bg-no-repeat p-4 @8xl:bg-banner-cubes-wide'>
           <div className='flex flex-col items-start justify-between gap-2'>
             <h2 className='title-lg'>
               <span className='text-secondary-20'>Ongoing</span> Contest
             </h2>
             <PrimaryButton asChild>
-              <Link to='contest'>Solve now</Link>
+              <Link to='/contest/ongoing'>Solve now</Link>
             </PrimaryButton>
           </div>
           <div className='text-right'>
@@ -48,12 +48,10 @@ export function Dashboard() {
           className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)]'
           contests={data?.contests}
         />
-        {/* TODO: add loading state */}
         <BestSolves
           className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(60%-0.75rem/2)]'
           solves={data?.bestSolves}
         />
-        {/* TODO: add loading state */}
       </div>
     </div>
   )

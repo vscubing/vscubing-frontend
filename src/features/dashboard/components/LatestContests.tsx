@@ -21,10 +21,9 @@ export function LatestContests({ className, contests }: { className: string; con
         <h2 className='title-h3'>Latest contests</h2>
         {doAllFit === false && (
           <UnderlineButton asChild>
-            <Link>View all</Link>
+            <Link to='/contest'>View all</Link>
           </UnderlineButton>
         )}
-        {/* TODO: add a link to all contests */}
       </div>
       <AutofillHeightList
         Item={Contest}

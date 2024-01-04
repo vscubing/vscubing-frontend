@@ -14,7 +14,6 @@ const indexRoute = new Route({
   beforeLoad: ({ navigate }) => {
     void navigate({
       to: '$discipline',
-      search: { page: 1 },
       params: { discipline: DEFAULT_DISCIPLINE },
       replace: true,
     })
@@ -22,18 +21,22 @@ const indexRoute = new Route({
 })
 
 const paginationSchema = z.object({
-  page: z.number().gte(1).catch(1),
+  page: z.number().int().gte(1).catch(1).optional(),
 })
 
 export const disciplineRoute = new Route({
   getParentRoute: () => leaderboardRootRoute,
   path: '$discipline',
   validateSearch: paginationSchema,
-  loader: ({ params: { discipline }, navigate }) => {
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ params: { discipline }, deps: { page }, navigate }) => {
     if (!isDiscipline(discipline)) {
       throw navigate({ to: '../', replace: true })
     }
-    return { discipline }
+    if (page === undefined) {
+      throw navigate({ search: { page: 1 }, replace: true })
+    }
+    return { discipline, page }
   },
   component: Leaderboard,
 })

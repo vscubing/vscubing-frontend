@@ -47,14 +47,13 @@ function useCacheTotalPages(totalPages?: number) {
   return cachedTotalPages
 }
 
-function PaginationLink({ from, search, children, className }: LinkProps) {
+function PaginationLink({ children, className, ...props }: LinkProps) {
   return (
     <li>
       <Link
-        from={from}
-        search={search}
+        {...props}
         className={cn(
-          'outline-ring transition-base hover:text-primary-60 [&.active]:text-primary-60 flex h-11 w-11 items-center justify-center text-grey-40 active:text-primary-80',
+          'outline-ring transition-base flex h-11 w-11 items-center justify-center text-grey-40 hover:text-primary-60 active:text-primary-80 [&.active]:text-primary-60',
           className,
         )}
       >

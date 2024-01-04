@@ -7,18 +7,39 @@ import { z } from 'zod'
 import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { queryClient } from '@/lib/reactQuery'
 
-const ongoingContestRedirectSchema = z.object({
-  discipline: z.enum(DISCIPLINES).optional().default(DEFAULT_DISCIPLINE),
+const disciplineSearchSchema = z.object({
+  discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE).optional(),
 })
-const allContestsRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
-const allContestsIndexRoute = new Route({
-  getParentRoute: () => allContestsRoute,
+
+const contestsRootRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
+const contestsIndexRoute = new Route({
+  getParentRoute: () => contestsRootRoute,
   path: '/',
-  validateSearch: ongoingContestRedirectSchema,
+  validateSearch: disciplineSearchSchema,
+  loaderDeps: ({ search: { discipline } }) => ({
+    discipline,
+  }),
+  loader: ({ navigate, deps: { discipline } }) => {
+    if (!discipline) {
+      void navigate({
+        to: '/contest',
+        search: { discipline: DEFAULT_DISCIPLINE },
+        replace: true,
+      })
+    }
+    return { discipline }
+  },
+  component: () => 'all contests',
+})
+
+const ongoingContestRedirectRoute = new Route({
+  getParentRoute: () => contestsRootRoute,
+  path: '/ongoing',
+  validateSearch: disciplineSearchSchema,
   beforeLoad: async ({ navigate, search: { discipline } }) => {
     const contestNumber = await queryClient.fetchQuery(ongoingContestNumberQuery)
     void navigate({
-      to: '$contestNumber/$discipline',
+      to: '/contest/$contestNumber/$discipline',
       params: {
         discipline,
         contestNumber: String(contestNumber),
@@ -29,7 +50,7 @@ const allContestsIndexRoute = new Route({
 })
 
 const contestRoute = new Route({
-  getParentRoute: () => allContestsRoute,
+  getParentRoute: () => contestsRootRoute,
   path: '$contestNumber',
 })
 const contestIndexRoute = new Route({
@@ -63,7 +84,7 @@ export const contestDisciplineRoute = new Route({
   ),
 })
 
-export const contestsRoute = allContestsRoute.addChildren([
-  allContestsIndexRoute,
-  contestRoute.addChildren([contestDisciplineRoute, contestIndexRoute]),
+export const contestsRoute = contestsRootRoute.addChildren([
+  contestsIndexRoute,
+  contestRoute.addChildren([ongoingContestRedirectRoute, contestDisciplineRoute, contestIndexRoute]),
 ])

@@ -56,12 +56,7 @@ function Solve({ data }: { data: DashboardDTO['bestSolves'][number] }) {
       <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{data.user.username}</Ellipsis>
       <SolveTimeButton className='mr-4' timeMs={data.timeMs} onClick={() => showReconstruction(data.id)} />
       <SecondaryButton asChild>
-        <Link
-          search={{ page: 1 }}
-          className='btn-action'
-          to='/leaderboard/$discipline'
-          params={{ discipline: data.discipline.name }}
-        >
+        <Link to='/leaderboard/$discipline' params={{ discipline: data.discipline.name }}>
           leaderboard
         </Link>
       </SecondaryButton>

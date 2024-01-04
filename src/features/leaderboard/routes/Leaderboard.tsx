@@ -14,15 +14,14 @@ const route = new RouteApi({ id: '/leaderboard/$discipline' })
 export function Leaderboard() {
   const { data: user } = useQuery(userQuery)
 
-  const search = route.useSearch()
-  const navigate = useNavigate()
+  const navigate = useNavigate({ from: route.id })
 
-  const { discipline } = route.useLoaderData()
+  const { discipline, page } = route.useLoaderData()
   const [debouncedPageSize, setPageSize] = useDebounceAfterFirst<number>(200)
 
   const query = getLeaderboardQuery({
     discipline,
-    page: search.page,
+    page,
     pageSize: debouncedPageSize ?? 0,
     isEnabled: debouncedPageSize !== undefined,
   })
@@ -50,7 +49,7 @@ export function Leaderboard() {
         >
           {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
-        <Pagination currentPage={search.page} totalPages={leaderboard?.totalPages} />
+        <Pagination currentPage={page} totalPages={leaderboard?.totalPages} />
       </div>
       <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-6'>
         <ResultsHeader className='mb-1' />
