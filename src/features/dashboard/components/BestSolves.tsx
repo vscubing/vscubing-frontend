@@ -2,14 +2,12 @@ import { CubeIcon, Ellipsis, SolveTimeButton, SecondaryButton, UnderlineButton }
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
 import { useReconstructor } from '@/features/reconstructor'
-import { cn } from '@/utils'
+import { cn, useAutofillHeight } from '@/utils'
 import { DEFAULT_DISCIPLINE } from '@/types'
-import { AutofillHeightList } from '@/components/AutofillHeightList'
-import { useState } from 'react'
 
 type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  const [fittingCount, setFittingCount] = useState<number>()
+  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight()
 
   let doAllFit = undefined
   if (!!fittingCount && solves?.length) {
@@ -26,37 +24,53 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           </UnderlineButton>
         )}
       </div>
-      <div className='flex flex-1 flex-col'>
-        <div className='mb-1 flex gap-3 text-grey-40'>
+      <div className='flex flex-1 flex-col gap-1'>
+        <div className='flex gap-3 text-grey-40'>
           <span>Type</span>
           <span>Nickname</span>
         </div>
-        <AutofillHeightList
-          className='min-w-[29.5rem]'
-          fakeItem={FAKE_SOLVE}
-          Item={Solve}
-          ItemSkeleton={SolveSkeleton}
-          items={solves}
-          onFittingCountChange={setFittingCount}
-        />
+        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+          <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
+            <Solve solve={FAKE_SOLVE} />
+          </li>
+          <Solves solves={solves?.slice(0, fittingCount)} fittingCount={fittingCount} />
+        </ul>
       </div>
     </section>
   )
+}
+
+function Solves({ solves, fittingCount }: { solves?: DashboardDTO['bestSolves']; fittingCount?: number }) {
+  if (fittingCount === undefined) {
+    return null
+  }
+  if (solves === undefined) {
+    return Array.from({ length: fittingCount }, (_, index) => <SolveSkeleton key={index} />)
+  }
+  if (solves.length === 0) {
+    return 'Seems like no one has solved yet' // TODO: add empty state
+  }
+
+  return solves.map((solve) => (
+    <li key={solve.id}>
+      <Solve solve={solve} />
+    </li>
+  ))
 }
 
 function SolveSkeleton() {
   return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
-function Solve({ data }: { data: DashboardDTO['bestSolves'][number] }) {
+function Solve({ solve }: { solve: DashboardDTO['bestSolves'][number] }) {
   const { showReconstruction } = useReconstructor()
   return (
     <div className='flex h-15 items-center rounded-xl bg-grey-100 pl-3'>
-      <CubeIcon className='mr-3' cube={data.discipline.name} />
-      <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{data.user.username}</Ellipsis>
-      <SolveTimeButton className='mr-4' timeMs={data.timeMs} onClick={() => showReconstruction(data.id)} />
+      <CubeIcon className='mr-3' cube={solve.discipline.name} />
+      <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{solve.user.username}</Ellipsis>
+      <SolveTimeButton className='mr-4' timeMs={solve.timeMs} onClick={() => showReconstruction(solve.id)} />
       <SecondaryButton asChild>
-        <Link to='/leaderboard/$discipline' params={{ discipline: data.discipline.name }}>
+        <Link to='/leaderboard/$discipline' params={{ discipline: solve.discipline.name }}>
           leaderboard
         </Link>
       </SecondaryButton>

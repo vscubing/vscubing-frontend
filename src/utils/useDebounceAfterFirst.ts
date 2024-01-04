@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export function useDebounceAfterFirst<T>(debounceMs: number, initValue?: T) {
-  const [value, setValue] = useState<T | undefined>(initValue)
+export function useDebounceAfterFirst<T>(value: T | undefined, debounceMs = 200) {
   const [debouncedValue, setDebouncedValue] = useState<T>()
   useEffect(() => {
     if (value === undefined) {
@@ -18,5 +17,5 @@ export function useDebounceAfterFirst<T>(debounceMs: number, initValue?: T) {
     }, debounceMs)
     return () => clearTimeout(timeout)
   }, [value, debouncedValue, debounceMs])
-  return [debouncedValue, setValue] as const
+  return debouncedValue
 }

@@ -7,13 +7,13 @@ import { useQuery } from '@tanstack/react-query'
 import { userQuery } from '@/features/auth'
 import dayjs from 'dayjs'
 
-export function Result({ data }: { data: LeaderboardResult }) {
+export function Result({ result }: { result: LeaderboardResult }) {
   const { showReconstruction } = useReconstructor()
 
   const { data: currentUser } = useQuery(userQuery)
-  const isOwnResult = currentUser?.username === data.user.username // TODO: use id instead of username
+  const isOwnResult = currentUser?.username === result.user.username // TODO: use id instead of username
 
-  let username = data.user.username
+  let username = result.user.username
   if (isOwnResult) {
     username = username + ' (you)'
   }
@@ -27,19 +27,19 @@ export function Result({ data }: { data: LeaderboardResult }) {
       )}
     >
       <span className='mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 pt-[.2em] text-lg'>
-        {data.placeNumber}
+        {result.placeNumber}
       </span>
-      <CubeIcon className='mr-3' cube={data.discipline.name} />
+      <CubeIcon className='mr-3' cube={result.discipline.name} />
       <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
-      <SolveTimeButton className='mr-6' timeMs={data.timeMs} onClick={() => showReconstruction(data.id)} />
+      <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
       <span className='w-36 border-l border-grey-60 pt-[.2em] text-center'>
-        {dayjs(data.created).format('DD.MM.YYYY')}
+        {dayjs(result.created).format('DD.MM.YYYY')}
       </span>
-      <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {data.contest.contestNumber}</span>
+      <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {result.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
           to='/contest/$contestNumber/$discipline'
-          params={{ contestNumber: String(data.contest.contestNumber), discipline: data.discipline.name }}
+          params={{ contestNumber: String(result.contest.contestNumber), discipline: result.discipline.name }}
         >
           view contest
         </Link>

@@ -1,14 +1,12 @@
-import { cn } from '@/utils'
+import { cn, useAutofillHeight } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
 import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/ui'
-import { AutofillHeightList } from '@/components/AutofillHeightList'
-import { useState } from 'react'
 import dayjs from 'dayjs'
 
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
-  const [fittingCount, setFittingCount] = useState<number>()
+  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight()
 
   let doAllFit = undefined
   if (!!fittingCount && sortedContests?.length) {
@@ -16,8 +14,8 @@ export function LatestContests({ className, contests }: { className: string; con
   }
 
   return (
-    <section className={cn('flex flex-col rounded-2xl bg-black-80 px-6 py-4', className)}>
-      <div className='mb-6 flex h-[2.3rem] justify-between'>
+    <section className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 py-4', className)}>
+      <div className='flex h-[2.3rem] justify-between'>
         <h2 className='title-h3'>Latest contests</h2>
         {doAllFit === false && (
           <UnderlineButton asChild>
@@ -25,18 +23,35 @@ export function LatestContests({ className, contests }: { className: string; con
           </UnderlineButton>
         )}
       </div>
-      <AutofillHeightList
-        Item={Contest}
-        ItemSkeleton={ContestSkeleton}
-        items={sortedContests}
-        fakeItem={FAKE_CONTEST}
-        onFittingCountChange={setFittingCount}
-      />
+      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+        <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
+          <Contest contest={FAKE_CONTEST} />
+        </li>
+        <Contests contests={contests?.slice(0, fittingCount)} fittingCount={fittingCount} />
+      </ul>
     </section>
   )
 }
 
-function Contest({ data: { contestNumber, start, end } }: { data: DashboardDTO['contests'][number] }) {
+function Contests({ contests, fittingCount }: { contests?: DashboardDTO['contests']; fittingCount?: number }) {
+  if (fittingCount === undefined) {
+    return null
+  }
+  if (contests === undefined) {
+    return Array.from({ length: fittingCount }, (_, index) => <ContestSkeleton key={index} />)
+  }
+  if (contests.length === 0) {
+    return 'Seems like no one has solved yet' // TODO: add empty state
+  }
+
+  return contests.map((contest) => (
+    <li key={contest.id}>
+      <Contest contest={contest} />
+    </li>
+  ))
+}
+
+function Contest({ contest: { contestNumber, start, end } }: { contest: DashboardDTO['contests'][number] }) {
   return (
     <div className='flex justify-between rounded-xl bg-grey-100'>
       <div className='py-3 pl-4 pr-8'>

@@ -5,10 +5,9 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, Pagination } from '@/components/ui'
 import { FAKE_RESULT, Result, ResultSkeleton, ResultsHeader } from '../components'
-import { getLeaderboardQuery } from '../api'
+import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
 import { useEffect } from 'react'
-import { AutofillHeightList } from '@/components/AutofillHeightList'
-import { useDebounceAfterFirst } from '@/utils'
+import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 
 const route = new RouteApi({ id: '/leaderboard/$discipline' })
 export function Leaderboard() {
@@ -17,7 +16,9 @@ export function Leaderboard() {
   const navigate = useNavigate({ from: route.id })
 
   const { discipline, page } = route.useLoaderData()
-  const [debouncedPageSize, setPageSize] = useDebounceAfterFirst<number>(200)
+
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const debouncedPageSize = useDebounceAfterFirst(pageSize)
 
   const query = getLeaderboardQuery({
     discipline,
@@ -48,14 +49,31 @@ export function Leaderboard() {
       </div>
       <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <ResultsHeader />
-        <AutofillHeightList
-          Item={Result}
-          ItemSkeleton={ResultSkeleton}
-          items={leaderboard?.results}
-          fakeItem={FAKE_RESULT}
-          onFittingCountChange={setPageSize}
-        />
+        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+          <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
+            <Result result={FAKE_RESULT} />
+          </li>
+          <Results results={leaderboard?.results} pageSize={pageSize} />
+        </ul>
       </div>
     </section>
   )
+}
+
+function Results({ results, pageSize }: { results?: LeaderboardDTO['results']; pageSize?: number }) {
+  if (pageSize === undefined) {
+    return null
+  }
+  if (results === undefined) {
+    return Array.from({ length: pageSize }, (_, index) => <ResultSkeleton key={index} />)
+  }
+  if (results.length === 0) {
+    return 'Seems like no one has solved yet' // TODO: add empty state
+  }
+
+  return results.map((result) => (
+    <li key={result.id}>
+      <Result result={result} />
+    </li>
+  ))
 }

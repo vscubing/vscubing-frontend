@@ -3,10 +3,9 @@ import { Header } from '@/components/layout'
 import { CubeButton, CubeIcon, Pagination, SecondaryButton } from '@/components/ui'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { getContestsQuery } from '..'
-import { useAutofillHeight } from '@/components/AutofillHeightList'
 import { useQuery } from '@tanstack/react-query'
-import { useDebounceAfterFirst } from '@/utils'
-import { useEffect, useState } from 'react'
+import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { useEffect } from 'react'
 import type { ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
 import dayjs from 'dayjs'
@@ -15,13 +14,14 @@ const route = new RouteApi({ id: '/contest/' })
 export function ContestsIndexPage() {
   const { page, discipline } = route.useLoaderData()
   const navigate = useNavigate({ from: route.id })
-  const [pageSize, setPageSize] = useState<number>()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const debouncedPageSize = useDebounceAfterFirst(pageSize)
 
   const query = getContestsQuery({
     discipline,
     page,
-    pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
+    pageSize: debouncedPageSize ?? 0,
+    isEnabled: debouncedPageSize !== undefined,
   })
 
   const { data, error } = useQuery(query)
@@ -44,7 +44,12 @@ export function ContestsIndexPage() {
       </div>
       <div className='flex flex-1 flex-col gap-1 rounded-xl bg-black-80 p-6'>
         <ContestsListHeader />
-        <AdaptiveContestsList contests={data?.contests} discipline={discipline} onPageSizeChange={setPageSize} />
+        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+          <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
+            <Contest contest={FAKE_CONTEST} discipline={discipline} />
+          </li>
+          <ContestsList contests={data?.contests} discipline={discipline} pageSize={pageSize} />
+        </ul>
       </div>
     </section>
   )
@@ -60,38 +65,6 @@ function ContestsListHeader() {
         view contest
       </SecondaryButton>
     </div>
-  )
-}
-
-function AdaptiveContestsList({
-  contests,
-  discipline,
-  onPageSizeChange,
-}: {
-  contests?: ContestsListDTO['contests']
-  discipline: Discipline
-  onPageSizeChange: (pageSize: number) => void
-}) {
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>()
-  const [debouncedPageSize, setDebouncedPageSize] = useDebounceAfterFirst<number>(200)
-  useEffect(() => {
-    if (pageSize) {
-      setDebouncedPageSize(pageSize)
-    }
-  }, [pageSize, setDebouncedPageSize])
-  useEffect(() => {
-    if (debouncedPageSize) {
-      onPageSizeChange(debouncedPageSize)
-    }
-  }, [debouncedPageSize, onPageSizeChange])
-
-  return (
-    <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-      <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
-        <Contest contest={FAKE_CONTEST} discipline={discipline} />
-      </li>
-      <ContestsList contests={contests} discipline={discipline} pageSize={pageSize} />
-    </ul>
   )
 }
 
