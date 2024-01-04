@@ -1,11 +1,10 @@
 import { CubeIcon, Ellipsis, SecondaryButton, SolveTimeButton } from '@/components/ui'
 import { useReconstructor } from '@/features/reconstructor'
-import { cn } from '@/utils'
+import { cn, formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery } from '@/features/auth'
-import dayjs from 'dayjs'
 
 export function Result({ result }: { result: LeaderboardResult }) {
   const { showReconstruction } = useReconstructor()
@@ -32,9 +31,7 @@ export function Result({ result }: { result: LeaderboardResult }) {
       <CubeIcon className='mr-3' cube={result.discipline.name} />
       <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
       <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
-      <span className='w-36 border-l border-grey-60 pt-[.2em] text-center'>
-        {dayjs(result.created).format('DD.MM.YYYY')}
-      </span>
+      <span className='w-36 border-l border-grey-60 pt-[.2em] text-center'>{formatDate(result.created)}</span>
       <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {result.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link

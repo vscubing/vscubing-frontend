@@ -1,4 +1,4 @@
-import { cn, useAutofillHeight } from '@/utils'
+import { cn, formatDate, useAutofillHeight } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
 import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/ui'
@@ -57,7 +57,8 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
       <div className='py-3 pl-4 pr-8'>
         <p className='title-h3'>Contest {contestNumber}</p>
         <p className='text-grey-40'>
-          {formatDate(start)} - {formatDate(end!) /* TODO: remove type assertion when backend is ready */}
+          {formatDate(start, 'long')} -{' '}
+          {formatDate(end!, 'long') /* TODO: remove type assertion when backend is ready */}
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild>
@@ -71,10 +72,6 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
 
 function ContestSkeleton() {
   return <div className='h-20 animate-pulse rounded-xl bg-grey-100'></div>
-}
-
-export function formatDate(string: string) {
-  return dayjs(string).format('DD MMM YYYY')
 }
 
 const FAKE_CONTEST: DashboardDTO['contests'][number] = {

@@ -4,11 +4,10 @@ import { CubeButton, CubeIcon, Pagination, SecondaryButton } from '@/components/
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { getContestsQuery } from '..'
 import { useQuery } from '@tanstack/react-query'
-import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { formatDate, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
 import type { ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
-import dayjs from 'dayjs'
 
 const route = new RouteApi({ id: '/contest/' })
 export function ContestsIndexPage() {
@@ -110,10 +109,6 @@ function Contest({ contest, discipline }: { contest: ContestsListDTO['contests']
       </SecondaryButton>
     </div>
   )
-}
-
-function formatDate(date: string) {
-  return dayjs(date).format('DD.MM.YYYY')
 }
 
 function ContestSkeleton() {
