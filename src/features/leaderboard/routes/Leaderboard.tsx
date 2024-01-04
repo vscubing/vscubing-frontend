@@ -1,13 +1,14 @@
 import { Header } from '@/components/layout'
-import { AdaptiveResultsList } from '../components'
 import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, Pagination } from '@/components/ui'
-import { ResultsHeader } from '../components/Result'
+import { FAKE_RESULT, Result, ResultSkeleton, ResultsHeader } from '../components'
 import { getLeaderboardQuery } from '../api'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { AutofillHeightList } from '@/components/AutofillHeightList'
+import { useDebounceAfterFirst } from '@/utils'
 
 const route = new RouteApi({ id: '/leaderboard/$discipline' })
 export function Leaderboard() {
@@ -17,13 +18,13 @@ export function Leaderboard() {
   const navigate = useNavigate()
 
   const { discipline } = route.useLoaderData()
-  const [pageSize, setPageSize] = useState<number>()
+  const [debouncedPageSize, setPageSize] = useDebounceAfterFirst<number>(200)
 
   const query = getLeaderboardQuery({
     discipline,
     page: search.page,
-    pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
+    pageSize: debouncedPageSize ?? 0,
+    isEnabled: debouncedPageSize !== undefined,
   })
 
   const { data: leaderboard, error } = useQuery(query)
@@ -53,7 +54,13 @@ export function Leaderboard() {
       </div>
       <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-6'>
         <ResultsHeader className='mb-1' />
-        <AdaptiveResultsList onPageSizeChange={setPageSize} results={leaderboard?.results} />
+        <AutofillHeightList
+          Item={Result}
+          ItemSkeleton={ResultSkeleton}
+          items={leaderboard?.results}
+          fakeItem={FAKE_RESULT}
+          onFittingCountChange={setPageSize}
+        />
       </div>
     </section>
   )

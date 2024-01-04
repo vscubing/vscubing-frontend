@@ -1,12 +1,13 @@
-import { cn, formatDate, useAutofillHeight } from '@/utils'
+import { cn, formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
 import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/ui'
+import { AutofillHeightList } from '@/components/AutofillHeightList'
+import { useState } from 'react'
 
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
-
-  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>()
+  const [fittingCount, setFittingCount] = useState<number>()
 
   let doAllFit = undefined
   if (!!fittingCount && sortedContests?.length) {
@@ -24,35 +25,18 @@ export function LatestContests({ className, contests }: { className: string; con
         )}
         {/* TODO: add a link to all contests */}
       </div>
-      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <li className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
-          <Contest contest={FAKE_CONTEST} />
-        </li>
-        <ContestsList contests={sortedContests} fittingCount={fittingCount} />
-      </ul>
+      <AutofillHeightList
+        Item={Contest}
+        ItemSkeleton={ContestSkeleton}
+        items={sortedContests}
+        fakeItem={FAKE_CONTEST}
+        onFittingCountChange={setFittingCount}
+      />
     </section>
   )
 }
 
-function ContestsList({ contests, fittingCount }: { contests?: DashboardDTO['contests']; fittingCount?: number }) {
-  if (fittingCount === undefined) {
-    return null
-  }
-  if (contests === undefined) {
-    return Array.from({ length: fittingCount }, (_, i) => <ContestSkeleton key={i} />)
-  }
-  if (contests.length === 0) {
-    return 'Seems like there are no contests here yet' // TODO: add empty state
-  }
-
-  return contests.slice(0, fittingCount).map((contest) => (
-    <li key={contest.id}>
-      <Contest contest={contest} />
-    </li>
-  ))
-}
-
-function Contest({ contest: { contestNumber, start, end } }: { contest: DashboardDTO['contests'][number] }) {
+function Contest({ data: { contestNumber, start, end } }: { data: DashboardDTO['contests'][number] }) {
   return (
     <div className='flex justify-between rounded-xl bg-grey-100'>
       <div className='py-3 pl-4 pr-8'>

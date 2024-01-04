@@ -6,13 +6,13 @@ import { type LeaderboardResult } from '../api'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery } from '@/features/auth'
 
-export function Result({ result }: { result: LeaderboardResult }) {
+export function Result({ data }: { data: LeaderboardResult }) {
   const { showReconstruction } = useReconstructor()
 
   const { data: currentUser } = useQuery(userQuery)
-  const isOwnResult = currentUser?.username === result.user.username // TODO: use id instead of username
+  const isOwnResult = currentUser?.username === data.user.username // TODO: use id instead of username
 
-  let username = result.user.username
+  let username = data.user.username
   if (isOwnResult) {
     username = username + ' (you)'
   }
@@ -25,18 +25,18 @@ export function Result({ result }: { result: LeaderboardResult }) {
         {},
       )}
     >
-      <span className='border-primary-60 mr-3 flex h-11 w-11 items-center justify-center rounded-full border text-lg'>
-        {result.placeNumber}
+      <span className='mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 text-lg'>
+        {data.placeNumber}
       </span>
-      <CubeIcon className='mr-3' cube={result.discipline.name} />
+      <CubeIcon className='mr-3' cube={data.discipline.name} />
       <Ellipsis className='flex-1'>{username}</Ellipsis>
-      <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
-      <span className='w-36 border-l border-grey-60 text-center'>{formatSolveDate(result.created)}</span>
-      <span className='mr-10 w-[9.375rem] text-center'>Contest {result.contest.contestNumber}</span>
+      <SolveTimeButton className='mr-6' timeMs={data.timeMs} onClick={() => showReconstruction(data.id)} />
+      <span className='w-36 border-l border-grey-60 text-center'>{formatSolveDate(data.created)}</span>
+      <span className='mr-10 w-[9.375rem] text-center'>Contest {data.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
           to='/contest/$contestNumber/$discipline'
-          params={{ contestNumber: String(result.contest.contestNumber), discipline: result.discipline.name }}
+          params={{ contestNumber: String(data.contest.contestNumber), discipline: data.discipline.name }}
         >
           view contest
         </Link>
@@ -63,6 +63,20 @@ export function ResultsHeader({ className }: { className: string }) {
       </SecondaryButton>
     </div>
   )
+}
+
+export const FAKE_RESULT: LeaderboardResult = {
+  id: 1,
+  placeNumber: 1,
+  user: {
+    id: 1,
+    username: 'username',
+  },
+  discipline: { name: '3by3' },
+  timeMs: 1000,
+  scramble: { id: 1, scramble: '' },
+  contest: { contestNumber: 1 },
+  created: '2021-01-01T00:00:00.000Z',
 }
 
 const formatSolveDate = (dateStr: string) => {
