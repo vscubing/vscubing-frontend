@@ -67,7 +67,7 @@ function Items<TItem extends { id: Key }>({
   ))
 }
 
-function useAutofillHeight<TContainer extends HTMLElement, TFake extends HTMLElement>() {
+export function useAutofillHeight<TContainer extends HTMLElement, TFake extends HTMLElement>() {
   const containerRef = useRef<TContainer>(null)
   const fakeElementRef = useRef<TFake>(null)
   const [fittingCount, setFittingCount] = useState<number>()

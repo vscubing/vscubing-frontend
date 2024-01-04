@@ -36,10 +36,6 @@ export const getLeaderboardQuery = ({
     queryFn: () => {
       return fetchMockLeaderboard(page, pageSize)
     },
-    retry(_, error) {
-      if (error.response?.status === 400) return false
-      return true
-    },
     enabled: isEnabled,
   })
 

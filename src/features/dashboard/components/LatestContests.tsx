@@ -42,7 +42,7 @@ function Contest({ data: { contestNumber, start, end } }: { data: DashboardDTO['
       <div className='py-3 pl-4 pr-8'>
         <p className='title-h3'>Contest {contestNumber}</p>
         <p className='text-grey-40'>
-          {formatDate(start)}-{formatDate(end!)}
+          {formatDate(start)} - {formatDate(end!) /* TODO: remove type assertion when backend is ready */}
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild>

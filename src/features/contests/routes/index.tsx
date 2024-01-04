@@ -6,30 +6,36 @@ import { contestResultsQuery, ongoingContestNumberQuery } from '../api'
 import { z } from 'zod'
 import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { queryClient } from '@/lib/reactQuery'
+import { ContestsIndexPage } from './ContestsIndexPage'
 
 const disciplineSearchSchema = z.object({
   discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE).optional(),
+})
+
+const paginationSchema = z.object({
+  page: z.number().int().gte(1).catch(1).optional(),
 })
 
 const contestsRootRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
 const contestsIndexRoute = new Route({
   getParentRoute: () => contestsRootRoute,
   path: '/',
-  validateSearch: disciplineSearchSchema,
-  loaderDeps: ({ search: { discipline } }) => ({
+  validateSearch: disciplineSearchSchema.merge(paginationSchema),
+  loaderDeps: ({ search: { discipline, page } }) => ({
     discipline,
+    page,
   }),
-  loader: ({ navigate, deps: { discipline } }) => {
-    if (!discipline) {
-      void navigate({
+  loader: ({ navigate, deps: { discipline, page } }) => {
+    if (!discipline || !page) {
+      throw navigate({
         to: '/contest',
-        search: { discipline: DEFAULT_DISCIPLINE },
+        search: { discipline: discipline ?? DEFAULT_DISCIPLINE, page: page ?? 1 },
         replace: true,
       })
     }
-    return { discipline }
+    return { discipline, page }
   },
-  component: () => 'all contests',
+  component: ContestsIndexPage,
 })
 
 const ongoingContestRedirectRoute = new Route({

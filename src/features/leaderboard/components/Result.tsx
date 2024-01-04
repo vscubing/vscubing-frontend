@@ -26,14 +26,16 @@ export function Result({ data }: { data: LeaderboardResult }) {
         {},
       )}
     >
-      <span className='mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 text-lg'>
+      <span className='mr-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 pt-[.2em] text-lg'>
         {data.placeNumber}
       </span>
       <CubeIcon className='mr-3' cube={data.discipline.name} />
-      <Ellipsis className='flex-1'>{username}</Ellipsis>
+      <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
       <SolveTimeButton className='mr-6' timeMs={data.timeMs} onClick={() => showReconstruction(data.id)} />
-      <span className='w-36 border-l border-grey-60 text-center'>{dayjs(data.created).format('DD.MM.YYYY')}</span>
-      <span className='mr-10 w-[9.375rem] text-center'>Contest {data.contest.contestNumber}</span>
+      <span className='w-36 border-l border-grey-60 pt-[.2em] text-center'>
+        {dayjs(data.created).format('DD.MM.YYYY')}
+      </span>
+      <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {data.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
           to='/contest/$contestNumber/$discipline'
@@ -50,9 +52,9 @@ export function ResultSkeleton() {
   return <div className='h-[3.75rem] animate-pulse rounded-xl bg-grey-100'></div>
 }
 
-export function ResultsHeader({ className }: { className: string }) {
+export function ResultsHeader() {
   return (
-    <div className={cn('flex whitespace-nowrap pl-2 text-grey-40', className)}>
+    <div className='flex whitespace-nowrap pl-2 text-grey-40'>
       <span className='mr-3'>Place</span>
       <span className='mr-3'>Type</span>
       <span className='flex-1'>Nickname</span>

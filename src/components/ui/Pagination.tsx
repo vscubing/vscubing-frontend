@@ -21,15 +21,21 @@ export function Pagination({
   return (
     <nav role='navigation' aria-label='pagination' className={className} {...props}>
       <ul className='flex'>
-        <PaginationLink className={cn({ invisible: currentPage === 1 })} search={{ page: currentPage - 1 }}>
+        <PaginationLink
+          className={cn({ invisible: currentPage === 1 })}
+          search={(prev) => ({ ...prev, page: currentPage - 1 })}
+        >
           <ChevronLeftIcon />
         </PaginationLink>
         {getLinks(currentPage, cachedTotalPages).map((link) => (
-          <PaginationLink key={link.page} search={{ page: link.page }}>
+          <PaginationLink key={link.page} search={(prev) => ({ ...prev, page: link.page })}>
             {link.type === 'ellipsis' ? <EllipsisIcon className='mt-[0.375rem]' /> : link.page}
           </PaginationLink>
         ))}
-        <PaginationLink className={cn({ invisible: currentPage === totalPages })} search={{ page: currentPage + 1 }}>
+        <PaginationLink
+          className={cn({ invisible: currentPage === totalPages })}
+          search={(prev) => ({ ...prev, page: currentPage + 1 })}
+        >
           <ChevronRightIcon />
         </PaginationLink>
       </ul>

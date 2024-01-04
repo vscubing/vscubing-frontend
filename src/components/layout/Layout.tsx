@@ -18,7 +18,7 @@ export function Layout() {
           <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
             <div>
-              <div className='lg-short:flex-row lg-short:gap-1 lg-short:justify-center flex flex-col items-center gap-4'>
+              <div className='flex flex-col items-center gap-4 lg-short:flex-row lg-short:justify-center lg-short:gap-1'>
                 <SocialLinks />
                 {/* TODO: animate the social links to slide up after login before the log out button appears */}
                 {user && (

@@ -3,7 +3,7 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import { forwardRef, type ButtonHTMLAttributes } from 'react'
 
 const solveTimeButtonVariants = cva(
-  'transition-base outline-ring after-border-bottom w-24 py-1 text-center hover:after:scale-x-100',
+  'transition-base outline-ring after-border-bottom h-8 w-24 pt-[.2em] text-center hover:after:scale-x-100',
   {
     variants: {
       variant: {

@@ -7,7 +7,7 @@ export function Header({ caption }: { caption: string }) {
   const login = useLogin()
 
   return (
-    <div className='flex min-h-[4.375rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
+    <header className='flex min-h-[4.375rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
       <p className='title-h3'>{caption}</p>
       {userData ? (
         <div>
@@ -20,6 +20,6 @@ export function Header({ caption }: { caption: string }) {
           Sign in with google
         </GhostButton>
       )}
-    </div>
+    </header>
   )
 }

@@ -37,22 +37,17 @@ export function Leaderboard() {
   const caption = user ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (
-    <section className='flex h-full flex-col'>
+    <section className='flex h-full flex-col gap-3'>
       <Header caption={caption} />
-      <NavigateBackButton className='my-3 self-start' />
-      <div className='mb-3 flex items-center justify-between rounded-2xl bg-black-80 p-4'>
-        <Link
-          activeOptions={{ includeSearch: false }}
-          search={{ page: 1 }}
-          to='/leaderboard/$discipline'
-          params={{ discipline: '3by3' }}
-        >
+      <NavigateBackButton className='self-start' />
+      <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4'>
+        <Link activeOptions={{ exact: true, includeSearch: false }} params={{ discipline: '3by3' }}>
           {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
         <Pagination currentPage={page} totalPages={leaderboard?.totalPages} />
       </div>
-      <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-6'>
-        <ResultsHeader className='mb-1' />
+      <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
+        <ResultsHeader />
         <AutofillHeightList
           Item={Result}
           ItemSkeleton={ResultSkeleton}
