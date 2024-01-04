@@ -7,6 +7,10 @@ import { AxiosError, type AxiosResponse } from 'axios'
 export type LeaderboardDTO = {
   results: LeaderboardResult[]
   totalPages: number
+  separateOwnResult?: {
+    result: LeaderboardResult
+    page: number
+  }
 }
 
 export type LeaderboardResult = {
@@ -71,11 +75,14 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
     page * pageSize - ownResultShift,
   )
 
-  if (MOCK_OWN_RESULT && !results.includes(MOCK_OWN_RESULT)) {
+  let separateOwnResult = undefined
+  if (MOCK_OWN_RESULT && ownResultPage && !results.includes(MOCK_OWN_RESULT)) {
     if (page !== 1) {
-      results[0] = MOCK_OWN_RESULT
-    } else {
-      results.unshift(MOCK_OWN_RESULT)
+      results.shift()
+    }
+    separateOwnResult = {
+      result: MOCK_OWN_RESULT,
+      page: ownResultPage,
     }
   }
 
@@ -83,6 +90,7 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   return {
     results,
     totalPages,
+    separateOwnResult,
   }
 }
 

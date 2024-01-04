@@ -27,7 +27,7 @@ export function Leaderboard() {
     isEnabled: debouncedPageSize !== undefined,
   })
 
-  const { data: leaderboard, error } = useQuery(query)
+  const { data, error } = useQuery(query)
 
   useEffect(() => {
     if (error?.response?.status === 400) {
@@ -45,15 +45,16 @@ export function Leaderboard() {
         <Link activeOptions={{ exact: true, includeSearch: false }} params={{ discipline: '3by3' }}>
           {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
-        <Pagination currentPage={page} totalPages={leaderboard?.totalPages} />
+        <Pagination currentPage={page} totalPages={data?.totalPages} />
       </div>
       <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <ResultsHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-          <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
-            <Result result={FAKE_RESULT} />
-          </li>
-          <Results results={leaderboard?.results} pageSize={pageSize} />
+          <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
+          {data?.separateOwnResult && (
+            <Result result={data.separateOwnResult.result} linkToPage={data.separateOwnResult.page} />
+          )}
+          <Results results={data?.results} pageSize={pageSize} />
         </ul>
       </div>
     </section>
@@ -71,9 +72,5 @@ function Results({ results, pageSize }: { results?: LeaderboardDTO['results']; p
     return 'Seems like no one has solved yet' // TODO: add empty state
   }
 
-  return results.map((result) => (
-    <li key={result.id}>
-      <Result result={result} />
-    </li>
-  ))
+  return results.map((result) => <Result result={result} key={result.id} />)
 }
