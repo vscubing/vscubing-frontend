@@ -1,1 +1,1 @@
-export * from './ResultsList'
+export * from './AdaptiveResultsList'

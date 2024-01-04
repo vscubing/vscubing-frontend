@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { flushSync } from 'react-dom'
 
-export function useAutofillHeight<TContainer extends HTMLElement, TFake extends HTMLElement>(isEnabled = true) {
+export function useAutofillHeight<TContainer extends HTMLElement, TFake extends HTMLElement>() {
   const containerRef = useRef<TContainer>(null)
   const fakeElementRef = useRef<TFake>(null)
   const [fittingCount, setFittingCount] = useState<number>()
@@ -24,10 +24,9 @@ export function useAutofillHeight<TContainer extends HTMLElement, TFake extends 
   }
 
   useEffect(() => {
-    if (!isEnabled) return
     addEventListener('resize', computeFittingAmount)
     setTimeout(() => computeFittingAmount(), 0) // setTimeout to suppress "flushSync was called from inside a lifecycle method" warning
     return () => removeEventListener('resize', computeFittingAmount)
-  }, [containerRef, fakeElementRef, isEnabled])
+  }, [containerRef, fakeElementRef])
   return { fittingCount, containerRef, fakeElementRef }
 }

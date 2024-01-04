@@ -6,24 +6,18 @@ import { ArrowRightIcon, SecondaryButton, UnderlineButton } from '@/components/u
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   const sortedContests = contests && [...contests].reverse().filter(({ ongoing }) => !ongoing)
 
-  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>(
-    !!sortedContests,
-  )
+  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight<HTMLUListElement, HTMLLIElement>()
 
-  if (sortedContests === undefined) {
-    return 'Loading...' // TODO: add loading state
+  let doAllFit = undefined
+  if (!!fittingCount && sortedContests?.length) {
+    doAllFit = sortedContests.length <= fittingCount
   }
-  if (sortedContests.length === 0) {
-    return 'Seems like there are no contests here yet' // TODO: add empty state
-  }
-
-  const allFit = sortedContests.length <= fittingCount
 
   return (
     <section className={cn('flex flex-col rounded-2xl bg-black-80 px-6 py-4', className)}>
       <div className='mb-6 flex h-[2.3rem] justify-between'>
         <h2 className='title-h3'>Latest contests</h2>
-        {!allFit && (
+        {doAllFit === false && (
           <UnderlineButton asChild>
             <Link>View all</Link>
           </UnderlineButton>
@@ -34,14 +28,28 @@ export function LatestContests({ className, contests }: { className: string; con
         <li className='invisible fixed' aria-hidden='true' ref={fakeElementRef}>
           <Contest contest={FAKE_CONTEST} />
         </li>
-        {sortedContests.slice(0, fittingCount).map((contest) => (
-          <li key={contest.id}>
-            <Contest contest={contest} />
-          </li>
-        ))}
+        <ContestsList contests={sortedContests} fittingCount={fittingCount} />
       </ul>
     </section>
   )
+}
+
+function ContestsList({ contests, fittingCount }: { contests?: DashboardDTO['contests']; fittingCount?: number }) {
+  if (fittingCount === undefined) {
+    return null
+  }
+  if (contests === undefined) {
+    return Array.from({ length: fittingCount }, (_, i) => <ContestSkeleton key={i} />)
+  }
+  if (contests.length === 0) {
+    return 'Seems like there are no contests here yet' // TODO: add empty state
+  }
+
+  return contests.slice(0, fittingCount).map((contest) => (
+    <li key={contest.id}>
+      <Contest contest={contest} />
+    </li>
+  ))
 }
 
 function Contest({ contest: { contestNumber, start, end } }: { contest: DashboardDTO['contests'][number] }) {
@@ -60,6 +68,10 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
       </SecondaryButton>
     </div>
   )
+}
+
+function ContestSkeleton() {
+  return <div className='h-20 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
 const FAKE_CONTEST: DashboardDTO['contests'][number] = {

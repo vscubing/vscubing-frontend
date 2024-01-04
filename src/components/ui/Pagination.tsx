@@ -12,7 +12,7 @@ export function Pagination({
   currentPage: number
   totalPages?: number
 }) {
-  const cachedTotalPages = useCachedTotalPages(totalPages)
+  const cachedTotalPages = useCacheTotalPages(totalPages)
 
   if (!cachedTotalPages) {
     return null
@@ -37,7 +37,7 @@ export function Pagination({
   )
 }
 
-function useCachedTotalPages(totalPages?: number) {
+function useCacheTotalPages(totalPages?: number) {
   const [cachedTotalPages, setCachedTotalPages] = useState(totalPages)
 
   useEffect(() => {

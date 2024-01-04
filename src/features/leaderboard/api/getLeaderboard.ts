@@ -93,7 +93,6 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
 const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 100) }, (_, i) =>
   getMockResult(i + 1),
 )
-console.log(MOCK_LEADERBOARD_RESULTS)
 const withOwnResult = Math.random() > 0.1
 const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult
   ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)]
