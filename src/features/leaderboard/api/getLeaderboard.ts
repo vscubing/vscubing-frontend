@@ -53,9 +53,11 @@ export const getLeaderboardQuery = ({
 async function fetchMockLeaderboard(page: number, pageSize: number): Promise<LeaderboardDTO> {
   let totalRows = MOCK_LEADERBOARD_RESULTS.length
   if (MOCK_OWN_RESULT) {
-    const baseDiscrepancy = Math.ceil((totalRows - pageSize) / pageSize)
-    totalRows += baseDiscrepancy
-    totalRows += Math.floor(baseDiscrepancy / pageSize)
+    let discrepancy = Math.floor(totalRows / pageSize)
+    while (discrepancy > 0) {
+      totalRows += discrepancy
+      discrepancy = Math.floor(discrepancy / pageSize)
+    }
   }
 
   const totalPages = Math.ceil(totalRows / pageSize)
@@ -67,9 +69,14 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
 
   let ownResultPage: number | undefined
   if (MOCK_OWN_RESULT) {
-    const ownResultPlace = MOCK_OWN_RESULT.placeNumber
-    const baseOwnResultPage = Math.ceil(ownResultPlace / pageSize)
-    ownResultPage = Math.ceil((ownResultPlace + baseOwnResultPage) / pageSize)
+    let ownResultPlace = MOCK_OWN_RESULT.placeNumber
+    ownResultPage = Math.ceil(ownResultPlace / pageSize)
+    let discrepancy = ownResultPage - 1
+    while (discrepancy > 0) {
+      ownResultPlace += discrepancy
+      discrepancy = Math.ceil((discrepancy - pageSize) / pageSize)
+    }
+    ownResultPage = Math.ceil(ownResultPlace / pageSize)
   }
 
   let ownResultShift = 0
@@ -105,9 +112,13 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 56 }, (_, i) => getMockResult(i + 1))
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, (_, i) =>
+  getMockResult(i + 1),
+)
 const withOwnResult = true
-const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult ? MOCK_LEADERBOARD_RESULTS[4] : undefined
+const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult
+  ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length)]
+  : undefined
 if (MOCK_OWN_RESULT) MOCK_OWN_RESULT.user.username = 'ddd'
 
 function getMockResult(placeNumber: number): LeaderboardResult {
