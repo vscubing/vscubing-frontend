@@ -50,16 +50,21 @@ export const getLeaderboardQuery = ({
     enabled: isEnabled,
   })
 
+function getCompoundShift(place: number, pageSize: number) {
+  let totalShift = 0
+  let shift = Math.ceil((place - 1) / pageSize)
+  while (shift > 0) {
+    totalShift += shift
+    shift = Math.floor(shift / pageSize)
+  }
+  return totalShift
+}
+
 async function fetchMockLeaderboard(page: number, pageSize: number): Promise<LeaderboardDTO> {
   let totalRows = MOCK_LEADERBOARD_RESULTS.length
   if (MOCK_OWN_RESULT) {
-    let discrepancy = Math.floor(totalRows / pageSize)
-    while (discrepancy > 0) {
-      totalRows += discrepancy
-      discrepancy = Math.floor(discrepancy / pageSize)
-    }
+    totalRows += getCompoundShift(MOCK_LEADERBOARD_RESULTS.length, pageSize)
   }
-
   const totalPages = Math.ceil(totalRows / pageSize)
   if (page > totalPages) {
     throw new AxiosError('Page number is too big for this pageSize', undefined, undefined, undefined, {
@@ -70,25 +75,20 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   let ownResultPage: number | undefined
   if (MOCK_OWN_RESULT) {
     let ownResultPlace = MOCK_OWN_RESULT.placeNumber
-    ownResultPage = Math.ceil(ownResultPlace / pageSize)
-    let discrepancy = ownResultPage - 1
-    while (discrepancy > 0) {
-      ownResultPlace += discrepancy
-      discrepancy = Math.ceil((discrepancy - pageSize) / pageSize)
-    }
+    ownResultPlace += getCompoundShift(ownResultPlace, pageSize)
     ownResultPage = Math.ceil(ownResultPlace / pageSize)
   }
 
-  let ownResultShift = 0
+  let flatShift = 0
   if (ownResultPage) {
-    ownResultShift = page * -1 + 1
+    flatShift = page * -1 + 1
     if (page > ownResultPage) {
-      ownResultShift += 1
+      flatShift += 1
     }
   }
 
-  const startIndex = (page - 1) * pageSize + ownResultShift
-  let endIndex = page * pageSize + ownResultShift
+  const startIndex = (page - 1) * pageSize + flatShift
+  let endIndex = page * pageSize + flatShift
 
   if (MOCK_OWN_RESULT && page !== ownResultPage) {
     endIndex--
@@ -112,13 +112,9 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, (_, i) =>
-  getMockResult(i + 1),
-)
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 997 }, (_, i) => getMockResult(i + 1))
 const withOwnResult = true
-const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult
-  ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length)]
-  : undefined
+const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult ? MOCK_LEADERBOARD_RESULTS[990] : undefined
 if (MOCK_OWN_RESULT) MOCK_OWN_RESULT.user.username = 'ddd'
 
 function getMockResult(placeNumber: number): LeaderboardResult {
