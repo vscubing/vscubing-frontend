@@ -6,7 +6,6 @@ import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, Pagination } from '@/components/ui'
 import { FAKE_RESULT, Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
-import { useEffect } from 'react'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 
 const route = new RouteApi({ id: '/leaderboard/$discipline' })
@@ -29,11 +28,9 @@ export function Leaderboard() {
 
   const { data, error } = useQuery(query)
 
-  useEffect(() => {
-    if (error?.response?.status === 400) {
-      void navigate({ search: { page: 1 } })
-    }
-  }, [error?.response?.status, navigate])
+  if (error?.response?.status === 400) {
+    void navigate({ search: { page: 1 } })
+  }
 
   const caption = user ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
@@ -51,14 +48,22 @@ export function Leaderboard() {
         <ResultsHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
-          {data?.separateOwnResult && (
-            <Result result={data.separateOwnResult.result} linkToPage={data.separateOwnResult.page} />
-          )}
-          <Results results={data?.results} pageSize={pageSize} />
+          <OwnResult ownResult={data?.ownResult} />
+          <Results
+            results={data?.results}
+            pageSize={!!pageSize && data?.ownResult?.isDisplayedSeparately ? pageSize - 1 : pageSize}
+          />
         </ul>
       </div>
     </section>
   )
+}
+
+function OwnResult({ ownResult }: { ownResult: LeaderboardDTO['ownResult'] }) {
+  if (!ownResult || !ownResult.isDisplayedSeparately) {
+    return null
+  }
+  return <Result result={ownResult.result} linkToPage={ownResult.page} />
 }
 
 function Results({ results, pageSize }: { results?: LeaderboardDTO['results']; pageSize?: number }) {

@@ -12,9 +12,7 @@ export function Pagination({
   currentPage: number
   totalPages?: number
 }) {
-  const cachedTotalPages = useCacheTotalPages(totalPages)
-
-  if (!cachedTotalPages) {
+  if (totalPages === undefined) {
     return null
   }
 
@@ -27,7 +25,7 @@ export function Pagination({
         >
           <ChevronLeftIcon />
         </PaginationLink>
-        {getLinks(currentPage, cachedTotalPages).map((link) => (
+        {getLinks(currentPage, totalPages).map((link) => (
           <PaginationLink key={link.page} search={(prev) => ({ ...prev, page: link.page })}>
             {link.type === 'ellipsis' ? <EllipsisIcon className='mt-[0.375rem]' /> : link.page}
           </PaginationLink>
@@ -41,16 +39,6 @@ export function Pagination({
       </ul>
     </nav>
   )
-}
-
-function useCacheTotalPages(totalPages?: number) {
-  const [cachedTotalPages, setCachedTotalPages] = useState(totalPages)
-
-  useEffect(() => {
-    if (totalPages) setCachedTotalPages(totalPages)
-  }, [totalPages])
-
-  return cachedTotalPages
 }
 
 function PaginationLink({ children, className, ...props }: LinkProps) {
