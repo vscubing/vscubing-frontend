@@ -86,8 +86,7 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   }
 
   const startIndex = (page - 1) * pageSize + flatShift
-  let endIndex = page * pageSize + flatShift
-
+  let endIndex = startIndex + pageSize
   if (MOCK_OWN_RESULT && page !== ownResultPage) {
     endIndex--
   }

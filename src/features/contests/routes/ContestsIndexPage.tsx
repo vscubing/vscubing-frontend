@@ -6,7 +6,7 @@ import { getContestsQuery } from '..'
 import { useQuery } from '@tanstack/react-query'
 import { formatDate, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
-import type { ContestsListDTO } from '../api'
+import type { ContestListItemDTO, ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
 
 const route = new RouteApi({ id: '/contest/' })
@@ -89,7 +89,7 @@ function ContestsList({
   return contests.map((contest) => <Contest key={contest.id} contest={contest} discipline={discipline} />)
 }
 
-function Contest({ contest, discipline }: { contest: ContestsListDTO['contests'][number]; discipline: Discipline }) {
+function Contest({ contest, discipline }: { contest: ContestListItemDTO; discipline: Discipline }) {
   return (
     <div className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
       <CubeIcon cube='3by3' className='mr-4' />
@@ -115,7 +115,7 @@ function ContestSkeleton() {
   return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
-const FAKE_CONTEST: ContestsListDTO['contests'][number] = {
+const FAKE_CONTEST: ContestListItemDTO = {
   id: 0,
   start: '2021-08-01T00:00:00.000Z',
   end: '2021-08-01T00:00:00.000Z',

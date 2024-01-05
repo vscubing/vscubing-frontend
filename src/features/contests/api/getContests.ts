@@ -5,13 +5,15 @@ import { AxiosError, type AxiosResponse } from 'axios'
 
 export type ContestsListDTO = {
   totalPages: number
-  contests: {
-    id: number
-    contestNumber: number
-    start: string
-    end: string | null
-    ongoing: boolean
-  }[]
+  contests?: ContestListItemDTO[]
+}
+
+export type ContestListItemDTO = {
+  id: number
+  contestNumber: number
+  start: string
+  end: string | null
+  ongoing: boolean
 }
 
 export function getContestsQuery({
@@ -27,15 +29,13 @@ export function getContestsQuery({
 }) {
   return queryOptions({
     queryKey: ['contests-list', discipline, page, pageSize],
-    queryFn: async () => {
-      await timeout(500)
-      return getMockContests({ page, pageSize })
-    },
+    queryFn: () => getMockContests({ page, pageSize }),
+    placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
     enabled: isEnabled,
   })
 }
 
-function getMockContests({ page, pageSize }: { page: number; pageSize: number }): ContestsListDTO {
+async function getMockContests({ page, pageSize }: { page: number; pageSize: number }): Promise<ContestsListDTO> {
   const totalPages = Math.ceil(MOCK_CONTESTS.length / pageSize)
   if (page > totalPages) {
     throw new AxiosError('Too big page number for this pageSize', undefined, undefined, undefined, {
@@ -43,14 +43,15 @@ function getMockContests({ page, pageSize }: { page: number; pageSize: number })
     } as AxiosResponse)
   }
   const firstIndex = (page - 1) * pageSize
+  await timeout(500)
   return { totalPages, contests: MOCK_CONTESTS.slice(firstIndex, firstIndex + pageSize) }
 }
 
-const MOCK_CONTESTS: ContestsListDTO['contests'] = Array.from({ length: randomInteger(0, 50) }, (_, i) =>
+const MOCK_CONTESTS: ContestListItemDTO[] = Array.from({ length: randomInteger(0, 50) }, (_, i) =>
   getMockContest(i + 1),
 ).reverse()
 
-function getMockContest(contestNumber: number): ContestsListDTO['contests'][number] {
+function getMockContest(contestNumber: number): ContestListItemDTO {
   return {
     id: Math.random(),
     contestNumber,
