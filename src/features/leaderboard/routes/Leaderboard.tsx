@@ -26,7 +26,7 @@ export function Leaderboard() {
     isEnabled: debouncedPageSize !== undefined,
   })
 
-  const { data, error } = useQuery(query)
+  const { data, error, isFetching } = useQuery(query)
 
   if (error?.response?.status === 400) {
     void navigate({ search: { page: 1 } })
@@ -48,30 +48,48 @@ export function Leaderboard() {
         <ResultsHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
-          <OwnResult ownResult={data?.ownResult} />
-          <Results
-            results={data?.results}
-            pageSize={!!pageSize && data?.ownResult?.isDisplayedSeparately ? pageSize - 1 : pageSize}
-          />
+          <OwnResult isLoading={isFetching} ownResult={data?.ownResult} />
+          <ResultsSkeleton isLoading={isFetching} pageSize={pageSize} ownResult={data?.ownResult} />
+          <Results results={data?.results} />
         </ul>
       </div>
     </section>
   )
 }
 
-function OwnResult({ ownResult }: { ownResult: LeaderboardDTO['ownResult'] }) {
-  if (!ownResult || !ownResult.isDisplayedSeparately) {
+function OwnResult({ ownResult, isLoading }: { ownResult: LeaderboardDTO['ownResult']; isLoading: boolean }) {
+  if (!ownResult) {
     return null
   }
-  return <Result result={ownResult.result} linkToPage={ownResult.page} />
+  if (ownResult.isDisplayedSeparately || isLoading) {
+    return <Result result={ownResult.result} linkToPage={ownResult.page} />
+  }
+  return null
 }
 
-function Results({ results, pageSize }: { results?: LeaderboardDTO['results']; pageSize?: number }) {
-  if (pageSize === undefined) {
+function ResultsSkeleton({
+  pageSize,
+  ownResult,
+  isLoading,
+}: {
+  pageSize?: number
+  ownResult?: LeaderboardDTO['ownResult']
+  isLoading: boolean
+}) {
+  if (!pageSize || !isLoading) {
     return null
   }
-  if (results === undefined) {
-    return Array.from({ length: pageSize }, (_, index) => <ResultSkeleton key={index} />)
+
+  let skeletonSize = pageSize
+  if (ownResult) {
+    skeletonSize--
+  }
+  return Array.from({ length: skeletonSize }, (_, index) => <ResultSkeleton key={index} />)
+}
+
+function Results({ results }: { results?: LeaderboardDTO['results'] }) {
+  if (!results) {
+    return null
   }
   if (results.length === 0) {
     return 'Seems like no one has solved yet' // TODO: add empty state

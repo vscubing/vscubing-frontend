@@ -39,14 +39,12 @@ export const getLeaderboardQuery = ({
   queryOptions({
     queryKey: [USER_QUERY_KEY, 'leaderboard', discipline, { page, pageSize }],
     queryFn: () => fetchMockLeaderboard(page, pageSize),
-    placeholderData: (prev) => {
-      if (!prev) return
-      return {
+    placeholderData: (prev) =>
+      prev && {
         totalPages: prev.totalPages,
-        ownResult: prev.ownResult && { ...prev.ownResult, displaySeparately: true },
+        ownResult: prev.ownResult,
         results: undefined,
-      }
-    },
+      },
     enabled: isEnabled,
   })
 
@@ -104,7 +102,7 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
     }
   }
 
-  await timeout(200)
+  await timeout(500)
   return {
     results,
     totalPages,
@@ -112,9 +110,13 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 997 }, (_, i) => getMockResult(i + 1))
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 800) }, (_, i) =>
+  getMockResult(i + 1),
+)
 const withOwnResult = true
-const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult ? MOCK_LEADERBOARD_RESULTS[990] : undefined
+const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult
+  ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)]
+  : undefined
 if (MOCK_OWN_RESULT) MOCK_OWN_RESULT.user.username = 'ddd'
 
 function getMockResult(placeNumber: number): LeaderboardResult {
