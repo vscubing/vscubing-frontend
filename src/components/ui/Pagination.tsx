@@ -20,17 +20,19 @@ export function Pagination({
     <nav role='navigation' aria-label='pagination' className={className} {...props}>
       <ul className='flex'>
         <PaginationLink
+          params={{}}
           className={cn({ invisible: currentPage === 1 })}
           search={(prev) => ({ ...prev, page: currentPage - 1 })}
         >
           <ChevronLeftIcon />
         </PaginationLink>
         {getLinks(currentPage, totalPages).map((link) => (
-          <PaginationLink key={link.page} search={(prev) => ({ ...prev, page: link.page })}>
+          <PaginationLink params={{}} key={link.page} search={(prev) => ({ ...prev, page: link.page })}>
             {link.type === 'ellipsis' ? <EllipsisIcon className='mt-[0.375rem]' /> : link.page}
           </PaginationLink>
         ))}
         <PaginationLink
+          params={{}}
           className={cn({ invisible: currentPage === totalPages })}
           search={(prev) => ({ ...prev, page: currentPage + 1 })}
         >

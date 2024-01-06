@@ -39,8 +39,9 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(({ result, linkToPa
       <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {result.contest.contestNumber}</span>
       <SecondaryButton asChild>
         <Link
-          to='/contest/$contestNumber/$discipline'
-          params={{ contestNumber: String(result.contest.contestNumber), discipline: result.discipline.name }}
+          to='/contests/$contestNumber'
+          params={{ contestNumber: String(result.contest.contestNumber) }}
+          search={{ discipline: result.discipline.name }}
         >
           view contest
         </Link>
@@ -61,6 +62,7 @@ function PlaceBadge({
   const Comp = linkToPage ? Link : 'span'
   return (
     <Comp
+      params={{}}
       search={linkToPage ? (prev) => ({ ...prev, page: linkToPage }) : undefined}
       className={cn(
         'flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 pt-[.2em] text-lg',

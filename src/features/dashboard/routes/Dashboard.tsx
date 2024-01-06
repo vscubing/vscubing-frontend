@@ -28,13 +28,13 @@ export function Dashboard() {
               <span className='text-secondary-20'>Ongoing</span> Contest
             </h2>
             <PrimaryButton asChild>
-              <Link to='/contest/ongoing'>Solve now</Link>
+              <Link to='/contests/ongoing'>Solve now</Link>
             </PrimaryButton>
           </div>
           <div className='text-right'>
             <p className='title-h3 mb-3'>Duration</p>
             <p className='mb-6 text-lg'>10 Dec 2023-17 Dec 2023</p>
-            <Link to='/contest' search={{ discipline: '3by3' }} className='inline-block rounded-xl'>
+            <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='inline-block rounded-xl'>
               <CubeBadge
                 cube='3by3'
                 className='transition-base outline-ring bg-secondary-40 hover:bg-secondary-20 active:bg-secondary-40'

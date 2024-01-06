@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import type { ContestListItemDTO, ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
 
-const route = new RouteApi({ id: '/contest/' })
+const route = new RouteApi({ id: '/contests/' })
 export function ContestsIndexPage() {
   const { page, discipline } = route.useLoaderData()
   const navigate = useNavigate({ from: route.id })
@@ -27,16 +27,16 @@ export function ContestsIndexPage() {
 
   useEffect(() => {
     if (error?.response?.status === 400) {
-      void navigate({ search: { page: 1 } })
+      void navigate({ from: route.id, params: { discipline }, search: { page: 1 } })
     }
-  }, [error?.response?.status, navigate])
+  }, [error?.response?.status, navigate, discipline])
 
   return (
     <section className='flex h-full flex-col gap-3'>
       <Header caption='Explore contests' />
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
-        <Link from={route.id} search={{ discipline: '3by3' }}>
+        <Link from={route.id} params={{ discipline: '3by3' }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         <Pagination currentPage={page} totalPages={data?.totalPages} />
@@ -101,8 +101,10 @@ function Contest({ contest, discipline }: { contest: ContestListItemDTO; discipl
       </span>
       <SecondaryButton asChild>
         <Link
-          to='/contest/$contestNumber/$discipline'
-          params={{ contestNumber: String(contest.contestNumber), discipline }}
+          from={route.id}
+          to='/contests/$contestNumber'
+          search={{ discipline }}
+          params={{ contestNumber: String(contest.contestNumber) }}
         >
           view contest
         </Link>

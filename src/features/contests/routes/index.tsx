@@ -1,6 +1,6 @@
 import { rootRoute } from '@/router'
-import { DEFAULT_DISCIPLINE, DISCIPLINES, isDiscipline } from '@/types'
-import { Route } from '@tanstack/react-router'
+import { DEFAULT_DISCIPLINE, DISCIPLINES, castDiscipline } from '@/types'
+import { Route, redirect } from '@tanstack/react-router'
 import { ContestDiscipline } from '../components'
 import { contestResultsQuery, ongoingContestNumberQuery } from '../api'
 import { z } from 'zod'
@@ -8,78 +8,73 @@ import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { queryClient } from '@/lib/reactQuery'
 import { ContestsIndexPage } from './ContestsIndexPage'
 
-const disciplineSearchSchema = z.object({
-  discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE).optional(),
-})
-
 const paginationSchema = z.object({
-  page: z.number().int().gte(1).catch(1).optional(),
+  page: z.number().int().gte(1).optional().catch(undefined),
 })
 
-const contestsRootRoute = new Route({ getParentRoute: () => rootRoute, path: '/contest' })
-const contestsIndexRoute = new Route({
-  getParentRoute: () => contestsRootRoute,
+const disciplineSchema = z.object({ discipline: z.enum(DISCIPLINES).optional().catch(undefined) })
+
+const parentRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/contests',
+})
+
+const indexRoute = new Route({
+  getParentRoute: () => parentRoute,
   path: '/',
-  validateSearch: disciplineSearchSchema.merge(paginationSchema),
-  loaderDeps: ({ search: { discipline, page } }) => ({
-    discipline,
-    page,
-  }),
-  loader: ({ navigate, deps: { discipline, page } }) => {
-    if (!discipline || !page) {
-      throw navigate({
-        to: '/contest',
-        search: { discipline: discipline ?? DEFAULT_DISCIPLINE, page: page ?? 1 },
+  validateSearch: paginationSchema.merge(disciplineSchema),
+  beforeLoad: ({ search: { discipline, page } }) => {
+    if (!page || !discipline) {
+      throw redirect({
+        search: { page: page ?? 1, discipline: discipline ?? DEFAULT_DISCIPLINE },
         replace: true,
       })
     }
-    return { discipline, page }
+  },
+  loaderDeps: ({ search }) => search,
+  loader: ({ deps: { discipline, page } }) => {
+    return { discipline: discipline!, page: page! }
   },
   component: ContestsIndexPage,
 })
 
 const ongoingContestRedirectRoute = new Route({
-  getParentRoute: () => contestsRootRoute,
-  path: '/ongoing',
-  validateSearch: disciplineSearchSchema,
-  beforeLoad: async ({ navigate, search: { discipline } }) => {
+  getParentRoute: () => parentRoute,
+  path: 'ongoing',
+  validateSearch: z.object({ discipline: z.enum(DISCIPLINES).optional().catch(DEFAULT_DISCIPLINE) }),
+  beforeLoad: async ({ search: { discipline } }) => {
     const contestNumber = await queryClient.fetchQuery(ongoingContestNumberQuery)
-    void navigate({
-      to: '/contest/$contestNumber/$discipline',
-      params: {
-        discipline,
-        contestNumber: String(contestNumber),
-      },
+    void redirect({
+      to: contestRoute.id,
+      params: { contestNumber: String(contestNumber) },
+      search: { discipline: castDiscipline(discipline) },
       replace: true,
+      throw: true,
     })
   },
 })
 
-const contestRoute = new Route({
-  getParentRoute: () => contestsRootRoute,
+export const contestRoute = new Route({
+  getParentRoute: () => parentRoute,
   path: '$contestNumber',
-})
-const contestIndexRoute = new Route({
-  getParentRoute: () => contestRoute,
-  path: '/',
-  beforeLoad: ({ navigate }) => {
-    void navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
+  validateSearch: disciplineSchema,
+  beforeLoad: ({ params: { contestNumber }, search: { discipline } }) => {
+    if (!z.coerce.number().int().safeParse(contestNumber).success) {
+      throw redirect({
+        to: ongoingContestRedirectRoute.id,
+        replace: true,
+      })
+    }
+    if (!discipline) {
+      throw redirect({
+        search: { discipline: DEFAULT_DISCIPLINE },
+        replace: true,
+      })
+    }
   },
-})
-
-export const contestDisciplineRoute = new Route({
-  getParentRoute: () => contestRoute,
-  path: '$discipline',
-  loader: ({ params, navigate }) => {
-    const contestNumber = Number(params.contestNumber)
-    if (isNaN(contestNumber)) {
-      throw navigate({ to: '../../', replace: true })
-    }
-    if (!isDiscipline(params.discipline)) {
-      throw navigate({ to: '../', replace: true })
-    }
-
-    const query = contestResultsQuery(contestNumber, params.discipline)
+  loaderDeps: ({ search }) => search,
+  loader: ({ params: { contestNumber }, deps: { discipline } }) => {
+    const query = contestResultsQuery(Number(contestNumber), discipline!)
     void queryClient.ensureQueryData(query)
     return query
   },
@@ -90,7 +85,4 @@ export const contestDisciplineRoute = new Route({
   ),
 })
 
-export const contestsRoute = contestsRootRoute.addChildren([
-  contestsIndexRoute,
-  contestRoute.addChildren([ongoingContestRedirectRoute, contestDisciplineRoute, contestIndexRoute]),
-])
+export const contestsRoute = parentRoute.addChildren([indexRoute, ongoingContestRedirectRoute, contestRoute])

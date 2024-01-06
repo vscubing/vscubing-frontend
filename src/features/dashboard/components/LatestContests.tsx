@@ -18,7 +18,7 @@ export function LatestContests({ className, contests }: { className: string; con
         <h2 className='title-h3'>Latest contests</h2>
         {doAllFit === false && (
           <UnderlineButton asChild>
-            <Link to='/contest'>View all</Link>
+            <Link to='/contests'>View all</Link>
           </UnderlineButton>
         )}
       </div>
@@ -61,7 +61,7 @@ function Contest({ contest: { contestNumber, start, end } }: { contest: Dashboar
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild>
-        <Link to='/contest/$contestNumber' params={{ contestNumber: String(contestNumber) }}>
+        <Link to='/contests/$contestNumber' params={{ contestNumber: String(contestNumber) }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>

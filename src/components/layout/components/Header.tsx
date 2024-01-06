@@ -17,7 +17,7 @@ export function Header({ caption }: { caption: string }) {
       ) : (
         <GhostButton className='gap-3' onClick={() => login()}>
           <GoogleIcon />
-          Sign in with google
+          Sign in with Google
         </GhostButton>
       )}
     </header>

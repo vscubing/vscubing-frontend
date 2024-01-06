@@ -29,7 +29,7 @@ export function Leaderboard() {
   const { data, error, isFetching } = useQuery(query)
 
   if (error?.response?.status === 400) {
-    void navigate({ search: { page: 1 } })
+    void navigate({ search: { page: 1 }, params: { discipline } })
   }
 
   const caption = user ? `${user.username}, check out our best solves` : 'Check out our best solves'
@@ -39,7 +39,7 @@ export function Leaderboard() {
       <Header caption={caption} />
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4'>
-        <Link activeOptions={{ exact: true, includeSearch: false }} params={{ discipline: '3by3' }}>
+        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
           {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
         <Pagination currentPage={page} totalPages={data?.totalPages} />

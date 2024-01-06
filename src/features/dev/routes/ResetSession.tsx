@@ -10,7 +10,7 @@ export function ResetSession() {
     try {
       await axiosClient.delete('/contests/round-session/')
       await queryClient.refetchQueries({ queryKey: [USER_QUERY_KEY] })
-      await navigate({ to: '/contest' })
+      await navigate({ to: '/contests/ongoing' })
     } catch (err) {
       alert("either you don't have any results to reset or something went wrong")
     }
