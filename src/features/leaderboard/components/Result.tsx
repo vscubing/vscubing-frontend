@@ -6,6 +6,7 @@ import { type LeaderboardResult } from '../api'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery } from '@/features/auth'
 import { forwardRef, type ComponentProps } from 'react'
+import { PlaceLabel } from '@/components/ui'
 
 type ResultProps = { result: LeaderboardResult; linkToPage?: number } & ComponentProps<'li'>
 export const Result = forwardRef<HTMLLIElement, ResultProps>(({ result, linkToPage, className, ...props }, ref) => {
@@ -29,9 +30,9 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(({ result, linkToPa
       )}
       {...props}
     >
-      <PlaceBadge className='mr-3' linkToPage={linkToPage}>
+      <PlaceLabel className='mr-3' linkToPage={linkToPage}>
         {result.placeNumber}
-      </PlaceBadge>
+      </PlaceLabel>
       <CubeIcon className='mr-3' cube={result.discipline.name} />
       <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
       <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
@@ -50,34 +51,6 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(({ result, linkToPa
   )
 })
 
-function PlaceBadge({
-  children: placeNumber,
-  linkToPage,
-  className,
-}: {
-  children: number
-  linkToPage?: number
-  className?: string
-}) {
-  const Comp = linkToPage ? Link : 'span'
-  return (
-    <Comp
-      params={{}}
-      search={linkToPage ? (prev) => ({ ...prev, page: linkToPage }) : undefined}
-      className={cn(
-        'flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 pt-[.2em] text-lg',
-        {
-          'transition-base outline-ring hover:border-primary-80 active:border-primary-80 active:text-primary-80':
-            !!linkToPage,
-        },
-        className,
-      )}
-    >
-      {placeNumber}
-    </Comp>
-  )
-}
-
 export function ResultSkeleton() {
   return <li className='h-[3.75rem] animate-pulse rounded-xl bg-grey-100'></li>
 }
@@ -85,8 +58,8 @@ export function ResultSkeleton() {
 export function ResultsHeader() {
   return (
     <div className='flex whitespace-nowrap pl-2 text-grey-40'>
-      <span className='mr-3'>Place</span>
-      <span className='mr-3'>Type</span>
+      <span className='mr-2 w-11 text-center'>Place</span>
+      <span className='mr-2'>Type</span>
       <span className='flex-1'>Nickname</span>
       <span className='mr-6 w-24 text-center'>Single time</span>
       <span className='w-36 text-center'>Solve date</span>

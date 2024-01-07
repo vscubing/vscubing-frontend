@@ -1,12 +1,11 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, castDiscipline } from '@/types'
 import { Route, redirect } from '@tanstack/react-router'
-import { ContestDiscipline } from '../components'
-import { contestResultsQuery, ongoingContestNumberQuery } from '../api'
+import { ongoingContestNumberQuery } from '../api'
 import { z } from 'zod'
-import { DisciplinesTabsLayout } from '@/components/DisciplinesTabsLayout'
 import { queryClient } from '@/lib/reactQuery'
 import { ContestsIndexPage } from './ContestsIndexPage'
+import { ContestPage } from './ContestPage'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).optional().catch(undefined),
@@ -22,7 +21,7 @@ const parentRoute = new Route({
 const indexRoute = new Route({
   getParentRoute: () => parentRoute,
   path: '/',
-  validateSearch: paginationSchema.merge(disciplineSchema),
+  validateSearch: disciplineSchema.merge(paginationSchema),
   beforeLoad: ({ search: { discipline, page } }) => {
     if (!page || !discipline) {
       throw redirect({
@@ -57,32 +56,26 @@ const ongoingContestRedirectRoute = new Route({
 export const contestRoute = new Route({
   getParentRoute: () => parentRoute,
   path: '$contestNumber',
-  validateSearch: disciplineSchema,
-  beforeLoad: ({ params: { contestNumber }, search: { discipline } }) => {
+  validateSearch: disciplineSchema.merge(paginationSchema),
+  beforeLoad: ({ params: { contestNumber }, search: { discipline, page } }) => {
     if (!z.coerce.number().int().safeParse(contestNumber).success) {
       throw redirect({
         to: ongoingContestRedirectRoute.id,
         replace: true,
       })
     }
-    if (!discipline) {
+    if (!discipline || !page) {
       throw redirect({
-        search: { discipline: DEFAULT_DISCIPLINE },
+        search: { discipline: discipline ?? DEFAULT_DISCIPLINE, page: page ?? 1 },
         replace: true,
       })
     }
   },
   loaderDeps: ({ search }) => search,
-  loader: ({ params: { contestNumber }, deps: { discipline } }) => {
-    const query = contestResultsQuery(Number(contestNumber), discipline!)
-    void queryClient.ensureQueryData(query)
-    return query
+  loader: ({ params: { contestNumber }, deps: { discipline, page } }) => {
+    return { contestNumber: Number(contestNumber), discipline: discipline!, page: page! }
   },
-  component: () => (
-    <DisciplinesTabsLayout>
-      <ContestDiscipline />
-    </DisciplinesTabsLayout>
-  ),
+  component: ContestPage,
 })
 
 export const contestsRoute = parentRoute.addChildren([indexRoute, ongoingContestRedirectRoute, contestRoute])

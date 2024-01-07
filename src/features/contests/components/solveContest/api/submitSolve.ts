@@ -4,7 +4,7 @@ import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
 import { type SolveContestStateDTO } from '../types'
 import { solveContestStateQuery } from './getSolveContestState'
-import { contestResultsQuery } from '@/features/contests/api'
+import { getContestQueryKey } from '@/features/contests/api'
 import { getApiRoute } from './apiRoute'
 
 export const useSubmitSolve = (contestNumber: number, discipline: Discipline) =>
@@ -16,7 +16,7 @@ export const useSubmitSolve = (contestNumber: number, discipline: Discipline) =>
 
       const isSessionOver = 'detail' in data
       if (isSessionOver) {
-        void queryClient.invalidateQueries(contestResultsQuery(contestNumber, discipline))
+        void queryClient.invalidateQueries({ queryKey: getContestQueryKey({ contestNumber, discipline }) })
         return
       }
       const newSolvesState = data

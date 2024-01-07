@@ -35,8 +35,14 @@ export default {
           80: '#505B60',
           100: '#363C40',
         },
-        yellow: '#DBDF00',
-        red: '#D65961',
+        yellow: {
+          80: '#BDC03D',
+          100: '#DBDF00',
+        },
+        red: {
+          80: '#D65961',
+          100: '#BB434A',
+        },
         white: '#F9F9F9',
       },
       screens: {

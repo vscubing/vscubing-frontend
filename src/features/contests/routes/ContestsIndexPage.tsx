@@ -36,7 +36,7 @@ export function ContestsIndexPage() {
       <Header caption='Explore contests' />
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
-        <Link from={route.id} params={{ discipline: '3by3' }}>
+        <Link from={route.id} search={{ discipline: '3by3' }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         <Pagination currentPage={page} totalPages={data?.totalPages} />
