@@ -6,7 +6,7 @@ import { getContestsQuery } from '..'
 import { useQuery } from '@tanstack/react-query'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
-import type { ContestListItemDTO, ContestsListDTO } from '../api'
+import type { ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
 import { ContestsListHeader, Contest, ContestSkeleton } from '../components'
 
@@ -45,9 +45,7 @@ export function ContestsIndexPage() {
       <div className='flex flex-1 flex-col gap-1 rounded-xl bg-black-80 p-6'>
         <ContestsListHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-          <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
-            <Contest contest={FAKE_CONTEST} discipline={discipline} />
-          </li>
+          <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
           <ContestsList contests={data?.contests} discipline={discipline} pageSize={pageSize} />
         </ul>
       </div>
@@ -75,12 +73,4 @@ function ContestsList({
   }
 
   return contests.map((contest) => <Contest key={contest.id} contest={contest} discipline={discipline} />)
-}
-
-const FAKE_CONTEST: ContestListItemDTO = {
-  id: 0,
-  start: '2021-08-01T00:00:00.000Z',
-  end: '2021-08-01T00:00:00.000Z',
-  contestNumber: 0,
-  ongoing: false,
 }

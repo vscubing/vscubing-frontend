@@ -48,52 +48,49 @@ export function Leaderboard() {
         <ResultsHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
-          <OwnResult isLoading={isFetching} ownResult={data?.ownResult} />
-          <ResultsSkeleton isLoading={isFetching} pageSize={pageSize} ownResult={data?.ownResult} />
-          <Results results={data?.results} />
+          <Results results={data?.results} ownResult={data?.ownResult} isFetching={isFetching} pageSize={pageSize} />
         </ul>
       </div>
     </section>
   )
 }
 
-function OwnResult({ ownResult, isLoading }: { ownResult: LeaderboardDTO['ownResult']; isLoading: boolean }) {
-  if (!ownResult) {
-    return null
-  }
-  if (ownResult.isDisplayedSeparately || isLoading) {
-    return <Result result={ownResult.result} linkToPage={ownResult.page} />
-  }
-  return null
-}
-
-function ResultsSkeleton({
-  pageSize,
+function Results({
+  results,
   ownResult,
-  isLoading,
+  pageSize,
+  isFetching,
 }: {
-  pageSize?: number
+  results?: LeaderboardDTO['results']
   ownResult?: LeaderboardDTO['ownResult']
-  isLoading: boolean
+  pageSize?: number
+  isFetching: boolean
 }) {
-  if (!pageSize || !isLoading) {
+  if (!pageSize) {
     return null
   }
-
-  let skeletonSize = pageSize
-  if (ownResult) {
-    skeletonSize--
-  }
-  return Array.from({ length: skeletonSize }, (_, index) => <ResultSkeleton key={index} />)
-}
-
-function Results({ results }: { results?: LeaderboardDTO['results'] }) {
-  if (!results) {
-    return null
-  }
-  if (results.length === 0) {
+  if (results?.length === 0) {
     return 'Seems like no one has solved yet' // TODO: add empty state
   }
 
-  return results.map((result) => <Result result={result} key={result.id} />)
+  console.log(ownResult)
+  const isOwnResultDisplayedSeparately = ownResult && (ownResult.isDisplayedSeparately || isFetching)
+  const skeletonSize = isOwnResultDisplayedSeparately ? pageSize - 1 : pageSize
+
+  return (
+    <>
+      {isOwnResultDisplayedSeparately && <Result isOwn result={ownResult.result} linkToPage={ownResult.page} />}
+      {!results || isFetching ? (
+        <ResultsSkeleton size={skeletonSize} />
+      ) : (
+        results?.map((result) => (
+          <Result isOwn={ownResult?.result.user.username === result.user.username} key={result.id} result={result} />
+        ))
+      )}
+    </>
+  )
+}
+
+function ResultsSkeleton({ size }: { size: number }) {
+  return Array.from({ length: size }, (_, index) => <ResultSkeleton key={index} />)
 }

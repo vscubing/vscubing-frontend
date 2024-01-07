@@ -20,10 +20,10 @@ async function login(googleCode: string) {
   const { refresh, access } = response.data
 
   setAuthTokens({ refresh, access })
-  await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+  await queryClient.resetQueries({ queryKey: [USER_QUERY_KEY] })
 }
 
 export async function logout() {
   deleteAuthTokens()
-  await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+  await queryClient.resetQueries({ queryKey: [USER_QUERY_KEY] })
 }

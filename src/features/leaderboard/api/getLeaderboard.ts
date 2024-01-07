@@ -1,17 +1,18 @@
-import { USER_QUERY_KEY } from '@/features/auth'
+import { USER_QUERY_KEY, userQuery } from '@/features/auth'
+import { queryClient } from '@/lib/reactQuery'
 import { type Discipline, type Scramble } from '@/types'
-import { timeout } from '@/utils'
+import { getOwnResultPage, getPageStartEndIndexes, getTotalPages, timeout } from '@/utils'
 import { queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
 export type LeaderboardDTO = {
-  results?: LeaderboardResult[]
   totalPages: number
-  ownResult?: {
+  results: LeaderboardResult[] | null
+  ownResult: {
     result: LeaderboardResult
     page: number
     isDisplayedSeparately: boolean
-  }
+  } | null
 }
 
 export type LeaderboardResult = {
@@ -37,86 +38,62 @@ export const getLeaderboardQuery = ({
   isEnabled: boolean
 }) =>
   queryOptions({
-    queryKey: [USER_QUERY_KEY, 'leaderboard', discipline, { page, pageSize }],
+    queryKey: [USER_QUERY_KEY, 'leaderboard', discipline, page, pageSize],
     queryFn: () => fetchMockLeaderboard(page, pageSize),
     placeholderData: (prev) =>
       prev && {
         totalPages: prev.totalPages,
         ownResult: prev.ownResult,
-        results: undefined,
+        results: null,
       },
     enabled: isEnabled,
   })
 
-function getCompoundShift(place: number, pageSize: number) {
-  let totalShift = 0
-  let shift = Math.ceil((place - 1) / pageSize)
-  while (shift > 0) {
-    totalShift += shift
-    shift = Math.floor(shift / pageSize)
-  }
-  return totalShift
-}
-
 async function fetchMockLeaderboard(page: number, pageSize: number): Promise<LeaderboardDTO> {
-  let totalRows = MOCK_LEADERBOARD_RESULTS.length
-  if (MOCK_OWN_RESULT) {
-    totalRows += getCompoundShift(MOCK_LEADERBOARD_RESULTS.length, pageSize)
-  }
-  const totalPages = Math.ceil(totalRows / pageSize)
+  const { allResults, ownResult } = await getMockResultsWithOwn()
+
+  const totalPages = getTotalPages(!!ownResult, allResults.length, pageSize)
   if (page > totalPages) {
     throw new AxiosError('Page number is too big for this pageSize', undefined, undefined, undefined, {
       status: 400,
     } as AxiosResponse)
   }
 
-  let ownResultPage: number | undefined
-  if (MOCK_OWN_RESULT) {
-    let ownResultPlace = MOCK_OWN_RESULT.placeNumber
-    ownResultPlace += getCompoundShift(ownResultPlace, pageSize)
-    ownResultPage = Math.ceil(ownResultPlace / pageSize)
-  }
+  const ownResultPage = getOwnResultPage(ownResult?.placeNumber, pageSize)
 
-  let flatShift = 0
-  if (ownResultPage) {
-    flatShift = page * -1 + 1
-    if (page > ownResultPage) {
-      flatShift += 1
-    }
-  }
+  const { startIndex, endIndex } = getPageStartEndIndexes(page, pageSize, ownResultPage)
 
-  const startIndex = (page - 1) * pageSize + flatShift
-  let endIndex = startIndex + pageSize
-  if (MOCK_OWN_RESULT && page !== ownResultPage) {
-    endIndex--
-  }
-
-  const results = MOCK_LEADERBOARD_RESULTS.slice(startIndex, endIndex)
-  let ownResult = undefined
-  if (MOCK_OWN_RESULT && ownResultPage) {
-    ownResult = {
-      result: MOCK_OWN_RESULT,
-      page: ownResultPage,
-      isDisplayedSeparately: page !== ownResultPage,
-    }
-  }
+  const pageResults = MOCK_LEADERBOARD_RESULTS.slice(startIndex, endIndex)
+  const ownResultData =
+    ownResult && ownResultPage
+      ? {
+          result: ownResult,
+          page: ownResultPage,
+          isDisplayedSeparately: page !== ownResultPage,
+        }
+      : null
 
   await timeout(500)
   return {
-    results,
+    results: pageResults,
     totalPages,
-    ownResult,
+    ownResult: ownResultData,
   }
+}
+
+async function getMockResultsWithOwn() {
+  const user = await queryClient.fetchQuery(userQuery)
+  if (!user) return { allResults: MOCK_LEADERBOARD_RESULTS, ownResult: null }
+
+  const ownResult = MOCK_LEADERBOARD_RESULTS[MOCK_OWN_RESULT_INDEX]
+  ownResult.user.username = user.username
+  return { allResults: MOCK_LEADERBOARD_RESULTS, ownResult }
 }
 
 const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 800) }, (_, i) =>
   getMockResult(i + 1),
 )
-const withOwnResult = true
-const MOCK_OWN_RESULT: LeaderboardResult | undefined = withOwnResult
-  ? MOCK_LEADERBOARD_RESULTS[randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)]
-  : undefined
-if (MOCK_OWN_RESULT) MOCK_OWN_RESULT.user.username = 'ddd'
+const MOCK_OWN_RESULT_INDEX = randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)
 
 function getMockResult(placeNumber: number): LeaderboardResult {
   return {

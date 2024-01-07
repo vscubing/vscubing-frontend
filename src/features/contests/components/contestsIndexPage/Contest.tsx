@@ -1,13 +1,14 @@
 import { CubeIcon, SecondaryButton } from '@/components/ui'
 import type { Discipline } from '@/types'
-import { formatDate } from '@/utils'
+import { cn, formatDate } from '@/utils'
 import { Link, RouteApi } from '@tanstack/react-router'
 import { type ContestListItemDTO } from '../../api'
+import { type ComponentProps, forwardRef } from 'react'
 
 const route = new RouteApi({ id: '/contests/' })
 export function Contest({ contest, discipline }: { contest: ContestListItemDTO; discipline: Discipline }) {
   return (
-    <div className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
+    <li className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
       <CubeIcon cube='3by3' className='mr-4' />
       <span className='relative mr-4 flex-1 pr-4 pt-[.2em] after:absolute after:right-0 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'>
         Contest {contest.contestNumber}
@@ -25,10 +26,10 @@ export function Contest({ contest, discipline }: { contest: ContestListItemDTO; 
           view contest
         </Link>
       </SecondaryButton>
-    </div>
+    </li>
   )
 }
 
-export function ContestSkeleton() {
-  return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
-}
+export const ContestSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
+  return <li ref={ref} {...props} className={cn('h-15 animate-pulse rounded-xl bg-grey-100', className)}></li>
+})

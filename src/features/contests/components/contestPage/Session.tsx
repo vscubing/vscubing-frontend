@@ -1,32 +1,30 @@
 import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeButton } from '@/components/ui'
-import { userQuery } from '@/features/auth'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
-import { useQuery } from '@tanstack/react-query'
 import { useMemo, forwardRef, type ComponentProps } from 'react'
 import { type ContestSessionDTO } from '../../api'
 
 export function Session({
   session,
   linkToPage,
+  isOwn,
   className,
 }: {
   session: ContestSessionDTO
   linkToPage?: number
+  isOwn?: boolean
   className?: string
 }) {
   const { showReconstruction } = useReconstructor()
 
-  const { data: currentUser } = useQuery(userQuery)
-  const isOwnSession = currentUser?.username === session.user.username // TODO: use id instead of username
-  const currentUserLabel = isOwnSession ? ' (you)' : ''
+  const currentUserLabel = isOwn ? ' (you)' : ''
 
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solveSet), [session.solveSet])
   return (
     <li
       className={cn(
         'flex h-[3.75rem] items-center whitespace-nowrap rounded-xl pl-2',
-        isOwnSession ? 'bg-secondary-80' : 'bg-grey-100',
+        isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         className,
       )}
     >

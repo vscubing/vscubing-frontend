@@ -4,7 +4,7 @@ import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { type ContestResultsDTO, getContestQuery } from '../api'
+import { type ContestResultsDTO, getContestQuery, ContestSessionDTO } from '../api'
 import { CubeButton, Pagination } from '@/components/ui'
 import { SessionsListHeader, SessionSkeleton, Session } from '../components'
 
@@ -24,7 +24,7 @@ export function ContestPage() {
     isEnabled: debouncedPageSize !== undefined,
   })
 
-  const { data, error } = useQuery(query)
+  const { data, error, isFetching } = useQuery(query)
 
   useEffect(() => {
     if (error?.response?.status === 400) {
@@ -45,23 +45,57 @@ export function ContestPage() {
         <SessionsListHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <SessionSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
-          <SessionsList sessions={data?.sessions} pageSize={pageSize} />
+          <Sessions
+            sessions={data?.sessions}
+            isFetching={isFetching}
+            ownSession={data?.ownSession}
+            pageSize={pageSize}
+          />
         </ul>
       </div>
     </section>
   )
 }
 
-function SessionsList({ sessions, pageSize }: { sessions?: ContestResultsDTO['sessions']; pageSize?: number }) {
-  if (pageSize === undefined) {
+function Sessions({
+  sessions,
+  ownSession,
+  pageSize,
+  isFetching,
+}: {
+  sessions?: ContestResultsDTO['sessions']
+  ownSession?: ContestResultsDTO['ownSession']
+  pageSize?: number
+  isFetching: boolean
+}) {
+  if (!pageSize) {
     return null
   }
-  if (sessions === undefined) {
-    return Array.from({ length: pageSize }, (_, index) => <SessionSkeleton key={index} />)
-  }
-  if (sessions.length === 0) {
-    return 'Seems like there are no contests hmm...' // TODO: add empty state
+  if (sessions?.length === 0) {
+    return 'Seems like no one has solved yet' // TODO: add empty state
   }
 
-  return sessions.map((session) => <Session key={session.id} session={session} />)
+  const isOwnDisplayedSeparately = ownSession && (ownSession.isDisplayedSeparately || isFetching)
+  const skeletonSize = isOwnDisplayedSeparately ? pageSize - 1 : pageSize
+
+  return (
+    <>
+      {isOwnDisplayedSeparately && <Session isOwn session={ownSession.session} linkToPage={ownSession.page} />}
+      {!sessions && isFetching ? (
+        <SessionsSkeleton size={skeletonSize} />
+      ) : (
+        sessions?.map((session) => (
+          <Session
+            isOwn={session.user.username === ownSession?.session.user.username} // TODO: compare by id
+            key={session.id}
+            session={session}
+          />
+        ))
+      )}
+    </>
+  )
+}
+
+function SessionsSkeleton({ size }: { size: number }) {
+  return Array.from({ length: size }, (_, index) => <SessionSkeleton key={index} />)
 }
