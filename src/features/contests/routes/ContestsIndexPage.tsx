@@ -1,13 +1,14 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeButton, CubeIcon, Pagination, SecondaryButton } from '@/components/ui'
+import { CubeButton, Pagination } from '@/components/ui'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { getContestsQuery } from '..'
 import { useQuery } from '@tanstack/react-query'
-import { formatDate, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
 import type { ContestListItemDTO, ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
+import { ContestsListHeader, Contest, ContestSkeleton } from '../components'
 
 const route = new RouteApi({ id: '/contests/' })
 export function ContestsIndexPage() {
@@ -54,19 +55,6 @@ export function ContestsIndexPage() {
   )
 }
 
-function ContestsListHeader() {
-  return (
-    <div className='flex justify-between bg-black-80 pl-3 text-grey-40'>
-      <span className='mr-3'>Type</span>
-      <span className='mr-8 flex-1'>Contest name</span>
-      <span className='mr-10 w-44'>Duration</span>
-      <SecondaryButton aria-hidden className='invisible h-px'>
-        view contest
-      </SecondaryButton>
-    </div>
-  )
-}
-
 function ContestsList({
   contests,
   discipline,
@@ -87,34 +75,6 @@ function ContestsList({
   }
 
   return contests.map((contest) => <Contest key={contest.id} contest={contest} discipline={discipline} />)
-}
-
-function Contest({ contest, discipline }: { contest: ContestListItemDTO; discipline: Discipline }) {
-  return (
-    <div className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
-      <CubeIcon cube='3by3' className='mr-4' />
-      <span className='relative mr-4 flex-1 pr-4 pt-[.2em] after:absolute after:right-0 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'>
-        Contest {contest.contestNumber}
-      </span>
-      <span className='mr-10 w-44 pt-[.2em]'>
-        {formatDate(contest.start)} - {formatDate(contest.end!) /* TODO: remove type assertion */}
-      </span>
-      <SecondaryButton asChild>
-        <Link
-          from={route.id}
-          to='/contests/$contestNumber'
-          search={{ discipline }}
-          params={{ contestNumber: String(contest.contestNumber) }}
-        >
-          view contest
-        </Link>
-      </SecondaryButton>
-    </div>
-  )
-}
-
-function ContestSkeleton() {
-  return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
 const FAKE_CONTEST: ContestListItemDTO = {
