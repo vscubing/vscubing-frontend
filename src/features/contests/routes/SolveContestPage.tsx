@@ -1,5 +1,5 @@
 import { Link, RouteApi } from '@tanstack/react-router'
-import { SolveContest } from '../components/solveContest'
+import { SolveContest } from '../components'
 import {
   CubeButton,
   ExclamationCircleIcon,

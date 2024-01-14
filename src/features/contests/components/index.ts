@@ -1,2 +1,3 @@
 export * from './contestsIndexPage'
-export * from './contestPage'
+export * from './contestResultsPage'
+export * from './solveContestPage'
