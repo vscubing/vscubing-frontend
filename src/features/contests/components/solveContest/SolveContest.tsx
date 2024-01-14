@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
 import { userQuery } from '@/features/auth'
 import { useCube } from '@/features/cube'
-import { SolvePanel } from './components'
+import { CurrentSolve, SolvePanel } from './components'
 import { useNavigate } from '@tanstack/react-router'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
@@ -72,30 +72,12 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
             />
           ))}
 
-          <SolvePanel
+          <CurrentSolve
+            currentSolve={currentSolve}
+            onChangeToExtra={handleChangeToExtra}
+            onSolveInit={handleInitSolve}
+            onSolveSubmit={handleSubmitSolve}
             number={submittedSolves.length + 1}
-            scramble={currentSolve.scramble.scramble}
-            isInited={currentSolve.solve !== null}
-            id={currentSolve.solve?.id}
-            timeMs={currentSolve.solve?.timeMs ?? undefined}
-            ActionComponent={
-              currentSolve.solve === null ? (
-                <PrimaryButton size='sm' onClick={handleInitSolve}>
-                  Solve
-                </PrimaryButton>
-              ) : (
-                <div>
-                  {currentSolve.canChangeToExtra && (
-                    <SecondaryButton size='sm' className='w-[5.25rem]' onClick={() => handleChangeToExtra()}>
-                      Extra
-                    </SecondaryButton>
-                  )}
-                  <PrimaryButton size='sm' className='w-[5.25rem]' onClick={() => handleSubmitSolve()}>
-                    Submit
-                  </PrimaryButton>
-                </div>
-              )
-            }
           />
         </div>
       </div>

@@ -62,7 +62,7 @@ function PageContent() {
   return (
     <>
       <div className='flex min-h-[5.75rem] items-center gap-4 rounded-xl bg-black-80 px-4'>
-        <Link from={route.id} search={{ discipline: '3by3' }} params={true}>
+        <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         <div>
