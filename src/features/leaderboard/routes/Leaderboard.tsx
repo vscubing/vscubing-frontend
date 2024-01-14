@@ -38,7 +38,7 @@ export function Leaderboard() {
     <section className='flex h-full flex-col gap-3'>
       <Header caption={caption} />
       <NavigateBackButton className='self-start' />
-      <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4'>
+      <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
           {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
         </Link>

@@ -23,7 +23,7 @@ export function Session({
   return (
     <li
       className={cn(
-        'flex h-[3.75rem] items-center whitespace-nowrap rounded-xl pl-2',
+        'flex h-[3.75rem] items-center whitespace-nowrap rounded-xl px-2',
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         className,
       )}

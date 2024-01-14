@@ -7,7 +7,7 @@ import { solveContestStateQuery } from './getSolveContestState'
 import { getContestQueryKey } from '@/features/contests/api'
 import { getApiRoute } from './apiRoute'
 
-export const useSubmitSolve = (contestNumber: number, discipline: Discipline) =>
+export const useSubmitSolve = (contestNumber: number, discipline: Discipline, onSessionFinish: () => void) =>
   useMutation({
     mutationFn: async () => {
       const { data } = await axiosClient.put<SolveContestStateDTO | { detail: 'contest submitted' }>(
@@ -16,7 +16,8 @@ export const useSubmitSolve = (contestNumber: number, discipline: Discipline) =>
 
       const isSessionOver = 'detail' in data
       if (isSessionOver) {
-        void queryClient.invalidateQueries({ queryKey: getContestQueryKey({ contestNumber, discipline }) })
+        await queryClient.invalidateQueries({ queryKey: getContestQueryKey({ contestNumber, discipline }) })
+        onSessionFinish()
         return
       }
       const newSolvesState = data

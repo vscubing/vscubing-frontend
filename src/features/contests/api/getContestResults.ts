@@ -35,7 +35,7 @@ export type ContestSessionDTO = {
 export function getContestQueryKey({ contestNumber, discipline }: { contestNumber: number; discipline: Discipline }) {
   return [USER_QUERY_KEY, 'contest-results', contestNumber, discipline]
 }
-export function getContestQuery({
+export function getContestResultsQuery({
   contestNumber,
   discipline,
   page,

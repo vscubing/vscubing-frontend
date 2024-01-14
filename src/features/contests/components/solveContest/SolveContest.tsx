@@ -1,18 +1,25 @@
 import { type Discipline } from '@/types'
-import { CurrentSolve, SubmittedSolve } from './components'
-import { InfoBox } from '@/components/ui'
+import { InfoBox, PrimaryButton, SecondaryButton } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
 import { userQuery } from '@/features/auth'
-import { type CubeSolveResult } from '@/features/cube'
+import { useCube } from '@/features/cube'
+import { SolvePanel } from './components'
+import { useNavigate } from '@tanstack/react-router'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
   const { data: userData } = useQuery(userQuery)
-  const { data: state } = useQuery(solveContestStateQuery(contestNumber, discipline))
+  const { data: state, error } = useQuery(solveContestStateQuery(contestNumber, discipline))
   const { mutate: postSolveResult } = usePostSolveResult(contestNumber, discipline)
-  const { mutate: submitSolve } = useSubmitSolve(contestNumber, discipline)
-  const { mutate: changeToExtra } = useChangeToExtra(contestNumber, discipline)
+  const { mutate: handleSubmitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
+  const { mutate: handleChangeToExtra } = useChangeToExtra(contestNumber, discipline)
+  const { initSolve } = useCube()
+  const navigate = useNavigate()
+
+  if (error?.response?.status === 403) {
+    handleSessionFinish()
+  }
 
   if (userData && !userData.authCompleted) {
     return <InfoBox>Please finish registration first</InfoBox>
@@ -22,26 +29,76 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
   }
   const { currentSolve, submittedSolves } = state
 
-  function solveFinishHandler(result: CubeSolveResult) {
-    postSolveResult({ scrambleId: currentSolve.scramble.id, result })
+  function handleInitSolve() {
+    initSolve(currentSolve.scramble.scramble, (result) =>
+      postSolveResult({ scrambleId: currentSolve.scramble.id, result }),
+    )
+  }
+
+  function handleSessionFinish() {
+    void navigate({
+      from: '/contests/$contestNumber/results',
+      params: { contestNumber: String(contestNumber) },
+      replace: true,
+    })
   }
 
   return (
-    <div className='flex flex-col gap-3 md:gap-6'>
-      {submittedSolves.map((solve) => (
-        <SubmittedSolve className='px-3 py-2 md:h-[54px] md:px-4 md:py-0 lg:px-7' key={solve.id} {...solve} />
-      ))}
+    <div>
+      <div className='mb-1 flex gap-8 pl-[7.125rem]'>
+        <span className='w-16 text-center text-grey-40'>Attempt</span>
+        <span className='w-24 text-center text-grey-40'>Single time</span>
+        <span className='text-grey-40'>Scramble</span>
+      </div>
+      <div className='flex gap-14'>
+        <div className='flex flex-col gap-15'>
+          {[1, 2, 3, 4, 5].map((number) => (
+            <span
+              key={number}
+              className='flex h-11 w-11 items-center justify-center rounded-full border border-grey-60 text-grey-60'
+            >
+              {number}
+            </span>
+          ))}
+        </div>
+        <div className='flex flex-1 flex-col gap-15'>
+          {submittedSolves.map((solve, index) => (
+            <SolvePanel
+              number={index + 1}
+              timeMs={solve.timeMs ?? undefined}
+              scramble={solve.scramble.scramble}
+              id={solve.id}
+              key={solve.id}
+            />
+          ))}
 
-      <CurrentSolve
-        className='px-3 py-2 md:h-[54px] md:py-0 md:pl-4 md:pr-3 lg:pl-7 lg:pr-4'
-        {...currentSolve}
-        onSolveFinish={solveFinishHandler}
-        onExtra={changeToExtra}
-        onSubmit={submitSolve}
-      />
-      {submittedSolves.length === 0 ? (
-        <InfoBox>You can't see results of an ongoing round until you solve all scrambles or the round ends</InfoBox>
-      ) : null}
+          <SolvePanel
+            number={submittedSolves.length + 1}
+            scramble={currentSolve.scramble.scramble}
+            isInited={currentSolve.solve !== null}
+            id={currentSolve.solve?.id}
+            timeMs={currentSolve.solve?.timeMs ?? undefined}
+            ActionComponent={
+              currentSolve.solve === null ? (
+                <PrimaryButton size='sm' onClick={handleInitSolve}>
+                  Solve
+                </PrimaryButton>
+              ) : (
+                <div>
+                  {currentSolve.canChangeToExtra && (
+                    <SecondaryButton size='sm' className='w-[5.25rem]' onClick={() => handleChangeToExtra()}>
+                      Extra
+                    </SecondaryButton>
+                  )}
+                  <PrimaryButton size='sm' className='w-[5.25rem]' onClick={() => handleSubmitSolve()}>
+                    Submit
+                  </PrimaryButton>
+                </div>
+              )
+            }
+          />
+        </div>
+      </div>
     </div>
   )
 }

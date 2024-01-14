@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { queryClient } from '@/lib/reactQuery'
 import { ContestsIndexPage } from './ContestsIndexPage'
 import { ContestResultsPage } from './ContestResultsPage'
-import { SolvePage } from './SolveContestPage'
+import { SolveContestPage } from './SolveContestPage'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).optional().catch(undefined),
@@ -115,7 +115,7 @@ const solveContestRoute = new Route({
   loader: ({ params: { contestNumber }, deps: { discipline } }) => {
     return { contestNumber: Number(contestNumber), discipline: discipline! }
   },
-  component: SolvePage,
+  component: SolveContestPage,
 })
 
 export const contestsRoute = parentRoute.addChildren([

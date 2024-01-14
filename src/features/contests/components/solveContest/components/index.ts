@@ -1,2 +1,2 @@
-export * from './SubmittedSolve'
+export * from './SolvePanel'
 export * from './CurrentSolve'
