@@ -2,17 +2,25 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
-import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
-import { type ContestResultsDTO, getContestQuery, ContestSessionDTO } from '../api'
-import { CubeButton, Pagination } from '@/components/ui'
+import { Link, Navigate, RouteApi } from '@tanstack/react-router'
+import { type ContestResultsDTO, getContestQuery } from '../api'
+import { CubeButton, HintPage, Pagination, SignInButton } from '@/components/ui'
 import { SessionsListHeader, SessionSkeleton, Session } from '../components'
 
-const route = new RouteApi({ id: '/contests/$contestNumber' })
-export function ContestPage() {
+const route = new RouteApi({ id: '/contests/$contestNumber/results' })
+export function ContestResultsPage() {
+  return (
+    <section className='flex h-full flex-col gap-3'>
+      <Header caption='Explore contests' />
+      <NavigateBackButton className='self-start' />
+      <PageContent />
+    </section>
+  )
+}
+
+function PageContent() {
   const { contestNumber, discipline, page } = route.useLoaderData()
 
-  const navigate = useNavigate({ from: route.id })
   const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
   const debouncedPageSize = useDebounceAfterFirst(pageSize)
 
@@ -25,16 +33,34 @@ export function ContestPage() {
   })
 
   const { data, error, isFetching } = useQuery(query)
+  const errorStatus = error?.response?.status
 
-  useEffect(() => {
-    if (error?.response?.status === 400) {
-      void navigate({ from: route.id, params: true, search: { page: 1 } })
-    }
-  }, [error?.response?.status, navigate, discipline])
+  if (errorStatus === 400) {
+    return <Navigate from={route.id} params={true} search={{ page: 1 }} replace />
+  }
+
+  if (errorStatus === 403) {
+    return (
+      <Navigate
+        from={route.id}
+        to='/contests/$contestNumber/solve'
+        params={{ contestNumber: String(contestNumber) }}
+        replace
+      />
+    )
+  }
+
+  if (errorStatus === 401) {
+    return (
+      <HintPage>
+        <p className='mb-10'>You need to be signed in to view ongoing contest results</p>
+        <SignInButton variant='primary' />
+      </HintPage>
+    )
+  }
+
   return (
-    <section className='flex h-full flex-col gap-3'>
-      <Header caption='Explore contests' />
-      <NavigateBackButton className='self-start' />
+    <>
       <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
         <Link from={route.id} search={{ discipline: '3by3' }} params={true}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
@@ -53,7 +79,7 @@ export function ContestPage() {
           />
         </ul>
       </div>
-    </section>
+    </>
   )
 }
 

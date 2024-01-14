@@ -1,10 +1,10 @@
-import { AvatarIcon, GhostButton, GoogleIcon } from '@/components/ui'
-import { useLogin, userQuery } from '@/features/auth'
+import { AvatarIcon } from '@/components/ui'
+import { SignInButton } from '@/components/ui'
+import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 
 export function Header({ caption }: { caption: string }) {
   const { data: userData } = useQuery(userQuery)
-  const login = useLogin()
 
   return (
     <header className='flex min-h-[4.375rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
@@ -15,10 +15,7 @@ export function Header({ caption }: { caption: string }) {
           <span className='text-lg'>{userData.username}</span>
         </div>
       ) : (
-        <GhostButton className='gap-3' onClick={() => login()}>
-          <GoogleIcon />
-          Sign in with Google
-        </GhostButton>
+        <SignInButton variant='ghost' />
       )}
     </header>
   )

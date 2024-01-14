@@ -73,7 +73,6 @@ function Results({
     return 'Seems like no one has solved yet' // TODO: add empty state
   }
 
-  console.log(ownResult)
   const isOwnResultDisplayedSeparately = ownResult && (ownResult.isDisplayedSeparately || isFetching)
   const skeletonSize = isOwnResultDisplayedSeparately ? pageSize - 1 : pageSize
 

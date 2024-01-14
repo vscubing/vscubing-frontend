@@ -19,7 +19,7 @@ export function Contest({ contest, discipline }: { contest: ContestListItemDTO; 
       <SecondaryButton asChild>
         <Link
           from={route.id}
-          to='/contests/$contestNumber'
+          to='/contests/$contestNumber/'
           search={{ discipline }}
           params={{ contestNumber: String(contest.contestNumber) }}
         >

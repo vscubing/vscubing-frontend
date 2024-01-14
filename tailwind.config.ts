@@ -56,6 +56,7 @@ export default {
       backgroundImage: {
         'banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
         'banner-cubes-wide': "url('./assets/images/dashboard-banner-cubes-wide.svg')",
+        'hint-page-cubes': "url('./assets/images/hint-page-cubes.svg')",
       },
       containers: {
         '8xl': '88rem',

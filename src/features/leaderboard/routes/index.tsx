@@ -4,13 +4,13 @@ import { Navigate, Route, type SearchSchemaInput, redirect } from '@tanstack/rea
 import { Leaderboard } from './Leaderboard'
 import { z } from 'zod'
 
-const leaderboardRootRoute = new Route({
+const parentRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/leaderboard',
 })
 
 const indexRoute = new Route({
-  getParentRoute: () => leaderboardRootRoute,
+  getParentRoute: () => parentRoute,
   path: '/',
   component: () => <Navigate to={disciplineRoute.id} params={{ discipline: DEFAULT_DISCIPLINE }} replace />,
 })
@@ -20,7 +20,7 @@ const paginationSchema = z.object({
 })
 
 export const disciplineRoute = new Route({
-  getParentRoute: () => leaderboardRootRoute,
+  getParentRoute: () => parentRoute,
   path: '$discipline',
   validateSearch: (search: { page?: number } & SearchSchemaInput) => paginationSchema.parse(search),
   beforeLoad: ({ params: { discipline }, search: { page } }) => {
@@ -40,4 +40,4 @@ export const disciplineRoute = new Route({
   component: Leaderboard,
 })
 
-export const leaderboardRoute = leaderboardRootRoute.addChildren([indexRoute, disciplineRoute])
+export const leaderboardRoute = parentRoute.addChildren([indexRoute, disciplineRoute])
