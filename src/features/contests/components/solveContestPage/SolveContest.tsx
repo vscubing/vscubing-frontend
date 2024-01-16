@@ -1,15 +1,12 @@
 import { type Discipline } from '@/types'
-import { InfoBox, PrimaryButton, SecondaryButton } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
-import { userQuery } from '@/features/auth'
 import { useCube } from '@/features/cube'
-import { CurrentSolve, SolvePanel } from './components'
+import { CurrentSolve, Progress, SolvePanel } from './components'
 import { useNavigate } from '@tanstack/react-router'
 
 type SolveContestProps = { contestNumber: number; discipline: Discipline }
 export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
-  const { data: userData } = useQuery(userQuery)
   const { data: state, error } = useQuery(solveContestStateQuery(contestNumber, discipline))
   const { mutate: postSolveResult } = usePostSolveResult(contestNumber, discipline)
   const { mutate: handleSubmitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
@@ -21,11 +18,8 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
     handleSessionFinish()
   }
 
-  if (userData && !userData.authCompleted) {
-    return <InfoBox>Please finish registration first</InfoBox>
-  }
   if (!state) {
-    return <InfoBox>loading...</InfoBox>
+    return null // TODO: add empty state
   }
   const { currentSolve, submittedSolves } = state
 
@@ -43,6 +37,7 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
     })
   }
 
+  const currentSolveNumber = submittedSolves.length + 1
   return (
     <div>
       <div className='mb-1 flex gap-8 pl-[7.125rem]'>
@@ -51,17 +46,8 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
         <span className='text-grey-40'>Scramble</span>
       </div>
       <div className='flex gap-14'>
-        <div className='flex flex-col gap-15'>
-          {[1, 2, 3, 4, 5].map((number) => (
-            <span
-              key={number}
-              className='flex h-11 w-11 items-center justify-center rounded-full border border-grey-60 text-grey-60'
-            >
-              {number}
-            </span>
-          ))}
-        </div>
-        <div className='flex flex-1 flex-col gap-15'>
+        <Progress currentSolveNumber={currentSolveNumber} />
+        <div className='flex flex-1 flex-col gap-14'>
           {submittedSolves.map((solve, index) => (
             <SolvePanel
               number={index + 1}
@@ -77,7 +63,7 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
             onChangeToExtra={handleChangeToExtra}
             onSolveInit={handleInitSolve}
             onSolveSubmit={handleSubmitSolve}
-            number={submittedSolves.length + 1}
+            number={currentSolveNumber}
           />
         </div>
       </div>
