@@ -1,4 +1,4 @@
-import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeButton } from '@/components/ui'
+import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeButton, ExtraLabel } from '@/components/ui'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
 import { useMemo, forwardRef, type ComponentProps } from 'react'
@@ -38,19 +38,20 @@ export function Session({
         isAverage
         className='relative mr-4 after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'
       />
-      {session.solveSet.map((solve) =>
-        solve.timeMs ? (
+      {session.solveSet.map((solve) => (
+        <span className='relative mr-2 w-24 text-center last:mr-0'>
           <SolveTimeButton
             key={solve.id}
             timeMs={solve.timeMs}
             onClick={() => showReconstruction(solve.id)}
             variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
-            className='mr-2 last:mr-0'
           />
-        ) : (
-          <SolveTimeLabel key={solve.id} timeMs={undefined} className='mr-2 last:mr-0' />
-        ),
-      )}
+          <ExtraLabel
+            scramblePosition={solve.scramble.position}
+            className='absolute right-[1.1rem] top-0 -translate-y-1/2'
+          />
+        </span>
+      ))}
     </li>
   )
 }

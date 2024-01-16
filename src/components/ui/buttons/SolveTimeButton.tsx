@@ -3,7 +3,7 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import { forwardRef, type ComponentProps } from 'react'
 
 const solveTimeButtonVariants = cva(
-  'transition-base outline-ring after-border-bottom h-8 w-24 pt-[.2em] text-center hover:after:scale-x-100',
+  'transition-base outline-ring after-border-bottom inline-block h-8 w-24 pt-[.2em] text-center hover:after:scale-x-100',
   {
     variants: {
       variant: {
@@ -19,12 +19,15 @@ const solveTimeButtonVariants = cva(
 )
 
 type SolveTimeButtonProps = {
-  timeMs: number
+  timeMs: number | null
 } & ComponentProps<'button'> &
   VariantProps<typeof solveTimeButtonVariants>
 
 export const SolveTimeButton = forwardRef<HTMLButtonElement, SolveTimeButtonProps>(
   ({ timeMs, variant, className, ...props }, ref) => {
+    if (timeMs === null) {
+      return <SolveTimeLabel className={className} />
+    }
     return (
       <button {...props} ref={ref} className={cn(solveTimeButtonVariants({ variant, className }))}>
         {formatSolveTime(timeMs)}
@@ -34,7 +37,7 @@ export const SolveTimeButton = forwardRef<HTMLButtonElement, SolveTimeButtonProp
 )
 SolveTimeButton.displayName = 'SolveTimeButton'
 
-const solveTimeLabelVariants = cva('h-8 w-24 pt-[.2em] text-center', {
+const solveTimeLabelVariants = cva('inline-block h-8 w-24 pt-[.2em] text-center', {
   variants: {
     variant: { average: 'text-yellow-100', dnf: 'text-red-80' },
   },

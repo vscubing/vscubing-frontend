@@ -44,7 +44,7 @@ export function SolveContest({ state, contestNumber, discipline }: SolveContestP
             <SolvePanel
               number={index + 1}
               timeMs={solve.timeMs ?? undefined}
-              scramble={solve.scramble.scramble}
+              scramble={solve.scramble}
               id={solve.id}
               key={solve.id}
             />

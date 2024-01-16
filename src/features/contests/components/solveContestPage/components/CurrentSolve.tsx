@@ -18,7 +18,7 @@ export function CurrentSolve({
   return (
     <SolvePanel
       number={number}
-      scramble={currentSolve.scramble.scramble}
+      scramble={currentSolve.scramble}
       isInited={currentSolve.solve !== null}
       id={currentSolve.solve?.id}
       timeMs={currentSolve.solve?.timeMs ?? undefined}
