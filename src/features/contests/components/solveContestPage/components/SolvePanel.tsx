@@ -1,4 +1,4 @@
-import { SolveTimeButton, CheckIcon } from '@/components/ui'
+import { SolveTimeButton, CheckIcon, SolveTimeLabel } from '@/components/ui'
 import { useReconstructor } from '@/features/reconstructor'
 import { type ReactNode } from 'react'
 
@@ -37,10 +37,13 @@ function TimeSection({ timeMs, id, isInited }: { timeMs?: number; id?: number; i
   const { showReconstruction } = useReconstructor()
 
   if (!isInited) {
-    return <span className='inline-block w-24 text-center'>??:??.???</span>
+    return <SolveTimeLabel isPlaceholder />
   }
-  if (timeMs === undefined || id === undefined) {
-    return <span className='inline-block w-24 text-center'>DNF</span>
+  if (timeMs === undefined) {
+    return <SolveTimeLabel timeMs={timeMs} />
+  }
+  if (id === undefined) {
+    throw Error('solve id is undefined')
   }
   return <SolveTimeButton timeMs={timeMs} onClick={() => showReconstruction(id)} />
 }

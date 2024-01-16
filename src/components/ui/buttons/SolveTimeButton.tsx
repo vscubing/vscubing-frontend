@@ -40,21 +40,32 @@ const solveTimeLabelVariants = cva('h-8 w-24 pt-[.2em] text-center', {
   },
 })
 type SolveTimeLabelProps = {
-  timeMs: number | undefined
+  timeMs?: number
+  isPlaceholder?: boolean
   isAverage?: boolean
-} & ComponentProps<'span'>
+} & Omit<ComponentProps<'span'>, 'children'>
 export const SolveTimeLabel = forwardRef<HTMLSpanElement, SolveTimeLabelProps>(
-  ({ timeMs, isAverage, className, ...props }, ref) => {
+  ({ timeMs, isPlaceholder, isAverage, className, ...props }, ref) => {
     let variant: 'average' | 'dnf' | undefined
     if (isAverage) {
       variant = 'average'
     }
-    if (timeMs === undefined) {
+    if (timeMs === undefined && !isPlaceholder) {
       variant = 'dnf'
     }
+
+    let content = ''
+    if (isPlaceholder) {
+      content = '??:??.???'
+    } else if (timeMs !== undefined) {
+      content = formatSolveTime(timeMs)
+    } else {
+      content = 'DNF'
+    }
+
     return (
       <span {...props} className={cn(solveTimeLabelVariants({ variant, className }))} ref={ref}>
-        {timeMs ? formatSolveTime(timeMs) : 'DNF'}
+        {content}
       </span>
     )
   },
