@@ -8,13 +8,13 @@ import BannerDivider from '@/assets/images/banner-divider.svg?react'
 
 const route = new RouteApi({ id: '/' })
 export function Dashboard() {
-  const { data: userData } = useQuery(userQuery)
+  const { data: user } = useQuery(userQuery)
   const query = route.useLoaderData()
   const { data } = useQuery(query)
 
   return (
     <div className='flex h-full flex-col gap-3'>
-      <Header caption={userData ? `Greetings, ${userData.username}` : 'Greetings, SpeedCubers'} />
+      <Header caption={user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'} />
       <h1 className='title-h1 flex min-h-28 items-center justify-center px-4 text-center text-secondary-20'>
         <span>
           Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>

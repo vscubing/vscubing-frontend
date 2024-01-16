@@ -32,7 +32,7 @@ export function Leaderboard() {
     void navigate({ search: { page: 1 }, params: { discipline } })
   }
 
-  const caption = user ? `${user.username}, check out our best solves` : 'Check out our best solves'
+  const caption = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (
     <section className='flex h-full flex-col gap-3'>

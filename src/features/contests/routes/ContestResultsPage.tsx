@@ -33,10 +33,18 @@ function PageContent() {
   })
 
   const { data, error, isFetching } = useQuery(query)
+
   const errorStatus = error?.response?.status
 
   if (errorStatus === 400) {
-    return <Navigate from={route.id} params={true} search={{ page: 1 }} replace />
+    return (
+      <Navigate
+        to={route.id}
+        params={{ contestNumber: String(contestNumber) }}
+        search={(prev) => ({ ...prev, page: 1 })}
+        replace
+      />
+    )
   }
 
   if (errorStatus === 403) {
@@ -57,6 +65,10 @@ function PageContent() {
         <SignInButton variant='primary' />
       </HintSection>
     )
+  }
+
+  if (errorStatus === 404) {
+    return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
   }
 
   return (

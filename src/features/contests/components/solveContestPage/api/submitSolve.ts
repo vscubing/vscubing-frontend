@@ -16,7 +16,7 @@ export const useSubmitSolve = (contestNumber: number, discipline: Discipline, on
 
       const isSessionOver = 'detail' in data
       if (isSessionOver) {
-        await queryClient.invalidateQueries({ queryKey: getContestQueryKey({ contestNumber, discipline }) })
+        await queryClient.resetQueries({ queryKey: getContestQueryKey({ contestNumber, discipline }) })
         onSessionFinish()
         return
       }

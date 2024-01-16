@@ -1,26 +1,18 @@
 import { type Discipline } from '@/types'
-import { useQuery } from '@tanstack/react-query'
-import { solveContestStateQuery, usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
+import { usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
 import { useCube } from '@/features/cube'
 import { CurrentSolve, Progress, SolvePanel } from './components'
 import { useNavigate } from '@tanstack/react-router'
+import type { SolveContestStateDTO } from './types'
 
-type SolveContestProps = { contestNumber: number; discipline: Discipline }
-export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
-  const { data: state, error } = useQuery(solveContestStateQuery(contestNumber, discipline))
+type SolveContestProps = { state: SolveContestStateDTO; contestNumber: number; discipline: Discipline }
+export function SolveContest({ state, contestNumber, discipline }: SolveContestProps) {
   const { mutate: postSolveResult } = usePostSolveResult(contestNumber, discipline)
   const { mutate: handleSubmitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
   const { mutate: handleChangeToExtra } = useChangeToExtra(contestNumber, discipline)
   const { initSolve } = useCube()
   const navigate = useNavigate()
 
-  if (error?.response?.status === 403) {
-    handleSessionFinish()
-  }
-
-  if (!state) {
-    return null // TODO: add empty state
-  }
   const { currentSolve, submittedSolves } = state
 
   function handleInitSolve() {
@@ -31,7 +23,7 @@ export function SolveContest({ contestNumber, discipline }: SolveContestProps) {
 
   function handleSessionFinish() {
     void navigate({
-      from: '/contests/$contestNumber/results',
+      to: '/contests/$contestNumber/results',
       params: { contestNumber: String(contestNumber) },
       replace: true,
     })

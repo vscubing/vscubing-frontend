@@ -21,7 +21,7 @@ export function Layout() {
               <div className='flex flex-col items-center gap-4 lg-short:flex-row lg-short:justify-center lg-short:gap-1'>
                 <SocialLinks />
                 {/* TODO: animate the social links to slide up after login before the log out button appears */}
-                {user && (
+                {user?.isAuthed === true && (
                   <GhostButton onClick={() => logout()}>
                     Log out <LogoutIcon />
                   </GhostButton>

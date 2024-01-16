@@ -1,7 +1,6 @@
 import { cn } from '@/utils'
 
 export function Progress({ currentSolveNumber }: { currentSolveNumber: number }) {
-  console.log(currentSolveNumber)
   return (
     <div className='flex flex-col gap-14'>
       {[1, 2, 3, 4, 5].map((number) => (

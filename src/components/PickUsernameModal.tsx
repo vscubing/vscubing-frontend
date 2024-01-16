@@ -10,7 +10,7 @@ export function PickUsernameModal() {
   const { data: userData } = useQuery(userQuery)
 
   useEffect(() => {
-    if (userData && !userData.authCompleted) {
+    if (userData?.authCompleted === false) {
       setIsVisible(true)
     }
   }, [userData])

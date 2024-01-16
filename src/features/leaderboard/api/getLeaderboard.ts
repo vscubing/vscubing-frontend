@@ -83,7 +83,7 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
 
 async function getMockResultsWithOwn() {
   const user = await queryClient.fetchQuery(userQuery)
-  if (!user) return { allResults: MOCK_LEADERBOARD_RESULTS, ownResult: null }
+  if (!user.username) return { allResults: MOCK_LEADERBOARD_RESULTS, ownResult: null }
 
   const ownResult = MOCK_LEADERBOARD_RESULTS[MOCK_OWN_RESULT_INDEX]
   ownResult.user.username = user.username

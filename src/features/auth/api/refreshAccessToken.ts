@@ -23,6 +23,6 @@ export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {
     setAuthTokens({ refresh, access: newAccess })
   } catch (error) {
     deleteAuthTokens()
-    await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+    await queryClient.resetQueries({ queryKey: [USER_QUERY_KEY] })
   }
 }

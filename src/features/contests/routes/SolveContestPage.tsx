@@ -1,4 +1,4 @@
-import { Link, RouteApi } from '@tanstack/react-router'
+import { Link, Navigate, RouteApi } from '@tanstack/react-router'
 import { SolveContest } from '../components'
 import {
   CubeButton,
@@ -13,6 +13,7 @@ import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
+import { solveContestStateQuery } from '../components/solveContestPage/api'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/solve' })
 export function SolveContestPage() {
@@ -31,8 +32,34 @@ export function SolvePageContent() {
   const { contestNumber, discipline } = route.useLoaderData()
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
   const { data: user } = useQuery(userQuery)
+  const { data: state, error } = useQuery(solveContestStateQuery(contestNumber, discipline))
+  const errorStatus = error?.response?.status
 
-  if (!user) {
+  if (errorStatus === 403) {
+    return (
+      <Navigate
+        to='/contests/$contestNumber/results'
+        params={{ contestNumber: String(contestNumber) }}
+        search={{ discipline }}
+        replace
+      />
+    )
+  }
+
+  if (errorStatus === 404) {
+    return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
+  }
+
+  if (!state) {
+    // TODO: add loading spinner
+    return (
+      <div className='flex flex-1 flex-col gap-10 rounded-xl bg-black-80 px-16 py-16 pb-10'>
+        <p className='title-h2 text-center text-secondary-20'>Loading...</p>
+      </div>
+    )
+  }
+
+  if (user?.isAuthed === false) {
     return (
       <HintSection>
         <p className='mb-10'>You need to be signed in to participate in a contest</p>
@@ -41,7 +68,7 @@ export function SolvePageContent() {
     )
   }
 
-  if (!hasSeenOngoingHint) {
+  if (state.submittedSolves.length === 0 && !hasSeenOngoingHint) {
     return (
       <HintSection>
         <p className='mb-10'>
@@ -70,7 +97,7 @@ export function SolvePageContent() {
           Virtual Cube Key Map
         </UnderlineButton>
         <p className='title-h2 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContest contestNumber={contestNumber} discipline={discipline} />
+        <SolveContest contestNumber={contestNumber} discipline={discipline} state={state} />
       </div>
     </>
   )

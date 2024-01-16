@@ -113,7 +113,7 @@ async function getMockContestResults({
 
 async function getMockSessionsWithOwn() {
   const user = await queryClient.fetchQuery(userQuery)
-  if (!user) return { allSessions: MOCK_SESSIONS, ownResult: null }
+  if (!user.username) return { allSessions: MOCK_SESSIONS, ownResult: null }
 
   const ownSession = MOCK_SESSIONS[MOCK_OWN_INDEX]
   ownSession.user.username = user.username
