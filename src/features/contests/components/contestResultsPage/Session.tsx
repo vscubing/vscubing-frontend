@@ -39,9 +39,8 @@ export function Session({
         className='relative mr-4 after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'
       />
       {session.solveSet.map((solve) => (
-        <span className='relative mr-2 w-24 text-center last:mr-0'>
+        <span key={solve.id} className='relative mr-2 w-24 text-center last:mr-0'>
           <SolveTimeButton
-            key={solve.id}
             timeMs={solve.timeMs}
             onClick={() => showReconstruction(solve.id)}
             variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
