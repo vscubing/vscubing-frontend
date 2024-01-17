@@ -7,6 +7,7 @@ import { queryClient } from '@/lib/reactQuery'
 import { ContestsIndexPage } from './ContestsIndexPage'
 import { ContestResultsPage } from './ContestResultsPage'
 import { SolveContestPage } from './SolveContestPage'
+import { WatchSolvePage } from './WatchSolvePage'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).optional().catch(undefined),
@@ -72,10 +73,6 @@ const contestRoute = new Route({
       })
     }
   },
-  loaderDeps: ({ search }) => search,
-  loader: ({ params: { contestNumber }, deps: { discipline } }) => {
-    return { contestNumber: Number(contestNumber), discipline: discipline! }
-  },
 })
 
 const contestIndexRoute = new Route({
@@ -118,8 +115,32 @@ const solveContestRoute = new Route({
   component: SolveContestPage,
 })
 
+const watchSolveIndexRoute = new Route({
+  getParentRoute: () => contestRoute,
+  path: '/watch/',
+  beforeLoad: ({ params, search }) => {
+    redirect({ to: contestIndexRoute.id, search, params, replace: true, throw: true })
+  },
+})
+
+const watchSolveRoute = new Route({
+  getParentRoute: () => contestRoute,
+  path: '/watch/$solveId',
+  loaderDeps: ({ search }) => search,
+  loader: ({ params: { contestNumber, solveId }, deps: { discipline } }) => {
+    return { contestNumber: Number(contestNumber), discipline: discipline!, solveId }
+  },
+  component: WatchSolvePage,
+})
+
 export const contestsRoute = parentRoute.addChildren([
   indexRoute,
   ongoingContestRedirectRoute,
-  contestRoute.addChildren([contestIndexRoute, contestResultsRoute, solveContestRoute]),
+  contestRoute.addChildren([
+    contestIndexRoute,
+    contestResultsRoute,
+    solveContestRoute,
+    watchSolveIndexRoute,
+    watchSolveRoute,
+  ]),
 ])

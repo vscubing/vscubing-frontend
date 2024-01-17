@@ -67,7 +67,9 @@ function Solve({ solve }: { solve: DashboardDTO['bestSolves'][number] }) {
   return (
     <div className='flex h-15 items-center rounded-xl bg-grey-100 pl-3'>
       <CubeIcon className='mr-3' cube={solve.discipline.name} />
-      <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{solve.user.username}</Ellipsis>
+      <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>
+        ddddddddddddddddddddddddddddddddddddddddddd
+      </Ellipsis>
       <SolveTimeButton className='mr-4' timeMs={solve.timeMs} onClick={() => showReconstruction(solve.id)} />
       <SecondaryButton asChild>
         <Link to='/leaderboard/$discipline' params={{ discipline: solve.discipline.name }}>

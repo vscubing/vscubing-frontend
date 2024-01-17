@@ -3,7 +3,7 @@ import { type Discipline, type Scramble } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
 
 export type ReconstructionDTO = {
-  id: number
+  id: string
   reconstruction: string
   scramble: Pick<Scramble, 'position' | 'scramble'>
   contestNumber: number
@@ -11,14 +11,14 @@ export type ReconstructionDTO = {
   user: { username: string }
 }
 
-async function getReconstruction(solveId: number) {
+async function getReconstruction(solveId: string) {
   const res = await axiosClient.get<ReconstructionDTO>(`contests/solve-reconstruction/${solveId}/`)
   return res.data
 }
 
-export const reconstructionQuery = (solveId: number | null) =>
+export const reconstructionQuery = (solveId: string | null) =>
   queryOptions({
     queryKey: ['reconstructor', solveId],
     queryFn: () => getReconstruction(solveId!),
-    enabled: typeof solveId === 'number',
+    enabled: solveId !== null,
   })
