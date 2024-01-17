@@ -13,6 +13,7 @@ export function Navbar() {
   })
   const isOnOngoingContest = !!matchRoute({
     to: '/contests/$contestNumber',
+    fuzzy: true,
     params: { contestNumber: String(ongoingContestNumber) },
   })
   const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
