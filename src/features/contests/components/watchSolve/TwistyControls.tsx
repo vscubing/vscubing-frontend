@@ -6,7 +6,7 @@ import {
   PlaybackIcon,
   StopIcon,
 } from '@/components/ui'
-import { BoundaryType, type TwistyPlayer } from 'cubing/twisty'
+import { BoundaryType, type TwistyPlayer } from '@vscubing/cubing/twisty'
 import { cn } from '@/utils'
 import { type HTMLAttributes, useEffect, useState } from 'react'
 

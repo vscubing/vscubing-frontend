@@ -1,5 +1,5 @@
 import { cn } from '@/utils'
-import { type TwistyPlayer as Player, type TwistyPlayerConfig } from 'cubing/twisty'
+import { type TwistyPlayer as Player, type TwistyPlayerConfig } from '@vscubing/cubing/twisty'
 import { useRef, useEffect } from 'react'
 
 interface TwistyPlayerProps extends TwistyPlayerConfig {

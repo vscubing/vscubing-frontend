@@ -1,4 +1,4 @@
-import { TwistyAlgViewer as AlgViewer, type TwistyPlayer as Player } from 'cubing/twisty'
+import { TwistyAlgViewer as AlgViewer, type TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { useRef, useEffect } from 'react'
 
 interface TwistyAlgViewerProps {

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
 import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls } from '../components'
 import { useEffect, useState } from 'react'
-import { TwistyPlayer as Player } from 'cubing/twisty'
+import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/watch/$solveId' })
 export function WatchSolvePage() {

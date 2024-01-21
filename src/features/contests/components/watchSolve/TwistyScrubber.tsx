@@ -1,5 +1,5 @@
 import { tailwindConfig } from '@/utils'
-import { TwistyScrubber as Scrubber, type TwistyPlayer as Player } from 'cubing/twisty'
+import { TwistyScrubber as Scrubber, type TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { useEffect, useRef } from 'react'
 
 type TwistyScrubberProps = {
