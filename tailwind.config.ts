@@ -1,4 +1,5 @@
 import { type Config } from 'tailwindcss'
+import containerQueriesPlugin from '@tailwindcss/container-queries'
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -11,7 +12,6 @@ export default {
       transitionDelay: {
         default: '300ms',
       },
-      transitionTimingFunction: { default: 'ease-in-out' },
       colors: {
         primary: {
           60: '#81FC05',
@@ -64,5 +64,5 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/container-queries')],
+  plugins: [containerQueriesPlugin],
 } satisfies Config

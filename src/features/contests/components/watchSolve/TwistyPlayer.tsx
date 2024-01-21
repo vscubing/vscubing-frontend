@@ -1,3 +1,4 @@
+import { cn } from '@/utils'
 import { type TwistyPlayer as Player, type TwistyPlayerConfig } from 'cubing/twisty'
 import { useRef, useEffect } from 'react'
 
@@ -9,12 +10,9 @@ export const TwistyPlayer = ({ className, player }: TwistyPlayerProps) => {
   const spanRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
-    if (className) {
-      player.className = className
-    }
     spanRef.current?.appendChild(player)
     return () => player.remove()
   }, [className, player])
 
-  return <span className={className} ref={spanRef} />
+  return <span className={cn('[&>twisty-player]:min-h-full [&>twisty-player]:min-w-full', className)} ref={spanRef} />
 }
