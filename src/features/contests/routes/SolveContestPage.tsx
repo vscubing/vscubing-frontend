@@ -18,12 +18,14 @@ import { solveContestStateQuery } from '../components/solveContestPage/api'
 const route = new RouteApi({ id: '/contests/$contestNumber/solve' })
 export function SolveContestPage() {
   return (
-    <section className='flex h-full flex-col gap-3'>
+    <section className='contents'>
       <Header
         caption='Ongoing contest (17 Dec 2023 - 23 Dec 2023)' /* TODO: add start/end date once backend is updated */
       />
-      <NavigateBackButton className='self-start' />
-      <SolvePageContent />
+      <div className='flex flex-col gap-3'>
+        <NavigateBackButton className='self-start' />
+        <SolvePageContent />
+      </div>
     </section>
   )
 }
@@ -50,21 +52,21 @@ export function SolvePageContent() {
     return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
   }
 
-  if (!state) {
-    // TODO: add loading spinner
-    return (
-      <div className='flex flex-1 flex-col gap-10 rounded-xl bg-black-80 px-16 py-16 pb-10'>
-        <p className='title-h2 text-center text-secondary-20'>Loading...</p>
-      </div>
-    )
-  }
-
   if (user?.isAuthed === false) {
     return (
       <HintSection>
         <p className='mb-10'>You need to be signed in to participate in a contest</p>
         <SignInButton variant='primary' />
       </HintSection>
+    )
+  }
+
+  if (!state) {
+    // TODO: add loading spinner
+    return (
+      <div className='flex flex-1 flex-col gap-10 rounded-xl bg-black-80 px-16 py-16 pb-10'>
+        <p className='title-h2 text-center text-secondary-20'>Loading...</p>
+      </div>
     )
   }
 

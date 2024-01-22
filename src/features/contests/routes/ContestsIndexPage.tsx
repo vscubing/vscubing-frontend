@@ -33,21 +33,23 @@ export function ContestsIndexPage() {
   }, [error?.response?.status, navigate, discipline])
 
   return (
-    <section className='flex h-full flex-col gap-3'>
+    <section className='contents'>
       <Header caption='Explore contests' />
-      <NavigateBackButton className='self-start' />
-      <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
-        <Link from={route.id} search={{ discipline: '3by3' }}>
-          <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-        </Link>
-        <Pagination currentPage={page} totalPages={data?.totalPages} />
-      </div>
-      <div className='flex flex-1 flex-col gap-1 rounded-xl bg-black-80 p-6'>
-        <ContestsListHeader />
-        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-          <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
-          <ContestsList contests={data?.contests} discipline={discipline} pageSize={pageSize} />
-        </ul>
+      <div className='flex flex-col gap-3'>
+        <NavigateBackButton className='self-start' />
+        <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
+          <Link from={route.id} search={{ discipline: '3by3' }}>
+            <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+          </Link>
+          <Pagination currentPage={page} totalPages={data?.totalPages} />
+        </div>
+        <div className='flex flex-1 flex-col gap-1 rounded-xl bg-black-80 p-6'>
+          <ContestsListHeader />
+          <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+            <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
+            <ContestsList contests={data?.contests} discipline={discipline} pageSize={pageSize} />
+          </ul>
+        </div>
       </div>
     </section>
   )

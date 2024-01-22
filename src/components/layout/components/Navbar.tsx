@@ -1,6 +1,7 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
 import { ongoingContestNumberQuery } from '@/features/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
+import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useMatchRoute, type LinkProps } from '@tanstack/react-router'
 
@@ -25,14 +26,12 @@ export function Navbar() {
           <Link
             {...props}
             key={props.to}
-            activeProps={
-              activeCondition
-                ? {
-                    className: 'text-primary-80 after:h-[1.5px] after:scale-x-100',
-                  }
-                : undefined
-            }
-            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-80 [&>svg]:h-6 [&>svg]:w-6'
+            activeProps={{
+              className: cn({
+                'text-primary-80 hover:text-primary-80 after:h-[1.5px] after:scale-x-100': activeCondition,
+              }),
+            }}
+            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 [&>svg]:h-6 [&>svg]:w-6'
           >
             {children}
           </Link>

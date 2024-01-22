@@ -11,14 +11,14 @@ export function Layout() {
   return (
     <>
       <PickUsernameModal />
-      <div className='flex min-h-screen gap-3 p-[1.625rem]'>
-        <aside className='flex w-[clamp(15rem,23vw,21rem)] flex-col gap-3 text-grey-20'>
-          <div className='title-h2 flex h-[4.375rem] items-center rounded-2xl bg-black-80 px-4'>
+      <div className='grid min-h-screen grid-flow-col grid-cols-[clamp(15rem,23vw,21rem)_1fr] grid-rows-[4.375rem_1fr] gap-3 p-[1.625rem]'>
+        <aside className='contents'>
+          <div className='title-h2 flex items-center rounded-2xl bg-black-80 px-4'>
             <Link to='/'>
               <img src={logoImg} alt='VSCubing - Virtual Speedcubing' className='w-[13rem]' />
             </Link>
           </div>
-          <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
+          <div className='flex flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
             <div>
               <div className='flex flex-col items-center gap-4 lg-short:flex-row lg-short:justify-center lg-short:gap-1'>
@@ -34,7 +34,7 @@ export function Layout() {
             </div>
           </div>
         </aside>
-        <main className='flex-1'>
+        <main className='contents'>
           <Outlet />
         </main>
       </div>

@@ -10,10 +10,12 @@ import { SessionsListHeader, SessionSkeleton, Session } from '../components'
 const route = new RouteApi({ id: '/contests/$contestNumber/results' })
 export function ContestResultsPage() {
   return (
-    <section className='flex h-full flex-col gap-3'>
+    <section className='contents'>
       <Header caption='Look through the contest results' />
-      <NavigateBackButton className='self-start' />
-      <PageContent />
+      <div className='flex flex-col gap-3'>
+        <NavigateBackButton className='self-start' />
+        <PageContent />
+      </div>
     </section>
   )
 }
