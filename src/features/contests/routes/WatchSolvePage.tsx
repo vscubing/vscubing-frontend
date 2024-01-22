@@ -3,7 +3,7 @@ import { Header } from '@/components/layout'
 import { CubeButton, SecondaryButton, ShareIcon } from '@/components/ui'
 import { reconstructionQuery } from '@/features/reconstructor/api'
 import { useQuery } from '@tanstack/react-query'
-import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
+import { Link, RouteApi } from '@tanstack/react-router'
 import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls } from '../components'
 import { useEffect, useState } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
@@ -11,10 +11,9 @@ import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 const route = new RouteApi({ id: '/contests/$contestNumber/watch/$solveId' })
 export function WatchSolvePage() {
   const { contestNumber, discipline, solveId } = route.useLoaderData()
-  const navigate = useNavigate({ from: route.id })
   const [player, setPlayer] = useState<Player | null>(null)
 
-  const { data: reconstruction, error } = useQuery(reconstructionQuery(solveId))
+  const { data: reconstruction } = useQuery(reconstructionQuery(solveId))
   const scramble = reconstruction?.scramble.scramble
   const solution = reconstruction?.reconstruction.replace(/\/\*\d+?\*\//g, '')
 

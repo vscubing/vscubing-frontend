@@ -19,7 +19,7 @@ export const ReconstructorContext = createContext<ReconstructorContextValue>({
 })
 
 export function ReconstructorProvider({ children }: { children: React.ReactNode }) {
-  const [solveId, setSolveId] = useState<number | null>(null)
+  const [solveId, setSolveId] = useState<string | null>(null)
   const [savedCloseCallback, setSavedCloseCallback] = useState<() => void>()
   const { data } = useQuery(reconstructionQuery(solveId))
   const content = useMemo(() => {
@@ -42,8 +42,8 @@ export function ReconstructorProvider({ children }: { children: React.ReactNode 
 
   const contextValue = useMemo(
     () => ({
-      showReconstruction: (solve: number, closeCallback?: () => void) => {
-        setSolveId(solve)
+      showReconstruction: (solveId: number, closeCallback?: () => void) => {
+        setSolveId(solveId.toString())
         setSavedCloseCallback(() => closeCallback)
       },
       closeReconstruction: close,
