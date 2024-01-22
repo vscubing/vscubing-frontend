@@ -4,6 +4,7 @@ import { SocialLinks, Navbar } from './components'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery, logout } from '@/features/auth'
 import { PickUsernameModal } from '../PickUsernameModal'
+import logoImg from '@/assets/images/logo.svg'
 
 export function Layout() {
   const { data: user } = useQuery(userQuery)
@@ -12,8 +13,10 @@ export function Layout() {
       <PickUsernameModal />
       <div className='flex min-h-screen gap-3 p-[1.625rem]'>
         <aside className='flex w-[clamp(15rem,23vw,21rem)] flex-col gap-3 text-grey-20'>
-          <div className='title-h2 flex h-[7.1rem] items-center justify-center rounded-2xl bg-black-80'>
-            <Link to='/'>LOGO</Link>
+          <div className='title-h2 flex h-[7.1rem] items-center rounded-2xl bg-black-80 p-4'>
+            <Link to='/'>
+              <img src={logoImg} alt='VSCubing - Virtual Speedcubing' />
+            </Link>
           </div>
           <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
