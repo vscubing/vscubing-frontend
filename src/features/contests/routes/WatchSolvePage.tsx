@@ -39,6 +39,13 @@ export function WatchSolvePage() {
   //   }
   // }, [error?.response?.status, navigate, discipline])
 
+  function copyWatchSolveLink() {
+    navigator.clipboard.writeText(window.location.href).then(
+      () => alert('Link copied'),
+      () => alert('An unexpected error occured while copying the link'),
+    )
+  }
+
   return (
     <section className='contents'>
       <Header caption={<h1>Watch solve</h1>} />
@@ -63,7 +70,7 @@ export function WatchSolvePage() {
               <p className='title-h3 mb-1'>Nickname</p>
               <p className='text-lg text-grey-20'>00:00.000</p>
             </div>
-            <SecondaryButton /* TODO: copy on click */>
+            <SecondaryButton onClick={copyWatchSolveLink}>
               <ShareIcon />
             </SecondaryButton>
           </div>
