@@ -7,13 +7,14 @@ import { Link, RouteApi } from '@tanstack/react-router'
 import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls } from '../components'
 import { useEffect, useState } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
+import { formatSolveTime } from '@/utils'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/watch/$solveId' })
 export function WatchSolvePage() {
   const { contestNumber, discipline, solveId } = route.useLoaderData()
   const [player, setPlayer] = useState<Player | null>(null)
 
-  const { data: reconstruction } = useQuery(reconstructionQuery(solveId))
+  const { data: reconstruction, error } = useQuery(reconstructionQuery(solveId))
   const scramble = reconstruction?.scramble.scramble
   const solution = reconstruction?.reconstruction.replace(/\/\*\d+?\*\//g, '')
 
@@ -33,11 +34,11 @@ export function WatchSolvePage() {
     return () => setPlayer(null)
   }, [scramble, solution])
 
-  // useEffect(() => {
-  //   if (error?.response?.status === 400) {
-  //     void navigate({ from: route.id, params: { discipline }, search: { page: 1 } })
-  //   }
-  // }, [error?.response?.status, navigate, discipline])
+  useEffect(() => {
+    if (error?.response?.status === 404) {
+      alert('404') // TODO: add a 404 page
+    }
+  }, [error?.response?.status])
 
   function copyWatchSolveLink() {
     navigator.clipboard.writeText(window.location.href).then(
@@ -61,14 +62,16 @@ export function WatchSolvePage() {
               <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
             </Link>
             <div className='-my-2'>
-              <p className='title-h2 mb-1 text-secondary-20'>Contest 2</p>
-              <p className='text-lg'>Scramble 2</p>
+              <p className='title-h2 mb-1 text-secondary-20'>
+                Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
+              </p>
+              <p className='text-lg'>Scramble {reconstruction?.scramble.position}</p>
             </div>
           </div>
           <div className='flex items-center justify-between rounded-xl bg-black-80 px-4 py-2'>
             <div>
-              <p className='title-h3 mb-1'>Nickname</p>
-              <p className='text-lg text-grey-20'>00:00.000</p>
+              <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
+              <p className='text-lg text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
             </div>
             <SecondaryButton onClick={copyWatchSolveLink}>
               <ShareIcon />
@@ -102,4 +105,16 @@ export function WatchSolvePage() {
       </div>
     </section>
   )
+}
+
+function getFormattedTimeFromSolution(solution?: string): string {
+  if (!solution) {
+    return ''
+  }
+
+  const withoutLastTwoChars = solution.slice(0, -2)
+  const parts = withoutLastTwoChars.split('/*')
+  const timeMs = Number(parts[parts.length - 1])
+  if (isNaN(timeMs)) throw Error('invalid time in reconstruction')
+  return formatSolveTime(Number(timeMs))
 }
