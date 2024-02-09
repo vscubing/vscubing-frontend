@@ -15,27 +15,8 @@ export const TwistyAlgViewer = ({ className, twistyPlayer }: TwistyAlgViewerProp
     }
     spanRef.current?.appendChild(algViewer)
 
-    const style = document.createElement('style')
-    algViewer.textContent = algViewerStyles
-    const test = document.createElement('div')
-    test.innerHTML = 'test'
-    setTimeout(() => {
-      algViewer.querySelectorAll('twisty-alg-leaf-elem').forEach((elem) => {
-        console.log(elem.shadowRoot)
-        elem.shadowRoot?.appendChild(test)
-        elem.shadowRoot?.appendChild(style)
-      })
-    }, 0)
-    algViewer.append(style)
-
     return () => algViewer.remove()
   }, [className, twistyPlayer])
 
   return <span className={className} ref={spanRef} />
 }
-
-const algViewerStyles = `
-a {
-  color: red;
-}
-`
