@@ -14,7 +14,7 @@ export function Contest({ contest, discipline }: { contest: ContestListItemDTO; 
         Contest {contest.contestNumber}
       </span>
       <span className='mr-10 w-44 pt-[.2em]'>
-        {formatDate(contest.start)} - {formatDate(contest.end!) /* TODO: remove type assertion */}
+        {formatDate(contest.startDate)} - {formatDate(contest.endDate!) /* TODO: remove type assertion */}
       </span>
       <SecondaryButton asChild>
         <Link

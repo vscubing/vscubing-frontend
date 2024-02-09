@@ -19,7 +19,7 @@ export function Session({
 
   const currentUserLabel = isOwn ? ' (you)' : ''
 
-  const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solveSet), [session.solveSet])
+  const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solves), [session.solves])
   return (
     <li
       className={cn(
@@ -29,7 +29,7 @@ export function Session({
       )}
     >
       <PlaceLabel className='mr-3' linkToPage={linkToPage}>
-        {session.placeNumber}
+        {session.place}
       </PlaceLabel>
       <CubeIcon className='mr-3' cube={session.discipline.name} />
       <Ellipsis className='flex-1 pt-[.2em]'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
@@ -38,7 +38,7 @@ export function Session({
         isAverage
         className='relative mr-4 after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'
       />
-      {session.solveSet.map((solve) => (
+      {session.solves.map((solve) => (
         <span key={solve.id} className='relative mr-2 w-24 text-center last:mr-0'>
           <SolveTimeButton
             timeMs={solve.timeMs}
@@ -59,13 +59,13 @@ export const SessionSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>((
   return <li ref={ref} {...props} className={cn('h-15 animate-pulse rounded-xl bg-grey-100', className)}></li>
 })
 
-function getBestAndWorstIds(solveSet: ContestSessionDTO['solveSet']) {
-  const dnfSolve = solveSet.find(({ dnf }) => dnf)
-  const solves = solveSet
+function getBestAndWorstIds(solves: ContestSessionDTO['solves']) {
+  const dnfSolve = solves.find(({ dnf }) => dnf)
+  const successful = solves
     .filter(({ timeMs, dnf }) => typeof timeMs === 'number' && !dnf)
     .sort((a, b) => a.timeMs! - b.timeMs!)
-  const bestId = solves.at(0)?.id
-  const worstId = dnfSolve?.id ?? solves.at(-1)?.id
+  const bestId = successful.at(0)?.id
+  const worstId = dnfSolve?.id ?? successful.at(-1)?.id
 
   return { bestId, worstId }
 }

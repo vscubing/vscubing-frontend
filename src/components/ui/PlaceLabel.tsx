@@ -2,7 +2,7 @@ import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
 
 export function PlaceLabel({
-  children: placeNumber,
+  children: place,
   linkToPage,
   className,
 }: {
@@ -24,7 +24,7 @@ export function PlaceLabel({
         className,
       )}
     >
-      {placeNumber}
+      {place}
     </Comp>
   )
 }

@@ -84,9 +84,7 @@ function Results({
       {!results || isFetching ? (
         <ResultsSkeleton size={skeletonSize} />
       ) : (
-        results?.map((result) => (
-          <Result isOwn={ownResult?.result.user.username === result.user.username} key={result.id} result={result} />
-        ))
+        results?.map((result) => <Result isOwn={ownResult?.result.id === result.id} key={result.id} result={result} />)
       )}
     </>
   )

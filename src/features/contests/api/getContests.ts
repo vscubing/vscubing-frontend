@@ -11,9 +11,9 @@ export type ContestsListDTO = {
 export type ContestListItemDTO = {
   id: number
   contestNumber: number
-  start: string
-  end: string | null
-  ongoing: boolean
+  startDate: string
+  endDate: string | null
+  isOngoing: boolean
 }
 
 export function getContestsQuery({
@@ -55,9 +55,9 @@ function getMockContest(contestNumber: number): ContestListItemDTO {
   return {
     id: Math.random(),
     contestNumber,
-    start: '2023-12-31T16:05:18.595737Z',
-    end: '2023-12-31T16:29:59Z',
-    ongoing: false,
+    startDate: '2023-12-31T16:05:18.595737Z',
+    endDate: '2023-12-31T16:29:59Z',
+    isOngoing: false,
   }
 }
 

@@ -27,7 +27,7 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(
         {...props}
       >
         <PlaceLabel className='mr-3' linkToPage={linkToPage}>
-          {result.placeNumber}
+          {result.place}
         </PlaceLabel>
         <CubeIcon className='mr-3' cube={result.discipline.name} />
         <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
@@ -70,7 +70,7 @@ export function ResultsHeader() {
 
 export const FAKE_RESULT: LeaderboardResult = {
   id: 1,
-  placeNumber: 1,
+  place: 1,
   user: {
     id: 1,
     username: 'username',

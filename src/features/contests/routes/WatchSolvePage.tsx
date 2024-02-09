@@ -41,7 +41,7 @@ export function WatchSolvePage() {
 
   return (
     <section className='contents'>
-      <Header caption='Watch solve' />
+      <Header caption={<h1>Watch solve</h1>} />
       <div className='flex flex-col gap-3'>
         <NavigateBackButton className='self-start' />
         <div className='grid flex-1 grid-cols-[11fr_9fr] grid-rows-[min-content,1fr] gap-3'>
@@ -69,16 +69,25 @@ export function WatchSolvePage() {
           </div>
           {player && (
             <>
-              <div className='row-span-2 flex flex-1 flex-col gap-1  rounded-xl bg-black-80 pb-6'>
+              <div className='flex flex-1 flex-col gap-10 rounded-xl bg-black-80 pb-6'>
                 <TwistyPlayer player={player} className='flex-1' />
                 <div className='flex flex-col items-center gap-2 px-14'>
                   <TwistyScrubber twistyPlayer={player} className='w-full max-w-[25rem]' />
                   <TwistyControls twistyPlayer={player} />
                 </div>
               </div>
-              <div className='rounded-xl bg-black-80 p-6'>Scramble</div>
-              <div className='rounded-xl bg-black-80 p-6'>
-                <TwistyAlgViewer twistyPlayer={player} />
+              <div className='flex flex-col gap-3'>
+                <div className='rounded-xl bg-black-80 p-4'>
+                  <h2 className='title-h3 mb-2 border-b border-secondary-20 text-grey-20'>Scramble</h2>
+                  <span className='title-h3'>{scramble}</span>
+                </div>
+                <div className='flex-1 rounded-xl bg-black-80 p-4'>
+                  <h2 className='title-h3 mb-2 border-b border-secondary-20 text-grey-20'>Solve</h2>
+                  <TwistyAlgViewer
+                    twistyPlayer={player}
+                    className='title-h3 [&>.wrapper.current-move]:background-none'
+                  />
+                </div>
               </div>
             </>
           )}

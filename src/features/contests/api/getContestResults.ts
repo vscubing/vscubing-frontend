@@ -22,8 +22,8 @@ export type ContestSessionDTO = {
   avgMs: number | null
   discipline: { name: Discipline }
   user: { username: string }
-  placeNumber: number
-  solveSet: Array<{
+  place: number
+  solves: Array<{
     id: number
     timeMs: number | null
     dnf: boolean
@@ -89,7 +89,7 @@ async function getMockContestResults({
     } as AxiosResponse)
   }
 
-  const ownSessionPage = getOwnResultPage(ownSession?.placeNumber, pageSize)
+  const ownSessionPage = getOwnResultPage(ownSession?.place, pageSize)
 
   const { startIndex, endIndex } = getPageStartEndIndexes(page, pageSize, ownSessionPage)
 
@@ -126,26 +126,26 @@ const MOCK_SESSIONS = Array.from({ length: randomInteger(0, 100) }, () => getMoc
     if (b.avgMs === null) return -Infinity
     return a.avgMs - b.avgMs
   })
-  .map((session, i) => ({ ...session, placeNumber: i + 1 }))
+  .map((session, i) => ({ ...session, place: i + 1 }))
 const MOCK_OWN_INDEX = randomInteger(0, MOCK_SESSIONS.length - 1)
 
-function getMockSession(): Omit<ContestSessionDTO, 'placeNumber'> {
-  const solveSet = getMockSolveSet()
+function getMockSession(): Omit<ContestSessionDTO, 'place'> {
+  const solves = getMockSolves()
   return {
     id: Math.random(),
-    avgMs: getAverage(solveSet),
+    avgMs: getAverage(solves),
     discipline: {
       name: '3by3',
     },
     user: {
       username: String(Math.random()),
     },
-    solveSet,
+    solves,
   }
 }
 
-function getAverage(solveSet: ContestSessionDTO['solveSet']): number | null {
-  const countingSolves = [...solveSet]
+function getAverage(solves: ContestSessionDTO['solves']): number | null {
+  const countingSolves = [...solves]
     .sort((a, b) => {
       if (a.timeMs === null) return Infinity
       if (b.timeMs === null) return -Infinity
@@ -156,7 +156,7 @@ function getAverage(solveSet: ContestSessionDTO['solveSet']): number | null {
   return countingSolves.reduce((acc, { timeMs }) => acc + timeMs!, 0) / countingSolves.length
 }
 
-function getMockSolveSet(): ContestSessionDTO['solveSet'] {
+function getMockSolves(): ContestSessionDTO['solves'] {
   let firstExtraIndex = Math.floor(Math.random() * 10)
   let secondExtraIndex = Math.floor(Math.random() * 10)
   if (firstExtraIndex > secondExtraIndex) {
@@ -172,7 +172,7 @@ function getMockSolveSet(): ContestSessionDTO['solveSet'] {
   return positions.map((position) => getMockSolve(position))
 }
 
-function getMockSolve(position: string): ContestSessionDTO['solveSet'][number] {
+function getMockSolve(position: string): ContestSessionDTO['solves'][number] {
   const dnf = Math.random() > 0.9
   return {
     id: Math.random(),
