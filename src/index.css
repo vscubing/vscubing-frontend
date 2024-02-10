@@ -11,6 +11,36 @@
   body {
     @apply bg-black-100 font-hind text-base leading-[1.5] text-white;
   }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .scrollbar::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #f9f9f9;
+    border: 1px solid #6b7980;
+    border-radius: 4px;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    /* TODO: add hover */
+    background: #f9f9f9;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:active {
+    /* TODO: add active */
+    background: #f9f9f9;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+    background: #6b7980;
+    border: 0px none #ffffff;
+    border-radius: 4px;
+  }
+  .scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }
 
 @layer utilities {
