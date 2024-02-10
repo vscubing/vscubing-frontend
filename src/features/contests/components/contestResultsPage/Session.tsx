@@ -1,5 +1,4 @@
 import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeLinkOrDnf, ExtraLabel } from '@/components/ui'
-import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
 import { useMemo, forwardRef, type ComponentProps } from 'react'
 import { type ContestSessionDTO } from '../../api'
@@ -17,8 +16,6 @@ export function Session({
   isOwn?: boolean
   className?: string
 }) {
-  const { showReconstruction } = useReconstructor()
-
   const currentUserLabel = isOwn ? ' (you)' : ''
 
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solves), [session.solves])
@@ -46,7 +43,6 @@ export function Session({
             contestNumber={contestNumber}
             solveId={solve.id}
             timeMs={solve.timeMs ?? null}
-            onClick={() => showReconstruction(solve.id)}
             variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
           />
           <ExtraLabel
