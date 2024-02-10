@@ -3,7 +3,7 @@ import { Header } from '@/components/layout'
 import { CubeButton, SecondaryButton, ShareIcon } from '@/components/ui'
 import { reconstructionQuery } from '@/features/reconstructor/api'
 import { useQuery } from '@tanstack/react-query'
-import { Link, RouteApi } from '@tanstack/react-router'
+import { Link, Navigate, RouteApi, useNavigate } from '@tanstack/react-router'
 import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls, TwistyTempo } from '../components'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
@@ -13,34 +13,31 @@ import { z } from 'zod'
 const route = new RouteApi({ id: '/contests/$contestNumber/watch/$solveId' })
 export function WatchSolvePage() {
   const { contestNumber, discipline, solveId } = route.useLoaderData()
-  const [player, setPlayer] = useState<Player | null>(null)
 
   const { data: reconstruction, error } = useQuery(reconstructionQuery(solveId))
 
   const scramble = reconstruction?.scramble.scramble
   const solution = reconstruction?.reconstruction.replace(/\/\*\d+?\*\//g, '')
 
-  useEffect(() => {
-    if (!scramble || !solution) {
-      return
-    }
+  const { player } = useTwistyPlayer(scramble, solution)
 
-    const newPlayer = new Player({
-      controlPanel: 'none',
-      background: 'none',
-      visualization: 'PG3D',
-      experimentalSetupAlg: scramble,
-      alg: solution,
-    }) // TODO: add lazy loading
-    setPlayer(newPlayer)
-    return () => setPlayer(null)
-  }, [scramble, solution])
+  if (error?.response?.status === 404) {
+    alert('404') // TODO: add a 404 page
+  }
 
-  useEffect(() => {
-    if (error?.response?.status === 404) {
-      alert('404') // TODO: add a 404 page
-    }
-  }, [error?.response?.status])
+  if (
+    reconstruction &&
+    (reconstruction.contestNumber !== contestNumber || reconstruction.discipline.name !== discipline)
+  ) {
+    return (
+      <Navigate
+        from={route.id}
+        to={route.id}
+        params={{ contestNumber: String(reconstruction.contestNumber), solveId }}
+        search={{ discipline: reconstruction.discipline.name }}
+      />
+    )
+  }
 
   function copyWatchSolveLink() {
     navigator.clipboard.writeText(window.location.href).then(
@@ -138,6 +135,28 @@ function TwistySection({ player, scramble }: { player: Player; scramble: string 
       </div>
     </>
   )
+}
+
+function useTwistyPlayer(scramble?: string, solution?: string) {
+  const [player, setPlayer] = useState<Player | null>(null)
+
+  useEffect(() => {
+    if (!scramble || !solution) {
+      return
+    }
+
+    const newPlayer = new Player({
+      controlPanel: 'none',
+      background: 'none',
+      visualization: 'PG3D',
+      experimentalSetupAlg: scramble,
+      alg: solution,
+    }) // TODO: add lazy loading
+    setPlayer(newPlayer)
+    return () => setPlayer(null)
+  }, [scramble, solution])
+
+  return { player }
 }
 
 function formatScramblePosition(position?: string): string {
