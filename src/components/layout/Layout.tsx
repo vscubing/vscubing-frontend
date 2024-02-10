@@ -15,7 +15,7 @@ export function Layout() {
         <aside className='contents'>
           <div className='title-h2 flex items-center rounded-2xl bg-black-80 px-4'>
             <Link to='/'>
-              <img src={logoImg} alt='VSCubing - Virtual Speedcubing' className='w-[13rem]' />
+              <img src={logoImg} alt='vscubing - Virtual Speedcubing' className='w-[13rem]' />
             </Link>
           </div>
           <div className='flex flex-col justify-between rounded-2xl bg-black-80 py-6'>
