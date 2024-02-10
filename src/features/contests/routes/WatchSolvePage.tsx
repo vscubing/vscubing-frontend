@@ -4,10 +4,11 @@ import { CubeButton, SecondaryButton, ShareIcon } from '@/components/ui'
 import { reconstructionQuery } from '@/features/reconstructor/api'
 import { useQuery } from '@tanstack/react-query'
 import { Link, RouteApi } from '@tanstack/react-router'
-import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls } from '../components'
+import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls, TwistyTempo } from '../components'
 import { useEffect, useState } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { formatSolveTime } from '@/utils'
+import { z } from 'zod'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/watch/$solveId' })
 export function WatchSolvePage() {
@@ -42,6 +43,7 @@ export function WatchSolvePage() {
 
   function copyWatchSolveLink() {
     navigator.clipboard.writeText(window.location.href).then(
+      // TODO: replace with a toast
       () => alert('Link copied'),
       () => alert('An unexpected error occured while copying the link'),
     )
@@ -65,7 +67,7 @@ export function WatchSolvePage() {
               <p className='title-h2 mb-1 text-secondary-20'>
                 Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
               </p>
-              <p className='text-lg'>Scramble {reconstruction?.scramble.position}</p>
+              <p className='text-lg'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
             </div>
           </div>
           <div className='flex items-center justify-between rounded-xl bg-black-80 px-4 py-2'>
@@ -87,16 +89,17 @@ export function WatchSolvePage() {
                 </div>
               </div>
               <div className='flex flex-col gap-3'>
-                <div className='rounded-xl bg-black-80 p-4'>
+                <div className='h-min rounded-xl bg-black-80 p-4'>
                   <h2 className='title-h3 mb-2 border-b border-secondary-20 text-grey-20'>Scramble</h2>
                   <span className='title-h3'>{scramble}</span>
                 </div>
                 <div className='flex-1 rounded-xl bg-black-80 p-4'>
                   <h2 className='title-h3 mb-2 border-b border-secondary-20 text-grey-20'>Solve</h2>
-                  <TwistyAlgViewer
-                    twistyPlayer={player}
-                    className='title-h3 [&>.wrapper.current-move]:background-none'
-                  />
+                  <TwistyAlgViewer twistyPlayer={player} className='title-h3' />
+                </div>
+                <div className='rounded-xl bg-black-80 p-4'>
+                  <h2 className='title-h3 mb-1 text-grey-20'>Speed</h2>
+                  <TwistyTempo twistyPlayer={player} />
                 </div>
               </div>
             </>
@@ -107,7 +110,25 @@ export function WatchSolvePage() {
   )
 }
 
+function formatScramblePosition(position?: string): string {
+  if (!position) {
+    return ''
+  }
+  const result = z.enum(['1', '2', '3', '4', '5', 'E1', 'E2']).safeParse(position)
+  if (!result.success) {
+    throw Error('invalid scramble position')
+  }
+  if (result.data === 'E1') {
+    return 'Extra 1'
+  }
+  if (result.data === 'E2') {
+    return 'Extra 2'
+  }
+  return position
+}
+
 function getFormattedTimeFromSolution(solution?: string): string {
+  // TODO: remove this once we can get solve time from the backend
   if (!solution) {
     return ''
   }
