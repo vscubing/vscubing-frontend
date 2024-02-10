@@ -1,5 +1,5 @@
 import { cn, formatSolveTime } from '@/utils'
-import { Link, type LinkProps } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
 
