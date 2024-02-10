@@ -1,9 +1,10 @@
 import { cn, formatSolveTime } from '@/utils'
+import { Link, type LinkProps } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
-import { forwardRef, type ComponentProps } from 'react'
+import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
 
 const solveTimeButtonVariants = cva(
-  'transition-base outline-ring after-border-bottom inline-block h-8 w-24 pt-[.2em] text-center hover:after:scale-x-100',
+  'transition-base outline-ring after-border-bottom inline-flex h-8 w-24 items-center justify-center pt-[.2em] hover:after:scale-x-100',
   {
     variants: {
       variant: {
@@ -18,26 +19,35 @@ const solveTimeButtonVariants = cva(
   },
 )
 
-type SolveTimeButtonProps = {
-  timeMs: number | null
-} & ComponentProps<'button'> &
-  VariantProps<typeof solveTimeButtonVariants>
+export function SolveTimeLinkOrDnf({
+  timeMs,
+  variant,
+  className,
+  contestNumber,
+  solveId,
+  ...props
+}: VariantProps<typeof solveTimeButtonVariants> &
+  ComponentPropsWithoutRef<'a'> & {
+    timeMs: number | null
+    contestNumber: number
+    solveId: number
+  }) {
+  if (timeMs === null) {
+    return <SolveTimeLabel className={className} {...props} />
+  }
+  return (
+    <Link
+      {...props}
+      to='/contests/$contestNumber/watch/$solveId'
+      params={{ contestNumber: String(contestNumber), solveId: String(solveId) }}
+      className={cn(solveTimeButtonVariants({ variant, className }))}
+    >
+      {formatSolveTime(timeMs)}
+    </Link>
+  )
+}
 
-export const SolveTimeButton = forwardRef<HTMLButtonElement, SolveTimeButtonProps>(
-  ({ timeMs, variant, className, ...props }, ref) => {
-    if (timeMs === null) {
-      return <SolveTimeLabel className={className} />
-    }
-    return (
-      <button {...props} ref={ref} className={cn(solveTimeButtonVariants({ variant, className }))}>
-        {formatSolveTime(timeMs)}
-      </button>
-    )
-  },
-)
-SolveTimeButton.displayName = 'SolveTimeButton'
-
-const solveTimeLabelVariants = cva('inline-block h-8 w-24 pt-[.2em] text-center', {
+const solveTimeLabelVariants = cva('inline-flex h-8 w-24 items-center justify-center pt-[.2em]', {
   variants: {
     variant: { average: 'text-yellow-100', dnf: 'text-red-80' },
   },
@@ -59,7 +69,7 @@ export const SolveTimeLabel = forwardRef<HTMLSpanElement, SolveTimeLabelProps>(
 
     let content = ''
     if (isPlaceholder) {
-      content = '??:??.???'
+      content = '00:00.000'
     } else if (timeMs !== undefined) {
       content = formatSolveTime(timeMs)
     } else {

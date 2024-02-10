@@ -1,7 +1,6 @@
-import { CubeIcon, Ellipsis, SolveTimeButton, SecondaryButton, UnderlineButton } from '@/components/ui'
+import { CubeIcon, Ellipsis, SolveTimeLinkOrDnf, SecondaryButton, UnderlineButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
-import { useReconstructor } from '@/features/reconstructor'
 import { cn, useAutofillHeight } from '@/utils'
 import { DEFAULT_DISCIPLINE } from '@/types'
 
@@ -63,14 +62,16 @@ function SolveSkeleton() {
 }
 
 function Solve({ solve }: { solve: DashboardDTO['bestSolves'][number] }) {
-  const { showReconstruction } = useReconstructor()
   return (
     <div className='flex h-15 items-center rounded-xl bg-grey-100 pl-3'>
       <CubeIcon className='mr-3' cube={solve.discipline.name} />
-      <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>
-        ddddddddddddddddddddddddddddddddddddddddddd
-      </Ellipsis>
-      <SolveTimeButton className='mr-4' timeMs={solve.timeMs} onClick={() => showReconstruction(solve.id)} />
+      <Ellipsis className='relative mr-3 flex-1 border-r border-grey-60 pr-2'>{solve.user.username}</Ellipsis>
+      <SolveTimeLinkOrDnf
+        className='mr-4'
+        timeMs={solve.timeMs}
+        solveId={solve.id}
+        contestNumber={solve.contestNumber}
+      />
       <SecondaryButton asChild>
         <Link to='/leaderboard/$discipline' params={{ discipline: solve.discipline.name }}>
           leaderboard

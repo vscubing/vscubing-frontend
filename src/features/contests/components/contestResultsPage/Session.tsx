@@ -1,4 +1,4 @@
-import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeButton, ExtraLabel } from '@/components/ui'
+import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeLinkOrDnf, ExtraLabel } from '@/components/ui'
 import { useReconstructor } from '@/features/reconstructor'
 import { cn } from '@/utils'
 import { useMemo, forwardRef, type ComponentProps } from 'react'
@@ -9,8 +9,10 @@ export function Session({
   linkToPage,
   isOwn,
   className,
+  contestNumber,
 }: {
   session: ContestSessionDTO
+  contestNumber: number
   linkToPage?: number
   isOwn?: boolean
   className?: string
@@ -40,8 +42,10 @@ export function Session({
       />
       {session.solves.map((solve) => (
         <span key={solve.id} className='relative mr-2 w-24 text-center last:mr-0'>
-          <SolveTimeButton
-            timeMs={solve.timeMs}
+          <SolveTimeLinkOrDnf
+            contestNumber={contestNumber}
+            solveId={solve.id}
+            timeMs={solve.timeMs ?? null}
             onClick={() => showReconstruction(solve.id)}
             variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
           />

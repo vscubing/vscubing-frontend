@@ -1,5 +1,4 @@
-import { CubeIcon, Ellipsis, SecondaryButton, SolveTimeButton } from '@/components/ui'
-import { useReconstructor } from '@/features/reconstructor'
+import { CubeIcon, Ellipsis, SecondaryButton, SolveTimeLinkOrDnf } from '@/components/ui'
 import { cn, formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
@@ -9,8 +8,6 @@ import { PlaceLabel } from '@/components/ui'
 type ResultProps = { result: LeaderboardResult; linkToPage?: number; isOwn?: boolean } & ComponentProps<'li'>
 export const Result = forwardRef<HTMLLIElement, ResultProps>(
   ({ result, isOwn, linkToPage, className, ...props }, ref) => {
-    const { showReconstruction } = useReconstructor()
-
     let username = result.user.username
     if (isOwn) {
       username = username + ' (you)'
@@ -31,7 +28,12 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(
         </PlaceLabel>
         <CubeIcon className='mr-3' cube={result.discipline.name} />
         <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
-        <SolveTimeButton className='mr-6' timeMs={result.timeMs} onClick={() => showReconstruction(result.id)} />
+        <SolveTimeLinkOrDnf
+          className='mr-6'
+          timeMs={result.timeMs}
+          solveId={result.id}
+          contestNumber={result.contest.contestNumber}
+        />
         <span className='w-36 border-l border-grey-60 pt-[.2em] text-center'>{formatDate(result.created)}</span>
         <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {result.contest.contestNumber}</span>
         <SecondaryButton asChild>

@@ -1,6 +1,6 @@
-import { SolveTimeButton, CheckIcon, SolveTimeLabel, ExtraLabel } from '@/components/ui'
-import { useReconstructor } from '@/features/reconstructor'
+import { SolveTimeLinkOrDnf, CheckIcon, SolveTimeLabel, ExtraLabel } from '@/components/ui'
 import type { Scramble } from '@/types'
+import { RouteApi } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
 export function SolvePanel({
@@ -35,9 +35,8 @@ export function SolvePanel({
   )
 }
 
+const route = new RouteApi({ id: '/contests/$contestNumber/solve' })
 function TimeSection({ timeMs, id, isInited }: { timeMs?: number; id?: number; isInited: boolean }) {
-  const { showReconstruction } = useReconstructor()
-
   if (!isInited) {
     return <SolveTimeLabel isPlaceholder />
   }
@@ -47,5 +46,6 @@ function TimeSection({ timeMs, id, isInited }: { timeMs?: number; id?: number; i
   if (id === undefined) {
     throw Error('solve id is undefined')
   }
-  return <SolveTimeButton timeMs={timeMs} onClick={() => showReconstruction(id)} />
+  const { contestNumber } = route.useLoaderData()
+  return <SolveTimeLinkOrDnf contestNumber={contestNumber} solveId={id} timeMs={timeMs} />
 }

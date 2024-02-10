@@ -90,6 +90,7 @@ function PageContent() {
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <SessionSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
           <Sessions
+            contestNumber={contestNumber}
             sessions={data?.sessions}
             isFetching={isFetching}
             ownSession={data?.ownSession}
@@ -104,10 +105,12 @@ function PageContent() {
 function Sessions({
   sessions,
   ownSession,
+  contestNumber,
   pageSize,
   isFetching,
 }: {
   sessions?: ContestResultsDTO['sessions']
+  contestNumber: number
   ownSession?: ContestResultsDTO['ownSession']
   pageSize?: number
   isFetching: boolean
@@ -124,12 +127,15 @@ function Sessions({
 
   return (
     <>
-      {isOwnDisplayedSeparately && <Session isOwn session={ownSession.session} linkToPage={ownSession.page} />}
+      {isOwnDisplayedSeparately && (
+        <Session contestNumber={contestNumber} isOwn session={ownSession.session} linkToPage={ownSession.page} />
+      )}
       {!sessions && isFetching ? (
         <SessionsSkeleton size={skeletonSize} />
       ) : (
         sessions?.map((session) => (
           <Session
+            contestNumber={contestNumber}
             isOwn={session.user.username === ownSession?.session.user.username} // TODO: compare by id
             key={session.id}
             session={session}
