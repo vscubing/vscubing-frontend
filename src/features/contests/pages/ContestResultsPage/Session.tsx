@@ -31,7 +31,7 @@ export function Session({
         {session.place}
       </PlaceLabel>
       <CubeIcon className='mr-3' cube={session.discipline.name} />
-      <Ellipsis className='flex-1 pt-[.2em]'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
+      <Ellipsis className='vertical-alignment-fix flex-1'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
       <SolveTimeLabel
         timeMs={session.avgMs ?? undefined}
         isAverage

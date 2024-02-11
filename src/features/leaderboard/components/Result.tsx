@@ -27,15 +27,19 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(
           {result.place}
         </PlaceLabel>
         <CubeIcon className='mr-3' cube={result.discipline.name} />
-        <Ellipsis className='flex-1 pt-[.2em]'>{username}</Ellipsis>
+        <Ellipsis className='vertical-alignment-fix flex-1'>{username}</Ellipsis>
         <SolveTimeLinkOrDnf
           className='mr-6'
           timeMs={result.timeMs}
           solveId={result.id}
           contestNumber={result.contest.contestNumber}
         />
-        <span className='w-36 border-l border-grey-60 pt-[.2em] text-center'>{formatDate(result.created)}</span>
-        <span className='mr-10 w-[9.375rem] pt-[.2em] text-center'>Contest {result.contest.contestNumber}</span>
+        <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center'>
+          {formatDate(result.created)}
+        </span>
+        <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center'>
+          Contest {result.contest.contestNumber}
+        </span>
         <SecondaryButton asChild>
           <Link
             to='/contests/$contestNumber'

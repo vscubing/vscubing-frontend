@@ -28,7 +28,11 @@ export function Pagination({
         </PaginationLink>
         {getLinks(currentPage, totalPages).map((link) => (
           <PaginationLink params={{}} key={link.page} search={(prev) => ({ ...prev, page: link.page })}>
-            {link.type === 'ellipsis' ? <EllipsisIcon className='mt-[0.375rem]' /> : link.page}
+            {link.type === 'ellipsis' ? (
+              <EllipsisIcon className='mt-[0.375rem]' />
+            ) : (
+              <span className='vertical-alignment-fix'>{link.page}</span>
+            )}
           </PaginationLink>
         ))}
         <PaginationLink

@@ -84,6 +84,9 @@
   .outline-ring {
     @apply ring-white-100 focus-visible:outline-none focus-visible:ring-2;
   }
+  .vertical-alignment-fix {
+    @apply pt-[.2em];
+  }
 }
 @layer components {
   .after-border-bottom {

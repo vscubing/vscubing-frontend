@@ -10,10 +10,10 @@ export function Contest({ contest, discipline }: { contest: ContestListItemDTO; 
   return (
     <li className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
       <CubeIcon cube='3by3' className='mr-4' />
-      <span className='relative mr-4 flex-1 pr-4 pt-[.2em] after:absolute after:right-0 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'>
+      <span className='vertical-alignment-fix relative mr-4 flex-1 pr-4 after:absolute after:right-0 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'>
         Contest {contest.contestNumber}
       </span>
-      <span className='mr-10 w-44 pt-[.2em]'>
+      <span className='vertical-alignment-fix mr-10 w-44'>
         {formatDate(contest.startDate)} - {formatDate(contest.endDate!) /* TODO: remove type assertion */}
       </span>
       <SecondaryButton asChild>
