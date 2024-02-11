@@ -1,6 +1,6 @@
 import { SolveTimeLinkOrDnf, CheckIcon, SolveTimeLabel, ExtraLabel } from '@/components/ui'
 import type { Scramble } from '@/types'
-import { RouteApi } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
 export function SolvePanel({
@@ -35,7 +35,7 @@ export function SolvePanel({
   )
 }
 
-const route = new RouteApi({ id: '/contests/$contestNumber/solve' })
+const route = getRouteApi('/contests/$contestNumber/solve')
 function TimeSection({ timeMs, id, isInited }: { timeMs?: number; id?: number; isInited: boolean }) {
   if (!isInited) {
     return <SolveTimeLabel isPlaceholder />

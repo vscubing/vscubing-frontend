@@ -3,12 +3,12 @@ import { Header } from '@/components/layout'
 import { HintSection, SignInButton, CubeButton, Pagination } from '@/components/ui'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
-import { Link, Navigate, RouteApi } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { getContestResultsQuery, type ContestResultsDTO } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 
-const route = new RouteApi({ id: '/contests/$contestNumber/results' })
+const route = getRouteApi('/contests/$contestNumber/results')
 export function ContestResultsPage() {
   return (
     <section className='contents'>

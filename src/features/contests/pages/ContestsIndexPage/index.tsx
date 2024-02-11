@@ -1,7 +1,7 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
 import { CubeButton, Pagination } from '@/components/ui'
-import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
+import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
@@ -10,7 +10,7 @@ import { getContestsQuery, type ContestsListDTO } from '../../api'
 import { ContestSkeleton, Contest } from './Contest'
 import { ContestsListHeader } from './ContestsListHeader'
 
-const route = new RouteApi({ id: '/contests/' })
+const route = getRouteApi('/contests/')
 export function ContestsIndexPage() {
   const { page, discipline } = route.useLoaderData()
   const navigate = useNavigate({ from: route.id })

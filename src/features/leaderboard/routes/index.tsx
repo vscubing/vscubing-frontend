@@ -1,15 +1,15 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, isDiscipline, type Discipline, castDiscipline } from '@/types'
-import { Navigate, Route, type SearchSchemaInput, redirect } from '@tanstack/react-router'
+import { Navigate, type SearchSchemaInput, redirect, createRoute } from '@tanstack/react-router'
 import { Leaderboard } from './Leaderboard'
 import { z } from 'zod'
 
-const parentRoute = new Route({
+const parentRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/leaderboard',
 })
 
-const indexRoute = new Route({
+const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   component: () => <Navigate to={disciplineRoute.id} params={{ discipline: DEFAULT_DISCIPLINE }} replace />,
@@ -19,7 +19,7 @@ const paginationSchema = z.object({
   page: z.number().int().gte(1).optional().catch(undefined),
 })
 
-export const disciplineRoute = new Route({
+export const disciplineRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '$discipline',
   validateSearch: (search: { page?: number } & SearchSchemaInput) => paginationSchema.parse(search),

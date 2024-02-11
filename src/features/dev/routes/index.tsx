@@ -1,20 +1,20 @@
 import { rootRoute } from '@/router'
-import { Route } from '@tanstack/react-router'
+import { createRoute } from '@tanstack/react-router'
 import { UiKit } from './UiKit'
 import { ResetSession } from './ResetSession'
 
-const route = new Route({
+const route = createRoute({
   getParentRoute: () => rootRoute,
   path: 'dev',
 })
 
-const resetSessionRoute = new Route({
+const resetSessionRoute = createRoute({
   getParentRoute: () => route,
   path: 'reset-session',
   component: ResetSession,
 })
 
-const uiKitRoute = new Route({
+const uiKitRoute = createRoute({
   getParentRoute: () => route,
   path: 'ui-kit',
   component: UiKit,

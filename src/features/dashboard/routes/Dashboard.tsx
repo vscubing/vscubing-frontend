@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 import { CubeBadge, PrimaryButton } from '@/components/ui'
 import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
-import { Link, RouteApi } from '@tanstack/react-router'
+import { Link, getRouteApi } from '@tanstack/react-router'
 import { BestSolves, LatestContests } from '../components'
 import BannerDivider from '@/assets/images/banner-divider.svg?react'
 
-const route = new RouteApi({ id: '/' })
+const route = getRouteApi('/')
 export function Dashboard() {
   const { data: user } = useQuery(userQuery)
   const query = route.useLoaderData()

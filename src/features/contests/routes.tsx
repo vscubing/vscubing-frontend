@@ -1,6 +1,6 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, castDiscipline } from '@/types'
-import { Navigate, Route, redirect } from '@tanstack/react-router'
+import { Navigate, createRoute, redirect } from '@tanstack/react-router'
 import { ongoingContestNumberQuery } from './api'
 import { z } from 'zod'
 import { queryClient } from '@/lib/reactQuery'
@@ -15,12 +15,12 @@ const paginationSchema = z.object({
 
 const disciplineSchema = z.object({ discipline: z.enum(DISCIPLINES).optional().catch(undefined) })
 
-const parentRoute = new Route({
+const parentRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/contests',
 })
 
-const indexRoute = new Route({
+const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   validateSearch: disciplineSchema.merge(paginationSchema),
@@ -39,7 +39,7 @@ const indexRoute = new Route({
   component: ContestsIndexPage,
 })
 
-const ongoingContestRedirectRoute = new Route({
+const ongoingContestRedirectRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: 'ongoing',
   validateSearch: z.object({ discipline: z.enum(DISCIPLINES).optional().catch(DEFAULT_DISCIPLINE) }),
@@ -55,7 +55,7 @@ const ongoingContestRedirectRoute = new Route({
   },
 })
 
-const contestRoute = new Route({
+const contestRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '$contestNumber',
   validateSearch: disciplineSchema,
@@ -75,7 +75,7 @@ const contestRoute = new Route({
   },
 })
 
-const contestIndexRoute = new Route({
+const contestIndexRoute = createRoute({
   getParentRoute: () => contestRoute,
   path: '/',
   component: () => {
@@ -86,7 +86,7 @@ const contestIndexRoute = new Route({
   },
 })
 
-const contestResultsRoute = new Route({
+const contestResultsRoute = createRoute({
   getParentRoute: () => contestRoute,
   path: '/results',
   validateSearch: paginationSchema,
@@ -105,7 +105,7 @@ const contestResultsRoute = new Route({
   component: ContestResultsPage,
 })
 
-const solveContestRoute = new Route({
+const solveContestRoute = createRoute({
   getParentRoute: () => contestRoute,
   path: '/solve',
   loaderDeps: ({ search }) => search,
@@ -115,7 +115,7 @@ const solveContestRoute = new Route({
   component: SolveContestPage,
 })
 
-const watchSolveIndexRoute = new Route({
+const watchSolveIndexRoute = createRoute({
   getParentRoute: () => contestRoute,
   path: '/watch/',
   beforeLoad: ({ params, search }) => {
@@ -123,7 +123,7 @@ const watchSolveIndexRoute = new Route({
   },
 })
 
-const watchSolveRoute = new Route({
+const watchSolveRoute = createRoute({
   getParentRoute: () => contestRoute,
   path: '/watch/$solveId',
   loaderDeps: ({ search }) => search,

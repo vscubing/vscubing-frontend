@@ -1,11 +1,11 @@
 import { CubeIcon, SecondaryButton } from '@/components/ui'
 import type { Discipline } from '@/types'
 import { cn, formatDate } from '@/utils'
-import { Link, RouteApi } from '@tanstack/react-router'
+import { Link, getRouteApi } from '@tanstack/react-router'
 import { type ContestListItemDTO } from '../../api'
 import { type ComponentProps, forwardRef } from 'react'
 
-const route = new RouteApi({ id: '/contests/' })
+const route = getRouteApi('/contests/')
 export function Contest({ contest, discipline }: { contest: ContestListItemDTO; discipline: Discipline }) {
   return (
     <li className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>

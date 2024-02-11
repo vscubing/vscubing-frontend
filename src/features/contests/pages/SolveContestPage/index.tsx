@@ -1,4 +1,4 @@
-import { Link, Navigate, RouteApi } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
   CubeButton,
   ExclamationCircleIcon,
@@ -15,7 +15,7 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 
-const route = new RouteApi({ id: '/contests/$contestNumber/solve' })
+const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
   return (
     <section className='contents'>

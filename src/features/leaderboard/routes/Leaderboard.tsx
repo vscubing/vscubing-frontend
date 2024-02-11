@@ -2,13 +2,13 @@ import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
-import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
+import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, Pagination } from '@/components/ui'
 import { FAKE_RESULT, Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 
-const route = new RouteApi({ id: '/leaderboard/$discipline' })
+const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
   const { data: user } = useQuery(userQuery)
 
