@@ -30,7 +30,7 @@ export function PickUsernameModal() {
   return (
     isVisible && (
       <div className='fixed inset-0 z-10 flex items-center justify-center bg-black-100 bg-opacity-40'>
-        <div className='bg-black-100 p-10 text-white'>
+        <div className='text-white-100 bg-black-100 p-10'>
           <div>Choose a nickname</div>
           <input
             className='block bg-[#11191F]'

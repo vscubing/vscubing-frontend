@@ -1,7 +1,7 @@
 export function AbortPrompt({ onCancel, onConfirm }: { onConfirm: () => void; onCancel: () => void }) {
   return (
-    <div className='absolute flex h-full w-full flex-col items-center justify-center rounded-[5px] bg-[#11191F] text-white'>
-      <div className='rounded-[5px] bg-panels px-[40px] py-[25px]'>
+    <div className='text-white-100 absolute flex h-full w-full flex-col items-center justify-center rounded-[5px] bg-[#11191F]'>
+      <div className='bg-panels rounded-[5px] px-[40px] py-[25px]'>
         <p className='mb-[25px] text-center text-[24px]'>
           If you quit now,
           <br />
@@ -11,7 +11,7 @@ export function AbortPrompt({ onCancel, onConfirm }: { onConfirm: () => void; on
           <button onClick={onConfirm} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
             quit
           </button>
-          <button onClick={onCancel} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
+          <button onClick={onCancel} className='bg-primary w-[82px] rounded-[5px] py-[8px]'>
             resume
           </button>
         </div>

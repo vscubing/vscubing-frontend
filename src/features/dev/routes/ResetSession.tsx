@@ -17,7 +17,7 @@ export function ResetSession() {
   }
 
   return (
-    <button onClick={resetSession} className='rounded-s border-2 border-white p-5'>
+    <button onClick={resetSession} className='border-white-100 rounded-s border-2 p-5'>
       reset session
     </button>
   )

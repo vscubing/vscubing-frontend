@@ -6,10 +6,10 @@
 
 @layer base {
   :root {
-    @apply lg:text-[12px];
+    @apply text-base lg:text-[12px];
   }
   body {
-    @apply bg-black-100 font-hind text-base leading-[1.5] text-white;
+    @apply text-white-100 bg-black-100 font-hind leading-[1.5];
   }
 
   .scrollbar::-webkit-scrollbar {
@@ -82,7 +82,7 @@
     @apply transition duration-300 ease-in-out;
   }
   .outline-ring {
-    @apply ring-white focus-visible:outline-none focus-visible:ring-2;
+    @apply ring-white-100 focus-visible:outline-none focus-visible:ring-2;
   }
 }
 @layer components {

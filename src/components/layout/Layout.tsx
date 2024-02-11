@@ -30,7 +30,7 @@ export function Layout() {
                   </GhostButton>
                 )}
               </div>
-              <p className='text-caption mt-6 text-center text-white'>© Virtual Speedcubing, 2023</p>
+              <p className='text-caption text-white-100 mt-6 text-center'>© Virtual Speedcubing, 2023</p>
             </div>
           </div>
         </aside>
