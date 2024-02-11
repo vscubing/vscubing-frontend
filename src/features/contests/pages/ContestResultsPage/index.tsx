@@ -1,11 +1,12 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
+import { HintSection, SignInButton, CubeButton, Pagination } from '@/components/ui'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, RouteApi } from '@tanstack/react-router'
-import { type ContestResultsDTO, getContestResultsQuery } from '../api'
-import { CubeButton, HintSection, Pagination, SignInButton } from '@/components/ui'
-import { SessionsListHeader, SessionSkeleton, Session } from '../components'
+import { getContestResultsQuery, type ContestResultsDTO } from '../../api'
+import { SessionSkeleton, Session } from './Session'
+import { SessionsListHeader } from './SessionsListHeader'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/results' })
 export function ContestResultsPage() {

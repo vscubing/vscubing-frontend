@@ -1,12 +1,14 @@
 import { type Discipline } from '@/types'
-import { usePostSolveResult, useSubmitSolve, useChangeToExtra } from './api'
+import { usePostSolveResult, useSubmitSolve, useChangeToExtra } from '../api'
 import { useCube } from '@/features/cube'
-import { CurrentSolve, Progress, SolvePanel } from './components'
 import { useNavigate } from '@tanstack/react-router'
-import type { SolveContestStateDTO } from './types'
+import { type SolveContestStateDTO } from '../types'
+import { CurrentSolve } from './CurrentSolve'
+import { Progress } from './Progress'
+import { SolvePanel } from './SolvePanel'
 
 type SolveContestProps = { state: SolveContestStateDTO; contestNumber: number; discipline: Discipline }
-export function SolveContest({ state, contestNumber, discipline }: SolveContestProps) {
+export function SolveContestForm({ state, contestNumber, discipline }: SolveContestProps) {
   const { mutate: postSolveResult } = usePostSolveResult(contestNumber, discipline)
   const { mutate: handleSubmitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
   const { mutate: handleChangeToExtra } = useChangeToExtra(contestNumber, discipline)

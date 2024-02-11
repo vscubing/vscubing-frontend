@@ -1,13 +1,13 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, castDiscipline } from '@/types'
 import { Navigate, Route, redirect } from '@tanstack/react-router'
-import { ongoingContestNumberQuery } from '../api'
+import { ongoingContestNumberQuery } from './api'
 import { z } from 'zod'
 import { queryClient } from '@/lib/reactQuery'
-import { ContestsIndexPage } from './ContestsIndexPage'
-import { ContestResultsPage } from './ContestResultsPage'
-import { SolveContestPage } from './SolveContestPage'
-import { WatchSolvePage } from './WatchSolvePage'
+import { ContestResultsPage } from './pages/ContestResultsPage'
+import { ContestsIndexPage } from './pages/ContestsIndexPage'
+import { SolveContestPage } from './pages/SolveContestPage'
+import { WatchSolvePage } from './pages/WatchSolvePage'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).optional().catch(undefined),
@@ -68,7 +68,7 @@ const contestRoute = new Route({
     }
     if (!discipline) {
       throw redirect({
-        search: (prev) => ({ ...prev, discipline: discipline ?? DEFAULT_DISCIPLINE }),
+        search: (prev: object) => ({ ...prev, discipline: discipline ?? DEFAULT_DISCIPLINE }),
         replace: true,
       })
     }
@@ -93,7 +93,7 @@ const contestResultsRoute = new Route({
   beforeLoad: ({ search: { page } }) => {
     if (!page) {
       throw redirect({
-        search: (prev) => ({ ...prev, page: page ?? 1 }),
+        search: (prev: object) => ({ ...prev, page: page ?? 1 }),
         replace: true,
       })
     }

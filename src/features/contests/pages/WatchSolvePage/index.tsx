@@ -3,12 +3,12 @@ import { Header } from '@/components/layout'
 import { CubeButton, SecondaryButton, ShareIcon } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, RouteApi } from '@tanstack/react-router'
-import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls, TwistyTempo } from '../components'
+import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls, TwistyTempo } from './twisty'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { formatSolveTime } from '@/utils'
 import { z } from 'zod'
-import { reconstructionQuery } from '../api'
+import { reconstructionQuery } from '../../api'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/watch/$solveId' })
 export function WatchSolvePage() {

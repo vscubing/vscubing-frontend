@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { type TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { cn } from '@/utils'
-import { handleSliderStylesOnChange, sliderStyles } from './common'
+import { handleSliderStylesOnChange, sliderStyles } from './sliderStyles'
 
 export function TwistyTempo({ className, twistyPlayer }: { className?: string; twistyPlayer: Player }) {
   const [tempo, setTempo] = useState(1)

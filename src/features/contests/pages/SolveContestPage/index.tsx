@@ -1,5 +1,4 @@
 import { Link, Navigate, RouteApi } from '@tanstack/react-router'
-import { SolveContest } from '../components'
 import {
   CubeButton,
   ExclamationCircleIcon,
@@ -13,7 +12,8 @@ import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
-import { solveContestStateQuery } from '../components/solveContestPage/api'
+import { solveContestStateQuery } from './api'
+import { SolveContestForm } from './components/SolveContestForm'
 
 const route = new RouteApi({ id: '/contests/$contestNumber/solve' })
 export function SolveContestPage() {
@@ -99,7 +99,7 @@ export function SolvePageContent() {
           Virtual Cube Key Map
         </UnderlineButton>
         <p className='title-h2 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContest contestNumber={contestNumber} discipline={discipline} state={state} />
+        <SolveContestForm contestNumber={contestNumber} discipline={discipline} state={state} />
       </div>
     </>
   )

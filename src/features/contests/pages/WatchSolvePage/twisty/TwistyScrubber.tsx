@@ -1,6 +1,6 @@
 import { TwistyScrubber as Scrubber, type TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { useEffect, useRef } from 'react'
-import { handleSliderStylesOnChange, sliderStyles } from './common'
+import { handleSliderStylesOnChange, sliderStyles } from './sliderStyles'
 
 type TwistyScrubberProps = {
   twistyPlayer: Player

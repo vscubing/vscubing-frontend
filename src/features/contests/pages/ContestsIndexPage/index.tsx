@@ -2,13 +2,13 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
 import { CubeButton, Pagination } from '@/components/ui'
 import { Link, RouteApi, useNavigate } from '@tanstack/react-router'
-import { getContestsQuery } from '..'
 import { useQuery } from '@tanstack/react-query'
 import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
-import type { ContestsListDTO } from '../api'
 import type { Discipline } from '@/types'
-import { ContestsListHeader, Contest, ContestSkeleton } from '../components'
+import { getContestsQuery, type ContestsListDTO } from '../../api'
+import { ContestSkeleton, Contest } from './Contest'
+import { ContestsListHeader } from './ContestsListHeader'
 
 const route = new RouteApi({ id: '/contests/' })
 export function ContestsIndexPage() {
