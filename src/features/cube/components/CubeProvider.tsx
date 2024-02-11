@@ -5,6 +5,7 @@ import { type CubeSolveResult } from '..'
 import { type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import { DeviceWarningModal } from './DeviceWarningModal'
+import { CloseIcon, SecondaryButton } from '@/components/ui'
 
 type CubeContextValue = {
   initSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
@@ -46,8 +47,14 @@ export function CubeProvider({ children }: CubeProviderProps) {
     handleSolveFinish({ dnf: true, timeMs: null, reconstruction: null }),
   )
 
-  const handleOverlayClick = (event: React.MouseEvent) => {
-    if (event.target !== event.currentTarget || !solveState) {
+  function handleOverlayClick(event: React.MouseEvent) {
+    if (event.target === event.currentTarget) {
+      abortOrShowPrompt()
+    }
+  }
+
+  const abortOrShowPrompt = () => {
+    if (!solveState) {
       return
     }
 
@@ -59,12 +66,12 @@ export function CubeProvider({ children }: CubeProviderProps) {
     setIsAbortPromptVisible(true)
   }
 
-  const handleAbortConfirm = useCallback(() => {
+  const confirmAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
     handleSolveFinish({ timeMs: null, dnf: true, reconstruction: null })
   }, [handleSolveFinish])
 
-  const handleAbortCancel = useCallback(() => {
+  const cancelAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
     iframeRef.current?.contentWindow?.focus()
   }, [])
@@ -102,17 +109,27 @@ export function CubeProvider({ children }: CubeProviderProps) {
         onClick={handleOverlayClick}
         className={cn(
           { invisible: !solveState?.scramble },
-          'wrapper fixed inset-0 z-20 bg-black bg-opacity-40 px-10 pb-5 pt-[50px] md:py-[max(5%,55px)]',
+          'wrapper bg-black-1000 fixed inset-0 z-20 bg-opacity-25 p-[1.625rem]',
         )}
       >
-        <div className='relative h-full'>
-          {isAbortPromptVisible && <AbortPrompt onConfirm={handleAbortConfirm} onCancel={handleAbortCancel} />}
+        <div className='relative h-full rounded-2xl bg-black-80'>
+          <div className='bg-black-1000 absolute inset-0 h-full h-full w-full bg-opacity-25'></div>
+          <div
+            className={cn('bg-cubes absolute inset-0 h-full h-full w-full bg-cover bg-left-bottom opacity-40', {
+              hidden: !solveState?.scramble,
+            })}
+          ></div>
           <Cube
+            className='relative'
             scramble={solveState?.scramble}
             onSolveFinish={handleSolveFinish}
             onTimeStart={handleTimeStart}
             iframeRef={iframeRef}
           />
+          <SecondaryButton size='iconSm' className='absolute right-4 top-4' onClick={abortOrShowPrompt}>
+            <CloseIcon />
+          </SecondaryButton>
+          <AbortPrompt isVisible={isAbortPromptVisible} onConfirm={confirmAbort} onCancel={cancelAbort} />
         </div>
       </div>
       {children}

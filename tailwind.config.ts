@@ -27,6 +27,7 @@ export default {
         black: {
           80: '#282D30',
           100: '#1B1E25',
+          1000: '#000000',
         },
         grey: {
           20: '#DBE0E2',
@@ -59,7 +60,7 @@ export default {
       backgroundImage: {
         'banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
         'banner-cubes-wide': "url('./assets/images/dashboard-banner-cubes-wide.svg')",
-        'hint-page-cubes': "url('./assets/images/hint-page-cubes.svg')",
+        cubes: "url('./assets/images/bg-cubes.svg')",
         'solve-contest-progress-divider': "url('./assets/images/solve-contest-progress-divider.svg')",
       },
       containers: {

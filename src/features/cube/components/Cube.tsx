@@ -7,12 +7,13 @@ export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 
 type CubeProps = {
+  className?: string
   scramble?: string
   onTimeStart: CubeTimeStartCallback
   onSolveFinish: CubeSolveFinishCallback
   iframeRef: RefObject<HTMLIFrameElement>
 }
-export function Cube({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubeProps) {
+export function Cube({ className, scramble, onTimeStart, onSolveFinish, iframeRef }: CubeProps) {
   const [isInited, setIsInited] = useState(false)
 
   useEffect(() => {
@@ -25,10 +26,10 @@ export function Cube({ scramble, onTimeStart, onSolveFinish, iframeRef }: CubePr
   return (
     <iframe
       ref={iframeRef}
-      className='rounded-[5px]'
       src={isInited ? '/cstimer/php' : undefined}
       width='100%'
       height='100%'
+      className={className}
     ></iframe>
   )
 }

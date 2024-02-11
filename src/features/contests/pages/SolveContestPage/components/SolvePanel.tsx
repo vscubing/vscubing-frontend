@@ -20,15 +20,17 @@ export function SolvePanel({
 }) {
   return (
     <div className='flex h-11 items-center gap-8 rounded-xl bg-grey-100 pl-4'>
-      <span className='relative flex h-full w-16 items-center justify-center after:absolute after:-right-4 after:h-6 after:w-px after:bg-grey-60'>
+      <span className='vertical-alignment-fix relative flex h-full w-16 items-center justify-center after:absolute after:-right-4 after:h-6 after:w-px after:bg-grey-60'>
         No {number}
         <ExtraLabel scramblePosition={scramble.position} className='absolute right-0 top-0' />
       </span>
       <TimeSection timeMs={timeMs} id={id} isInited={isInited} />
       {isInited ? (
-        <span>{scramble.scramble}</span>
+        <span className='vertical-alignment-fix'>{scramble.scramble}</span>
       ) : (
-        <span className='text-grey-40'>Your scramble will be displayed here after you start solving</span>
+        <span className='vertical-alignment-fix text-grey-40'>
+          Your scramble will be displayed here after you start solving
+        </span>
       )}
       <div className='ml-auto'>{ActionComponent ?? <CheckIcon className='mr-4 text-primary-80' />}</div>
     </div>
