@@ -12,7 +12,6 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@react-oauth/google": "0.12.1",
-    "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/react-query": "^5.15.0",
     "@tanstack/react-router": "1.4.5",
     "@vscubing/cubing": "0.46.1-vscubing.0",
@@ -30,6 +29,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/eslint-plugin-query": "^5.14.6",
     "@tanstack/react-query-devtools": "^5.15.0",
     "@tanstack/router-devtools": "1.4.5",
