@@ -16,7 +16,7 @@ export function Dashboard() {
     <div className='contents'>
       <Header caption={user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'} />
       <div className='flex flex-col gap-3'>
-        <h1 className='title-h1 flex min-h-28 items-center justify-center px-4 text-center text-secondary-20'>
+        <h1 className='title-h1 flex min-h-28 items-center justify-center px-4 text-center text-secondary-20 lg-short:min-h-[4.3rem]'>
           <span>
             Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
           </span>
