@@ -49,9 +49,6 @@ export default {
         },
       },
       screens: {
-        '2xl': { min: '1800px' },
-        xl: { min: '1600px' },
-        // base styles (without query) focus on 1280px < width < 1600px && height > 950px
         lg: { raw: '(max-width: 1280px), (max-height: 950px)' },
         ['lg-short']: { raw: '(min-width: 768px) and (max-height: 730px)' },
         md: { max: '767px' },
