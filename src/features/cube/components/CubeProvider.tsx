@@ -1,11 +1,10 @@
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { cn, isTouchDevice, useConditionalBeforeUnload } from '@/utils'
 import { useLocalStorage } from 'usehooks-ts'
-import { type CubeSolveResult } from '..'
-import { type CubeSolveFinishCallback, Cube } from './Cube'
+import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import { DeviceWarningModal } from './DeviceWarningModal'
-import { CloseIcon, SecondaryButton } from '@/components/ui'
+import { CloseIcon, LoadingSpinner, SecondaryButton } from '@/components/ui'
 
 type CubeContextValue = {
   initSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
@@ -93,33 +92,37 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   return (
     <CubeContext.Provider value={contextValue}>
-      {deviceWarningCallback && (
-        <DeviceWarningModal
-          onCancel={() => {
-            setDeviceWarningCallback(null)
-          }}
-          onConfirm={(isIgnoreChecked) => {
-            deviceWarningCallback?.()
-            setDeviceWarningCallback(null)
-            if (isIgnoreChecked) setIsIgnoreDeviceWarning(isIgnoreChecked)
-          }}
-        />
-      )}
+      <DeviceWarningModal
+        isVisible={!!deviceWarningCallback}
+        onCancel={() => {
+          setDeviceWarningCallback(null)
+        }}
+        onConfirm={(isIgnoreChecked) => {
+          deviceWarningCallback?.()
+          setDeviceWarningCallback(null)
+          if (isIgnoreChecked) setIsIgnoreDeviceWarning(isIgnoreChecked)
+        }}
+      />
       <div
         onClick={handleOverlayClick}
         className={cn(
           { invisible: !solveState?.scramble },
-          'wrapper bg-black-1000 fixed inset-0 z-20 bg-opacity-25 p-[1.625rem]',
+          'wrapper fixed inset-0 z-20 bg-black-1000 bg-opacity-25 p-[1.625rem]',
         )}
       >
         <div className='relative h-full rounded-2xl bg-black-80'>
-          <div className='bg-black-1000 absolute inset-0 h-full h-full w-full bg-opacity-25'></div>
+          <div className='absolute inset-0 h-full w-full bg-black-1000 bg-opacity-25'></div>
           <div
-            className={cn('bg-cubes absolute inset-0 h-full h-full w-full bg-cover bg-left-bottom opacity-40', {
-              hidden: !solveState?.scramble,
+            className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-left-bottom opacity-40', {
+              invisible: !solveState?.scramble,
             })}
           ></div>
           <Cube
+            fallback={
+              <div className='flex h-full items-center justify-center'>
+                <LoadingSpinner />
+              </div>
+            }
             className='relative'
             scramble={solveState?.scramble}
             onSolveFinish={handleSolveFinish}
@@ -129,6 +132,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
           <SecondaryButton size='iconSm' className='absolute right-4 top-4' onClick={abortOrShowPrompt}>
             <CloseIcon />
           </SecondaryButton>
+
           <AbortPrompt isVisible={isAbortPromptVisible} onConfirm={confirmAbort} onCancel={cancelAbort} />
         </div>
       </div>
