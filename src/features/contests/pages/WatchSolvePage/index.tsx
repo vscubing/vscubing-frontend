@@ -1,6 +1,6 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeButton, SecondaryButton, ShareIcon } from '@/components/ui'
+import { CubeButton, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { formatSolveTime } from '@/utils'
@@ -74,7 +74,13 @@ export function WatchSolvePage() {
               <ShareIcon />
             </SecondaryButton>
           </div>
-          <Suspense fallback={null} /* TODO: add loading spinner */>
+          <Suspense
+            fallback={
+              <div className='col-span-full flex items-center justify-center rounded-xl bg-black-80'>
+                <LoadingSpinner />
+              </div>
+            }
+          >
             <TwistySection scramble={scramble} solution={solution} />
           </Suspense>
         </div>

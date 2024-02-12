@@ -9,7 +9,7 @@
     @apply text-base lg:text-[12px];
   }
   body {
-    @apply text-white-100 bg-black-100 font-hind leading-[1.5];
+    @apply bg-black-100 font-hind leading-[1.5] text-white-100;
   }
 }
 
@@ -65,7 +65,7 @@
     @apply h-0 w-0;
   }
   .scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-white-100 rounded-full;
+    @apply rounded-full bg-white-100;
   }
   .scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-primary-60;
@@ -86,5 +86,14 @@
     @apply relative after:absolute after:bottom-0 after:left-0;
     @apply after:transition-transform;
     @apply after:block after:h-[.5px] after:w-full after:scale-x-0 after:bg-current;
+  }
+
+  @keyframes spinner-rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
