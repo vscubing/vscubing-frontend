@@ -52,11 +52,11 @@ function CubeIframe({
   useHandleIframeLoaded(setIsLoaded, iframeRef)
   useInitSolve(isLoaded, iframeRef, onTimeStart, onSolveFinish, scramble)
 
-  const isLazyLoadingInited = !!scramble || isLoaded
+  const isIframeInited = !!scramble || isLoaded
   return (
     <iframe
       ref={iframeRef}
-      src={isLazyLoadingInited ? '/cstimer/php' : undefined}
+      src={isIframeInited ? '/cstimer/php' : undefined}
       width='100%'
       height='100%'
       className={className}

@@ -35,14 +35,14 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const solveStateCallback = solveState?.solveCallback
   const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
-      if (!solveStateCallback) throw Error('no saved solve callback')
-      solveStateCallback(result)
+      solveStateCallback!(result)
       setSolveState(null)
     },
     [solveStateCallback],
   )
 
-  useConditionalBeforeUnload(solveState ? solveState.wasTimeStarted : false, () =>
+  const shouldDNFOnPageLeave = !!solveState && solveState.wasTimeStarted
+  useConditionalBeforeUnload(shouldDNFOnPageLeave, () =>
     handleSolveFinish({ dnf: true, timeMs: null, reconstruction: null }),
   )
 
