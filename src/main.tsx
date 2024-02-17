@@ -7,6 +7,7 @@ import { RouterProvider } from '@tanstack/react-router'
 import { CubeProvider } from './features/cube'
 import { queryClient } from './lib/reactQuery'
 import { router } from './router'
+import { Toaster } from './components/ui'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <GoogleOAuthProvider clientId='224901023614-r1i84dq9h7535drcufl03b7fddc2mvvv.apps.googleusercontent.com'>
         <CubeProvider>
           <RouterProvider router={router} />
+          <Toaster />
         </CubeProvider>
       </GoogleOAuthProvider>
     </QueryClientProvider>

@@ -33,6 +33,7 @@ import {
   CubeIcon,
   CubeBadge,
 } from '@/components/ui'
+import { toast } from '@/components/ui'
 
 export function UiKit() {
   return (
@@ -124,6 +125,13 @@ export function UiKit() {
           <CubeBadge cube='3by3' />
           <CubeButton cube='3by3' />
         </div>
+        <SecondaryButton
+          onClick={() => {
+            toast('Test toast', 'This is a test toast message')
+          }}
+        >
+          Toast!
+        </SecondaryButton>
       </div>
     </>
   )

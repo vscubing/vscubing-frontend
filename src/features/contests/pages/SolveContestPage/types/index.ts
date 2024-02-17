@@ -12,3 +12,4 @@ export type SolveContestStateDTO = {
 type SolveNotInited = null
 type SolveSuccessful = { id: number; timeMs: number; dnf: false }
 type SolveDnf = { id: number; timeMs: null; dnf: true }
+export type FinishedSolve = SolveSuccessful | SolveDnf
