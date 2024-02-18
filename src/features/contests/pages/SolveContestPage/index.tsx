@@ -94,11 +94,11 @@ export function SolvePageContent() {
           <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
         </div>
       </div>
-      <div className='relative flex flex-1 flex-col gap-10 rounded-xl bg-black-80 px-16 py-16 pb-10'>
+      <div className='relative flex flex-1 flex-col rounded-xl bg-black-80 pb-8 pt-7 lg-short:pb-6 lg-short:pt-4'>
         <UnderlineButton className='absolute right-4 top-4' /* TODO: add the instructions modal */>
           Virtual Cube Key Map
         </UnderlineButton>
-        <p className='title-h2 text-center text-secondary-20'>You have five attempts to solve the contest</p>
+        <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
         <SolveContestForm contestNumber={contestNumber} discipline={discipline} state={state} />
       </div>
     </>

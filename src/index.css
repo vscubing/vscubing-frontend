@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    @apply text-base lg:text-[12px];
+    @apply text-base;
   }
   body {
     @apply bg-black-100 font-hind leading-[1.5] text-white-100;

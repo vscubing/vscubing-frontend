@@ -4,7 +4,7 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
 
 const solveTimeButtonVariants = cva(
-  'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 w-24 items-center justify-center hover:after:scale-x-100',
+  'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',
   {
     variants: {
       variant: {
@@ -47,7 +47,7 @@ export function SolveTimeLinkOrDnf({
   )
 }
 
-const solveTimeLabelVariants = cva('vertical-alignment-fix inline-flex h-8 w-24 items-center justify-center', {
+const solveTimeLabelVariants = cva('vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center', {
   variants: {
     variant: { average: 'text-yellow-100', dnf: 'text-red-80' },
   },

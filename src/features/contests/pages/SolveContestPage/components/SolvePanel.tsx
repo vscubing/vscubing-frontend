@@ -20,7 +20,7 @@ export function SolvePanel({
 }) {
   return (
     <div className='flex h-11 items-center gap-8 rounded-xl bg-grey-100 pl-4'>
-      <span className='vertical-alignment-fix relative flex h-full w-16 items-center justify-center after:absolute after:-right-4 after:h-6 after:w-px after:bg-grey-60'>
+      <span className='vertical-alignment-fix relative flex h-full min-w-16 items-center justify-center after:absolute after:-right-4 after:h-6 after:w-px after:bg-grey-60'>
         No {number}
         <ExtraLabel scramblePosition={scramble.position} className='absolute right-0 top-0' />
       </span>
