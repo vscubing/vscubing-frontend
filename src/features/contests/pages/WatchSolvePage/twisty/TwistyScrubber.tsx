@@ -12,7 +12,7 @@ export const TwistyScrubber = ({ className, twistyPlayer }: TwistyScrubberProps)
   useEffect(() => {
     const scrubber = new Scrubber(twistyPlayer.experimentalModel, twistyPlayer.controller, {
       mode: 'open',
-    }) // TODO: add lazy loading
+    })
 
     const style = document.createElement('style')
     style.innerHTML = scrubberStyles

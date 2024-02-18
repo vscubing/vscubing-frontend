@@ -127,7 +127,7 @@ export function UiKit() {
         </div>
         <SecondaryButton
           onClick={() => {
-            toast('Test toast', 'This is a test toast message')
+            toast('noConnection', false)
           }}
         >
           Toast!

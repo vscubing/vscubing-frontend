@@ -3,6 +3,7 @@ import {
   CubeButton,
   ExclamationCircleIcon,
   HintSection,
+  LoadingSpinner,
   PrimaryButton,
   SignInButton,
   UnderlineButton,
@@ -62,10 +63,9 @@ export function SolvePageContent() {
   }
 
   if (!state) {
-    // TODO: add loading spinner
     return (
-      <div className='flex flex-1 flex-col gap-10 rounded-xl bg-black-80 px-16 py-16 pb-10'>
-        <p className='title-h2 text-center text-secondary-20'>Loading...</p>
+      <div className='flex flex-1 items-center justify-center rounded-xl bg-black-80'>
+        <LoadingSpinner />
       </div>
     )
   }

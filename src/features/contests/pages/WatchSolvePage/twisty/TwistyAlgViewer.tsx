@@ -9,7 +9,7 @@ export const TwistyAlgViewer = ({ className, twistyPlayer }: TwistyAlgViewerProp
   const spanRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
-    const algViewer = new AlgViewer({ twistyPlayer }) // TODO: add lazy loading
+    const algViewer = new AlgViewer({ twistyPlayer })
     spanRef.current?.appendChild(algViewer)
 
     return () => algViewer.remove()

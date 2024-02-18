@@ -15,22 +15,22 @@ export function Toaster() {
           closeButton:
             '!left-auto [&>svg]:!h-[1.1rem] [&>svg]:!w-[1.1rem] [&>svg]:stroke-[.2rem] !right-2 !top-2 !translate-x-0 !translate-y-0 !h-8 !w-8 !bg-transparent !border-none !text-grey-40',
         },
-        duration: 15_000,
       }}
     ></Sonner.Toaster>
   )
 }
 
-export function toast(toast: Toasts) {
+export function toast(toast: PredefinedToasts, autoClose = true) {
   const { title, description } = TOASTS[toast]
   Sonner.toast(title, {
     closeButton: true,
     description,
     action: { label: 'Contact us', onClick: () => alert('clicked on toast') /* TODO: add contact link (discord?) */ },
+    duration: autoClose ? 200 : Infinity,
   })
 }
 
-type Toasts = keyof typeof TOASTS
+type PredefinedToasts = keyof typeof TOASTS
 const TOASTS = {
   noConnection: {
     title: 'Uh-oh! No Internet connection',

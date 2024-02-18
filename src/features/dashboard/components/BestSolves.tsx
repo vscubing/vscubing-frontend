@@ -47,7 +47,7 @@ function Solves({ solves, fittingCount }: { solves?: DashboardDTO['bestSolves'];
     return Array.from({ length: fittingCount }, (_, index) => <SolveSkeleton key={index} />)
   }
   if (solves.length === 0) {
-    return 'Seems like no one has solved yet' // TODO: add empty state
+    return 'Seems like no one has solved yet'
   }
 
   return solves.map((solve) => (

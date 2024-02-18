@@ -39,9 +39,6 @@ function Contests({ contests, fittingCount }: { contests?: DashboardDTO['contest
   if (contests === undefined) {
     return Array.from({ length: fittingCount }, (_, index) => <ContestSkeleton key={index} />)
   }
-  if (contests.length === 0) {
-    return 'Seems like no one has solved yet' // TODO: add empty state
-  }
 
   return contests.map((contest) => (
     <li key={contest.id}>

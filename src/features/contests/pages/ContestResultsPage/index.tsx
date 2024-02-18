@@ -119,9 +119,6 @@ function Sessions({
   if (!pageSize) {
     return null
   }
-  if (sessions?.length === 0) {
-    return 'Seems like no one has solved yet' // TODO: add empty state
-  }
 
   const isOwnDisplayedSeparately = ownSession && (ownSession.isDisplayedSeparately || isFetching)
   const skeletonSize = isOwnDisplayedSeparately ? pageSize - 1 : pageSize

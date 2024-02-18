@@ -28,7 +28,7 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
       } else if (res.status === 400) {
         // TODO: make sure that this is synched with the backend
         solve = { id: res.data.solveId, timeMs: null, dnf: true }
-        toast('solveRejected')
+        toast('solveRejected', false)
       } else if (res.status !== 500) {
         toast('internalError')
       }

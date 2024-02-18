@@ -104,9 +104,6 @@ function ResultsList({ results, ownResult, pageSize, isFetching }: ResultsListPr
   if (!pageSize) {
     return null
   }
-  if (results?.length === 0) {
-    return 'Seems like no one has solved yet' // TODO: add empty state
-  }
 
   const isOwnResultDisplayedSeparately = ownResult && (ownResult.isDisplayedSeparately || isFetching)
   const skeletonSize = isOwnResultDisplayedSeparately ? pageSize - 1 : pageSize

@@ -103,9 +103,6 @@ function ContestsList({ contests, discipline, pageSize }: ContestsListProps) {
   if (contests === undefined) {
     return Array.from({ length: pageSize }, (_, index) => <ContestSkeleton key={index} />)
   }
-  if (contests.length === 0) {
-    return 'Seems like there are no contests hmm...' // TODO: add empty state
-  }
 
   return contests.map((contest) => <Contest key={contest.id} contest={contest} discipline={discipline} />)
 }

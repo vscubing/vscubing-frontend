@@ -77,7 +77,7 @@ function useTwistyPlayer(scramble?: string, solution?: string) {
       visualization: 'PG3D',
       experimentalSetupAlg: scramble,
       alg: solution,
-    }) // TODO: add lazy loading
+    })
     setPlayer(newPlayer)
     return () => setPlayer(null)
   }, [scramble, solution])
