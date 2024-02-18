@@ -12,7 +12,7 @@ export function Pagination({
   currentPage: number
   totalPages?: number
 }) {
-  if (totalPages === undefined) {
+  if (totalPages === undefined || totalPages === 0) {
     return null
   }
 

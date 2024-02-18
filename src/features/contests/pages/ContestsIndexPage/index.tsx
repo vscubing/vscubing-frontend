@@ -1,9 +1,9 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeButton, Pagination } from '@/components/ui'
+import { CubeButton, HintSection, Pagination } from '@/components/ui'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { cn, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
 import type { Discipline } from '@/types'
 import { getContestsQuery, type ContestsListDTO } from '../../api'
@@ -43,15 +43,51 @@ export function ContestsIndexPage() {
           </Link>
           <Pagination currentPage={page} totalPages={data?.totalPages} />
         </div>
-        <div className='flex flex-1 flex-col gap-1 rounded-xl bg-black-80 p-6'>
-          <ContestsListHeader />
-          <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-            <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
-            <ContestsList contests={data?.contests} discipline={discipline} pageSize={pageSize} />
-          </ul>
-        </div>
+        <ContestsListWrapper
+          className='flex-1'
+          contests={data?.contests}
+          discipline={discipline}
+          pageSize={debouncedPageSize}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+        />
       </div>
     </section>
+  )
+}
+
+function ContestsListWrapper({
+  className,
+  contests,
+  discipline,
+  pageSize,
+  containerRef,
+  fakeElementRef,
+}: {
+  className?: string
+  contests?: ContestsListDTO['contests']
+  discipline: Discipline
+  pageSize: number | undefined
+  containerRef: React.RefObject<HTMLUListElement>
+  fakeElementRef: React.RefObject<HTMLLIElement>
+}) {
+  if (contests?.length === 0) {
+    return (
+      <HintSection>
+        While this page may be empty now, it's brimming with potential for thrilling contests that will soon fill this
+        space.
+      </HintSection>
+    )
+  }
+
+  return (
+    <div className={cn('flex flex-col gap-1 rounded-xl bg-black-80 p-6', className)}>
+      <ContestsListHeader />
+      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+        <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
+        <ContestsList contests={contests} discipline={discipline} pageSize={pageSize} />
+      </ul>
+    </div>
   )
 }
 
