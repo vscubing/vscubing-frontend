@@ -42,6 +42,6 @@ const TOASTS = {
   },
   solveRejected: {
     title: 'Uh-oh! Solve rejected by the server',
-    description: 'Try again or contact us if the error persists',
+    description: "Under normal circumstances this shouldn't happen. Please contact us.",
   },
 } as const
