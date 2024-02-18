@@ -56,6 +56,11 @@ export function ContestsIndexPage() {
   )
 }
 
+type ContestsListWrapperProps = {
+  className?: string
+  containerRef: React.RefObject<HTMLUListElement>
+  fakeElementRef: React.RefObject<HTMLLIElement>
+} & ContestsListProps
 function ContestsListWrapper({
   className,
   contests,
@@ -63,19 +68,14 @@ function ContestsListWrapper({
   pageSize,
   containerRef,
   fakeElementRef,
-}: {
-  className?: string
-  contests?: ContestsListDTO['contests']
-  discipline: Discipline
-  pageSize: number | undefined
-  containerRef: React.RefObject<HTMLUListElement>
-  fakeElementRef: React.RefObject<HTMLLIElement>
-}) {
+}: ContestsListWrapperProps) {
   if (contests?.length === 0) {
     return (
       <HintSection>
-        While this page may be empty now, it's brimming with potential for thrilling contests that will soon fill this
-        space.
+        <p>
+          While this page may be empty now, it's brimming with potential for thrilling contests that will soon fill this
+          space.
+        </p>
       </HintSection>
     )
   }
@@ -91,15 +91,12 @@ function ContestsListWrapper({
   )
 }
 
-function ContestsList({
-  contests,
-  discipline,
-  pageSize,
-}: {
+type ContestsListProps = {
   contests?: ContestsListDTO['contests']
   discipline: Discipline
   pageSize?: number
-}) {
+}
+function ContestsList({ contests, discipline, pageSize }: ContestsListProps) {
   if (pageSize === undefined) {
     return null
   }

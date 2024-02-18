@@ -3,10 +3,10 @@ import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
-import { CubeButton, Pagination } from '@/components/ui'
+import { CubeButton, HintSection, Pagination } from '@/components/ui'
 import { FAKE_RESULT, Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
-import { useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { cn, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 
 const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
@@ -45,29 +45,62 @@ export function Leaderboard() {
           </Link>
           <Pagination currentPage={page} totalPages={data?.totalPages} />
         </div>
-        <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
-          <ResultsHeader />
-          <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-            <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
-            <Results results={data?.results} ownResult={data?.ownResult} isFetching={isFetching} pageSize={pageSize} />
-          </ul>
-        </div>
+        <ResultsListWrapper
+          className='flex-1'
+          results={data?.results}
+          ownResult={data?.ownResult}
+          pageSize={debouncedPageSize}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+          isFetching={isFetching}
+        />
       </div>
     </section>
   )
 }
 
-function Results({
+type ResultsListWrapperProps = {
+  className?: string
+  containerRef: React.RefObject<HTMLUListElement>
+  fakeElementRef: React.RefObject<HTMLLIElement>
+} & ResultsListProps
+function ResultsListWrapper({
+  className,
   results,
   ownResult,
   pageSize,
+  containerRef,
+  fakeElementRef,
   isFetching,
-}: {
+}: ResultsListWrapperProps) {
+  if (results?.length === 0) {
+    return (
+      <HintSection>
+        <p>
+          It seems this leaderboard is currently taking a breather and awaiting the triumphs of contenders like yourself
+        </p>
+      </HintSection>
+    )
+  }
+
+  return (
+    <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6', className)}>
+      <ResultsHeader />
+      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+        <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
+        <ResultsList isFetching={isFetching} results={results} ownResult={ownResult} pageSize={pageSize} />
+      </ul>
+    </div>
+  )
+}
+
+type ResultsListProps = {
   results?: LeaderboardDTO['results']
   ownResult?: LeaderboardDTO['ownResult']
   pageSize?: number
   isFetching: boolean
-}) {
+}
+function ResultsList({ results, ownResult, pageSize, isFetching }: ResultsListProps) {
   if (!pageSize) {
     return null
   }
@@ -82,7 +115,7 @@ function Results({
     <>
       {isOwnResultDisplayedSeparately && <Result isOwn result={ownResult.result} linkToPage={ownResult.page} />}
       {!results || isFetching ? (
-        <ResultsSkeleton size={skeletonSize} />
+        <ResultsListSkeleton size={skeletonSize} />
       ) : (
         results?.map((result) => <Result isOwn={ownResult?.result.id === result.id} key={result.id} result={result} />)
       )}
@@ -90,6 +123,6 @@ function Results({
   )
 }
 
-function ResultsSkeleton({ size }: { size: number }) {
+function ResultsListSkeleton({ size }: { size: number }) {
   return Array.from({ length: size }, (_, index) => <ResultSkeleton key={index} />)
 }
