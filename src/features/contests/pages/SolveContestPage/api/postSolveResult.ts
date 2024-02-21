@@ -20,7 +20,6 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
         getApiRoute(contestNumber, discipline, `?scramble_id=${scrambleId}`),
         result,
       )
-      res.status = 400
 
       let solve: FinishedSolve | null = null
       if (res.status === 200) {

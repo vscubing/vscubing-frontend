@@ -11,7 +11,7 @@ export function Layout() {
   return (
     <>
       <PickUsernameModal />
-      <div className='grid min-h-screen grid-flow-col grid-cols-[clamp(15rem,23vw,21rem)_1fr] grid-rows-[4.375rem_1fr] gap-3 p-[1.625rem]'>
+      <div className='grid min-h-screen grid-flow-col grid-cols-[clamp(16rem,20vw,21rem)_1fr] grid-rows-[4.375rem_1fr] gap-3 p-[1.625rem]'>
         <aside className='contents'>
           <div className='title-h2 flex items-center rounded-2xl bg-black-80 px-4'>
             <Link to='/'>
@@ -30,7 +30,7 @@ export function Layout() {
                   </GhostButton>
                 )}
               </div>
-              <p className='text-caption text-white-100 mt-6 text-center'>© Virtual Speedcubing, 2023</p>
+              <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2023</p>
             </div>
           </div>
         </aside>

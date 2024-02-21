@@ -28,7 +28,7 @@ export function CurrentSolve({
             Solve
           </PrimaryButton>
         ) : (
-          <div>
+          <div className='flex'>
             {currentSolve.canChangeToExtra && (
               <SecondaryButton size='sm' className='w-[5.25rem]' onClick={() => onChangeToExtra()}>
                 Extra

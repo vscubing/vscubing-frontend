@@ -51,7 +51,7 @@ function OngoingContestBanner() {
             {/* TODO: get from backend */}
             <CubeBadge
               cube='3by3'
-              className='transition-base outline-ring bg-secondary-40 hover:bg-secondary-20 active:bg-secondary-40'
+              className='transition-base outline-ring hover:bg-secondary-40 active:bg-secondary-20'
             />
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import { SolveTimeLinkOrDnf, CheckIcon, SolveTimeLabel, ExtraLabel } from '@/components/ui'
+import { SolveTimeLinkOrDnf, CheckIcon, SolveTimeLabel, ExtraLabel, Ellipsis } from '@/components/ui'
 import type { Scramble } from '@/types'
 import { getRouteApi } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
@@ -26,7 +26,7 @@ export function SolvePanel({
       </span>
       <TimeSection timeMs={timeMs} id={id} isInited={isInited} />
       {isInited ? (
-        <span className='vertical-alignment-fix'>{scramble.scramble}</span>
+        <Ellipsis className='vertical-alignment-fix flex-1'>{scramble.scramble}</Ellipsis>
       ) : (
         <span className='vertical-alignment-fix text-grey-40'>
           Your scramble will be displayed here after you start solving
