@@ -33,7 +33,7 @@ import {
   CubeIcon,
   CubeBadge,
 } from '@/components/ui'
-import { toast } from '@/components/ui'
+import { toast } from '@/components/toasts'
 
 export function UiKit() {
   return (

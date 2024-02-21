@@ -1,4 +1,4 @@
-import { toast } from '@/components/ui'
+import { toast } from '@/components/toasts'
 import { refreshAccessToken } from '@/features/auth/api/refreshAccessToken'
 import { createAuthorizedRequestInterceptor, getAuthTokens } from '@/utils'
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'

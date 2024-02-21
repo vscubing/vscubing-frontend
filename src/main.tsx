@@ -7,7 +7,7 @@ import { RouterProvider } from '@tanstack/react-router'
 import { CubeProvider } from './features/cube'
 import { queryClient } from './lib/reactQuery'
 import { router } from './router'
-import { Toaster } from './components/ui'
+import { Toaster } from './components/toasts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

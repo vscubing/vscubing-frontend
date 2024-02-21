@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { solveContestStateQuery } from './getSolveContestState'
 import { getApiRoute } from './apiRoute'
 import { type FinishedSolve } from '../types'
-import { toast } from '@/components/ui'
+import { toast } from '@/components/toasts'
 
 export const usePostSolveResult = (contestNumber: number, discipline: Discipline) =>
   useMutation({
