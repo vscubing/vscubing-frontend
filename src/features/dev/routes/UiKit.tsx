@@ -34,6 +34,15 @@ import {
   CubeBadge,
 } from '@/components/ui'
 import { toast } from '@/components/toasts'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/AlertDialog'
 
 export function UiKit() {
   return (
@@ -125,6 +134,7 @@ export function UiKit() {
           <CubeBadge cube='3by3' />
           <CubeButton cube='3by3' />
         </div>
+
         <SecondaryButton
           onClick={() => {
             toast('noConnection', false)
@@ -132,6 +142,19 @@ export function UiKit() {
         >
           Toast!
         </SecondaryButton>
+
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <PrimaryButton>Modal</PrimaryButton>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </>
   )

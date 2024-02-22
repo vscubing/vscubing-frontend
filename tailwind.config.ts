@@ -1,5 +1,6 @@
 import { type Config } from 'tailwindcss'
 import containerQueriesPlugin from '@tailwindcss/container-queries'
+import animationPlugin from 'tailwindcss-animate'
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -64,5 +65,5 @@ export default {
       },
     },
   },
-  plugins: [containerQueriesPlugin],
+  plugins: [containerQueriesPlugin, animationPlugin],
 } satisfies Config

@@ -13,7 +13,7 @@
   }
 }
 
-@layer utilities {
+@layer components {
   .title-lg {
     @apply font-kanit text-6xl leading-[1.2] -tracking-[0.02em];
   }
@@ -57,7 +57,6 @@
   .vertical-alignment-fix {
     @apply pt-[.2em];
   }
-
   .scrollbar::-webkit-scrollbar {
     @apply w-1;
   }
@@ -80,8 +79,7 @@
   .scrollbar::-webkit-scrollbar-corner {
     background: transparent;
   }
-}
-@layer components {
+
   .after-border-bottom {
     @apply relative after:absolute after:bottom-0 after:left-0;
     @apply after:transition-transform;

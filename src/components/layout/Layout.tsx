@@ -1,13 +1,21 @@
-import { GhostButton, LogoutIcon } from '../ui'
+import { GhostButton, LogoutIcon, PrimaryButton } from '../ui'
 import { Link, Outlet } from '@tanstack/react-router'
 import { SocialLinks, Navbar } from './components'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery, logout } from '@/features/auth'
 import { PickUsernameModal } from '../PickUsernameModal'
 import logoImg from '@/assets/images/logo.svg'
+import {
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialog,
+  AlertDialogFooter,
+} from '../AlertDialog'
 
 export function Layout() {
-  const { data: user } = useQuery(userQuery)
   return (
     <>
       <PickUsernameModal />
@@ -24,11 +32,7 @@ export function Layout() {
               <div className='flex flex-col items-center gap-4 lg-short:flex-row lg-short:justify-center lg-short:gap-1'>
                 <SocialLinks />
                 {/* TODO: animate the social links to slide up after login before the log out button appears */}
-                {user?.isAuthed === true && (
-                  <GhostButton onClick={() => logout()}>
-                    Log out <LogoutIcon />
-                  </GhostButton>
-                )}
+                <LogoutButton />
               </div>
               <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2023</p>
             </div>
@@ -39,5 +43,30 @@ export function Layout() {
         </main>
       </div>
     </>
+  )
+}
+
+function LogoutButton() {
+  const { data: user } = useQuery(userQuery)
+
+  if (user === undefined || user.isAuthed === false) {
+    return null
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <GhostButton>
+          Log out <LogoutIcon />
+        </GhostButton>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Stay</AlertDialogCancel>
+          <AlertDialogAction onClick={() => logout()}>Log out</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
