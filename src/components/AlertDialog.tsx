@@ -1,6 +1,6 @@
 import { cn } from '@/utils'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
-import { forwardRef, type ElementRef, type ComponentPropsWithoutRef, type HTMLAttributes } from 'react'
+import { forwardRef, type ElementRef, type ComponentPropsWithoutRef } from 'react'
 import { PrimaryButton, SecondaryButton } from './ui'
 
 const AlertDialog = AlertDialogPrimitive.Root

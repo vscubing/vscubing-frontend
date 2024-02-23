@@ -1,4 +1,5 @@
 export * from './buttons'
+export * from './Input'
 export * from './CubeBadge'
 export * from './icons'
 export * from './Ellipsis'

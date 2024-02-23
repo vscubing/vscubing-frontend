@@ -55,7 +55,7 @@ function LogoutButton() {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <GhostButton>
           Log out <LogoutIcon />
         </GhostButton>

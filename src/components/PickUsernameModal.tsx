@@ -2,7 +2,8 @@ import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { SecondaryButton } from './ui'
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, AlertDialogTitle } from './AlertDialog'
+import { Input } from './ui'
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
@@ -19,6 +20,7 @@ export function PickUsernameModal() {
     const trimmedUsername = username.trim()
 
     if (!trimmedUsername) {
+      // TODO: add proper validation
       return
     }
 
@@ -28,21 +30,20 @@ export function PickUsernameModal() {
   }
 
   return (
-    isVisible && (
-      <div className='fixed inset-0 z-10 flex items-center justify-center bg-black-100 bg-opacity-40'>
-        <div className='text-white-100 bg-black-100 p-10'>
-          <div>Choose a nickname</div>
-          <input
-            className='block bg-[#11191F]'
-            type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <SecondaryButton onClick={handleSubmit} className='mt-4'>
-            Submit
-          </SecondaryButton>
-        </div>
-      </div>
-    )
+    <AlertDialog open={isVisible}>
+      <AlertDialogContent>
+        <AlertDialogTitle>Choose your nickname</AlertDialogTitle>
+        <Input
+          placeholder='Enter your nickname'
+          className='min-w-[20rem]'
+          type='text'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={handleSubmit}>Submit</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
