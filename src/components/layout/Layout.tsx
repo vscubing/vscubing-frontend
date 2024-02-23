@@ -1,4 +1,4 @@
-import { GhostButton, LogoutIcon, PrimaryButton } from '../ui'
+import { GhostButton, LogoutIcon } from '../ui'
 import { Link, Outlet } from '@tanstack/react-router'
 import { SocialLinks, Navbar } from './components'
 import { useQuery } from '@tanstack/react-query'

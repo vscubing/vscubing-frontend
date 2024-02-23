@@ -1,9 +1,7 @@
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
-import { cn, isTouchDevice, useConditionalBeforeUnload } from '@/utils'
-import { useLocalStorage } from 'usehooks-ts'
+import { cn, useConditionalBeforeUnload } from '@/utils'
 import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
-import { DeviceWarningModal } from './DeviceWarningModal'
 import { CloseIcon, LoadingSpinner, SecondaryButton } from '@/components/ui'
 
 type CubeContextValue = {
@@ -23,10 +21,12 @@ export function CubeProvider({ children }: CubeProviderProps) {
     solveCallback: CubeSolveFinishCallback
     wasTimeStarted: boolean
   } | null>(null)
-  const [deviceWarningCallback, setDeviceWarningCallback] = useState<(() => void) | null>(null)
-  const [isIgnoreDeviceWarning, setIsIgnoreDeviceWarning] = useLocalStorage('ignore-device-warning', false)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  const initSolve = useCallback((scramble: string, solveCallback: CubeSolveFinishCallback) => {
+    setSolveState({ scramble, solveCallback, wasTimeStarted: false })
+  }, [])
 
   const handleTimeStart = useCallback(() => {
     setSolveState((prev) => prev && { ...prev, wasTimeStarted: true })
@@ -77,32 +77,13 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   const contextValue = useMemo(
     () => ({
-      initSolve: (scramble: string, solveCallback: CubeSolveFinishCallback) => {
-        const initSolve = () => setSolveState({ scramble, solveCallback, wasTimeStarted: false })
-        if (!isTouchDevice || isIgnoreDeviceWarning) {
-          initSolve()
-          return
-        }
-
-        setDeviceWarningCallback(() => initSolve)
-      },
+      initSolve,
     }),
-    [isIgnoreDeviceWarning],
+    [initSolve],
   )
 
   return (
     <CubeContext.Provider value={contextValue}>
-      <DeviceWarningModal
-        isVisible={!!deviceWarningCallback}
-        onCancel={() => {
-          setDeviceWarningCallback(null)
-        }}
-        onConfirm={(isIgnoreChecked) => {
-          deviceWarningCallback?.()
-          setDeviceWarningCallback(null)
-          if (isIgnoreChecked) setIsIgnoreDeviceWarning(isIgnoreChecked)
-        }}
-      />
       <div
         onClick={handleOverlayClick}
         className={cn(

@@ -15,6 +15,7 @@ import { Header } from '@/components/layout'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
+import { isTouchDevice } from '@/utils'
 
 const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
@@ -53,11 +54,22 @@ export function SolvePageContent() {
     return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
   }
 
-  if (user?.isAuthed === false) {
+  if (errorStatus === 401) {
     return (
       <HintSection>
         <p className='mb-10'>You need to be signed in to participate in a contest</p>
         <SignInButton variant='primary' />
+      </HintSection>
+    )
+  }
+
+  if (isTouchDevice) {
+    return (
+      <HintSection>
+        <p className='mb-10'>Solving from mobile devices is currently not supported</p>
+        <PrimaryButton asChild>
+          <Link to='/'>Go to dashboard</Link>
+        </PrimaryButton>
       </HintSection>
     )
   }
