@@ -82,22 +82,22 @@ export function CubeProvider({ children }: CubeProviderProps) {
     [initSolve],
   )
 
+  const isModalOpen = !!solveState
   return (
     <CubeContext.Provider value={contextValue}>
       <div
         onClick={handleOverlayClick}
         className={cn(
-          { invisible: !solveState?.scramble },
-          'wrapper fixed inset-0 z-20 bg-black-1000 bg-opacity-25 p-[1.625rem]',
+          'wrapper fixed inset-0 z-20 bg-black-1000 bg-opacity-25 p-[1.625rem] transition duration-100 ease-in-out',
+          {
+            'pointer-events-none opacity-0': !isModalOpen,
+          },
         )}
+        aria-hidden={!isModalOpen}
       >
         <div className='relative h-full rounded-2xl bg-black-80'>
           <div className='absolute inset-0 h-full w-full bg-black-1000 bg-opacity-25'></div>
-          <div
-            className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40', {
-              invisible: !solveState?.scramble,
-            })}
-          ></div>
+          <div className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40')}></div>
           <Cube
             fallback={
               <div className='flex h-full items-center justify-center'>
