@@ -33,7 +33,7 @@ export function Dashboard() {
 
 function OngoingContestBanner() {
   return (
-    <section className='card-gradient relative @container'>
+    <section className='bg-card-gradient relative rounded-2xl @container'>
       <BannerDivider className='absolute right-44 top-0 h-full text-black-100' />
       <div className='relative flex justify-between bg-banner-cubes bg-contain bg-center bg-no-repeat p-4 @8xl:bg-banner-cubes-wide'>
         <div className='flex flex-col items-start justify-between gap-2'>
