@@ -5,7 +5,7 @@ import { AbortPrompt } from './AbortPrompt'
 import { CloseIcon, LoadingSpinner, SecondaryButton } from '@/components/ui'
 
 type CubeContextValue = {
-  initSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
+  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback, onEarlyAbort: () => void) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({
@@ -19,26 +19,35 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
     scramble: string
     solveCallback: CubeSolveFinishCallback
+    earlyAbortCallback: () => void
     wasTimeStarted: boolean
   } | null>(null)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const initSolve = useCallback((scramble: string, solveCallback: CubeSolveFinishCallback) => {
-    setSolveState({ scramble, solveCallback, wasTimeStarted: false })
-  }, [])
+  const initSolve = useCallback(
+    (scramble: string, solveCallback: CubeSolveFinishCallback, earlyAbortCallback: () => void) => {
+      setSolveState({ scramble, solveCallback, wasTimeStarted: false, earlyAbortCallback })
+    },
+    [],
+  )
+
+  function handleEarlyAbort() {
+    setSolveState(null)
+    solveState!.earlyAbortCallback()
+  }
 
   const handleTimeStart = useCallback(() => {
     setSolveState((prev) => prev && { ...prev, wasTimeStarted: true })
   }, [])
 
-  const solveStateCallback = solveState?.solveCallback
+  const solveCallback = solveState?.solveCallback
   const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
-      solveStateCallback!(result)
+      solveCallback!(result)
       setSolveState(null)
     },
-    [solveStateCallback],
+    [solveCallback],
   )
 
   const shouldDNFOnPageLeave = !!solveState && solveState.wasTimeStarted
@@ -53,12 +62,8 @@ export function CubeProvider({ children }: CubeProviderProps) {
   }
 
   const abortOrShowPrompt = () => {
-    if (!solveState) {
-      return
-    }
-
-    if (!solveState.wasTimeStarted) {
-      setSolveState(null)
+    if (solveState!.wasTimeStarted === false) {
+      handleEarlyAbort()
       return
     }
 

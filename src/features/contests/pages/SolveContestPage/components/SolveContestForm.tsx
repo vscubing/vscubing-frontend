@@ -1,26 +1,45 @@
 import { type Discipline } from '@/types'
 import { usePostSolveResult, useSubmitSolve, useChangeToExtra } from '../api'
-import { useCube } from '@/features/cube'
+import { type CubeSolveResult, useCube } from '@/features/cube'
 import { useNavigate } from '@tanstack/react-router'
 import { type SolveContestStateDTO } from '../types'
 import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
+import { useState } from 'react'
 
 type SolveContestProps = { state: SolveContestStateDTO; contestNumber: number; discipline: Discipline }
 export function SolveContestForm({ state, contestNumber, discipline }: SolveContestProps) {
-  const { mutate: postSolveResult } = usePostSolveResult(contestNumber, discipline)
-  const { mutate: handleSubmitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
-  const { mutate: handleChangeToExtra } = useChangeToExtra(contestNumber, discipline)
+  const { mutateAsync: postSolveResult } = usePostSolveResult(contestNumber, discipline)
+  const { mutateAsync: submitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
+  const { mutateAsync: changeToExtra } = useChangeToExtra(contestNumber, discipline)
   const { initSolve } = useCube()
   const navigate = useNavigate()
+  const [isPending, setIsPending] = useState(false)
 
   const { currentSolve, submittedSolves } = state
 
   function handleInitSolve() {
-    initSolve(currentSolve.scramble.scramble, (result) =>
-      postSolveResult({ scrambleId: currentSolve.scramble.id, result }),
-    )
+    const onSolveFinish = async (result: CubeSolveResult) => {
+      await postSolveResult({ scrambleId: currentSolve.scramble.id, result })
+      setIsPending(false)
+    }
+    const onEarlyAbort = () => setIsPending(false)
+
+    initSolve(currentSolve.scramble.scramble, (result) => void onSolveFinish(result), onEarlyAbort)
+    setIsPending(true)
+  }
+
+  async function handleSubmitSolve() {
+    setIsPending(true)
+    await submitSolve()
+    setIsPending(false)
+  }
+
+  async function handleChangeToExtra() {
+    setIsPending(true)
+    await changeToExtra()
+    setIsPending(false)
   }
 
   function handleSessionFinish() {
@@ -54,6 +73,7 @@ export function SolveContestForm({ state, contestNumber, discipline }: SolveCont
             ))}
 
             <CurrentSolve
+              areActionsDisabled={isPending}
               currentSolve={currentSolve}
               onChangeToExtra={handleChangeToExtra}
               onSolveInit={handleInitSolve}
