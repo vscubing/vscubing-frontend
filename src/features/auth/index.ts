@@ -3,16 +3,32 @@ import { postLogin } from './api'
 import { useGoogleLogin } from '@react-oauth/google'
 import { USER_QUERY_KEY } from './userQueryKey'
 import { deleteAuthTokens, setAuthTokens } from '@/utils'
+import { useState } from 'react'
 
 export * from './api'
 export * from './userQueryKey'
 
 export function useLogin() {
-  return useGoogleLogin({
-    onSuccess: ({ code }) => void login(code),
-    onError: () => console.log('error'), // TODO: add notification
+  const [isPending, setIsPending] = useState(false)
+
+  const initGoogleAuth = useGoogleLogin({
+    onSuccess: ({ code }) => {
+      void login(code).then(() => setIsPending(false))
+    },
+    onError: () => {
+      setIsPending(false)
+      return alert('google auth error') // TODO: add toast
+    },
     flow: 'auth-code',
   })
+
+  return {
+    login: () => {
+      setIsPending(true)
+      initGoogleAuth()
+    },
+    isPending,
+  }
 }
 
 async function login(googleCode: string) {

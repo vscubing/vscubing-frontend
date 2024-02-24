@@ -7,12 +7,11 @@ const buttons = {
   ghost: GhostButton,
 } as const
 export function SignInButton({ variant }: { variant: keyof typeof buttons }) {
-  const login = useLogin()
+  const { login, isPending } = useLogin()
 
   const Comp = buttons[variant]
-  // TODO: add disabled state while logging in
   return (
-    <Comp className='h-12 gap-3 px-4' onClick={() => login()}>
+    <Comp className='h-12 gap-3 px-4' disabled={isPending} onClick={login}>
       <GoogleIcon />
       Sign in with Google
     </Comp>
