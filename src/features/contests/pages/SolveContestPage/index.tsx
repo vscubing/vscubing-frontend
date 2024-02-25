@@ -9,7 +9,6 @@ import {
   UnderlineButton,
 } from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
-import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
