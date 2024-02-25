@@ -18,7 +18,7 @@ export function Dashboard() {
     <div className='contents'>
       <Header caption={user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'} />
       <div className='flex flex-col gap-3'>
-        <h1 className='title-h1 flex min-h-28 items-center px-4 text-secondary-20 lg-short:min-h-[4.3rem]'>
+        <h1 className='flex min-h-28 items-center px-4 font-kanit text-[clamp(1.75rem,2.5vw,2.25rem)] text-secondary-20 lg-short:min-h-0 lg-short:py-2'>
           <span>
             Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
           </span>
@@ -34,22 +34,26 @@ function OngoingContestBanner() {
   return (
     <section className='bg-card-gradient overflow-x-clip rounded-2xl'>
       <div className='flex pl-4'>
-        <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
+        <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-36 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
           <div className='flex h-full flex-col justify-end gap-2 py-4 lg-short:pt-0'>
             <h3 className='title-h3'>Type</h3>
-            <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='rounded-xl'>
+            <Link
+              to='/contests/ongoing'
+              search={{ discipline: '3by3' }}
+              className='group flex flex-col gap-2 rounded-xl'
+            >
               {/* TODO: get from backend */}
               <CubeBadge
                 cube='3by3'
-                className='transition-base outline-ring hover:bg-secondary-40 active:bg-secondary-20'
+                className='transition-base outline-ring group-hover:bg-secondary-40 group-active:bg-secondary-20'
               />
-              <span className='btn-lg block text-center'>3x3</span>
+              <span className='btn-lg text-center'>3x3</span>
             </Link>
           </div>
         </div>
 
         <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
-          <div className='flex flex-col items-start justify-between gap-4 py-4'>
+          <div className='flex flex-col items-start justify-between gap-4 py-4 lg-short:pt-0'>
             <h2 className='title-lg'>
               <span className='text-secondary-20'>Ongoing</span> Contest
             </h2>
