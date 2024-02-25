@@ -11,7 +11,7 @@ const primaryButtonVariants = cva('transition-base outline-ring inline-flex item
         'rounded-xl bg-primary-80 text-black-100 hover:bg-primary-60 active:bg-primary-80 disabled:bg-grey-40 disabled:text-grey-60',
     },
     size: {
-      lg: 'btn-lg h-14 px-6',
+      lg: 'btn-lg h-15 px-6',
       sm: 'btn-sm h-11 px-4',
     },
   },

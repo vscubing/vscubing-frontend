@@ -55,10 +55,11 @@ export default {
         sm: { max: '639px' },
       },
       backgroundImage: {
-        'banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
-        'banner-cubes-wide': "url('./assets/images/dashboard-banner-cubes-wide.svg')",
+        'dashboard-banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
+        'dashboard-banner-cubes-wide': "url('./assets/images/dashboard-banner-cubes-wide.svg')",
         cubes: "url('./assets/images/bg-cubes.svg')",
         'solve-contest-progress-divider': "url('./assets/images/solve-contest-progress-divider.svg')",
+        'banner-divider': "url('./assets/images/banner-divider.svg')",
       },
       containers: {
         '8xl': '88rem',

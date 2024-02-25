@@ -4,7 +4,6 @@ import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { Link, getRouteApi } from '@tanstack/react-router'
 import { BestSolves, LatestContests } from '../components'
-import BannerDivider from '@/assets/images/banner-divider.svg?react'
 import { type DashboardDTO } from '../api'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
@@ -33,27 +32,40 @@ export function Dashboard() {
 
 function OngoingContestBanner() {
   return (
-    <section className='bg-card-gradient relative rounded-2xl @container'>
-      <BannerDivider className='absolute right-44 top-0 h-full text-black-100' />
-      <div className='relative flex justify-between bg-banner-cubes bg-contain bg-center bg-no-repeat p-4 @8xl:bg-banner-cubes-wide'>
-        <div className='flex flex-col items-start justify-between gap-2'>
-          <h2 className='title-lg'>
-            <span className='text-secondary-20'>Ongoing</span> Contest
-          </h2>
-          <PrimaryButton asChild>
-            <Link to='/contests/ongoing'>Solve now</Link>
-          </PrimaryButton>
+    <section className='bg-card-gradient overflow-x-clip rounded-2xl'>
+      <div className='flex pl-4'>
+        <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
+          <div className='flex h-full flex-col justify-end gap-2 py-4 lg-short:pt-0'>
+            <h3 className='title-h3'>Type</h3>
+            <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='rounded-xl'>
+              {/* TODO: get from backend */}
+              <CubeBadge
+                cube='3by3'
+                className='transition-base outline-ring hover:bg-secondary-40 active:bg-secondary-20'
+              />
+              <span className='btn-lg block text-center'>3x3</span>
+            </Link>
+          </div>
         </div>
-        <div className='text-right'>
-          <p className='title-h3 mb-3'>Duration</p>
-          <p className='mb-6 text-lg' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
-          <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='inline-block rounded-xl'>
-            {/* TODO: get from backend */}
-            <CubeBadge
-              cube='3by3'
-              className='transition-base outline-ring hover:bg-secondary-40 active:bg-secondary-20'
-            />
-          </Link>
+
+        <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
+          <div className='flex flex-col items-start justify-between gap-4 py-4'>
+            <h2 className='title-lg'>
+              <span className='text-secondary-20'>Ongoing</span> Contest
+            </h2>
+            <div className='flex w-full items-end justify-between'>
+              <div>
+                <p className='title-h3 mb-2'>Duration</p>
+                <p className='text-lg' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+              </div>
+              <PrimaryButton asChild>
+                <Link to='/contests/ongoing'>Solve now</Link>
+              </PrimaryButton>
+            </div>
+          </div>
+        </div>
+        <div className='relative flex-1 @container'>
+          <div className='@[4rem]:bg-dashboard-banner-cubes @[24rem]:bg-dashboard-banner-cubes-wide absolute -left-16 top-0 h-full w-[calc(100%+20*(.25rem))] bg-[length:auto_100%]'></div>
         </div>
       </div>
     </section>
