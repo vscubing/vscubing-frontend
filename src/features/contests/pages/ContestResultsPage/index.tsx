@@ -11,12 +11,11 @@ import { SessionsListHeader } from './SessionsListHeader'
 const route = getRouteApi('/contests/$contestNumber/results')
 export function ContestResultsPage() {
   return (
-    <section className='contents'>
+    <section className='flex flex-1 flex-col gap-3'>
       <Header caption='Look through the contest results' />
-      <div className='flex flex-col gap-3'>
-        <NavigateBackButton className='self-start' />
-        <PageContent />
-      </div>
+
+      <NavigateBackButton className='self-start' />
+      <PageContent />
     </section>
   )
 }

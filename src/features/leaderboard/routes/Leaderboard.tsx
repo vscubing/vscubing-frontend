@@ -35,26 +35,24 @@ export function Leaderboard() {
   const caption = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (
-    <section className='contents'>
+    <section className='flex flex-1 flex-col gap-3'>
       <Header caption={caption} />
-      <div className='flex flex-col gap-3'>
-        <NavigateBackButton className='self-start' />
-        <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
-          <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
-            {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
-          </Link>
-          <Pagination currentPage={page} totalPages={data?.totalPages} />
-        </div>
-        <ResultsListWrapper
-          className='flex-1'
-          results={data?.results}
-          ownResult={data?.ownResult}
-          pageSize={debouncedPageSize}
-          containerRef={containerRef}
-          fakeElementRef={fakeElementRef}
-          isFetching={isFetching}
-        />
+      <NavigateBackButton className='self-start' />
+      <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
+        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
+          {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
+        </Link>
+        <Pagination currentPage={page} totalPages={data?.totalPages} />
       </div>
+      <ResultsListWrapper
+        className='flex-1'
+        results={data?.results}
+        ownResult={data?.ownResult}
+        pageSize={debouncedPageSize}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        isFetching={isFetching}
+      />
     </section>
   )
 }

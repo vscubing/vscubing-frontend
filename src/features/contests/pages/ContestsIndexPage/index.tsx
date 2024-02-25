@@ -33,25 +33,23 @@ export function ContestsIndexPage() {
   }, [error?.response?.status, navigate, discipline])
 
   return (
-    <section className='contents'>
+    <section className='flex flex-1 flex-col gap-3'>
       <Header caption='Explore contests' />
-      <div className='flex flex-col gap-3'>
-        <NavigateBackButton className='self-start' />
-        <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
-          <Link from={route.id} search={{ discipline: '3by3' }}>
-            <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-          </Link>
-          <Pagination currentPage={page} totalPages={data?.totalPages} />
-        </div>
-        <ContestsListWrapper
-          className='flex-1'
-          contests={data?.contests}
-          discipline={discipline}
-          pageSize={debouncedPageSize}
-          containerRef={containerRef}
-          fakeElementRef={fakeElementRef}
-        />
+      <NavigateBackButton className='self-start' />
+      <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
+        <Link from={route.id} search={{ discipline: '3by3' }}>
+          <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+        </Link>
+        <Pagination currentPage={page} totalPages={data?.totalPages} />
       </div>
+      <ContestsListWrapper
+        className='flex-1'
+        contests={data?.contests}
+        discipline={discipline}
+        pageSize={debouncedPageSize}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+      />
     </section>
   )
 }

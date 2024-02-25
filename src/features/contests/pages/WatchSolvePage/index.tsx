@@ -45,45 +45,44 @@ export function WatchSolvePage() {
   }
 
   return (
-    <section className='contents'>
+    <section className='flex flex-1 flex-col gap-3'>
       <Header caption={<h1>Watch solve</h1>} />
-      <div className='flex flex-col gap-3'>
-        <NavigateBackButton className='self-start' />
-        <div className='grid flex-1 grid-cols-[11fr_9fr] grid-rows-[min-content,1fr] gap-3'>
-          <div className='flex items-center gap-8 rounded-xl bg-black-80 p-4'>
-            <Link
-              from={route.id}
-              params={{ contestNumber: String(contestNumber), solveId }}
-              search={{ discipline: '3by3' }}
-            >
-              <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-            </Link>
-            <div className='-my-2'>
-              <p className='title-h2 mb-1 text-secondary-20'>
-                Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
-              </p>
-              <p className='text-lg'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
-            </div>
-          </div>
-          <div className='flex items-center justify-between rounded-xl bg-black-80 px-4 py-2'>
-            <div>
-              <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
-              <p className='text-lg text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
-            </div>
-            <SecondaryButton onClick={copyWatchSolveLink}>
-              <ShareIcon />
-            </SecondaryButton>
-          </div>
-          <Suspense
-            fallback={
-              <div className='col-span-full flex items-center justify-center rounded-xl bg-black-80'>
-                <LoadingSpinner />
-              </div>
-            }
+
+      <NavigateBackButton className='self-start' />
+      <div className='grid flex-1 grid-cols-[11fr_9fr] grid-rows-[min-content,1fr] gap-3'>
+        <div className='flex items-center gap-8 rounded-xl bg-black-80 p-4'>
+          <Link
+            from={route.id}
+            params={{ contestNumber: String(contestNumber), solveId }}
+            search={{ discipline: '3by3' }}
           >
-            <TwistySection scramble={scramble} solution={solution} />
-          </Suspense>
+            <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+          </Link>
+          <div className='-my-2'>
+            <p className='title-h2 mb-1 text-secondary-20'>
+              Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
+            </p>
+            <p className='text-lg'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
+          </div>
         </div>
+        <div className='flex items-center justify-between rounded-xl bg-black-80 px-4 py-2'>
+          <div>
+            <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
+            <p className='text-lg text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
+          </div>
+          <SecondaryButton onClick={copyWatchSolveLink}>
+            <ShareIcon />
+          </SecondaryButton>
+        </div>
+        <Suspense
+          fallback={
+            <div className='col-span-full flex items-center justify-center rounded-xl bg-black-80'>
+              <LoadingSpinner />
+            </div>
+          }
+        >
+          <TwistySection scramble={scramble} solution={solution} />
+        </Suspense>
       </div>
     </section>
   )

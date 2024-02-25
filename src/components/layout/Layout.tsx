@@ -19,14 +19,14 @@ export function Layout() {
   return (
     <>
       <PickUsernameModal />
-      <div className='grid min-h-screen grid-flow-col grid-cols-[clamp(16rem,20vw,21rem)_1fr] grid-rows-[4.375rem_1fr] gap-3 p-[1.625rem]'>
-        <aside className='contents'>
-          <div className='title-h2 flex items-center rounded-2xl bg-black-80 px-4'>
+      <div className='flex min-h-screen gap-3 p-[1.625rem]'>
+        <aside className='flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg-short:min-w-[19rem]'>
+          <div className='title-h2 flex h-[7rem] items-center rounded-2xl bg-black-80 px-4 lg-short:h-[4.375rem]'>
             <Link to='/'>
               <img src={logoImg} alt='vscubing - Virtual Speedcubing' className='w-[13rem]' />
             </Link>
           </div>
-          <div className='flex flex-col justify-between rounded-2xl bg-black-80 py-6'>
+          <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
             <div>
               <div className='flex flex-col items-center gap-4 lg-short:flex-row lg-short:justify-center lg-short:gap-1'>

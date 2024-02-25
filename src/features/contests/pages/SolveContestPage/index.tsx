@@ -20,14 +20,13 @@ import { isTouchDevice } from '@/utils'
 const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
   return (
-    <section className='contents'>
+    <section className='flex flex-1 flex-col gap-3'>
       <Header
         caption='Ongoing contest (17 Dec 2023 - 23 Dec 2023)' /* TODO: add start/end date once backend is updated */
       />
-      <div className='flex flex-col gap-3'>
-        <NavigateBackButton className='self-start' />
-        <SolvePageContent />
-      </div>
+
+      <NavigateBackButton className='self-start' />
+      <SolvePageContent />
     </section>
   )
 }
@@ -35,7 +34,6 @@ export function SolveContestPage() {
 export function SolvePageContent() {
   const { contestNumber, discipline } = route.useLoaderData()
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
-  const { data: user } = useQuery(userQuery)
   const { data: state, error } = useQuery(solveContestStateQuery(contestNumber, discipline))
   const errorStatus = error?.response?.status
 
