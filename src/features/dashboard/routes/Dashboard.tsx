@@ -32,9 +32,9 @@ function OngoingContestBanner({ className }: { className: string }) {
   return (
     <section className={cn('bg-card-gradient overflow-x-clip rounded-2xl', className)}>
       <div className='flex pl-4'>
-        <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-36 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
+        <div className='relative mr-32 after:absolute after:-right-36 after:top-0 after:block after:h-full after:w-40 after:bg-banner-divider after:bg-[length:100%]'>
           <div className='flex h-full flex-col justify-end gap-2 py-4 lg-short:pt-0'>
-            <h3 className='title-h3'>Type</h3>
+            <h3 className='title-h3 text-center'>Type</h3>
             <Link
               to='/contests/ongoing'
               search={{ discipline: '3by3' }}
@@ -50,7 +50,7 @@ function OngoingContestBanner({ className }: { className: string }) {
           </div>
         </div>
 
-        <div className='after:bg-banner-divider relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-44 after:bg-[length:100%]'>
+        <div className='relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-40 after:bg-banner-divider after:bg-[length:100%]'>
           <div className='flex flex-col items-start justify-between gap-4 py-4 lg-short:pt-0'>
             <h2 className='title-lg'>
               <span className='text-secondary-20'>Ongoing</span> Contest
@@ -67,7 +67,7 @@ function OngoingContestBanner({ className }: { className: string }) {
           </div>
         </div>
         <div className='relative flex-1 @container'>
-          <div className='@[4rem]:bg-dashboard-banner-cubes @[24rem]:bg-dashboard-banner-cubes-wide absolute -left-16 top-0 h-full w-[calc(100%+20*(.25rem))] bg-[length:auto_100%]'></div>
+          <div className='absolute -left-10 top-0 h-full w-[calc(100%+20*(.25rem))] bg-[length:auto_100%] @[4rem]:bg-dashboard-banner-cubes @[24rem]:bg-dashboard-banner-cubes-wide'></div>
         </div>
       </div>
     </section>
