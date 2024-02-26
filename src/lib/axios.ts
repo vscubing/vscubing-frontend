@@ -1,4 +1,4 @@
-import { toast } from '@/components/toasts'
+import { TOASTS_PRESETS, toast } from '@/components/toasts'
 import { refreshAccessToken } from '@/features/auth/api/refreshAccessToken'
 import { createAuthorizedRequestInterceptor, getAuthTokens } from '@/utils'
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'
@@ -27,13 +27,13 @@ _axiosClient.interceptors.response.use(undefined, (err) => {
   }
 
   if (err.response?.status === 500) {
-    toast('internalError')
+    toast(TOASTS_PRESETS.internalError)
   }
 
   const timeout = err.code === 'ECONNABORTED' && err.message.includes('timeout')
   const noConnection = err.code === 'ERR_NETWORK'
   if (timeout || noConnection) {
-    toast('noConnection')
+    toast(TOASTS_PRESETS.noConnection)
   }
 
   throw err

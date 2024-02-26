@@ -5,8 +5,12 @@ import { useMutation } from '@tanstack/react-query'
 import { solveContestStateQuery } from './getSolveContestState'
 import { getApiRoute } from './apiRoute'
 import { type FinishedSolve } from '../types'
-import { toast } from '@/components/toasts'
+import { TOASTS_PRESETS, toast } from '@/components/toasts'
 
+const SOLVE_REJECTED_TOAST = {
+  title: 'Uh-oh! Solve rejected by the server',
+  description: "Under normal circumstances this shouldn't happen.",
+}
 export const usePostSolveResult = (contestNumber: number, discipline: Discipline) =>
   useMutation({
     mutationFn: async ({
@@ -27,9 +31,9 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
       } else if (res.status === 400) {
         // TODO: make sure that this is synched with the backend
         solve = { id: res.data.solveId, timeMs: null, dnf: true }
-        toast('solveRejected', false)
+        toast(SOLVE_REJECTED_TOAST, false)
       } else if (res.status !== 500) {
-        toast('internalError')
+        toast(TOASTS_PRESETS.internalError)
       }
 
       const query = solveContestStateQuery(contestNumber, discipline)

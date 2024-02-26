@@ -20,18 +20,17 @@ export function Toaster() {
   )
 }
 
-export function toast(toast: PredefinedToasts, autoClose = true) {
-  const { title, description } = TOASTS[toast]
+export function toast({ title, description }: ToastData, autoClose = true) {
   Sonner.toast(title, {
     closeButton: true,
     description,
     action: { label: 'Contact us', onClick: () => alert('clicked on toast') /* TODO: add contact link (discord?) */ },
-    duration: autoClose ? 200 : Infinity,
+    duration: autoClose ? 60_000 : Infinity,
   })
 }
 
-type PredefinedToasts = keyof typeof TOASTS
-const TOASTS = {
+type ToastData = { title: string; description: string }
+export const TOASTS_PRESETS = {
   noConnection: {
     title: 'Uh-oh! No Internet connection',
     description: 'Check your connection and get back to the fun. Need help?',
@@ -40,8 +39,4 @@ const TOASTS = {
     title: 'Uh-oh! Something went wrong',
     description: 'Give it a moment, or reach out to our support team',
   },
-  solveRejected: {
-    title: 'Uh-oh! Solve rejected by the server',
-    description: "Under normal circumstances this shouldn't happen.",
-  },
-} as const
+} satisfies Record<string, ToastData>

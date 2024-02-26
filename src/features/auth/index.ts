@@ -4,6 +4,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 import { USER_QUERY_KEY } from './userQueryKey'
 import { deleteAuthTokens, setAuthTokens } from '@/utils'
 import { useState } from 'react'
+import { toast } from '@/components/toasts'
 
 export * from './api'
 export * from './userQueryKey'
@@ -17,7 +18,10 @@ export function useLogin() {
     },
     onError: () => {
       setIsPending(false)
-      return alert('google auth error') // TODO: add toast
+      toast({
+        title: 'Uh-oh! An unexpected error occurred while signing in',
+        description: 'Please try again or let us know if the problem persists',
+      })
     },
     flow: 'auth-code',
   })

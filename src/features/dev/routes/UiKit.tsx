@@ -46,7 +46,7 @@ import {
 
 export function UiKit() {
   return (
-    <>
+    <div>
       <div className='bg-card-gradient flex h-40 gap-1 rounded-2xl text-primary-80'>
         <AllContestsIcon />
         <ArrowBackUpIcon />
@@ -137,7 +137,7 @@ export function UiKit() {
 
         <SecondaryButton
           onClick={() => {
-            toast('noConnection', false)
+            toast({ title: 'Test toast!', description: 'This is a test toast.' }, false)
           }}
         >
           Toast!
@@ -156,6 +156,6 @@ export function UiKit() {
           </AlertDialogContent>
         </AlertDialog>
       </div>
-    </>
+    </div>
   )
 }
