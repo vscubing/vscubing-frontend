@@ -21,6 +21,7 @@ type UsernameForm = z.infer<typeof formSchema>
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isPending, setIsPending] = useState(false)
   const { data: userData } = useQuery(userQuery)
 
   useEffect(() => {
@@ -33,11 +34,12 @@ export function PickUsernameModal() {
     register,
     handleSubmit,
     setError,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm<UsernameForm>({ resolver: zodResolver(formSchema) })
 
   async function onSubmit({ username }: UsernameForm) {
+    setIsPending(true)
     try {
       await putChangeUsername(username)
     } catch (error) {
@@ -45,12 +47,15 @@ export function PickUsernameModal() {
         setError('username', {
           message: 'Sorry, that nickname is already taken! How about trying a unique variation or adding some numbers',
         })
-        return
       }
+
+      setIsPending(false)
+      return
     }
 
     await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
-    setValue('username', '')
+    reset()
+    setIsPending(false)
     setIsVisible(false)
   }
 
@@ -71,7 +76,7 @@ export function PickUsernameModal() {
             <span>{errors.username?.message}</span>
           </label>
           <AlertDialogFooter>
-            <AlertDialogAction type='submit' disabled={!!errors.username}>
+            <AlertDialogAction type='submit' disabled={!!errors.username || isPending}>
               Submit
             </AlertDialogAction>
           </AlertDialogFooter>
