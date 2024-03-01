@@ -4,10 +4,8 @@ import { cn } from '@/utils'
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <div className={cn('title-h2 flex items-center rounded-2xl bg-black-80 px-4', className)}>
-      <Link to='/'>
-        <img src={logoImg} alt='vscubing - Virtual Speedcubing' className='w-[13rem]' />
-      </Link>
-    </div>
+    <Link to='/' className={cn('title-h2 outline-ring flex items-center rounded-2xl bg-black-80 px-4', className)}>
+      <img src={logoImg} alt='vscubing - Virtual Speedcubing' className='w-[13rem]' />
+    </Link>
   )
 }

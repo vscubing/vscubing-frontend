@@ -41,7 +41,7 @@ function OngoingContestBanner({ className }: { className: string }) {
             <Link
               to='/contests/ongoing'
               search={{ discipline: '3by3' }}
-              className='group flex flex-col gap-2 rounded-xl'
+              className='outline-ring group flex flex-col gap-2 rounded-xl'
             >
               {/* TODO: get from backend */}
               <CubeBadge

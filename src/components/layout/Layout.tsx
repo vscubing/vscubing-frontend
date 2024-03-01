@@ -1,18 +1,6 @@
-import { GhostButton, LogoutIcon } from '../ui'
 import { Outlet } from '@tanstack/react-router'
-import { SocialLinks, Navbar, Logo } from './components'
-import { useQuery } from '@tanstack/react-query'
-import { userQuery, logout } from '@/features/auth'
+import { SocialLinks, Navbar, Logo, Copyright, LogoutButton } from './components'
 import { PickUsernameModal } from '../PickUsernameModal'
-import {
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogCancel,
-  AlertDialogAction,
-  AlertDialog,
-  AlertDialogFooter,
-} from '../AlertDialog'
 
 export function Layout() {
   return (
@@ -29,7 +17,7 @@ export function Layout() {
                 {/* TODO: animate the social links to slide up after login before the log out button appears */}
                 <LogoutButton />
               </div>
-              <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2023</p>
+              <Copyright className='mt-6' />
             </div>
           </div>
         </aside>
@@ -38,30 +26,5 @@ export function Layout() {
         </main>
       </div>
     </>
-  )
-}
-
-function LogoutButton() {
-  const { data: user } = useQuery(userQuery)
-
-  if (user === undefined || user.isAuthed === false) {
-    return null
-  }
-
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <GhostButton>
-          Log out <LogoutIcon />
-        </GhostButton>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Stay</AlertDialogCancel>
-          <AlertDialogAction onClick={() => logout()}>Log out</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
   )
 }

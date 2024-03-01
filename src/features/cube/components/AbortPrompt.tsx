@@ -18,7 +18,7 @@ export function AbortPrompt({
 }) {
   return (
     <AlertDialog open={isVisible}>
-      <AlertDialogContent className=''>
+      <AlertDialogContent>
         <AlertDialogTitle>If you quit now your result will be DFNed</AlertDialogTitle>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onConfirm}>Quit</AlertDialogCancel>
