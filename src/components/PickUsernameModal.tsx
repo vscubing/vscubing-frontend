@@ -4,10 +4,23 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, AlertDialogTitle } from './AlertDialog'
 import { Input } from './ui'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AxiosError } from 'axios'
+
+const formSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(1, 'It looks like you forgot to enter a nickname')
+    .regex(/^[a-zA-Z0-9_.-]*$/, 'Nickname can only contain letters, numbers, dots, and dashes')
+    .min(3, 'Nickname is too short, min: 3'), // TODO: change error message
+})
+type UsernameForm = z.infer<typeof formSchema>
 
 export function PickUsernameModal() {
   const [isVisible, setIsVisible] = useState(false)
-  const [username, setUsername] = useState('')
   const { data: userData } = useQuery(userQuery)
 
   useEffect(() => {
@@ -16,33 +29,53 @@ export function PickUsernameModal() {
     }
   }, [userData])
 
-  async function handleSubmit() {
-    const trimmedUsername = username.trim()
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm<UsernameForm>({ resolver: zodResolver(formSchema) })
 
-    if (!trimmedUsername) {
-      // TODO: add proper validation
-      return
+  async function onSubmit({ username }: UsernameForm) {
+    try {
+      await putChangeUsername(username)
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.status === 400 /* TODO: change to 409 on backend */) {
+        setError('username', {
+          message: 'Sorry, that nickname is already taken! How about trying a unique variation or adding some numbers',
+        })
+        return
+      }
     }
 
-    await putChangeUsername(trimmedUsername)
     await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+    setValue('username', '')
     setIsVisible(false)
   }
 
   return (
     <AlertDialog open={isVisible}>
-      <AlertDialogContent>
-        <AlertDialogTitle>Choose your nickname</AlertDialogTitle>
-        <Input
-          placeholder='Enter your nickname'
-          className='min-w-[20rem]'
-          type='text'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <AlertDialogFooter>
-          <AlertDialogAction onClick={handleSubmit}>Submit</AlertDialogAction>
-        </AlertDialogFooter>
+      <AlertDialogContent asChild>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <AlertDialogTitle>Choose your nickname</AlertDialogTitle>
+          <label className='inline-block'>
+            <Input
+              placeholder='Enter your nickname'
+              className='mb-1 block min-w-[20rem]'
+              error={!!errors.username}
+              type='text'
+              maxLength={30}
+              {...register('username')}
+            />
+            <span>{errors.username?.message}</span>
+          </label>
+          <AlertDialogFooter>
+            <AlertDialogAction type='submit' disabled={!!errors.username}>
+              Submit
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </form>
       </AlertDialogContent>
     </AlertDialog>
   )
