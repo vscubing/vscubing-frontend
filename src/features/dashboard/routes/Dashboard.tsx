@@ -14,13 +14,16 @@ export function Dashboard() {
   const query = route.useLoaderData()
   const { data } = useQuery(query)
 
+  const greeting = user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'
   return (
     <div className='flex flex-1 flex-col gap-3'>
-      <Header caption={user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'} />
-      <h1 className='flex min-h-28 items-center px-4 font-kanit text-[clamp(1.75rem,2.5vw,2.25rem)] text-secondary-20 lg-short:min-h-0 lg-short:py-2'>
-        <span>
+      <Header caption={<span className='md:hidden'>{greeting}</span>} />
+      <h1 className='flex min-h-28 items-center px-4 font-kanit text-secondary-20 md:min-h-0 md:p-4 lg-short:min-h-0 lg-short:py-2'>
+        <span className='text-[clamp(1.75rem,2.5vw,2.25rem)] md:hidden'>
           Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
         </span>
+
+        <span className='title-h1 hidden md:inline'>{greeting}</span>
       </h1>
       <OngoingContestBanner className='' />
       <Lists className='flex-1' latestContests={data?.contests} bestSolves={data?.bestSolves} />
@@ -32,7 +35,7 @@ function OngoingContestBanner({ className }: { className: string }) {
   return (
     <section className={cn('bg-card-gradient overflow-x-clip rounded-2xl', className)}>
       <div className='flex pl-4'>
-        <div className='relative mr-32 after:absolute after:-right-36 after:top-0 after:block after:h-full after:w-40 after:bg-banner-divider after:bg-[length:100%]'>
+        <div className='relative mr-32 after:pointer-events-none after:absolute after:-right-36 after:top-0 after:block after:h-full after:w-40 after:bg-banner-divider after:bg-[length:100%]'>
           <div className='flex h-full flex-col justify-end gap-2 py-4 lg-short:pt-0'>
             <h3 className='title-h3 text-center'>Type</h3>
             <Link
@@ -50,7 +53,7 @@ function OngoingContestBanner({ className }: { className: string }) {
           </div>
         </div>
 
-        <div className='relative mr-32 after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-40 after:bg-banner-divider after:bg-[length:100%]'>
+        <div className='relative mr-32 after:pointer-events-none after:absolute after:-right-40 after:top-0 after:block after:h-full after:w-40 after:bg-banner-divider after:bg-[length:100%]'>
           <div className='flex flex-col items-start justify-between gap-4 py-4 lg-short:pt-0'>
             <h2 className='title-lg'>
               <span className='text-secondary-20'>Ongoing</span> Contest

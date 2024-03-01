@@ -1,10 +1,9 @@
 import { GhostButton, LogoutIcon } from '../ui'
-import { Link, Outlet } from '@tanstack/react-router'
-import { SocialLinks, Navbar } from './components'
+import { Outlet } from '@tanstack/react-router'
+import { SocialLinks, Navbar, Logo } from './components'
 import { useQuery } from '@tanstack/react-query'
 import { userQuery, logout } from '@/features/auth'
 import { PickUsernameModal } from '../PickUsernameModal'
-import logoImg from '@/assets/images/logo.svg'
 import {
   AlertDialogTrigger,
   AlertDialogContent,
@@ -20,12 +19,8 @@ export function Layout() {
     <>
       <PickUsernameModal />
       <div className='flex min-h-screen gap-3 p-[1.625rem]'>
-        <aside className='flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg-short:min-w-[19rem]'>
-          <div className='title-h2 flex h-[7rem] items-center rounded-2xl bg-black-80 px-4 lg-short:h-[4.375rem]'>
-            <Link to='/'>
-              <img src={logoImg} alt='vscubing - Virtual Speedcubing' className='w-[13rem]' />
-            </Link>
-          </div>
+        <aside className='flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 md:hidden lg-short:min-w-[19rem]'>
+          <Logo className='h-[7rem] md:hidden lg-short:h-[4.375rem]' />
           <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
             <Navbar />
             <div>
