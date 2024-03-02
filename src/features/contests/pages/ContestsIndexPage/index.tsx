@@ -36,7 +36,7 @@ export function ContestsIndexPage() {
     <section className='flex flex-1 flex-col gap-3'>
       <Header caption='Explore contests' />
       <NavigateBackButton className='self-start' />
-      <div className='flex items-center justify-between rounded-xl bg-black-80 p-4'>
+      <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4'>
         <Link from={route.id} search={{ discipline: '3by3' }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
@@ -79,7 +79,7 @@ function ContestsListWrapper({
   }
 
   return (
-    <div className={cn('flex flex-col gap-1 rounded-xl bg-black-80 p-6', className)}>
+    <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6', className)}>
       <ContestsListHeader />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
         <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />

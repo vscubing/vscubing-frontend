@@ -50,7 +50,7 @@ export function WatchSolvePage() {
 
       <NavigateBackButton className='self-start' />
       <div className='grid flex-1 grid-cols-[11fr_9fr] grid-rows-[min-content,1fr] gap-3'>
-        <div className='flex items-center gap-8 rounded-xl bg-black-80 p-4'>
+        <div className='flex items-center gap-8 rounded-2xl bg-black-80 p-4'>
           <Link
             from={route.id}
             params={{ contestNumber: String(contestNumber), solveId }}
@@ -65,7 +65,7 @@ export function WatchSolvePage() {
             <p className='text-lg'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
           </div>
         </div>
-        <div className='flex items-center justify-between rounded-xl bg-black-80 px-4 py-2'>
+        <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
           <div>
             <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
             <p className='text-lg text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
@@ -76,7 +76,7 @@ export function WatchSolvePage() {
         </div>
         <Suspense
           fallback={
-            <div className='col-span-full flex items-center justify-center rounded-xl bg-black-80'>
+            <div className='col-span-full flex items-center justify-center rounded-2xl bg-black-80'>
               <LoadingSpinner />
             </div>
           }

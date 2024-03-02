@@ -29,7 +29,7 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
 
   return (
     <>
-      <div className='flex flex-1 flex-col gap-10 rounded-xl bg-black-80 pb-6'>
+      <div className='flex flex-1 flex-col gap-10 rounded-2xl bg-black-80 pb-6'>
         <TwistyPlayer player={player} className='flex-1' />
         <div className='flex flex-col items-center gap-2 px-14'>
           <TwistyScrubber twistyPlayer={player} className='w-full max-w-[25rem]' />
@@ -38,14 +38,14 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
       </div>
       <div className='flex flex-col gap-3'>
         <div className='flex flex-1 flex-col gap-3' ref={movesWrapperRef}>
-          <div className='flex flex-col rounded-xl bg-black-80 p-4'>
+          <div className='flex flex-col rounded-2xl bg-black-80 p-4'>
             <h2 className='title-h3 mb-2 border-b border-secondary-20 text-grey-20'>Scramble</h2>
             <span className='title-h3 scrollbar basis-0 overflow-y-auto pr-2 tracking-wide' ref={scrambleWrapperRef}>
               <span ref={scrambleRef}>{scramble}</span>
             </span>
           </div>
 
-          <div className='flex flex-1 flex-col rounded-xl bg-black-80 p-4'>
+          <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-4'>
             <h2 className='title-h3 mb-2 border-b border-secondary-20 text-grey-20'>Solve</h2>
             <TwistyAlgViewer
               twistyPlayer={player}
@@ -54,7 +54,7 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
           </div>
         </div>
 
-        <div className='rounded-xl bg-black-80 p-4'>
+        <div className='rounded-2xl bg-black-80 p-4'>
           <h2 className='title-h3 mb-1 text-grey-20'>Speed</h2>
           <TwistyTempo twistyPlayer={player} />
         </div>

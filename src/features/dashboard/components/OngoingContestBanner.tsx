@@ -71,11 +71,7 @@ function MobileBannerContent({ className }: { className?: string }) {
 function Disciplines({ className }: { className?: string }) {
   return (
     <div className={cn('flex', className)}>
-      <Link
-        to='/contests/ongoing'
-        search={{ discipline: '3by3' }}
-        className='outline-ring group flex flex-col gap-2 rounded-xl'
-      >
+      <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='outline-ring group flex flex-col gap-2'>
         {/* TODO: get from backend */}
         <CubeBadge
           cube='3by3'

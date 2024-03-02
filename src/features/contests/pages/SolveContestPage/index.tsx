@@ -73,7 +73,7 @@ export function SolvePageContent() {
 
   if (!state) {
     return (
-      <div className='flex flex-1 items-center justify-center rounded-xl bg-black-80'>
+      <div className='flex flex-1 items-center justify-center rounded-2xl bg-black-80'>
         <LoadingSpinner />
       </div>
     )
@@ -92,7 +92,7 @@ export function SolvePageContent() {
 
   return (
     <>
-      <div className='flex min-h-[5.75rem] items-center justify-between gap-10 rounded-xl bg-black-80 px-4'>
+      <div className='flex min-h-[5.75rem] items-center justify-between gap-10 rounded-2xl bg-black-80 px-4'>
         <div>
           <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
             <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
@@ -103,7 +103,7 @@ export function SolvePageContent() {
           <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
         </div>
       </div>
-      <div className='relative flex flex-1 flex-col rounded-xl bg-black-80 pb-8 pt-7 lg-short:pb-6 lg-short:pt-4'>
+      <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 lg-short:pb-6 lg-short:pt-4'>
         <UnderlineButton className='absolute right-4 top-4' /* TODO: add the instructions modal */>
           Virtual Cube Key Map
         </UnderlineButton>

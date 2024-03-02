@@ -75,7 +75,7 @@ function PageContent() {
 
   return (
     <>
-      <div className='flex min-h-[5.75rem] items-center gap-4 rounded-xl bg-black-80 px-4'>
+      <div className='flex min-h-[5.75rem] items-center gap-4 rounded-2xl bg-black-80 px-4'>
         <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
@@ -85,7 +85,7 @@ function PageContent() {
         </div>
         <Pagination currentPage={page} totalPages={data?.totalPages} className='ml-auto' />
       </div>
-      <div className='flex flex-1 flex-col gap-1 rounded-xl bg-black-80 p-6'>
+      <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <SessionsListHeader />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <SessionSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
