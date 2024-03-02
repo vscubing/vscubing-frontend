@@ -24,7 +24,7 @@ export function Navbar({ onItemSelect }: NavbarProps) {
   const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
 
   return (
-    <nav className='flex flex-col gap-4 lg-short:gap-1'>
+    <nav className='flex flex-col gap-4 xl-short:gap-1'>
       {getLinks(ongoingContestNumber, shouldHighlightAllContests).map(
         ({ children, activeCondition = true, ...props }) => (
           <Link

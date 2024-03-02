@@ -13,9 +13,9 @@ export function Header({ caption }: { caption: ReactNode }) {
 
   return (
     <header className='flex gap-3'>
-      <Logo className='hidden md:flex' />
-      <div className='flex min-h-[4.375rem] flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 md:justify-end md:gap-2'>
-        <div className='title-h3 md:hidden'>{caption}</div>
+      <Logo className='hidden lg:flex' />
+      <div className='flex min-h-[4.375rem] flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end lg:gap-2'>
+        <div className='title-h3 lg:hidden'>{caption}</div>
         {user?.isAuthed ? (
           <div className='flex items-center'>
             <AvatarIcon className='mr-3 inline' />
@@ -25,7 +25,7 @@ export function Header({ caption }: { caption: ReactNode }) {
           <SignInButton variant='ghost' />
         )}
         <button
-          className='hidden h-[44px] w-[44px] items-center justify-center md:flex'
+          className='hidden h-[44px] w-[44px] items-center justify-center lg:flex'
           onClick={() => setMobileMenuOpen(true)}
         >
           <MenuIcon />

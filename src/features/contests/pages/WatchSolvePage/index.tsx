@@ -49,7 +49,7 @@ export function WatchSolvePage() {
       <Header caption={<h1>Watch solve</h1>} />
 
       <NavigateBackButton className='self-start' />
-      <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 md:grid-cols-2'>
+      <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2'>
         <div className='flex items-center gap-8 rounded-2xl bg-black-80 p-4'>
           <Link
             from={route.id}

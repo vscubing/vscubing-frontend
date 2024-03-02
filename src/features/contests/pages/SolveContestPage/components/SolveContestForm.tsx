@@ -54,14 +54,14 @@ export function SolveContestForm({ state, contestNumber, discipline }: SolveCont
   return (
     <div className='flex flex-1 justify-center pl-16 pr-12'>
       <div className='flex max-w-[64rem] flex-1 flex-col'>
-        <div className='mb-1 flex gap-8 pl-[calc(0.25rem*12+3.7rem)] lg-short:pl-[calc(0.25rem*6+3.7rem)]'>
+        <div className='mb-1 flex gap-8 pl-[calc(0.25rem*12+3.7rem)] xl-short:pl-[calc(0.25rem*6+3.7rem)]'>
           <span className='w-16 text-center text-grey-40'>Attempt</span>
           <span className='w-24 text-center text-grey-40'>Single time</span>
           <span className='text-grey-40'>Scramble</span>
         </div>
-        <div className='scrollbar flex flex-1 basis-0 items-start justify-center gap-12 overflow-y-auto pr-4 lg-short:gap-6'>
-          <Progress className='gap-12 lg-short:gap-6' currentSolveNumber={currentSolveNumber} />
-          <div className='flex w-full flex-1 flex-col gap-12 lg-short:gap-6'>
+        <div className='scrollbar flex flex-1 basis-0 items-start justify-center gap-12 overflow-y-auto pr-4 xl-short:gap-6'>
+          <Progress className='gap-12 xl-short:gap-6' currentSolveNumber={currentSolveNumber} />
+          <div className='flex w-full flex-1 flex-col gap-12 xl-short:gap-6'>
             {submittedSolves.map((solve, index) => (
               <SolvePanel
                 number={index + 1}

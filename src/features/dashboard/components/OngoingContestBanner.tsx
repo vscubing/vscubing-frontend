@@ -5,8 +5,8 @@ import { Link } from '@tanstack/react-router'
 export function OngoingContestBanner() {
   return (
     <section className={cn('bg-card-gradient overflow-x-clip rounded-2xl')}>
-      <BannerContent className='md:hidden' />
-      <MobileBannerContent className='hidden md:flex' />
+      <BannerContent className='lg:hidden' />
+      <MobileBannerContent className='hidden lg:flex' />
     </section>
   )
 }
@@ -15,7 +15,7 @@ function BannerContent({ className }: { className?: string }) {
   return (
     <div className={cn('flex', className)}>
       <div className='relative mr-32'>
-        <div className={cn('flex h-full flex-col justify-end gap-2 py-4 pl-4 lg-short:pt-0', className)}>
+        <div className={cn('flex h-full flex-col justify-end gap-2 py-4 pl-4 xl-short:pt-0', className)}>
           <h3 className='title-h3 text-center'>Type</h3>
           <Disciplines />
         </div>
@@ -23,7 +23,7 @@ function BannerContent({ className }: { className?: string }) {
       </div>
 
       <div className='relative mr-32'>
-        <div className='flex flex-col items-start justify-between gap-4 py-4 lg-short:pt-0'>
+        <div className='flex flex-col items-start justify-between gap-4 py-4 xl-short:pt-0'>
           <h2 className='title-lg'>
             <span className='text-secondary-20'>Ongoing</span> Contest
           </h2>
@@ -77,7 +77,7 @@ function Disciplines({ className }: { className?: string }) {
           cube='3by3'
           className='transition-base outline-ring group-hover:bg-secondary-40 group-active:bg-secondary-20'
         />
-        <span className='btn-lg text-center md:hidden'>3x3</span>
+        <span className='btn-lg text-center lg:hidden'>3x3</span>
       </Link>
     </div>
   )

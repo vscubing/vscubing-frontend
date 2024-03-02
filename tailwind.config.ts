@@ -50,8 +50,8 @@ export default {
         },
       },
       screens: {
-        'lg-short': { raw: '(min-width: 1280px) and (max-height: 850px)' },
-        md: { max: '1279px' },
+        'xl-short': { raw: '(min-width: 1280px) and (max-height: 850px)' },
+        lg: { max: '1279px' },
         sm: { max: '767px' },
       },
       backgroundImage: {

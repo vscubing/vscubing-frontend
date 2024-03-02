@@ -24,7 +24,7 @@ export function Layout() {
       <PickUsernameModal />
       <MobileMenu />
       <div className='flex min-h-screen gap-3 p-[1.625rem]'>
-        <Sidebar className='md:hidden' />
+        <Sidebar className='lg:hidden' />
         <main className='contents'>
           <Outlet />
         </main>
@@ -36,12 +36,12 @@ export function Layout() {
 function Sidebar({ className }: { className?: string }) {
   return (
     <>
-      <aside className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg-short:min-w-[19rem]', className)}>
-        <Logo className='h-[7rem] md:hidden lg-short:h-[4.375rem]' />
+      <aside className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 xl-short:min-w-[19rem]', className)}>
+        <Logo className='h-[7rem] lg:hidden xl-short:h-[4.375rem]' />
         <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
           <Navbar />
           <div>
-            <div className='flex flex-col items-center gap-4 lg-short:flex-row lg-short:justify-center lg-short:gap-1'>
+            <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1'>
               <SocialLinks />
               {/* TODO: animate the social links to slide up after login before the log out button appears */}
               <LogoutButton />
@@ -110,7 +110,7 @@ function LogoutButton({ className }: { className?: string }) {
 
 function SocialLinks({ className }: { className?: string }) {
   return (
-    <div className={cn('flex justify-center gap-4 lg-short:gap-1', className)}>
+    <div className={cn('flex justify-center gap-4 xl-short:gap-1', className)}>
       {[
         { href: 'https://github.com/vscubing', children: <GithubIcon /> },
         { href: 'https://www.linkedin.com/company/vscubing', children: <LinkedinIcon /> },

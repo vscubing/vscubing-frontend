@@ -103,7 +103,7 @@ export function SolvePageContent() {
           <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
         </div>
       </div>
-      <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 lg-short:pb-6 lg-short:pt-4'>
+      <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
         <UnderlineButton className='absolute right-4 top-4' /* TODO: add the instructions modal */>
           Virtual Cube Key Map
         </UnderlineButton>

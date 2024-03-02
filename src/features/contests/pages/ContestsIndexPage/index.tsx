@@ -35,7 +35,7 @@ export function ContestsIndexPage() {
   return (
     <section className='flex flex-1 flex-col gap-3'>
       <Header caption={<h1>Explore contests</h1>} />
-      <h1 className='title-h2 hidden text-secondary-20 md:block'>Explore contests</h1>
+      <h1 className='title-h2 hidden text-secondary-20 lg:block'>Explore contests</h1>
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4'>
         <Link from={route.id} search={{ discipline: '3by3' }}>

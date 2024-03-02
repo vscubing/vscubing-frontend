@@ -37,7 +37,7 @@ export function Leaderboard() {
   return (
     <section className='flex flex-1 flex-col gap-3'>
       <Header caption={caption} />
-      <h1 className='title-h2 hidden text-secondary-20 md:block'>Look thorough the contest results</h1>
+      <h1 className='title-h2 hidden text-secondary-20 lg:block'>Look thorough the contest results</h1>
       <NavigateBackButton className='self-start' />
       <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
