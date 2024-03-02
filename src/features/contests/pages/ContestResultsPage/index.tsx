@@ -13,6 +13,7 @@ export function ContestResultsPage() {
   return (
     <section className='flex flex-1 flex-col gap-3'>
       <Header caption='Look through the contest results' />
+      <p className='title-h2 text-secondary-20'>Look through the contest results</p>
 
       <NavigateBackButton className='self-start' />
       <PageContent />

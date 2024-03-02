@@ -50,8 +50,9 @@ export default {
         },
       },
       screens: {
-        ['lg-short']: { raw: '(min-width: 1281px) and (max-height: 850px)' },
-        md: { max: '1280px' },
+        'lg-short': { raw: '(min-width: 1280px) and (max-height: 850px)' },
+        md: { max: '1279px' },
+        sm: { max: '767px' },
       },
       backgroundImage: {
         'dashboard-banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
