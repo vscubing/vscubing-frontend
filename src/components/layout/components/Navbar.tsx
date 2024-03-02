@@ -5,7 +5,11 @@ import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useMatchRoute, type LinkProps } from '@tanstack/react-router'
 
-export function Navbar() {
+type NavbarProps = {
+  onItemSelect?: () => void
+}
+
+export function Navbar({ onItemSelect }: NavbarProps) {
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   const matchRoute = useMatchRoute()
   const isOnContests = !!matchRoute({
@@ -31,6 +35,7 @@ export function Navbar() {
                 'text-primary-80 hover:text-primary-80 after:h-[1.5px] after:scale-x-100': activeCondition,
               }),
             }}
+            onClick={onItemSelect}
             className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 [&>svg]:h-6 [&>svg]:w-6'
           >
             {children}
