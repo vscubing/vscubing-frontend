@@ -1,5 +1,5 @@
 import { Outlet } from '@tanstack/react-router'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { Logo, Navbar } from './components'
 import { PickUsernameModal } from '../PickUsernameModal'
 import { cn } from '@/utils'
@@ -36,12 +36,12 @@ export function Layout() {
 function Sidebar({ className }: { className?: string }) {
   return (
     <>
-      <aside className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 xl-short:min-w-[19rem]', className)}>
-        <Logo className='h-[7rem] lg:hidden xl-short:h-[4.375rem]' />
+      <aside className={cn('xl-short:min-w-[19rem] flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3', className)}>
+        <Logo className='xl-short:h-[4.375rem] h-[7rem] lg:hidden' />
         <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
           <Navbar />
           <div>
-            <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1'>
+            <div className='xl-short:flex-row xl-short:justify-center xl-short:gap-1 flex flex-col items-center gap-4'>
               <SocialLinks />
               {/* TODO: animate the social links to slide up after login before the log out button appears */}
               <LogoutButton />
@@ -85,6 +85,7 @@ function Copyright({ className }: { className?: string }) {
 
 function LogoutButton({ className }: { className?: string }) {
   const { data: user } = useQuery(userQuery)
+  const setMobileMenuOpen = useSetAtom(mobileMenuOpenAtom)
 
   if (user === undefined || user.isAuthed === false) {
     return null
@@ -101,7 +102,14 @@ function LogoutButton({ className }: { className?: string }) {
         <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
         <AlertDialogFooter>
           <AlertDialogCancel>Stay</AlertDialogCancel>
-          <AlertDialogAction onClick={() => logout()}>Log out</AlertDialogAction>
+          <AlertDialogAction
+            onClick={() => {
+              setMobileMenuOpen(false)
+              void logout()
+            }}
+          >
+            Log out
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -110,7 +118,7 @@ function LogoutButton({ className }: { className?: string }) {
 
 function SocialLinks({ className }: { className?: string }) {
   return (
-    <div className={cn('flex justify-center gap-4 xl-short:gap-1', className)}>
+    <div className={cn('xl-short:gap-1 flex justify-center gap-4', className)}>
       {[
         { href: 'https://github.com/vscubing', children: <GithubIcon /> },
         { href: 'https://www.linkedin.com/company/vscubing', children: <LinkedinIcon /> },
