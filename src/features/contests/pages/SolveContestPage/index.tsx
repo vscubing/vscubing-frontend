@@ -54,7 +54,7 @@ export function SolvePageContent() {
   if (errorStatus === 401) {
     return (
       <HintSection>
-        <p className='mb-10'>You need to be signed in to participate in a contest</p>
+        <p>You need to be signed in to participate in a contest</p>
         <SignInButton variant='primary' />
       </HintSection>
     )
@@ -63,7 +63,7 @@ export function SolvePageContent() {
   if (isTouchDevice) {
     return (
       <HintSection>
-        <p className='mb-10'>Solving from mobile devices is currently not supported</p>
+        <p>Solving from mobile devices is currently not supported</p>
         <PrimaryButton asChild>
           <Link to='/'>Go to dashboard</Link>
         </PrimaryButton>
@@ -82,9 +82,7 @@ export function SolvePageContent() {
   if (state.submittedSolves.length === 0 && !hasSeenOngoingHint) {
     return (
       <HintSection>
-        <p className='mb-10'>
-          You can't see results of an ongoing round until you solve all scrambles or the round ends
-        </p>
+        <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
         <PrimaryButton onClick={() => setHasSeenOngoingHint(true)}>Got it</PrimaryButton>
       </HintSection>
     )

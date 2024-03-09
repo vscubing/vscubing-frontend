@@ -46,7 +46,7 @@
     @apply relative [&>*]:relative [&>*]:z-10;
   }
   .bg-card-gradient::after {
-    @apply absolute inset-0 z-0 rounded-[inherit];
+    @apply pointer-events-none absolute inset-0 z-0 rounded-[inherit];
 
     content: '';
     background: linear-gradient(165deg, rgba(255, 255, 255, 0.3) 13.84%, rgba(255, 255, 255, 0.1) 74.14%);

@@ -64,7 +64,7 @@ function PageContent() {
   if (errorStatus === 401) {
     return (
       <HintSection>
-        <p className='mb-10'>You need to be signed in to view ongoing contest results</p>
+        <p>You need to be signed in to view ongoing contest results</p>
         <SignInButton variant='primary' />
       </HintSection>
     )
