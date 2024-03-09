@@ -14,8 +14,11 @@ const formSchema = z.object({
     .string()
     .trim()
     .min(1, 'It looks like you forgot to enter a nickname')
-    .regex(/^[a-zA-Z0-9_.-]*$/, 'Nickname can only contain letters, numbers, dots, and dashes')
-    .min(3, 'Nickname is too short, min: 3'), // TODO: change error message
+    .regex(
+      /^[a-zA-Z0-9_.-]*$/,
+      'Oops! Nicknames can only contain letters, numbers, underscores and hyphens. Please remove any special characters or spaces',
+    )
+    .min(3, "Uh-oh! Your nickname should be between 3 and 32 characters. Let's tweak it to fit the rules"), // TODO: change error message
 })
 type UsernameForm = z.infer<typeof formSchema>
 
@@ -70,10 +73,10 @@ export function PickUsernameModal() {
               className='mb-1 block min-w-[20rem]'
               error={!!errors.username}
               type='text'
-              maxLength={30}
+              maxLength={32}
               {...register('username')}
             />
-            <span>{errors.username?.message}</span>
+            <span className='caption'>{errors.username?.message}</span>
           </label>
           <AlertDialogFooter>
             <AlertDialogAction type='submit' disabled={!!errors.username || isPending}>
