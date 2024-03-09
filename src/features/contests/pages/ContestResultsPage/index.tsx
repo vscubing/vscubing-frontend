@@ -88,10 +88,7 @@ function PageContent() {
       </div>
       <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <SessionsListHeader className='md:hidden' />
-        <ul
-          className='md:scrollbar flex flex-1 flex-col gap-3 md:-mr-1 md:basis-0 md:overflow-y-scroll md:pr-1'
-          ref={containerRef}
-        >
+        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <SessionSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
           <Sessions
             contestNumber={contestNumber}

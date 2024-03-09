@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, HintSection, Pagination } from '@/components/ui'
-import { FAKE_RESULT, Result, ResultSkeleton, ResultsHeader } from '../components'
+import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
 import { cn, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 
@@ -84,9 +84,9 @@ function ResultsListWrapper({
 
   return (
     <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6', className)}>
-      <ResultsHeader />
+      <ResultsHeader className='md:hidden' />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <Result className='invisible fixed' aria-hidden ref={fakeElementRef} result={FAKE_RESULT} />
+        <ResultSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
         <ResultsList isFetching={isFetching} results={results} ownResult={ownResult} pageSize={pageSize} />
       </ul>
     </div>

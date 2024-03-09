@@ -32,12 +32,13 @@ export function Session({
   return (
     <li
       className={cn(
-        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:h-auto md:flex-wrap md:py-2',
+        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:h-[4.5rem] md:flex-wrap md:py-2',
+        { 'md:h-auto': accordionOpen },
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         className,
       )}
     >
-      <div
+      <span
         className={cn('flex flex-1 items-center md:w-full', { 'md:mb-4 md:border-b md:border-grey-60': accordionOpen })}
       >
         <PlaceLabel className='mr-3' linkToPage={linkToPage}>
@@ -46,18 +47,18 @@ export function Session({
         <CubeIcon className='mr-3' cube={session.discipline.name} />
         <Ellipsis className='vertical-alignment-fix flex-1'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
 
-        <div>
-          <span className='hidden text-grey-40 md:block'>Average time</span>
+        <span className='mr-4'>
+          <span className='hidden text-center text-grey-40 md:block'>Average time</span>
           <SolveTimeLabel
             timeMs={session.avgMs ?? undefined}
             isAverage
-            className='relative mr-4 after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 md:after:hidden'
+            className='relative after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 md:after:hidden'
           />
-        </div>
+        </span>
         <button onClick={() => setAccordionOpen((prev) => !prev)} className='outline-ring hidden md:block'>
           {accordionOpen ? <MinusIcon /> : <PlusIcon />}
         </button>
-      </div>
+      </span>
       <ul className={cn('flex gap-2 md:justify-end', accordionOpen ? 'md:w-full' : 'md:sr-only')}>
         {session.solves.map((solve, index) => (
           <li key={solve.id} className='w-24 text-center'>
