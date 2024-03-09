@@ -1,6 +1,8 @@
-export function SessionsListHeader() {
+import { cn } from '@/utils'
+
+export function SessionsListHeader({ className }: { className: string }) {
   return (
-    <div className='flex whitespace-nowrap px-2 text-grey-40'>
+    <div className={cn('flex whitespace-nowrap px-2 text-grey-40', className)}>
       <span className='mr-2 w-11 text-center'>Place</span>
       <span className='mr-2'>Type</span>
       <span className='flex-1'>Nickname</span>

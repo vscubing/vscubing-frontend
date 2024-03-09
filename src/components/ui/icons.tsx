@@ -26,6 +26,8 @@ import SortIcon from '@/assets/icons/sort.svg?react'
 import StopIcon from '@/assets/icons/stop.svg?react'
 import GithubIcon from '@/assets/icons/github.svg?react'
 import EllipsisIcon from '@/assets/icons/ellipsis.svg?react'
+import PlusIcon from '@/assets/icons/plus.svg?react'
+import MinusIcon from '@/assets/icons/minus.svg?react'
 import { type Discipline } from '@/types'
 import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef } from 'react'
@@ -58,6 +60,8 @@ export {
   SortIcon,
   StopIcon,
   EllipsisIcon,
+  PlusIcon,
+  MinusIcon,
 }
 
 type CubeIconProps = HTMLAttributes<SVGSVGElement> & {

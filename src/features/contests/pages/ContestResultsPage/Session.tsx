@@ -1,6 +1,15 @@
-import { PlaceLabel, CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeLinkOrDnf, ExtraLabel } from '@/components/ui'
+import {
+  PlaceLabel,
+  CubeIcon,
+  Ellipsis,
+  SolveTimeLabel,
+  SolveTimeLinkOrDnf,
+  ExtraLabel,
+  PlusIcon,
+  MinusIcon,
+} from '@/components/ui'
 import { cn } from '@/utils'
-import { useMemo, forwardRef, type ComponentProps } from 'react'
+import { useMemo, forwardRef, type ComponentProps, useState } from 'react'
 import { type ContestSessionDTO } from '../../api'
 
 export function Session({
@@ -17,46 +26,69 @@ export function Session({
   className?: string
 }) {
   const currentUserLabel = isOwn ? ' (you)' : ''
+  const [accordionOpen, setAccordionOpen] = useState(false)
 
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solves), [session.solves])
   return (
     <li
       className={cn(
-        'flex h-[3.75rem] items-center whitespace-nowrap rounded-xl px-2',
+        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:h-auto md:flex-wrap md:py-2',
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         className,
       )}
     >
-      <PlaceLabel className='mr-3' linkToPage={linkToPage}>
-        {session.place}
-      </PlaceLabel>
-      <CubeIcon className='mr-3' cube={session.discipline.name} />
-      <Ellipsis className='vertical-alignment-fix flex-1'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
-      <SolveTimeLabel
-        timeMs={session.avgMs ?? undefined}
-        isAverage
-        className='relative mr-4 after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'
-      />
-      {session.solves.map((solve) => (
-        <span key={solve.id} className='relative mr-2 w-24 text-center last:mr-0'>
-          <SolveTimeLinkOrDnf
-            contestNumber={contestNumber}
-            solveId={solve.id}
-            timeMs={solve.timeMs ?? null}
-            variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
+      <div
+        className={cn('flex flex-1 items-center md:w-full', { 'md:mb-4 md:border-b md:border-grey-60': accordionOpen })}
+      >
+        <PlaceLabel className='mr-3' linkToPage={linkToPage}>
+          {session.place}
+        </PlaceLabel>
+        <CubeIcon className='mr-3' cube={session.discipline.name} />
+        <Ellipsis className='vertical-alignment-fix flex-1'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
+
+        <div>
+          <span className='hidden text-grey-40 md:block'>Average time</span>
+          <SolveTimeLabel
+            timeMs={session.avgMs ?? undefined}
+            isAverage
+            className='relative mr-4 after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 md:after:hidden'
           />
-          <ExtraLabel
-            scramblePosition={solve.scramble.position}
-            className='absolute right-[1.1rem] top-0 -translate-y-1/2'
-          />
-        </span>
-      ))}
+        </div>
+        <button onClick={() => setAccordionOpen((prev) => !prev)} className='outline-ring hidden md:block'>
+          {accordionOpen ? <MinusIcon /> : <PlusIcon />}
+        </button>
+      </div>
+      <ul className={cn('flex gap-2 md:justify-end', accordionOpen ? 'md:w-full' : 'md:sr-only')}>
+        {session.solves.map((solve, index) => (
+          <li key={solve.id} className='w-24 text-center'>
+            <span className='mb-2 hidden text-grey-40 md:block'>Attempt {index + 1}</span>
+            <span className='relative'>
+              <SolveTimeLinkOrDnf
+                contestNumber={contestNumber}
+                solveId={solve.id}
+                timeMs={solve.timeMs ?? null}
+                variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
+              />
+              <ExtraLabel
+                scramblePosition={solve.scramble.position}
+                className='absolute -top-0.5 right-[1.1rem] -translate-y-1/2'
+              />
+            </span>
+          </li>
+        ))}
+      </ul>
     </li>
   )
 }
 
 export const SessionSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
-  return <li ref={ref} {...props} className={cn('h-15 animate-pulse rounded-xl bg-grey-100', className)}></li>
+  return (
+    <li
+      ref={ref}
+      {...props}
+      className={cn('h-15 animate-pulse rounded-xl bg-grey-100 md:min-h-[4.5rem]', className)}
+    ></li>
+  )
 })
 
 function getBestAndWorstIds(solves: ContestSessionDTO['solves']) {
