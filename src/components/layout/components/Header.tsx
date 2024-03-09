@@ -14,7 +14,7 @@ export function Header({ caption }: { caption: ReactNode }) {
   return (
     <header className='flex gap-3'>
       <Logo className='hidden lg:flex' />
-      <div className='flex min-h-[4.375rem] flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end lg:gap-2'>
+      <div className='flex min-h-[4.375rem] flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end'>
         <div className='title-h3 lg:hidden'>{caption}</div>
         {user?.isAuthed ? (
           <div className='flex items-center'>

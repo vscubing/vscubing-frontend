@@ -17,7 +17,7 @@ export function Dashboard() {
   return (
     <div className='flex flex-1 flex-col gap-3'>
       <Header caption={greeting} />
-      <h1 className='xl-short:min-h-0 xl-short:py-2 flex min-h-28 items-center px-4 font-kanit text-secondary-20 lg:min-h-0 lg:p-4'>
+      <h1 className='flex min-h-28 items-center px-4 font-kanit text-secondary-20 lg:min-h-0 lg:p-4 xl-short:min-h-0 xl-short:py-2'>
         <span className='text-[clamp(1.75rem,2.5vw,2.25rem)] lg:hidden'>
           Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
         </span>
@@ -41,7 +41,7 @@ function Lists({
 }) {
   if (latestContests?.length === 0 && bestSolves?.length === 0) {
     return (
-      <div className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 pb-4 pt-9', className)}>
+      <div className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 pb-4 pt-10', className)}>
         <h2 className='title-h3 text-center'>
           Invite friends to participate in a contest, compare your results and share solves
         </h2>
