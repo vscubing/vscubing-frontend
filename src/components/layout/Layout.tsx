@@ -34,19 +34,36 @@ export function Layout() {
 }
 
 function Sidebar({ className }: { className?: string }) {
+  const setOpenOnMobile = useSetAtom(mobileMenuOpenAtom)
+
   return (
     <>
-      <aside className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 xl-short:min-w-[19rem]', className)}>
-        <Logo className='h-[7rem] lg:hidden xl-short:h-[4.375rem]' />
-        <div className='flex flex-1 flex-col justify-between rounded-2xl bg-black-80 py-6'>
-          <Navbar />
-          <div>
+      <aside
+        className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg:w-[23rem] xl-short:min-w-[19rem]', className)}
+      >
+        <div className='flex h-[7rem] lg:h-[4.375rem] lg:gap-3 xl-short:h-[4.375rem]'>
+          <Logo className='w-full lg:hidden' />
+          <Logo className='hidden lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
+          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 px-4 py-3 lg:flex'>
+            <UsernameOrSignInButton />
+          </div>
+        </div>
+        <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:pt-0'>
+          <div className='mb-4 hidden justify-end p-3 lg:flex'>
+            <button onClick={() => setOpenOnMobile(false)} className='flex h-11 w-11 items-center justify-center'>
+              <CloseIcon />
+            </button>
+          </div>
+          <Navbar onItemSelect={() => setOpenOnMobile(false)} />
+          <div className='mt-auto'>
             <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1'>
               <SocialLinks />
               {/* TODO: animate the social links to slide up after login before the log out button appears */}
               <LogoutButton />
             </div>
-            <Copyright className='mt-6' />
+            <p className={cn('text-caption mt-6 text-center text-white-100', className)}>
+              © Virtual Speedcubing, 2023
+            </p>
           </div>
         </div>
       </aside>
@@ -59,38 +76,16 @@ function MobileMenu() {
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild></Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Content className='fixed inset-[1.625rem] z-50 flex flex-col gap-3 bg-black-100 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'>
-          <div className='flex min-h-[4.375rem] gap-3'>
-            <div className='flex items-center rounded-2xl bg-black-80'>
-              <Logo onClick={() => setOpen(false)} />
-            </div>
-            <div className='flex flex-1 items-center justify-end rounded-2xl bg-black-80 pr-4'>
-              <UsernameOrSignInButton />
-            </div>
-          </div>
-          <div className='flex flex-1 flex-col rounded-2xl bg-black-80 pb-6'>
-            <div className='flex justify-end p-3'>
-              <Dialog.Close className='flex h-11 w-11 items-center justify-center'>
-                <CloseIcon />
-              </Dialog.Close>
-            </div>
-            <Navbar onItemSelect={() => setOpen(false)} /> {/* TODO: close on click on active navigation item */}
-            <div className='mt-auto flex flex-col items-center'>
-              <SocialLinks />
-              <LogoutButton className='mt-4' />
-              <Copyright className='mt-6' />
-            </div>
+        <Dialog.Overlay className='fixed inset-0 z-50 bg-black-1000/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
+        <Dialog.Content className='fixed bottom-0 right-0 top-0 z-50 flex flex-col gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'>
+          <div className='h-full bg-black-100 p-[1.625rem]'>
+            <Sidebar className='h-full' />
           </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
   )
-}
-
-function Copyright({ className }: { className?: string }) {
-  return <p className={cn('text-caption text-center text-white-100', className)}>© Virtual Speedcubing, 2023</p>
 }
 
 function LogoutButton({ className }: { className?: string }) {
