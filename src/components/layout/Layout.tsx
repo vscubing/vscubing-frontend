@@ -24,7 +24,7 @@ export function Layout() {
       <PickUsernameModal />
       <MobileMenu />
       <div className='flex min-h-screen gap-3 p-[1.625rem]'>
-        <Sidebar className='lg:hidden' />
+        <Sidebar className='lg:sr-only' />
         <main className='contents'>
           <Outlet />
         </main>
@@ -44,7 +44,7 @@ function Sidebar({ className }: { className?: string }) {
         <div className='flex h-[7rem] lg:h-[4.375rem] lg:gap-3 xl-short:h-[4.375rem]'>
           <Logo className='w-full lg:hidden' />
           <Logo className='hidden lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
-          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 px-4 py-3 lg:flex'>
+          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex'>
             <UsernameOrSignInButton />
           </div>
         </div>
