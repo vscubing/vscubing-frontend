@@ -19,8 +19,8 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(
       <li
         ref={ref}
         className={cn(
-          'flex h-15 items-center whitespace-nowrap rounded-xl pl-2 md:h-[4.75rem] md:flex-wrap md:p-2',
-          { 'md:h-auto': accordionOpen },
+          'flex h-15 items-center whitespace-nowrap rounded-xl pl-2 md:flex-wrap md:px-4 md:py-2',
+          accordionOpen ? 'md:h-auto' : 'md:h-[4.75rem]',
           isOwn ? 'bg-secondary-80' : 'bg-grey-100',
           className,
         )}
@@ -36,7 +36,7 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(
           </PlaceLabel>
           <CubeIcon className='mr-3' cube={result.discipline.name} />
           <Ellipsis className='vertical-alignment-fix flex-1'>{username}</Ellipsis>
-          <span className='mr-6 md:mr-4'>
+          <span className='mr-6 md:mr-10'>
             <span className='mb-1 hidden text-center text-grey-40 md:block'>Single time</span>
             <SolveTimeLinkOrDnf
               timeMs={result.timeMs}
@@ -49,15 +49,15 @@ export const Result = forwardRef<HTMLLIElement, ResultProps>(
           </button>
         </span>
         <span className={cn('flex items-center md:items-start', accordionOpen ? 'md:w-full' : 'md:sr-only')}>
-          <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none'>
-            <span className='hidden text-center text-grey-40 md:block'>Solve date</span>
+          <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none md:pt-0'>
+            <span className='mb-2 hidden text-center text-grey-40 md:block'>Solve date</span>
             {formatDate(result.created)}
           </span>
-          <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center'>
-            <span className='hidden text-center text-grey-40 md:block'>Contest name</span>
+          <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center md:pt-0'>
+            <span className='mb-2 hidden text-center text-grey-40 md:block'>Contest name</span>
             Contest {result.contest.contestNumber}
           </span>
-          <SecondaryButton asChild className='md:ml-auto'>
+          <SecondaryButton asChild className='md:mb-2 md:ml-auto'>
             <Link
               to='/contests/$contestNumber'
               params={{ contestNumber: String(result.contest.contestNumber) }}

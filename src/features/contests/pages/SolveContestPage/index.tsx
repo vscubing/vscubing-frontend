@@ -21,8 +21,11 @@ export function SolveContestPage() {
   return (
     <section className='flex flex-1 flex-col gap-3'>
       <Header
-        caption='Ongoing contest (17 Dec 2023 - 23 Dec 2023)' /* TODO: add start/end date once backend is updated */
+        caption={
+          <h1>Ongoing contest (17 Dec 2023 - 23 Dec 2023)</h1>
+        } /* TODO: add start/end date once backend is updated */
       />
+      <h1 className='title-h2 hidden text-secondary-20 lg:block'>Ongoing contest (17 Dec 2023 - 23 Dec 2023)</h1>
 
       <NavigateBackButton className='self-start' />
       <SolvePageContent />

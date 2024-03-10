@@ -48,7 +48,7 @@ export function PickUsernameModal() {
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 400 /* TODO: change to 409 on backend */) {
         setError('username', {
-          message: 'Sorry, that nickname is already taken! How about trying a unique variation or adding some numbers',
+          message: 'Sorry, that nickname is already taken! How about trying a unique variation or adding some numbers?',
         })
       }
 

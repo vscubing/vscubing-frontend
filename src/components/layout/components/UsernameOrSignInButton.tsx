@@ -1,22 +1,25 @@
 import { AvatarIcon, SignInButton } from '@/components/ui'
 import { userQuery } from '@/features/auth'
+import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 
-export function UsernameOrSignInButton() {
+export function UsernameOrSignInButton({ className }: { className?: string }) {
   const { data: user } = useQuery(userQuery)
 
   if (!user) {
     return
   }
 
-  if (!user.isAuthed) {
-    return <SignInButton variant='ghost' />
-  }
-
   return (
-    <div className='flex items-center lg:mr-3'>
-      <AvatarIcon className='mr-3 inline-block' />
-      <span className='vertical-alignment-fix text-lg'>{user.username}</span>
+    <div className={cn('flex items-center', className)}>
+      {user.isAuthed ? (
+        <>
+          <AvatarIcon className='mr-3 inline-block' />
+          <span className='vertical-alignment-fix text-lg'>{user.username}</span>
+        </>
+      ) : (
+        <SignInButton variant='ghost' />
+      )}
     </div>
   )
 }

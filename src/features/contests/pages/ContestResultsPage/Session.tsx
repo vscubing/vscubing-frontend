@@ -32,8 +32,8 @@ export function Session({
   return (
     <li
       className={cn(
-        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:h-[4.5rem] md:flex-wrap md:py-2',
-        { 'md:h-auto': accordionOpen },
+        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:flex-wrap md:py-2',
+        accordionOpen ? 'md:h-auto' : 'md:h-[4.5rem]',
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         className,
       )}
@@ -47,7 +47,7 @@ export function Session({
         <CubeIcon className='mr-3' cube={session.discipline.name} />
         <Ellipsis className='vertical-alignment-fix flex-1'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
 
-        <span className='mr-4'>
+        <span className='mr-4 md:mr-10'>
           <span className='hidden text-center text-grey-40 md:block'>Average time</span>
           <SolveTimeLabel
             timeMs={session.avgMs ?? undefined}
