@@ -9,37 +9,37 @@
     @apply text-base;
   }
   body {
-    @apply bg-black-100 font-hind leading-[1.5] text-white-100;
+    @apply bg-black-100 font-hind leading-[1.5] text-white-100 sm:text-sm;
   }
 }
 
 @layer components {
   .title-lg {
-    @apply font-kanit text-6xl leading-[1.2] -tracking-[0.02em];
+    @apply font-kanit text-6xl leading-[1.2] tracking-[0.02em] sm:text-[1.625rem] sm:leading-[1.5] sm:tracking-normal;
   }
   .title-h1 {
-    @apply font-kanit text-4xl;
+    @apply font-kanit text-4xl sm:text-[1.375rem];
   }
   .title-h2 {
-    @apply font-kanit text-[1.75rem];
+    @apply font-kanit text-[1.75rem] sm:text-[1.25rem];
   }
   .title-h3 {
-    @apply font-kanit text-[1.375rem];
+    @apply font-kanit text-[1.375rem] sm:text-[1.125rem];
   }
   .btn-lg {
-    @apply font-kanit text-xl font-medium;
+    @apply font-kanit text-xl font-medium sm:text-[1rem];
   }
   .btn-sm {
-    @apply font-kanit text-base font-medium;
+    @apply font-kanit text-base font-medium sm:text-[0.875rem];
   }
   .text-lg {
-    @apply text-[1.125rem];
+    @apply text-[1.125rem] sm:text-[0.9375rem];
   }
   .caption {
-    @apply text-sm;
+    @apply text-sm tracking-[0.01em] sm:text-[0.75rem];
   }
   .caption-sm {
-    @apply text-xs;
+    @apply text-xs sm:text-[0.75rem] sm:tracking-[0.01em];
   }
 
   .bg-card-gradient {
