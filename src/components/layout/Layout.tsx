@@ -39,7 +39,7 @@ function Sidebar({ className }: { className?: string }) {
   return (
     <>
       <aside
-        className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg:w-[23rem] xl-short:min-w-[19rem]', className)}
+        className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg:w-[22rem] xl-short:min-w-[19rem]', className)}
       >
         <div className='flex h-[7rem] lg:h-[4.375rem] lg:gap-3 xl-short:h-[4.375rem]'>
           <Logo className='w-full lg:hidden' />
