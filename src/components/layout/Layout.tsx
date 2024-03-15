@@ -38,18 +38,16 @@ function Sidebar({ className }: { className?: string }) {
 
   return (
     <>
-      <aside
-        className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 lg:w-[22rem] xl-short:min-w-[19rem]', className)}
-      >
-        <div className='flex h-[7rem] lg:h-[4.375rem] lg:gap-3 xl-short:h-[4.375rem]'>
+      <aside className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 xl-short:min-w-[19rem]', className)}>
+        <div className='flex h-[7rem] xl-short:h-[4.375rem] lg:h-[4.375rem] lg:gap-3 sm:h-14'>
           <Logo className='w-full lg:hidden' />
           <Logo className='hidden lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
           <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex'>
             <UsernameOrSignInButton />
           </div>
         </div>
-        <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:pt-0'>
-          <div className='mb-4 hidden justify-end p-3 lg:flex'>
+        <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:py-3'>
+          <div className='mb-10 hidden justify-end px-3 lg:flex sm:mb-0 sm:pb-0'>
             <button onClick={() => setOpenOnMobile(false)} className='flex h-11 w-11 items-center justify-center'>
               <CloseIcon />
             </button>
@@ -78,9 +76,9 @@ function MobileMenu() {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 z-50 bg-black-1000/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
-        <Dialog.Content className='fixed bottom-0 right-0 top-0 z-50 flex flex-col gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'>
-          <div className='h-full bg-black-100 p-[1.625rem]'>
-            <Sidebar className='h-full' />
+        <Dialog.Content className='fixed bottom-0 right-0 top-0 z-50 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'>
+          <div className='h-full w-[22.5rem] bg-black-100 p-[1.625rem] sm:w-screen'>
+            <Sidebar className='h-full w-full' />
           </div>
         </Dialog.Content>
       </Dialog.Portal>

@@ -24,7 +24,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
         )}
       </div>
       <div className='flex flex-1 flex-col gap-1'>
-        <div className='flex gap-3 text-grey-40'>
+        <div className='flex gap-3 pl-1 text-grey-40'>
           <span>Type</span>
           <span>Nickname</span>
         </div>

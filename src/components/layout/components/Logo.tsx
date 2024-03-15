@@ -14,7 +14,7 @@ export function Logo({ variant = 'normal', className, ...props }: LogoProps) {
       <img
         src={variant === 'normal' ? logoImg : logoSmImg}
         alt='vscubing - Virtual Speedcubing'
-        className={cn({ 'w-[13rem]': variant === 'normal' })}
+        className={cn({ 'w-[13rem] sm:w-[12rem]': variant === 'normal' })}
       />
     </Link>
   )

@@ -48,20 +48,22 @@ function BannerContent({ className }: { className?: string }) {
 
 function MobileBannerContent({ className }: { className?: string }) {
   return (
-    <div className={cn('flex', className)}>
-      <div className='relative py-4 pl-4'>
+    <div className={cn('flex sm:flex-col sm:px-3 sm:py-4', className)}>
+      <div className='relative py-4 pl-4 sm:flex sm:items-center sm:gap-4 sm:p-0'>
         <h2 className='title-lg'>
           <span className='text-secondary-20'>Ongoing</span> Contest
         </h2>
-        <ExclamationCircleIcon className='absolute -right-11 top-4' />
+        <ExclamationCircleIcon className='absolute -right-11 top-4 sm:static' />
       </div>
 
-      <div className='relative flex-1'>
+      <div className='relative flex-1 sm:hidden'>
         <Divider className='absolute -right-6 bottom-0 top-0 w-[calc(100%+2.5rem)] min-w-32 max-w-64' />
       </div>
-      <div className='flex flex-col items-end py-4 pr-4'>
-        <p className='title-h3 mb-3'>Duration</p>
-        <p className='mb-6 text-lg' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+      <div className='flex flex-col items-end gap-6 py-4 pr-4 text-right sm:flex-row-reverse sm:items-center sm:justify-end sm:gap-2 sm:p-0 sm:text-left'>
+        <div className='space-y-3 sm:space-y-1'>
+          <p className='title-h3'>Duration</p>
+          <p className='text-lg' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+        </div>
         <Disciplines />
       </div>
     </div>

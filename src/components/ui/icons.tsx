@@ -71,7 +71,7 @@ type CubeIconProps = HTMLAttributes<SVGSVGElement> & {
 const ICONS = { '3by3': Cube3Icon } as const
 const CubeIcon = forwardRef<SVGSVGElement, CubeIconProps>(({ cube, className, ...props }, ref) => {
   const Comp = ICONS[cube]
-  return <Comp {...props} ref={ref} className={cn('text-[1.6875rem]', className)} />
+  return <Comp {...props} ref={ref} className={cn('h-[27px] w-[27px]', className)} />
 })
 CubeIcon.displayName = 'CubeIcon'
 

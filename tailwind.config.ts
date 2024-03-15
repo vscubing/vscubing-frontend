@@ -5,6 +5,12 @@ import animationPlugin from 'tailwindcss-animate'
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      'xl-short': { raw: '(min-width: 1280px) and (max-height: 850px)' },
+      lg: { max: '1279px' },
+      md: { max: '1023px' },
+      sm: { max: '767px' },
+    },
     extend: {
       spacing: {
         15: '3.75rem',
@@ -48,12 +54,6 @@ export default {
         white: {
           100: '#F9F9F9',
         },
-      },
-      screens: {
-        'xl-short': { raw: '(min-width: 1280px) and (max-height: 850px)' },
-        lg: { max: '1279px' },
-        md: { max: '1023px' },
-        small: { max: '767px' }, // can't use just `sm` because seems to be a reserved word and breaks the order in css
       },
       backgroundImage: {
         'dashboard-banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",

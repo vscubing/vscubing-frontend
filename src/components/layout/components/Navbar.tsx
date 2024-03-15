@@ -24,7 +24,7 @@ export function Navbar({ onItemSelect }: NavbarProps) {
   const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
 
   return (
-    <nav className='flex flex-col gap-4 xl-short:gap-1'>
+    <nav className='flex flex-col gap-4 xl-short:gap-1 sm:gap-0'>
       {getLinks(ongoingContestNumber, shouldHighlightAllContests).map(
         ({ children, activeCondition = true, ...props }) => (
           <Link
@@ -36,7 +36,7 @@ export function Navbar({ onItemSelect }: NavbarProps) {
               }),
             }}
             onClick={onItemSelect}
-            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 [&>svg]:h-6 [&>svg]:w-6'
+            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 sm:gap-3 sm:p-3'
           >
             {children}
           </Link>
