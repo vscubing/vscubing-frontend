@@ -42,7 +42,7 @@
     @apply text-[0.875rem] tracking-[0.01em] sm:text-[0.75rem];
   }
   .caption-sm {
-    @apply text-[0.75rem] sm:text-[0.75rem] sm:tracking-[0.01em];
+    @apply text-[0.75rem] sm:text-[0.625rem] sm:tracking-[0.01em];
   }
 
   .bg-card-gradient {

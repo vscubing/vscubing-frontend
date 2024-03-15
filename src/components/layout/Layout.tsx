@@ -22,13 +22,14 @@ export function Layout() {
   return (
     <>
       <PickUsernameModal />
-      <MobileMenu />
-      <div className='flex min-h-screen gap-3 p-[1.625rem] sm:p-3'>
+      <PopupMenu />
+      <div className='flex min-h-screen gap-3 p-[1.625rem] sm:px-3 sm:pb-0 sm:pt-3'>
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
         <main className='contents'>
           <Outlet />
         </main>
       </div>
+      <StickyNavbar className='hidden sm:block' />
     </>
   )
 }
@@ -52,7 +53,7 @@ function Sidebar({ className }: { className?: string }) {
               <CloseIcon />
             </button>
           </div>
-          <Navbar onItemSelect={() => setOpenOnMobile(false)} />
+          <Navbar variant='vertical' onItemSelect={() => setOpenOnMobile(false)} />
           <div className='mt-auto'>
             <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1 sm:gap-2'>
               <SocialLinks />
@@ -67,7 +68,7 @@ function Sidebar({ className }: { className?: string }) {
   )
 }
 
-function MobileMenu() {
+function PopupMenu() {
   const [open, setOpen] = useAtom(mobileMenuOpenAtom)
 
   return (
@@ -75,7 +76,7 @@ function MobileMenu() {
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 z-50 bg-black-1000/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
         <Dialog.Content className='fixed bottom-0 right-0 top-0 z-50 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'>
-          <Sidebar className='h-full w-full bg-black-100 p-[1.625rem] sm:w-screen' />
+          <Sidebar className='h-full w-full bg-black-100 p-[1.625rem] sm:w-screen sm:p-3' />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -112,6 +113,16 @@ function LogoutButton({ className }: { className?: string }) {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  )
+}
+
+function StickyNavbar({ className }: { className: string }) {
+  return (
+    <div className={cn('sticky bottom-0 z-50 bg-black-100 px-3 pb-3 pt-2', className)}>
+      <div className='rounded-b-xl border-b border-grey-20'>
+        <Navbar variant='horizontal' />
+      </div>
+    </div>
   )
 }
 

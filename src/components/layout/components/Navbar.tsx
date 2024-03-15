@@ -7,26 +7,16 @@ import { Link, useMatchRoute, type LinkProps } from '@tanstack/react-router'
 
 type NavbarProps = {
   onItemSelect?: () => void
+  variant: 'vertical' | 'horizontal'
 }
 
-export function Navbar({ onItemSelect }: NavbarProps) {
-  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
-  const matchRoute = useMatchRoute()
-  const isOnContests = !!matchRoute({
-    to: '/contests',
-    fuzzy: true,
-  })
-  const isOnOngoingContest = !!matchRoute({
-    to: '/contests/$contestNumber',
-    fuzzy: true,
-    params: { contestNumber: String(ongoingContestNumber) },
-  })
-  const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
+export function Navbar({ onItemSelect, variant }: NavbarProps) {
+  const navbarLinks = useNavbar()
 
-  return (
-    <nav className='flex flex-col gap-4 xl-short:gap-1 sm:gap-0'>
-      {getLinks(ongoingContestNumber, shouldHighlightAllContests).map(
-        ({ children, activeCondition = true, ...props }) => (
+  if (variant === 'vertical') {
+    return (
+      <nav className='flex flex-col gap-4 xl-short:gap-1 sm:gap-0'>
+        {navbarLinks.map(({ children, activeCondition = true, ...props }) => (
           <Link
             {...props}
             key={props.to}
@@ -40,10 +30,49 @@ export function Navbar({ onItemSelect }: NavbarProps) {
           >
             {children}
           </Link>
-        ),
-      )}
-    </nav>
-  )
+        ))}
+      </nav>
+    )
+  }
+
+  if (variant === 'horizontal') {
+    return (
+      <nav className='flex justify-between gap-2 overflow-y-auto px-1 py-2'>
+        {navbarLinks.map(({ children, activeCondition = true, ...props }) => (
+          <Link
+            {...props}
+            key={props.to}
+            onClick={onItemSelect}
+            activeProps={{
+              className: cn({
+                'text-primary-80 hover:text-primary-80': activeCondition,
+              }),
+            }}
+            className='caption-sm transition-base flex min-w-[4.625rem] flex-col items-center gap-1 px-1 text-grey-20 active:text-primary-80'
+          >
+            {children}
+          </Link>
+        ))}
+      </nav>
+    )
+  }
+}
+
+function useNavbar() {
+  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
+  const matchRoute = useMatchRoute()
+  const isOnContests = !!matchRoute({
+    to: '/contests',
+    fuzzy: true,
+  })
+  const isOnOngoingContest = !!matchRoute({
+    to: '/contests/$contestNumber',
+    fuzzy: true,
+    params: { contestNumber: String(ongoingContestNumber) },
+  })
+  const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
+
+  return getLinks(ongoingContestNumber, shouldHighlightAllContests)
 }
 
 function getLinks(
@@ -55,7 +84,7 @@ function getLinks(
       children: (
         <>
           <DashboardIcon />
-          Dashboard
+          <span>Dashboard</span>
         </>
       ),
       to: '/',
@@ -65,7 +94,7 @@ function getLinks(
       children: (
         <>
           <LeaderboardIcon />
-          Leaderboard
+          <span>Leaderboard</span>
         </>
       ),
       to: '/leaderboard',
@@ -75,7 +104,7 @@ function getLinks(
       children: (
         <>
           <AllContestsIcon />
-          All contests
+          <span>All contests</span>
         </>
       ),
       to: '/contests',
@@ -86,7 +115,7 @@ function getLinks(
       children: (
         <>
           <OngoingContestIcon />
-          Ongoing contest
+          <span>Ongoing contest</span>
         </>
       ),
       to: `/contests/$contestNumber`,
