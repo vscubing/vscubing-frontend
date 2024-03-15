@@ -18,7 +18,7 @@ const formSchema = z.object({
       /^[a-zA-Z0-9_.-]*$/,
       'Oops! Nicknames can only contain letters, numbers, underscores and hyphens. Please remove any special characters or spaces',
     )
-    .min(3, "Uh-oh! Your nickname should be between 3 and 32 characters. Let's tweak it to fit the rules"), // TODO: change error message
+    .min(3, "Uh-oh! Your nickname should be between 3 and 24 characters. Let's tweak it to fit the rules"), 
 })
 type UsernameForm = z.infer<typeof formSchema>
 

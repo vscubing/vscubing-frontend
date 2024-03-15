@@ -2,9 +2,9 @@ import { rawTailwindConfig } from './tailwindConfig'
 
 export const isTouchDevice = matchMedia('(pointer:coarse)').matches
 
-type Screen = keyof typeof rawTailwindConfig.theme.extend.screens
+type Screen = keyof typeof rawTailwindConfig.theme.screens
 type Query = { min?: string; max?: string } | { raw: string }
-const screens: Record<Screen, Query> = rawTailwindConfig.theme.extend.screens
+const screens: Record<Screen, Query> = rawTailwindConfig.theme.screens
 // WARNING: double check if it works before using
 export function matchesQuery(name: keyof typeof screens) {
   const data = screens[name]

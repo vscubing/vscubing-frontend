@@ -23,13 +23,13 @@ export function Layout() {
     <>
       <PickUsernameModal />
       <PopupMenu />
-      <div className='flex min-h-screen gap-3 p-[1.625rem] sm:px-3 sm:pb-0 sm:pt-3'>
+      <div className='flex min-h-screen gap-3 p-[1.625rem] sm:flex-col sm:px-3 sm:pb-0 sm:pt-3'>
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
         <main className='contents'>
           <Outlet />
         </main>
+        <StickyNavbar className='hidden sm:block' />
       </div>
-      <StickyNavbar className='hidden sm:block' />
     </>
   )
 }
@@ -42,9 +42,9 @@ function Sidebar({ className }: { className?: string }) {
       <aside className={cn('flex flex-col gap-3', className)}>
         <div className='flex h-[7rem] xl-short:h-[4.375rem] lg:h-[4.375rem] lg:gap-3 sm:h-14'>
           <Logo className='w-full lg:hidden' />
-          <Logo className='hidden lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
-          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex lg:min-w-[17rem]'>
-            <UsernameOrSignInButton />
+          <Logo className='hidden flex-shrink-0 lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
+          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex lg:min-w-[17rem] sm:min-w-0'>
+            <UsernameOrSignInButton className='flex-auto' />
           </div>
         </div>
         <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:py-3'>

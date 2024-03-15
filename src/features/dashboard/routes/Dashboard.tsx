@@ -53,13 +53,13 @@ function Lists({
   }
 
   return (
-    <div className={cn('flex flex-wrap gap-3', className)}>
+    <div className={cn('flex flex-wrap gap-3 sm:flex-col sm:flex-nowrap sm:gap-2', className)}>
       <LatestContests
-        className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)]'
+        className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)] sm:min-h-0 sm:basis-auto'
         contests={latestContests}
       />
       <BestSolves
-        className='min-h-[calc(50%-0.75rem/2)] min-w-[35rem] flex-grow-[1] basis-[calc(60%-0.75rem/2)]'
+        className='min-h-[calc(50%-0.75rem/2)] min-w-[35rem] flex-grow-[1] basis-[calc(60%-0.75rem/2)] sm:min-h-0 sm:min-w-0 sm:flex-1 sm:basis-auto'
         solves={bestSolves}
       />
     </div>

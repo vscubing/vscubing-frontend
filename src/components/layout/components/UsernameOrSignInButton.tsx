@@ -11,11 +11,13 @@ export function UsernameOrSignInButton({ className }: { className?: string }) {
   }
 
   return (
-    <span className={cn('flex items-center', className)}>
+    <span className={cn('flex flex-1 items-center', className)}>
       {user.isAuthed ? (
         <>
-          <AvatarIcon className='mr-3 inline-block' />
-          <span className='vertical-alignment-fix text-lg'>{user.username}</span>
+          <span className='vertical-alignment-fix w-0 flex-1 overflow-x-clip text-ellipsis whitespace-nowrap text-right text-lg'>
+            <AvatarIcon className='mr-3 inline-block' />
+            {user.username}
+          </span>
         </>
       ) : (
         <SignInButton variant='ghost' />

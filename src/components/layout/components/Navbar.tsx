@@ -48,7 +48,7 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
                 'text-primary-80 hover:text-primary-80': activeCondition,
               }),
             }}
-            className='caption-sm transition-base flex min-w-[4.625rem] flex-col items-center gap-1 px-1 text-grey-20 active:text-primary-80'
+            className='caption-sm transition-base flex min-w-[4.625rem] flex-col items-center gap-1 whitespace-nowrap px-1 text-grey-20 active:text-primary-80'
           >
             {children}
           </Link>
