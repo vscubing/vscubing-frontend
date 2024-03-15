@@ -44,7 +44,7 @@ function Sidebar({ className }: { className?: string }) {
           <Logo className='w-full lg:hidden' />
           <Logo className='hidden flex-shrink-0 lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
           <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex lg:min-w-[17rem] sm:min-w-0'>
-            <UsernameOrSignInButton className='flex-auto' />
+            <UsernameOrSignInButton usernameEllipsis className='flex-auto' />
           </div>
         </div>
         <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:py-3'>
