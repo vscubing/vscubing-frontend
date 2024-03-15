@@ -22,7 +22,7 @@ export function Dashboard() {
           Are you ready to take your love for cubing <span className='whitespace-nowrap'>to the next level?</span>
         </span>
 
-        <span className='title-lg hidden lg:inline'>{greeting}</span>
+        <span className='title-h1 sm:title-lg hidden lg:inline'>{greeting}</span>
       </h1>
       <OngoingContestBanner />
       <Lists className='flex-1' latestContests={data?.contests} bestSolves={data?.bestSolves} />

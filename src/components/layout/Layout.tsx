@@ -23,8 +23,8 @@ export function Layout() {
     <>
       <PickUsernameModal />
       <MobileMenu />
-      <div className='flex min-h-screen gap-3 p-[1.625rem]'>
-        <Sidebar className='lg:sr-only' />
+      <div className='flex min-h-screen gap-3 p-[1.625rem] sm:p-3'>
+        <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
         <main className='contents'>
           <Outlet />
         </main>
@@ -38,11 +38,11 @@ function Sidebar({ className }: { className?: string }) {
 
   return (
     <>
-      <aside className={cn('flex w-[clamp(16rem,20vw,21rem)] flex-col gap-3 xl-short:min-w-[19rem]', className)}>
+      <aside className={cn('flex flex-col gap-3', className)}>
         <div className='flex h-[7rem] xl-short:h-[4.375rem] lg:h-[4.375rem] lg:gap-3 sm:h-14'>
           <Logo className='w-full lg:hidden' />
           <Logo className='hidden lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
-          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex'>
+          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex lg:min-w-[17rem]'>
             <UsernameOrSignInButton />
           </div>
         </div>
@@ -54,14 +54,12 @@ function Sidebar({ className }: { className?: string }) {
           </div>
           <Navbar onItemSelect={() => setOpenOnMobile(false)} />
           <div className='mt-auto'>
-            <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1'>
+            <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1 sm:gap-2'>
               <SocialLinks />
               {/* TODO: animate the social links to slide up after login before the log out button appears */}
               <LogoutButton />
             </div>
-            <p className={cn('text-caption mt-6 text-center text-white-100', className)}>
-              © Virtual Speedcubing, 2023
-            </p>
+            <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2023</p>
           </div>
         </div>
       </aside>
@@ -77,9 +75,7 @@ function MobileMenu() {
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 z-50 bg-black-1000/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
         <Dialog.Content className='fixed bottom-0 right-0 top-0 z-50 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'>
-          <div className='h-full w-[22.5rem] bg-black-100 p-[1.625rem] sm:w-screen'>
-            <Sidebar className='h-full w-full' />
-          </div>
+          <Sidebar className='h-full w-full bg-black-100 p-[1.625rem] sm:w-screen' />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

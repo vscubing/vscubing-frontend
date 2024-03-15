@@ -11,7 +11,7 @@ export function UsernameOrSignInButton({ className }: { className?: string }) {
   }
 
   return (
-    <div className={cn('flex items-center', className)}>
+    <span className={cn('flex items-center', className)}>
       {user.isAuthed ? (
         <>
           <AvatarIcon className='mr-3 inline-block' />
@@ -20,6 +20,6 @@ export function UsernameOrSignInButton({ className }: { className?: string }) {
       ) : (
         <SignInButton variant='ghost' />
       )}
-    </div>
+    </span>
   )
 }
