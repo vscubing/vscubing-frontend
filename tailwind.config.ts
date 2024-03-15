@@ -11,6 +11,44 @@ export default {
       md: { max: '1023px' },
       sm: { max: '767px' },
     },
+    colors: {
+      current: 'currentColor',
+      transparent: 'transparent',
+      primary: {
+        60: '#81FC05',
+        80: '#70DF00',
+        100: '#60BD02',
+      },
+      secondary: {
+        20: '#8F8FFE',
+        40: '#7272CB',
+        60: '#565698',
+        80: '#393966',
+      },
+      black: {
+        80: '#282D30',
+        100: '#1B1E25',
+        1000: '#000000',
+      },
+      grey: {
+        20: '#DBE0E2',
+        40: '#9EACB3',
+        60: '#6B7980',
+        80: '#505B60',
+        100: '#363C40',
+      },
+      yellow: {
+        80: '#BDC03D',
+        100: '#DBDF00',
+      },
+      red: {
+        80: '#D65961',
+        100: '#BB434A',
+      },
+      white: {
+        100: '#F9F9F9',
+      },
+    },
     extend: {
       spacing: {
         15: '3.75rem',
@@ -18,42 +56,6 @@ export default {
       fontFamily: { kanit: 'Kanit, sans-serif', hind: 'Hind, sans-serif' },
       transitionDelay: {
         default: '300ms',
-      },
-      colors: {
-        primary: {
-          60: '#81FC05',
-          80: '#70DF00',
-          100: '#60BD02',
-        },
-        secondary: {
-          20: '#8F8FFE',
-          40: '#7272CB',
-          60: '#565698',
-          80: '#393966',
-        },
-        black: {
-          80: '#282D30',
-          100: '#1B1E25',
-          1000: '#000000',
-        },
-        grey: {
-          20: '#DBE0E2',
-          40: '#9EACB3',
-          60: '#6B7980',
-          80: '#505B60',
-          100: '#363C40',
-        },
-        yellow: {
-          80: '#BDC03D',
-          100: '#DBDF00',
-        },
-        red: {
-          80: '#D65961',
-          100: '#BB434A',
-        },
-        white: {
-          100: '#F9F9F9',
-        },
       },
       backgroundImage: {
         'dashboard-banner-cubes': "url('./assets/images/dashboard-banner-cubes.svg')",
