@@ -37,9 +37,14 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
         </UnderlineButton>
       </div>
       <div className='flex flex-1 flex-col gap-1'>
-        <div className='flex gap-3 pl-1 text-grey-40'>
-          <span>Type</span>
-          <span>Nickname</span>
+        <div className='flex pl-1 text-grey-40'>
+          <span className='mr-3 sm:hidden'>Type</span>
+          <span className='flex-1 sm:hidden'>Nickname</span>
+          <span className='hidden flex-1 sm:block'>Type/Nickname</span>
+          <span className='mr-4 w-24 text-center sm:mr-0'>Single time</span>
+          <div aria-hidden className='invisible h-0'>
+            <OpenLeaderboardButton discipline='3x3' />
+          </div>
         </div>
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <ResultSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
@@ -87,16 +92,32 @@ function Solve({ solve }: { solve: DashboardDTO['bestSolves'][number] }) {
         solveId={solve.id}
         contestNumber={solve.contestNumber}
       />
-      <SecondaryButton asChild className='sm:hidden'>
-        <Link to='/leaderboard/$discipline' params={{ discipline: solve.discipline.name }}>
+      <OpenLeaderboardButton discipline={solve.discipline.name} />
+    </div>
+  )
+}
+
+function OpenLeaderboardButton({ discipline }: { discipline: string }) {
+  const ariaLabel = `leaderboard`
+  const ariaDescription = `Open leaderboard for ${discipline}`
+  return (
+    <>
+      <SecondaryButton asChild className='sm:hidden' aria-label={ariaLabel} aria-description={ariaDescription}>
+        <Link to='/leaderboard/$discipline' params={{ discipline }}>
           leaderboard
         </Link>
       </SecondaryButton>
-      <SecondaryButton size='iconLg' asChild className='hidden w-16 sm:flex sm:h-16'>
-        <Link to='/leaderboard/$discipline' params={{ discipline: solve.discipline.name }}>
+      <SecondaryButton
+        size='iconLg'
+        asChild
+        className='hidden w-16 sm:flex sm:h-16'
+        aria-label={ariaLabel}
+        aria-description={ariaDescription}
+      >
+        <Link to='/leaderboard/$discipline' params={{ discipline }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>
-    </div>
+    </>
   )
 }
