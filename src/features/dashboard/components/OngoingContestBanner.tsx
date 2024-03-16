@@ -49,7 +49,7 @@ function BannerContent({ className }: { className?: string }) {
 function MobileBannerContent({ className }: { className?: string }) {
   return (
     <div className={cn('flex sm:flex-col sm:px-3 sm:py-4', className)}>
-      <div className='relative py-4 pl-4 sm:flex sm:items-center sm:gap-4 sm:p-0'>
+      <div className='relative z-10 py-4 pl-4 sm:flex sm:items-center sm:gap-4 sm:p-0'>
         <h2 className='title-lg'>
           <span className='text-secondary-20'>Ongoing</span> Contest
         </h2>
