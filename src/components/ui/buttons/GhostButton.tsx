@@ -7,10 +7,10 @@ import { type ButtonHTMLAttributes, forwardRef } from 'react'
 const ghostButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
   variants: {
     variant: {
-      default: 'text-white-100 rounded-xl disabled:text-grey-60',
+      default: 'rounded-xl text-white-100 disabled:text-grey-60',
     },
     size: {
-      lg: 'btn-lg hover:border-white-100 active:bg-white-100 h-12 gap-2 border border-transparent px-4 active:text-black-100 disabled:border-transparent disabled:bg-transparent',
+      lg: 'btn-lg h-12 gap-2 border border-transparent px-4 hover:border-white-100 active:bg-white-100 active:text-black-100 disabled:border-transparent disabled:bg-transparent sm:h-11',
       sm: 'btn-sm gap-3 px-2 py-1 hover:text-primary-60 active:text-primary-80',
     },
   },

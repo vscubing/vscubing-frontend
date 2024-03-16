@@ -11,10 +11,10 @@ const secondaryButtonVariants = cva('transition-base outline-ring inline-flex it
         'rounded-xl border border-secondary-20 text-primary-80 hover:border-transparent hover:bg-secondary-40 hover:text-primary-60 active:border-transparent active:bg-secondary-60 active:text-primary-60 disabled:border-grey-40 disabled:bg-transparent disabled:text-grey-40 [&>svg]:h-6 [&>svg]:w-6',
     },
     size: {
-      lg: 'btn-sm h-15 px-4',
+      lg: 'btn-sm h-15 px-4 sm:h-14',
       sm: 'btn-sm h-11 px-4',
-      iconLg: 'h-20 w-20',
-      iconSm: 'h-15 w-15',
+      iconLg: 'h-20 w-20 sm:h-16 sm:w-16',
+      iconSm: 'h-15 w-15 sm:h-11 sm:w-11',
     },
   },
   defaultVariants: {
