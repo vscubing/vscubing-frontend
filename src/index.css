@@ -9,7 +9,7 @@
     @apply text-base;
   }
   body {
-    @apply bg-black-100 font-hind leading-[1.5] text-white-100 sm:text-sm;
+    @apply bg-black-100 font-hind leading-[1.5] text-white-100 sm:text-[1.25rem];
   }
   svg {
     @apply text-[1rem];

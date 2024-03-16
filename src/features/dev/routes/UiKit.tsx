@@ -144,7 +144,7 @@ export function UiKit() {
         </SecondaryButton>
 
         <AlertDialog>
-          <AlertDialogTrigger>
+          <AlertDialogTrigger asChild>
             <PrimaryButton>Modal</PrimaryButton>
           </AlertDialogTrigger>
           <AlertDialogContent>
