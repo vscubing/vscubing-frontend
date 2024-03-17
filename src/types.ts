@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export type Scramble = { scramble: string; position: string; extra: boolean; id: number }
 export type Discipline = (typeof DISCIPLINES)[number]
+export type ContestInfo = { id: number; contestNumber: number; start: string; end: string }
 
 export const DEFAULT_DISCIPLINE: Discipline = '3by3'
 export const DISCIPLINES = ['3by3'] as const

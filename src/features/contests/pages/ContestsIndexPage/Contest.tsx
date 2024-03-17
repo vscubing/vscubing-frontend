@@ -1,12 +1,11 @@
 import { CubeIcon, SecondaryButton } from '@/components/ui'
-import type { Discipline } from '@/types'
+import type { ContestInfo, Discipline } from '@/types'
 import { cn, formatDate } from '@/utils'
 import { Link, getRouteApi } from '@tanstack/react-router'
-import { type ContestListItemDTO } from '../../api'
 import { type ComponentProps, forwardRef } from 'react'
 
 const route = getRouteApi('/contests/')
-export function Contest({ contest, discipline }: { contest: ContestListItemDTO; discipline: Discipline }) {
+export function ContestRow({ contest, discipline }: { contest: ContestInfo; discipline: Discipline }) {
   return (
     <li className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
       <CubeIcon cube='3by3' className='mr-4' />
@@ -14,7 +13,7 @@ export function Contest({ contest, discipline }: { contest: ContestListItemDTO; 
         Contest {contest.contestNumber}
       </span>
       <span className='vertical-alignment-fix mr-10 w-44'>
-        {formatDate(contest.startDate)} - {formatDate(contest.endDate!) /* TODO: remove type assertion */}
+        {formatDate(contest.start)} - {formatDate(contest.end) /* TODO: remove type assertion */}
       </span>
       <SecondaryButton asChild>
         <Link
@@ -30,6 +29,6 @@ export function Contest({ contest, discipline }: { contest: ContestListItemDTO; 
   )
 }
 
-export const ContestSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
+export const ContestRowSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
   return <li ref={ref} {...props} className={cn('h-15 animate-pulse rounded-xl bg-grey-100', className)}></li>
 })

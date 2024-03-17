@@ -12,7 +12,7 @@ export type ContestListItemDTO = {
   id: number
   contestNumber: number
   startDate: string
-  endDate: string | null
+  endDate: string
   isOngoing: boolean
 }
 

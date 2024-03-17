@@ -3,12 +3,16 @@ import { Header } from '@/components/layout'
 import { CubeButton, HintSection, Pagination } from '@/components/ui'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { cn, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { cn, matchesQuery, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
 import { useEffect } from 'react'
 import type { Discipline } from '@/types'
 import { getContestsQuery, type ContestsListDTO } from '../../api'
-import { ContestSkeleton, Contest } from './Contest'
+import { ContestRowSkeleton, ContestRow } from './Contest'
 import { ContestsListHeader } from './ContestsListHeader'
+import { Contest as ContestMobile, ContestSkeleton as ContestMobileSkeleton } from '@/components/Contest'
+
+const Contest = matchesQuery('sm') ? ContestMobile : ContestRow
+const ContestSkeleton = matchesQuery('sm') ? ContestMobileSkeleton : ContestRowSkeleton
 
 const route = getRouteApi('/contests/')
 export function ContestsIndexPage() {
@@ -37,11 +41,11 @@ export function ContestsIndexPage() {
       <Header caption={<h1>Explore contests</h1>} />
       <h1 className='title-h2 hidden text-secondary-20 lg:block'>Explore contests</h1>
       <NavigateBackButton className='self-start' />
-      <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4'>
+      <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4 sm:p-3'>
         <Link from={route.id} search={{ discipline: '3by3' }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        <Pagination currentPage={page} totalPages={data?.totalPages} />
+        <Pagination className='sm:hidden' currentPage={page} totalPages={data?.totalPages} />
       </div>
       <ContestsListWrapper
         className='flex-1'
@@ -80,10 +84,10 @@ function ContestsListWrapper({
   }
 
   return (
-    <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6', className)}>
-      <ContestsListHeader />
+    <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3', className)}>
+      <ContestsListHeader className='sm:hidden' />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
+        <ContestRowSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
         <ContestsList contests={contests} discipline={discipline} pageSize={pageSize} />
       </ul>
     </div>
@@ -103,5 +107,7 @@ function ContestsList({ contests, discipline, pageSize }: ContestsListProps) {
     return Array.from({ length: pageSize }, (_, index) => <ContestSkeleton key={index} />)
   }
 
-  return contests.map((contest) => <Contest key={contest.id} contest={contest} discipline={discipline} />)
+  return contests.map(({ contestNumber, id, endDate, startDate }) => (
+    <Contest key={id} contest={{ id, contestNumber, start: startDate, end: endDate }} discipline={discipline} />
+  ))
 }
