@@ -1,20 +1,19 @@
 import { cn } from '@/utils'
-import { type HTMLAttributes, forwardRef, useEffect, useImperativeHandle } from 'react'
-import { useResizeDetector } from 'react-resize-detector'
+import { type HTMLAttributes, forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 
 type EllipsisProps = Omit<HTMLAttributes<HTMLSpanElement>, 'children'> & {
   children: string
 }
 
 const Ellipsis = forwardRef<HTMLSpanElement, EllipsisProps>(({ children: text, className, ...props }, ref) => {
-  const { width, ref: innerRef } = useResizeDetector<HTMLSpanElement>()
+  const innerRef = useRef<HTMLSpanElement>(null)
   useEffect(() => {
     const elem = innerRef.current
     if (elem?.textContent && elem.offsetWidth < elem.scrollWidth) {
       elem.setAttribute('title', elem.textContent)
       return () => elem.removeAttribute('title')
     }
-  }, [text, ref, innerRef, width])
+  }, [text, innerRef])
   useImperativeHandle(ref, () => innerRef.current!, [innerRef])
   return (
     <span className={cn('w-0 overflow-x-clip text-ellipsis whitespace-nowrap', className)} ref={innerRef} {...props}>
