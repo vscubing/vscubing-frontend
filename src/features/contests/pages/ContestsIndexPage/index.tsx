@@ -33,7 +33,7 @@ export function ContestsIndexPage() {
   }, [error?.response?.status, navigate, discipline])
 
   return (
-    <section className='flex flex-1 flex-col gap-3'>
+    <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
       <Header caption={<h1>Explore contests</h1>} />
       <h1 className='title-h2 hidden text-secondary-20 lg:block'>Explore contests</h1>
       <NavigateBackButton className='self-start' />
