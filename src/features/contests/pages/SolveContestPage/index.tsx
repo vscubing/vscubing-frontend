@@ -3,9 +3,9 @@ import {
   CubeButton,
   ExclamationCircleIcon,
   HintSection,
+  HintSignInSection,
   LoadingSpinner,
   PrimaryButton,
-  SignInButton,
   UnderlineButton,
 } from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
@@ -68,12 +68,7 @@ export function SolvePageContent() {
   }
 
   if (errorStatus === 401) {
-    return (
-      <HintSection>
-        <p>You need to be signed in to participate in a contest</p>
-        <SignInButton variant='primary' />
-      </HintSection>
-    )
+    return <HintSignInSection description='You need to be signed in to participate in a contest' />
   }
 
   if (!state) {
