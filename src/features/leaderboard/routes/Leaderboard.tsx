@@ -6,7 +6,7 @@ import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeButton, HintSection, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
-import { cn, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { cn, useAutofillHeight } from '@/utils'
 
 const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
@@ -17,13 +17,12 @@ export function Leaderboard() {
   const { discipline, page } = route.useLoaderData()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
-  const debouncedPageSize = useDebounceAfterFirst(pageSize)
 
   const query = getLeaderboardQuery({
     discipline,
     page,
-    pageSize: debouncedPageSize ?? 0,
-    isEnabled: debouncedPageSize !== undefined,
+    pageSize: pageSize ?? 0,
+    isEnabled: pageSize !== undefined,
   })
 
   const { data, error, isFetching } = useQuery(query)
@@ -49,7 +48,7 @@ export function Leaderboard() {
         className='flex-1'
         results={data?.results}
         ownResult={data?.ownResult}
-        pageSize={debouncedPageSize}
+        pageSize={pageSize}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         isFetching={isFetching}
