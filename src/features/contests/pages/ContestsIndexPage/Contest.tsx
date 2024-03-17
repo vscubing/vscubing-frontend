@@ -5,9 +5,10 @@ import { Link, getRouteApi } from '@tanstack/react-router'
 import { type ComponentProps, forwardRef } from 'react'
 
 const route = getRouteApi('/contests/')
-export function ContestRow({ contest, discipline }: { contest: ContestInfo; discipline: Discipline }) {
+type ContestProps = { contest: ContestInfo; discipline: Discipline }
+export const ContestRow = forwardRef<HTMLLIElement, ContestProps>(({ contest, discipline }, ref) => {
   return (
-    <li className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
+    <li ref={ref} className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
       <CubeIcon cube='3by3' className='mr-4' />
       <span className='vertical-alignment-fix relative mr-4 flex-1 pr-4 after:absolute after:right-0 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'>
         Contest {contest.contestNumber}
@@ -27,7 +28,7 @@ export function ContestRow({ contest, discipline }: { contest: ContestInfo; disc
       </SecondaryButton>
     </li>
   )
-}
+})
 
 export const ContestRowSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
   return <li ref={ref} {...props} className={cn('h-15 animate-pulse rounded-xl bg-grey-100', className)}></li>

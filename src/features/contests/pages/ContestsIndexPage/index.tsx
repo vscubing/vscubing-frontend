@@ -2,13 +2,15 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
 import { CubeButton, HintSection, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
-import { cn, matchesQuery, useAutofillHeight, useDebounceAfterFirst } from '@/utils'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { cn, matchesQuery, useAutofillHeight } from '@/utils'
 import type { Discipline } from '@/types'
-import { getContestsQuery, type ContestsListDTO } from '../../api'
+import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
 import { ContestRowSkeleton, ContestRow } from './Contest'
 import { ContestsListHeader } from './ContestsListHeader'
 import { Contest as ContestMobile, ContestSkeleton as ContestMobileSkeleton } from '@/components/Contest'
+import { useIntersectionObserver } from 'usehooks-ts'
+import { useEffect } from 'react'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestRow
 const ContestSkeleton = matchesQuery('sm') ? ContestMobileSkeleton : ContestRowSkeleton
@@ -20,15 +22,24 @@ export function ContestsIndexPage() {
 
 function ControllerWithInfiniteScroll() {
   const { page, discipline } = route.useLoaderData()
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight(undefined, page === 1)
 
-  const query = getContestsQuery({
+  const query = getInfiniteContestsQuery({
     discipline,
-    page: 1,
-    pageSize: 1000,
-    isEnabled: true,
+    pageSize: pageSize ?? 0,
+    isEnabled: pageSize !== undefined,
   })
-  const { data } = useQuery(query)
+  const { data, fetchNextPage } = useInfiniteQuery(query)
+
+  const totalPages = data?.pages?.[0].totalPages
+  const allPagesLoaded = totalPages && data?.pages?.length === totalPages
+
+  const { isIntersecting, entry: lastEntry, ref: lastElementRef } = useIntersectionObserver({ rootMargin: '10%' })
+  useEffect(() => {
+    if (isIntersecting && !allPagesLoaded) {
+      void fetchNextPage()
+    }
+  }, [lastEntry, isIntersecting, allPagesLoaded, fetchNextPage])
 
   if (page !== 1) {
     return <Navigate from={route.id} params={discipline} search={{ page: 1 }} />
@@ -36,7 +47,37 @@ function ControllerWithInfiniteScroll() {
 
   return (
     <View
-      behavior='infinite-scroll'
+      withPagination={false}
+      contests={data?.pages.flatMap((page) => page.contests!)}
+      pageSize={pageSize}
+      discipline={discipline}
+      containerRef={containerRef}
+      fakeElementRef={fakeElementRef}
+      lastElementRef={lastElementRef}
+    />
+  )
+}
+
+function ControllerWithPagination() {
+  const { page, discipline } = route.useLoaderData()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+
+  const query = getContestsQuery({
+    discipline,
+    page,
+    pageSize: pageSize ?? 0,
+    isEnabled: pageSize !== undefined,
+  })
+
+  const { data, error } = useQuery(query)
+
+  if (error?.response?.status === 400) {
+    return <Navigate from={route.id} params={discipline} search={{ page: 1 }} />
+  }
+
+  return (
+    <View
+      withPagination={true}
       contests={data?.contests}
       totalPages={data?.totalPages}
       page={page}
@@ -48,40 +89,22 @@ function ControllerWithInfiniteScroll() {
   )
 }
 
-function ControllerWithPagination() {
-  const { page, discipline } = route.useLoaderData()
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
-  const debouncedPageSize = useDebounceAfterFirst(pageSize)
-
-  const query = getContestsQuery({
-    discipline,
-    page,
-    pageSize: debouncedPageSize ?? 0,
-    isEnabled: debouncedPageSize !== undefined,
-  })
-
-  const { data, error } = useQuery(query)
-
-  if (error?.response?.status === 400) {
-    return <Navigate from={route.id} params={discipline} search={{ page: 1 }} />
-  }
-
-  return (
-    <View
-      behavior='pagination'
-      contests={data?.contests}
-      totalPages={data?.totalPages}
-      page={page}
-      pageSize={debouncedPageSize}
-      discipline={discipline}
-      containerRef={containerRef}
-      fakeElementRef={fakeElementRef}
-    />
-  )
+type ViewProps = ContestsListWrapperProps & {
+  page?: number
+  totalPages?: number
+  withPagination: boolean
 }
-
-type ViewProps = ContestsListWrapperProps & { page?: number; totalPages?: number }
-function View({ behavior, page, contests, discipline, pageSize, totalPages, containerRef, fakeElementRef }: ViewProps) {
+function View({
+  withPagination,
+  page,
+  contests,
+  discipline,
+  pageSize,
+  totalPages,
+  containerRef,
+  fakeElementRef,
+  lastElementRef,
+}: ViewProps) {
   return (
     <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
       <Header caption={<h1>Explore contests</h1>} />
@@ -91,34 +114,33 @@ function View({ behavior, page, contests, discipline, pageSize, totalPages, cont
         <Link from={route.id} search={{ discipline: '3by3' }}>
           <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        {behavior === 'pagination' && <Pagination currentPage={page ?? 1} totalPages={totalPages ?? 1} />}
+        {withPagination && page !== undefined && <Pagination currentPage={page} totalPages={totalPages} />}
       </div>
       <ContestsListWrapper
-        behavior={behavior}
         className='flex-1'
         contests={contests}
         discipline={discipline}
         pageSize={pageSize}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
+        lastElementRef={lastElementRef}
       />
     </section>
   )
 }
 
-type ContestsListWrapperProps = {
-  className?: string
+type ContestsListWrapperProps = ContestsListProps & {
   containerRef: React.RefObject<HTMLUListElement>
   fakeElementRef: React.RefObject<HTMLLIElement>
-} & ContestsListProps
+}
 function ContestsListWrapper({
-  behavior,
   className,
   contests,
   discipline,
   pageSize,
   containerRef,
   fakeElementRef,
+  lastElementRef,
 }: ContestsListWrapperProps) {
   if (contests?.length === 0) {
     return (
@@ -136,7 +158,7 @@ function ContestsListWrapper({
       <ContestsListHeader className='sm:hidden' />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
         <ContestRowSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
-        <ContestsList behavior={behavior} contests={contests} discipline={discipline} pageSize={pageSize} />
+        <ContestsList lastElementRef={lastElementRef} contests={contests} discipline={discipline} pageSize={pageSize} />
       </ul>
     </div>
   )
@@ -147,9 +169,9 @@ type ContestsListProps = {
   contests?: ContestsListDTO['contests']
   discipline: Discipline
   pageSize?: number
-  behavior: 'pagination' | 'infinite-scroll'
+  lastElementRef?: (node?: Element | null) => void
 }
-function ContestsList({ contests, discipline, pageSize }: ContestsListProps) {
+function ContestsList({ contests, discipline, pageSize, lastElementRef }: ContestsListProps) {
   if (pageSize === undefined) {
     return null
   }
@@ -157,7 +179,12 @@ function ContestsList({ contests, discipline, pageSize }: ContestsListProps) {
     return Array.from({ length: pageSize }, (_, index) => <ContestSkeleton key={index} />)
   }
 
-  return contests.map(({ contestNumber, id, endDate, startDate }) => (
-    <Contest key={id} contest={{ id, contestNumber, start: startDate, end: endDate }} discipline={discipline} />
+  return contests.map(({ contestNumber, id, endDate, startDate }, index) => (
+    <Contest
+      ref={index === contests.length - 1 ? lastElementRef : undefined}
+      key={id}
+      contest={{ id, contestNumber, start: startDate, end: endDate }}
+      discipline={discipline}
+    />
   ))
 }

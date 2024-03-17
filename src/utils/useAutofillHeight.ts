@@ -3,13 +3,13 @@ import { useRef, useState, useEffect } from 'react'
 export function useAutofillHeight<
   TContainer extends HTMLElement = HTMLUListElement,
   TFake extends HTMLElement = HTMLLIElement,
->(min = 1) {
+>(min = 1, enabled = true) {
   const containerRef = useRef<TContainer>(null)
   const fakeElementRef = useRef<TFake>(null)
   const [fittingCount, setFittingCount] = useState<number>()
 
   useEffect(() => {
-    if (!containerRef.current || !fakeElementRef.current) {
+    if (!enabled || !containerRef.current || !fakeElementRef.current) {
       return
     }
 
@@ -21,6 +21,6 @@ export function useAutofillHeight<
     count = Math.max(count, min)
 
     setFittingCount(count)
-  }, [containerRef, fakeElementRef, min])
+  }, [containerRef, fakeElementRef, min, enabled])
   return { fittingCount, containerRef, fakeElementRef }
 }

@@ -49,9 +49,5 @@ function Contests({ contests, countToDisplay }: { contests?: DashboardDTO['conte
     return Array.from({ length: countToDisplay }, (_, index) => <ContestSkeleton key={index} />)
   }
 
-  return contests.map((contest) => (
-    <li key={contest.id}>
-      <Contest contest={contest} />
-    </li>
-  ))
+  return contests.map((contest) => <Contest key={contest.id} contest={contest} />)
 }

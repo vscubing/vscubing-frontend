@@ -1,6 +1,6 @@
 import type { Discipline } from '@/types'
 import { timeout } from '@/utils'
-import { queryOptions } from '@tanstack/react-query'
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
 export type ContestsListDTO = {
@@ -31,6 +31,24 @@ export function getContestsQuery({
     queryKey: ['contests-list', discipline, page, pageSize],
     queryFn: () => getMockContests({ page, pageSize }),
     placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
+    enabled: isEnabled,
+  })
+}
+
+export function getInfiniteContestsQuery({
+  discipline,
+  pageSize,
+  isEnabled,
+}: {
+  discipline: Discipline
+  pageSize: number
+  isEnabled: boolean
+}) {
+  return infiniteQueryOptions({
+    queryKey: ['contests-list', discipline, pageSize],
+    queryFn: ({ pageParam: page }) => getMockContests({ page, pageSize: Math.floor(pageSize * 2) }),
+    getNextPageParam: (_, pages) => pages.length + 1,
+    initialPageParam: 1,
     enabled: isEnabled,
   })
 }
