@@ -1,8 +1,8 @@
-import { formatDate } from '@/utils'
+import { cn, formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { SecondaryButton, ArrowRightIcon } from './ui'
 import { type ContestInfo } from '@/types'
-import { forwardRef } from 'react'
+import { ComponentProps, forwardRef } from 'react'
 
 type ContestProps = { contest: ContestInfo }
 export const Contest = forwardRef<HTMLLIElement, ContestProps>(({ contest: { contestNumber, start, end } }, ref) => {
@@ -23,6 +23,6 @@ export const Contest = forwardRef<HTMLLIElement, ContestProps>(({ contest: { con
   )
 })
 
-export function ContestSkeleton() {
-  return <div className='h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16'></div>
-}
+export const ContestSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
+  return <li ref={ref} {...props} className={cn('h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16', className)}></li>
+})

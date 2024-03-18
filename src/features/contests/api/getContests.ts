@@ -20,37 +20,46 @@ export function getContestsQuery({
   discipline,
   page,
   pageSize,
-  isEnabled,
 }: {
   discipline: Discipline
   page: number
-  pageSize: number
-  isEnabled: boolean
+  pageSize: number | undefined
 }) {
+  let enabled = true
+  if (pageSize === undefined) {
+    pageSize = 0
+    enabled = false
+  }
+
   return queryOptions({
     queryKey: ['contests-list', discipline, page, pageSize],
     queryFn: () => getMockContests({ page, pageSize }),
     placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
-    enabled: isEnabled,
+    enabled,
   })
 }
 
 export function getInfiniteContestsQuery({
   discipline,
   pageSize,
-  isEnabled,
 }: {
   discipline: Discipline
-  pageSize: number
-  isEnabled: boolean
+  pageSize: number | undefined
 }) {
-  return infiniteQueryOptions({
+  let enabled = true
+  if (pageSize === undefined) {
+    pageSize = 0
+    enabled = false
+  }
+
+  const acme = infiniteQueryOptions({
     queryKey: ['contests-list', discipline, pageSize],
     queryFn: ({ pageParam: page }) => getMockContests({ page, pageSize: Math.floor(pageSize * 2) }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
-    enabled: isEnabled,
+    enabled,
   })
+  return acme
 }
 
 async function getMockContests({ page, pageSize }: { page: number; pageSize: number }): Promise<ContestsListDTO> {

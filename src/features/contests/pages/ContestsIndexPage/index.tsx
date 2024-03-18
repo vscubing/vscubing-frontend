@@ -2,18 +2,17 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
 import { CubeButton, HintSection, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { cn, matchesQuery, useAutofillHeight } from '@/utils'
+import { useQuery } from '@tanstack/react-query'
+import { cn, matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
 import type { Discipline } from '@/types'
 import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
-import { ContestRowSkeleton, ContestRow } from './Contest'
+import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import { ContestsListHeader } from './ContestsListHeader'
 import { Contest as ContestMobile, ContestSkeleton as ContestMobileSkeleton } from '@/components/Contest'
-import { useIntersectionObserver } from 'usehooks-ts'
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 
-const Contest = matchesQuery('sm') ? ContestMobile : ContestRow
-const ContestSkeleton = matchesQuery('sm') ? ContestMobileSkeleton : ContestRowSkeleton
+const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
+const ContestSkeleton = matchesQuery('sm') ? ContestMobileSkeleton : ContestSkeletonDesktop
 
 const route = getRouteApi('/contests/')
 export function ContestsIndexPage() {
@@ -22,24 +21,10 @@ export function ContestsIndexPage() {
 
 function ControllerWithInfiniteScroll() {
   const { discipline } = route.useLoaderData()
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight(undefined)
 
-  const query = getInfiniteContestsQuery({
-    discipline,
-    pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
-  })
-  const { data, fetchNextPage } = useInfiniteQuery(query)
-
-  const totalPages = data?.pages?.[0].totalPages
-  const allPagesLoaded = totalPages && data?.pages?.length === totalPages
-
-  const { isIntersecting, entry: lastEntry, ref: lastElementRef } = useIntersectionObserver({ rootMargin: '10%' })
-  useEffect(() => {
-    if (isIntersecting && !allPagesLoaded) {
-      void fetchNextPage()
-    }
-  }, [lastEntry, isIntersecting, allPagesLoaded, fetchNextPage])
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const query = getInfiniteContestsQuery({ discipline, pageSize })
+  const { data, lastElementRef } = useControllerWithInfiniteScroll(query)
 
   return (
     <View discipline={discipline}>
@@ -57,15 +42,9 @@ function ControllerWithInfiniteScroll() {
 
 function ControllerWithPagination() {
   const { page, discipline } = route.useLoaderData()
+
   const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
-
-  const query = getContestsQuery({
-    discipline,
-    page,
-    pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
-  })
-
+  const query = getContestsQuery({ discipline, page, pageSize })
   const { data, error } = useQuery(query)
 
   if (error?.response?.status === 400) {
@@ -138,7 +117,7 @@ function ContestsList({
     <div className={cn('flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3', className)}>
       <ContestsListHeader className='sm:hidden' />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <ContestRowSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
+        <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
         <ContestsListInner
           lastElementRef={lastElementRef}
           contests={contests}
