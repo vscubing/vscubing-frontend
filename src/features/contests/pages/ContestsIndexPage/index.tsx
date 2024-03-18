@@ -21,8 +21,8 @@ export function ContestsIndexPage() {
 }
 
 function ControllerWithInfiniteScroll() {
-  const { page, discipline } = route.useLoaderData()
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight(undefined, page === 1)
+  const { discipline } = route.useLoaderData()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight(undefined)
 
   const query = getInfiniteContestsQuery({
     discipline,
@@ -40,10 +40,6 @@ function ControllerWithInfiniteScroll() {
       void fetchNextPage()
     }
   }, [lastEntry, isIntersecting, allPagesLoaded, fetchNextPage])
-
-  if (page !== 1) {
-    return <Navigate from={route.id} params={discipline} search={{ page: 1 }} />
-  }
 
   return (
     <View discipline={discipline}>
