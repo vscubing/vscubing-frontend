@@ -10,7 +10,7 @@ import { ContestRowSkeleton, ContestRow } from './Contest'
 import { ContestsListHeader } from './ContestsListHeader'
 import { Contest as ContestMobile, ContestSkeleton as ContestMobileSkeleton } from '@/components/Contest'
 import { useIntersectionObserver } from 'usehooks-ts'
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestRow
 const ContestSkeleton = matchesQuery('sm') ? ContestMobileSkeleton : ContestRowSkeleton
@@ -46,15 +46,16 @@ function ControllerWithInfiniteScroll() {
   }
 
   return (
-    <View
-      withPagination={false}
-      contests={data?.pages.flatMap((page) => page.contests!)}
-      pageSize={pageSize}
-      discipline={discipline}
-      containerRef={containerRef}
-      fakeElementRef={fakeElementRef}
-      lastElementRef={lastElementRef}
-    />
+    <View discipline={discipline}>
+      <ContestsList
+        contests={data?.pages.flatMap((page) => page.contests!)}
+        pageSize={pageSize}
+        discipline={discipline}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        lastElementRef={lastElementRef}
+      />
+    </View>
   )
 }
 
@@ -76,39 +77,31 @@ function ControllerWithPagination() {
   }
 
   return (
-    <View
-      withPagination={true}
-      contests={data?.contests}
-      totalPages={data?.totalPages}
-      page={page}
-      pageSize={pageSize}
-      discipline={discipline}
-      containerRef={containerRef}
-      fakeElementRef={fakeElementRef}
-    />
+    <View withPagination totalPages={data?.totalPages} page={page} discipline={discipline}>
+      <ContestsList
+        contests={data?.contests}
+        pageSize={pageSize}
+        discipline={discipline}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+      />
+    </View>
   )
 }
 
-type ViewProps = ContestsListWrapperProps & {
+type ViewProps = {
   page?: number
   totalPages?: number
-  withPagination: boolean
+  withPagination?: boolean
+  discipline: Discipline
+  children: ReactNode
 }
-function View({
-  withPagination,
-  page,
-  contests,
-  discipline,
-  pageSize,
-  totalPages,
-  containerRef,
-  fakeElementRef,
-  lastElementRef,
-}: ViewProps) {
+function View({ withPagination = false, page, discipline, totalPages, children }: ViewProps) {
+  const heading = 'Explore contests'
   return (
     <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
-      <Header caption={<h1>Explore contests</h1>} />
-      <h1 className='title-h2 hidden text-secondary-20 lg:block'>Explore contests</h1>
+      <Header caption={<h1>{heading}</h1>} />
+      <h1 className='title-h2 hidden text-secondary-20 lg:block'>{heading}</h1>
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4 sm:p-3'>
         <Link from={route.id} search={{ discipline: '3by3' }}>
@@ -116,24 +109,16 @@ function View({
         </Link>
         {withPagination && page !== undefined && <Pagination currentPage={page} totalPages={totalPages} />}
       </div>
-      <ContestsListWrapper
-        className='flex-1'
-        contests={contests}
-        discipline={discipline}
-        pageSize={pageSize}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        lastElementRef={lastElementRef}
-      />
+      {children}
     </section>
   )
 }
 
-type ContestsListWrapperProps = ContestsListProps & {
+type ContestsListProps = ContestsListInnerProps & {
   containerRef: React.RefObject<HTMLUListElement>
   fakeElementRef: React.RefObject<HTMLLIElement>
 }
-function ContestsListWrapper({
+function ContestsList({
   className,
   contests,
   discipline,
@@ -141,7 +126,7 @@ function ContestsListWrapper({
   containerRef,
   fakeElementRef,
   lastElementRef,
-}: ContestsListWrapperProps) {
+}: ContestsListProps) {
   if (contests?.length === 0) {
     return (
       <HintSection>
@@ -154,24 +139,29 @@ function ContestsListWrapper({
   }
 
   return (
-    <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3', className)}>
+    <div className={cn('flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3', className)}>
       <ContestsListHeader className='sm:hidden' />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
         <ContestRowSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
-        <ContestsList lastElementRef={lastElementRef} contests={contests} discipline={discipline} pageSize={pageSize} />
+        <ContestsListInner
+          lastElementRef={lastElementRef}
+          contests={contests}
+          discipline={discipline}
+          pageSize={pageSize}
+        />
       </ul>
     </div>
   )
 }
 
-type ContestsListProps = {
+type ContestsListInnerProps = {
   className?: string
   contests?: ContestsListDTO['contests']
   discipline: Discipline
   pageSize?: number
   lastElementRef?: (node?: Element | null) => void
 }
-function ContestsList({ contests, discipline, pageSize, lastElementRef }: ContestsListProps) {
+function ContestsListInner({ contests, discipline, pageSize, lastElementRef }: ContestsListInnerProps) {
   if (pageSize === undefined) {
     return null
   }
