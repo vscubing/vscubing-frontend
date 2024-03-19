@@ -5,7 +5,7 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
-import { LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult } from '../api'
+import { type LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult } from '../api'
 import { type ListWithPinnedItemProps, type ListWrapperProps, AutofillHeight } from '@/features/autofillHeight'
 
 const route = getRouteApi('/leaderboard/$discipline')
