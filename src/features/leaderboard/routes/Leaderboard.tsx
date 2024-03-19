@@ -5,9 +5,8 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
-import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
-import { cn } from '@/utils'
-import { AutofillHeight } from '@/features/autofillHeight'
+import { LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult } from '../api'
+import { type ListWithPinnedItemProps, type ListWrapperProps, AutofillHeight } from '@/features/autofillHeight'
 
 const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
@@ -46,9 +45,8 @@ export function Leaderboard() {
         <Pagination currentPage={page} totalPages={data?.totalPages} className='ml-auto' />
       </SectionHeader>
       <ResultsList
-        className='flex-1'
-        results={data?.results}
-        ownResult={data?.ownResult}
+        list={data?.results ?? undefined}
+        ownResult={data?.ownResult ?? null}
         pageSize={pageSize}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
@@ -58,21 +56,13 @@ export function Leaderboard() {
   )
 }
 
-type ResultsListProps = {
-  className?: string
-  containerRef: React.RefObject<HTMLUListElement>
-  fakeElementRef: React.RefObject<HTMLLIElement>
-} & ResultsListInnerProps
-function ResultsList({
-  className,
-  results,
-  ownResult,
-  pageSize,
-  containerRef,
-  fakeElementRef,
-  isFetching,
-}: ResultsListProps) {
-  if (results?.length === 0) {
+type ResultsListProps = { ownResult: LeaderboardDTO['ownResult'] } & Pick<
+  ListWrapperProps,
+  'containerRef' | 'fakeElementRef'
+> &
+  Pick<ListWithPinnedItemProps<LeaderboardResult>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching'>
+function ResultsList({ list, ownResult, pageSize, containerRef, fakeElementRef, isFetching }: ResultsListProps) {
+  if (list?.length === 0) {
     return (
       <HintSection>
         <p>
@@ -83,38 +73,25 @@ function ResultsList({
   }
 
   return (
-    <div className={cn('flex flex-col gap-1 rounded-2xl bg-black-80 p-6', className)}>
+    <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
       <ResultsHeader className='md:hidden' />
-      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <ResultSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
-        <ResultsListInner isFetching={isFetching} results={results} ownResult={ownResult} pageSize={pageSize} />
-      </ul>
+      <AutofillHeight.ListWrapper
+        renderSkeleton={() => <ResultSkeleton />}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+      >
+        <AutofillHeight.ListWithPinnedItem
+          hasPinnedItem={ownResult?.isDisplayedSeparately === true}
+          renderPinnedItem={() =>
+            ownResult ? <Result isOwn linkToPage={ownResult.page} result={ownResult.result} /> : null
+          }
+          renderItem={(result) => <Result isOwn={result.id === ownResult?.result.id} result={result} />}
+          renderSkeleton={() => <ResultSkeleton />}
+          pageSize={pageSize}
+          list={list}
+          isFetching={isFetching}
+        />
+      </AutofillHeight.ListWrapper>
     </div>
-  )
-}
-
-type ResultsListInnerProps = {
-  results?: LeaderboardDTO['results']
-  ownResult?: LeaderboardDTO['ownResult']
-  pageSize?: number
-  isFetching: boolean
-}
-function ResultsListInner({ results, ownResult, pageSize, isFetching }: ResultsListInnerProps) {
-  if (!pageSize) {
-    return null
-  }
-
-  const isOwnResultDisplayedSeparately = ownResult && (ownResult.isDisplayedSeparately || isFetching)
-  const skeletonSize = isOwnResultDisplayedSeparately ? pageSize - 1 : pageSize
-
-  return (
-    <>
-      {isOwnResultDisplayedSeparately && <Result isOwn result={ownResult.result} linkToPage={ownResult.page} />}
-      {!results || isFetching
-        ? Array.from({ length: skeletonSize }, (_, index) => <ResultSkeleton key={index} />)
-        : results?.map((result) => (
-            <Result isOwn={ownResult?.result.id === result.id} key={result.id} result={result} />
-          ))}
-    </>
   )
 }

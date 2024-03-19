@@ -5,13 +5,14 @@ import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { matchesQuery, useControllerWithInfiniteScroll } from '@/utils'
 import type { Discipline } from '@/types'
-import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
+import { type ContestListItemDTO, getContestsQuery, getInfiniteContestsQuery } from '../../api'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
+import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/components/Contest'
-import { AutofillHeight } from '@/features/autofillHeight'
+
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
 
@@ -30,9 +31,8 @@ function ControllerWithInfiniteScroll() {
   return (
     <View discipline={discipline}>
       <ContestsList
-        contests={data?.pages.flatMap((page) => page.contests!)}
+        list={data?.pages.flatMap((page) => page.contests!)}
         pageSize={pageSize}
-        discipline={discipline}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         lastElementRef={lastElementRef}
@@ -55,9 +55,8 @@ function ControllerWithPagination() {
   return (
     <View withPagination totalPages={data?.totalPages} page={page} discipline={discipline}>
       <ContestsList
-        contests={data?.contests}
+        list={data?.contests}
         pageSize={pageSize}
-        discipline={discipline}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
       />
@@ -90,23 +89,11 @@ function View({ withPagination = false, page, discipline, totalPages, children }
   )
 }
 
-type ContestsListProps = {
-  contests: ContestsListDTO['contests'] | undefined
-  discipline: Discipline
-  pageSize: number | undefined
-  lastElementRef?: (node?: Element | null) => void
-  containerRef: React.RefObject<HTMLUListElement>
-  fakeElementRef: React.RefObject<HTMLLIElement>
-}
-function ContestsList({
-  contests,
-  discipline,
-  pageSize,
-  containerRef,
-  fakeElementRef,
-  lastElementRef,
-}: ContestsListProps) {
-  if (contests?.length === 0) {
+type ContestsListProps = Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
+  Pick<ListProps<ContestListItemDTO>, 'pageSize' | 'lastElementRef' | 'list'>
+function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElementRef }: ContestsListProps) {
+  const { discipline } = route.useLoaderData()
+  if (list?.length === 0) {
     return (
       <HintSection>
         <p>
@@ -120,17 +107,21 @@ function ContestsList({
   return (
     <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
       <ContestsListHeader className='sm:hidden' />
-      <AutofillHeight.List
+      <AutofillHeight.ListWrapper
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
-        lastElementRef={lastElementRef}
-        pageSize={pageSize}
-        list={contests}
-        renderItem={({ id, contestNumber, startDate, endDate }) => (
-          <Contest discipline={discipline} contest={{ id, contestNumber, start: startDate, end: endDate }} />
-        )}
         renderSkeleton={() => <ContestSkeleton />}
-      />
+      >
+        <AutofillHeight.List
+          lastElementRef={lastElementRef}
+          pageSize={pageSize}
+          list={list}
+          renderSkeleton={() => <ContestSkeleton />}
+          renderItem={({ id, contestNumber, startDate, endDate }) => (
+            <Contest discipline={discipline} contest={{ id, contestNumber, start: startDate, end: endDate }} />
+          )}
+        />
+      </AutofillHeight.ListWrapper>
     </div>
   )
 }

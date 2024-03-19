@@ -1,50 +1,39 @@
 import { cn } from '@/utils'
 import { type ReactNode, type ReactElement } from 'react'
 
-type ListItemData = { id: React.Key }
-type ListProps<T extends ListItemData> = {
+export type ListWrapperProps = {
+  children: ReactNode
   className?: string
-  list: T[] | undefined
-  pageSize: number | undefined
-  renderItem: (item: T) => ReactNode
   renderSkeleton: () => ReactElement
-  lastElementRef?: (node?: Element | null) => void
   fakeElementRef: React.RefObject<HTMLLIElement>
   containerRef: React.RefObject<HTMLUListElement>
 }
-function List<T extends ListItemData>({
-  className,
-  fakeElementRef,
-  containerRef,
-  list,
-  pageSize,
-  lastElementRef,
-  renderItem,
-  renderSkeleton,
-}: ListProps<T>) {
+export function ListWrapper({ children, className, fakeElementRef, containerRef, renderSkeleton }: ListWrapperProps) {
   return (
     <ul className={cn('flex flex-1 flex-col gap-2', className)} ref={containerRef}>
       <li aria-hidden className='invisible fixed' ref={fakeElementRef}>
         {renderSkeleton()}
       </li>
-      <ListInner
-        list={list}
-        pageSize={pageSize}
-        lastElementRef={lastElementRef}
-        renderItem={renderItem}
-        renderSkeleton={renderSkeleton}
-      />
+      {children}
     </ul>
   )
 }
 
-function ListInner<T extends ListItemData>({
+export type ListItemData = { id: React.Key }
+export type ListProps<T extends ListItemData> = {
+  list: T[] | undefined
+  pageSize: number | undefined
+  renderItem: (item: T) => ReactNode
+  renderSkeleton: () => ReactElement
+  lastElementRef?: (node?: Element | null) => void
+}
+export function List<T extends ListItemData>({
   list,
   pageSize,
   lastElementRef,
   renderItem,
   renderSkeleton,
-}: Omit<ListProps<T>, 'fakeElementRef' | 'containerRef'>) {
+}: Pick<ListProps<T>, 'list' | 'pageSize' | 'lastElementRef' | 'renderItem' | 'renderSkeleton'>) {
   if (pageSize === undefined) {
     return null
   }
@@ -59,4 +48,38 @@ function ListInner<T extends ListItemData>({
   ))
 }
 
-export { List }
+export type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
+  hasPinnedItem: boolean
+  isFetching: boolean
+  renderPinnedItem: () => ReactNode
+}
+export function ListWithPinnedItem<T extends ListItemData>({
+  list,
+  pageSize,
+  isFetching,
+  hasPinnedItem,
+  renderPinnedItem,
+  renderSkeleton,
+  renderItem,
+  lastElementRef,
+}: ListWithPinnedItemProps<T>) {
+  if (!pageSize) {
+    return null
+  }
+
+  const isPinnedDisplayedSepararely = hasPinnedItem || isFetching
+  const skeletonSize = isPinnedDisplayedSepararely ? pageSize - 1 : pageSize
+
+  return (
+    <>
+      {isPinnedDisplayedSepararely && <li>{renderPinnedItem()}</li>}
+      {!list || isFetching
+        ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
+        : list?.map((item, index) => (
+            <li ref={index === list.length - 1 ? lastElementRef : undefined} key={item.id}>
+              {renderItem(item)}
+            </li>
+          ))}
+    </>
+  )
+}
