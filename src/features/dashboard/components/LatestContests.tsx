@@ -33,15 +33,19 @@ export function LatestContests({ className, contests }: { className: string; con
           <Link to='/contests'>View all</Link>
         </UnderlineButton>
       </div>
-      <AutofillHeight.List
+      <AutofillHeight.ListWrapper
         className='gap-3'
-        renderItem={(contest) => <Contest contest={contest} />}
         renderSkeleton={() => <ContestSkeleton />}
-        pageSize={countToDisplay}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
-        list={contests?.slice(0, countToDisplay)}
-      />
+      >
+        <AutofillHeight.List
+          renderItem={(contest) => <Contest contest={contest} />}
+          renderSkeleton={() => <ContestSkeleton />}
+          pageSize={countToDisplay}
+          list={contests?.slice(0, countToDisplay)}
+        />
+      </AutofillHeight.ListWrapper>
     </section>
   )
 }

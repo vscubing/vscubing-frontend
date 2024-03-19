@@ -32,7 +32,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
         <h2 className='title-h3'>Best solves ever</h2>
         <UnderlineButton
           asChild
-          className={cn('whitespace-nowrap', { 'invisible w-0': allDisplayed })}
+          className={cn('whitespace-nowrap', { invisible: allDisplayed })}
           aria-hidden={allDisplayed}
         >
           <Link to='/leaderboard'>View all</Link>
@@ -48,15 +48,19 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
             <OpenLeaderboardButton discipline='3x3' />
           </div>
         </div>
-        <AutofillHeight.List
+        <AutofillHeight.ListWrapper
           className='gap-3'
-          pageSize={countToDisplay}
           fakeElementRef={fakeElementRef}
           containerRef={containerRef}
-          renderItem={(solve) => <Solve solve={solve} />}
           renderSkeleton={SolveSkeleton}
-          list={solves?.slice(0, countToDisplay)}
-        />
+        >
+          <AutofillHeight.List
+            pageSize={countToDisplay}
+            renderItem={(solve) => <Solve solve={solve} />}
+            renderSkeleton={SolveSkeleton}
+            list={solves?.slice(0, countToDisplay)}
+          />
+        </AutofillHeight.ListWrapper>
       </div>
     </section>
   )
