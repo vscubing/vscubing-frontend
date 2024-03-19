@@ -32,9 +32,7 @@ export function LatestContests({ className, contests }: { className: string; con
         </UnderlineButton>
       </div>
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
-          <ContestSkeleton />
-        </li>
+        <ContestSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
         <Contests contests={contests?.slice(0, countToDisplay)} countToDisplay={countToDisplay} />
       </ul>
     </section>

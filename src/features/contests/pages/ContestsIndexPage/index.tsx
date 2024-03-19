@@ -6,13 +6,13 @@ import { useQuery } from '@tanstack/react-query'
 import { cn, matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
 import type { Discipline } from '@/types'
 import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
-import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
-import { ContestsListHeader } from './ContestsListHeader'
-import { Contest as ContestMobile, ContestSkeleton as ContestMobileSkeleton } from '@/components/Contest'
 import { ReactNode } from 'react'
+import { ContestsListHeader } from './ContestsListHeader'
 
+import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
+import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/components/Contest'
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
-const ContestSkeleton = matchesQuery('sm') ? ContestMobileSkeleton : ContestSkeletonDesktop
+const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
 
 const route = getRouteApi('/contests/')
 export function ContestsIndexPage() {

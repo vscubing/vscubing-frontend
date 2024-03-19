@@ -7,9 +7,9 @@ import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { getContestResultsQuery, ongoingContestNumberQuery, type ContestResultsDTO } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
-import { type RefObject } from 'react'
-import { type Discipline } from '@/types'
+import { ReactNode, type RefObject } from 'react'
 
+const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
 export function ContestResultsPage() {
   const { contestNumber, discipline, page } = route.useLoaderData()
@@ -24,17 +24,15 @@ export function ContestResultsPage() {
   })
 
   const { data, error, isFetching } = useQuery(query)
-  const statusCode = error?.response?.status
+  const errorCode = error?.response?.status
 
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   const isOngoing = contestNumber === ongoingContestNumber // TODO: get from backend
 
-  const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
-
   let caption = ''
   if (!isOngoing) {
     caption = 'Look through the contest results'
-  } else if (statusCode === 401) {
+  } else if (errorCode === 401) {
     caption = `Ongoing contest (${contestDuration})` // TODO: get from backend
   } else {
     caption = 'Check out ongoing contest results'
@@ -46,47 +44,29 @@ export function ContestResultsPage() {
       <p className='title-h2 hidden text-secondary-20 lg:block'>{caption}</p>
 
       <NavigateBackButton className='self-start' />
-      <PageContent
-        statusCode={statusCode}
-        data={data}
-        discipline={discipline}
-        contestNumber={contestNumber}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        isFetching={isFetching}
-        pageSize={pageSize}
-        page={page}
-        contestDuration={contestDuration}
-      />
+      <ErrorHandler errorCode={errorCode}>
+        <View totalPages={data?.totalPages}>
+          <SessionsList
+            errorCode={errorCode}
+            data={data}
+            containerRef={containerRef}
+            fakeElementRef={fakeElementRef}
+            isFetching={isFetching}
+            pageSize={pageSize}
+          />
+        </View>
+      </ErrorHandler>
     </section>
   )
 }
 
-type PageContentProps = {
-  statusCode?: number
-  data?: ContestResultsDTO
-  discipline: Discipline
-  contestNumber: number
-  containerRef: RefObject<HTMLUListElement>
-  fakeElementRef: RefObject<HTMLLIElement>
-  isFetching: boolean
-  pageSize?: number
-  page: number
-  contestDuration: string
+type ErrorHandlerProps = {
+  errorCode?: number
+  children: ReactNode
 }
-function PageContent({
-  statusCode,
-  isFetching,
-  data,
-  discipline,
-  contestNumber,
-  contestDuration,
-  pageSize,
-  page,
-  containerRef,
-  fakeElementRef,
-}: PageContentProps) {
-  if (statusCode === 400) {
+function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
+  const { contestNumber, discipline } = route.useLoaderData()
+  if (errorCode === 400) {
     return (
       <Navigate
         to={route.id}
@@ -97,7 +77,7 @@ function PageContent({
     )
   }
 
-  if (statusCode === 403) {
+  if (errorCode === 403) {
     return (
       <Navigate
         from={route.id}
@@ -108,14 +88,20 @@ function PageContent({
     )
   }
 
-  if (statusCode === 401) {
+  if (errorCode === 401) {
     return <HintSignInSection description='You need to be signed in to view ongoing contest results' />
   }
 
-  if (statusCode === 404) {
+  if (errorCode === 404) {
     return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
   }
 
+  return children
+}
+
+type ViewProps = { totalPages?: number; children: ReactNode }
+function View({ totalPages, children }: ViewProps) {
+  const { contestNumber, discipline, page } = route.useLoaderData()
   return (
     <>
       <div className='flex min-h-[5.75rem] items-center gap-4 rounded-2xl bg-black-80 px-4'>
@@ -126,14 +112,29 @@ function PageContent({
           <h1 className='title-h2 mb-1'>Contest {contestNumber}</h1>
           <p className='text-lg text-grey-40'>{contestDuration}</p>
         </div>
-        <Pagination currentPage={page} totalPages={data?.totalPages} className='ml-auto' />
+        <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />
       </div>
+      {children}
+    </>
+  )
+}
+
+type SessionsListProps = {
+  errorCode?: number
+  data?: ContestResultsDTO
+  containerRef: RefObject<HTMLUListElement>
+  fakeElementRef: RefObject<HTMLLIElement>
+  isFetching: boolean
+  pageSize?: number
+}
+function SessionsList({ isFetching, data, pageSize, containerRef, fakeElementRef }: SessionsListProps) {
+  return (
+    <>
       <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <SessionsListHeader className='md:hidden' />
         <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
           <SessionSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
-          <Sessions
-            contestNumber={contestNumber}
+          <SessionsListInner
             sessions={data?.sessions}
             isFetching={isFetching}
             ownSession={data?.ownSession}
@@ -145,19 +146,15 @@ function PageContent({
   )
 }
 
-function Sessions({
-  sessions,
-  ownSession,
-  contestNumber,
-  pageSize,
-  isFetching,
-}: {
+type SessionsListInnerProps = {
   sessions?: ContestResultsDTO['sessions']
-  contestNumber: number
   ownSession?: ContestResultsDTO['ownSession']
   pageSize?: number
   isFetching: boolean
-}) {
+}
+function SessionsListInner({ sessions, ownSession, pageSize, isFetching }: SessionsListInnerProps) {
+  const { contestNumber } = route.useLoaderData()
+
   if (!pageSize) {
     return null
   }
@@ -170,22 +167,16 @@ function Sessions({
       {isOwnDisplayedSeparately && (
         <Session contestNumber={contestNumber} isOwn session={ownSession.session} linkToPage={ownSession.page} />
       )}
-      {!sessions && isFetching ? (
-        <SessionsSkeleton size={skeletonSize} />
-      ) : (
-        sessions?.map((session) => (
-          <Session
-            contestNumber={contestNumber}
-            isOwn={session.user.username === ownSession?.session.user.username} // TODO: compare by id
-            key={session.id}
-            session={session}
-          />
-        ))
-      )}
+      {!sessions && isFetching
+        ? Array.from({ length: skeletonSize }, (_, index) => <SessionSkeleton key={index} />)
+        : sessions?.map((session) => (
+            <Session
+              contestNumber={contestNumber}
+              isOwn={session.user.username === ownSession?.session.user.username} // TODO: compare by id
+              key={session.id}
+              session={session}
+            />
+          ))}
     </>
   )
-}
-
-function SessionsSkeleton({ size }: { size: number }) {
-  return Array.from({ length: size }, (_, index) => <SessionSkeleton key={index} />)
 }

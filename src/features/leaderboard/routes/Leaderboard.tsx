@@ -44,7 +44,7 @@ export function Leaderboard() {
         </Link>
         <Pagination currentPage={page} totalPages={data?.totalPages} />
       </div>
-      <ResultsListWrapper
+      <ResultsList
         className='flex-1'
         results={data?.results}
         ownResult={data?.ownResult}
@@ -57,12 +57,12 @@ export function Leaderboard() {
   )
 }
 
-type ResultsListWrapperProps = {
+type ResultsListProps = {
   className?: string
   containerRef: React.RefObject<HTMLUListElement>
   fakeElementRef: React.RefObject<HTMLLIElement>
-} & ResultsListProps
-function ResultsListWrapper({
+} & ResultsListInnerProps
+function ResultsList({
   className,
   results,
   ownResult,
@@ -70,7 +70,7 @@ function ResultsListWrapper({
   containerRef,
   fakeElementRef,
   isFetching,
-}: ResultsListWrapperProps) {
+}: ResultsListProps) {
   if (results?.length === 0) {
     return (
       <HintSection>
@@ -86,19 +86,19 @@ function ResultsListWrapper({
       <ResultsHeader className='md:hidden' />
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
         <ResultSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
-        <ResultsList isFetching={isFetching} results={results} ownResult={ownResult} pageSize={pageSize} />
+        <ResultsListInner isFetching={isFetching} results={results} ownResult={ownResult} pageSize={pageSize} />
       </ul>
     </div>
   )
 }
 
-type ResultsListProps = {
+type ResultsListInnerProps = {
   results?: LeaderboardDTO['results']
   ownResult?: LeaderboardDTO['ownResult']
   pageSize?: number
   isFetching: boolean
 }
-function ResultsList({ results, ownResult, pageSize, isFetching }: ResultsListProps) {
+function ResultsListInner({ results, ownResult, pageSize, isFetching }: ResultsListInnerProps) {
   if (!pageSize) {
     return null
   }
@@ -109,15 +109,11 @@ function ResultsList({ results, ownResult, pageSize, isFetching }: ResultsListPr
   return (
     <>
       {isOwnResultDisplayedSeparately && <Result isOwn result={ownResult.result} linkToPage={ownResult.page} />}
-      {!results || isFetching ? (
-        <ResultsListSkeleton size={skeletonSize} />
-      ) : (
-        results?.map((result) => <Result isOwn={ownResult?.result.id === result.id} key={result.id} result={result} />)
-      )}
+      {!results || isFetching
+        ? Array.from({ length: skeletonSize }, (_, index) => <ResultSkeleton key={index} />)
+        : results?.map((result) => (
+            <Result isOwn={ownResult?.result.id === result.id} key={result.id} result={result} />
+          ))}
     </>
   )
-}
-
-function ResultsListSkeleton({ size }: { size: number }) {
-  return Array.from({ length: size }, (_, index) => <ResultSkeleton key={index} />)
 }
