@@ -4,11 +4,17 @@ import { type ReactNode, type ReactElement } from 'react'
 export type ListWrapperProps = {
   children: ReactNode
   className?: string
-  renderSkeleton: () => ReactElement
+  renderFakeElement: () => ReactElement
   fakeElementRef: React.RefObject<HTMLLIElement>
   containerRef: React.RefObject<HTMLUListElement>
 }
-export function ListWrapper({ children, className, fakeElementRef, containerRef, renderSkeleton }: ListWrapperProps) {
+export function ListWrapper({
+  children,
+  className,
+  fakeElementRef,
+  containerRef,
+  renderFakeElement: renderSkeleton,
+}: ListWrapperProps) {
   return (
     <ul className={cn('flex flex-1 flex-col gap-2', className)} ref={containerRef}>
       <li aria-hidden className='invisible fixed' ref={fakeElementRef}>
@@ -49,15 +55,15 @@ export function List<T extends ListItemData>({
 }
 
 export type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
-  hasPinnedItem: boolean
   isFetching: boolean
   renderPinnedItem: () => ReactNode
+  pinnedItem: { isDisplayedSeparately: boolean } | undefined
 }
 export function ListWithPinnedItem<T extends ListItemData>({
   list,
   pageSize,
   isFetching,
-  hasPinnedItem,
+  pinnedItem,
   renderPinnedItem,
   renderSkeleton,
   renderItem,
@@ -67,7 +73,7 @@ export function ListWithPinnedItem<T extends ListItemData>({
     return null
   }
 
-  const isPinnedDisplayedSepararely = hasPinnedItem || isFetching
+  const isPinnedDisplayedSepararely = pinnedItem && (pinnedItem.isDisplayedSeparately || isFetching)
   const skeletonSize = isPinnedDisplayedSepararely ? pageSize - 1 : pageSize
 
   return (

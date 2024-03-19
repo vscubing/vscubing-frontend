@@ -35,7 +35,7 @@ export function LatestContests({ className, contests }: { className: string; con
       </div>
       <AutofillHeight.ListWrapper
         className='gap-3'
-        renderSkeleton={() => <ContestSkeleton />}
+        renderFakeElement={() => <ContestSkeleton />}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
       >

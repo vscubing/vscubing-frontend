@@ -52,7 +52,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           className='gap-3'
           fakeElementRef={fakeElementRef}
           containerRef={containerRef}
-          renderSkeleton={SolveSkeleton}
+          renderFakeElement={SolveSkeleton}
         >
           <AutofillHeight.List
             pageSize={countToDisplay}

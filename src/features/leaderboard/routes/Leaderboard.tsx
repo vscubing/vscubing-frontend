@@ -76,12 +76,12 @@ function ResultsList({ list, ownResult, pageSize, containerRef, fakeElementRef, 
     <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
       <ResultsHeader className='md:hidden' />
       <AutofillHeight.ListWrapper
-        renderSkeleton={() => <ResultSkeleton />}
+        renderFakeElement={() => <ResultSkeleton />}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
       >
         <AutofillHeight.ListWithPinnedItem
-          hasPinnedItem={ownResult?.isDisplayedSeparately === true}
+          pinnedItem={ownResult ?? undefined}
           renderPinnedItem={() =>
             ownResult ? <Result isOwn linkToPage={ownResult.page} result={ownResult.result} /> : null
           }

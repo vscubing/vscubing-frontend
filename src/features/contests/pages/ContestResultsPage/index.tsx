@@ -137,13 +137,12 @@ function SessionsList({ isFetching, ownSession, list, pageSize, containerRef, fa
       <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <SessionsListHeader className='md:hidden' />
         <AutofillHeight.ListWrapper
-          renderSkeleton={() => <SessionSkeleton />}
-          className='gap-3'
+          renderFakeElement={() => <SessionSkeleton />}
           fakeElementRef={fakeElementRef}
           containerRef={containerRef}
         >
           <AutofillHeight.ListWithPinnedItem
-            hasPinnedItem={ownSession?.isDisplayedSeparately === true}
+            pinnedItem={ownSession ?? undefined}
             renderPinnedItem={() =>
               ownSession ? (
                 <Session

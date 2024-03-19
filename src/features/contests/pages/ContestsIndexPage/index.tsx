@@ -110,7 +110,7 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
       <AutofillHeight.ListWrapper
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
-        renderSkeleton={() => <ContestSkeleton />}
+        renderFakeElement={() => <ContestSkeleton />}
       >
         <AutofillHeight.List
           lastElementRef={lastElementRef}
