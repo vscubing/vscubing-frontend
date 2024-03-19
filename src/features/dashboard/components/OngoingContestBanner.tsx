@@ -6,7 +6,7 @@ export function OngoingContestBanner() {
   return (
     <section className={cn('bg-card-gradient overflow-x-clip rounded-2xl')}>
       <BannerContent className='lg:hidden' />
-      <MobileBannerContent className='hidden lg:flex' />
+      <BannerContentMobile className='hidden lg:flex' />
     </section>
   )
 }
@@ -46,7 +46,7 @@ function BannerContent({ className }: { className?: string }) {
   )
 }
 
-function MobileBannerContent({ className }: { className?: string }) {
+function BannerContentMobile({ className }: { className?: string }) {
   return (
     <div className={cn('flex sm:flex-col sm:px-3 sm:py-4', className)}>
       <div className='relative z-10 py-4 pl-4 sm:flex sm:items-center sm:gap-4 sm:p-0'>

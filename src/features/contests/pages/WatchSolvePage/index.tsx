@@ -1,6 +1,6 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeButton, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
+import { CubeSwitcher, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { formatSolveTime } from '@/utils'
@@ -56,7 +56,7 @@ export function WatchSolvePage() {
             params={{ contestNumber: String(contestNumber), solveId }}
             search={{ discipline: '3by3' }}
           >
-            <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+            <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
           <div className='-my-2'>
             <p className='title-h2 mb-1 text-secondary-20'>

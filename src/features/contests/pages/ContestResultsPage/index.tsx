@@ -1,13 +1,13 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeButton, Pagination, HintSignInSection } from '@/components/ui'
+import { CubeSwitcher, Pagination, HintSignInSection } from '@/components/ui'
 import { useAutofillHeight } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { getContestResultsQuery, ongoingContestNumberQuery, type ContestResultsDTO } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
-import { ReactNode, type RefObject } from 'react'
+import { type ReactNode, type RefObject } from 'react'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
@@ -106,7 +106,7 @@ function View({ totalPages, children }: ViewProps) {
     <>
       <div className='flex min-h-[5.75rem] items-center gap-4 rounded-2xl bg-black-80 px-4'>
         <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
-          <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         <div>
           <h1 className='title-h2 mb-1'>Contest {contestNumber}</h1>

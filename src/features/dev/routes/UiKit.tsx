@@ -1,5 +1,5 @@
 import {
-  CubeButton,
+  CubeSwitcher,
   GhostButton,
   GoogleIcon,
   PrimaryButton,
@@ -132,7 +132,7 @@ export function UiKit() {
         </div>
         <div>
           <CubeBadge cube='3by3' />
-          <CubeButton cube='3by3' />
+          <CubeSwitcher cube='3by3' />
         </div>
 
         <SecondaryButton

@@ -27,13 +27,13 @@ export function getContestsQuery({
 }) {
   let enabled = true
   if (pageSize === undefined) {
-    pageSize = 0
     enabled = false
   }
+  pageSize = pageSize ?? 0
 
   return queryOptions({
     queryKey: ['contests-list', discipline, page, pageSize],
-    queryFn: () => getMockContests({ page, pageSize }),
+    queryFn: () => getMockContests({ page, pageSize: pageSize! }),
     placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
     enabled,
   })
@@ -48,13 +48,13 @@ export function getInfiniteContestsQuery({
 }) {
   let enabled = true
   if (pageSize === undefined) {
-    pageSize = 0
     enabled = false
   }
+  pageSize = pageSize ?? 0
 
   const acme = infiniteQueryOptions({
     queryKey: ['contests-list', discipline, pageSize],
-    queryFn: ({ pageParam: page }) => getMockContests({ page, pageSize: Math.floor(pageSize * 2) }),
+    queryFn: ({ pageParam: page }) => getMockContests({ page, pageSize: Math.floor(pageSize! * 2) }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,

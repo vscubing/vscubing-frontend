@@ -2,7 +2,7 @@ import { cn, formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { SecondaryButton, ArrowRightIcon } from './ui'
 import { type ContestInfo } from '@/types'
-import { ComponentProps, forwardRef } from 'react'
+import { type ComponentProps, forwardRef } from 'react'
 
 type ContestProps = { contest: ContestInfo }
 export const Contest = forwardRef<HTMLLIElement, ContestProps>(({ contest: { contestNumber, start, end } }, ref) => {

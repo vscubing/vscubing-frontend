@@ -1,12 +1,12 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeButton, HintSection, Pagination } from '@/components/ui'
+import { CubeSwitcher, HintSection, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { cn, matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
 import type { Discipline } from '@/types'
 import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
@@ -80,7 +80,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4 sm:p-3'>
         <Link from={route.id} search={{ discipline: '3by3' }}>
-          <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         {withPagination && page !== undefined && <Pagination currentPage={page} totalPages={totalPages} />}
       </div>

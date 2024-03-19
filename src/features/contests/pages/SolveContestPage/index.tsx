@@ -1,6 +1,6 @@
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
-  CubeButton,
+  CubeSwitcher,
   ExclamationCircleIcon,
   HintSection,
   HintSignInSection,
@@ -93,7 +93,7 @@ export function SolvePageContent() {
       <div className='flex min-h-[5.75rem] items-center justify-between gap-10 rounded-2xl bg-black-80 px-4'>
         <div>
           <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
-            <CubeButton asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+            <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
         </div>
         <div className='flex flex-1 items-center gap-4'>

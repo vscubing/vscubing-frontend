@@ -3,7 +3,7 @@ import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
-import { CubeButton, HintSection, Pagination } from '@/components/ui'
+import { CubeSwitcher, HintSection, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
 import { cn, useAutofillHeight } from '@/utils'
@@ -40,7 +40,7 @@ export function Leaderboard() {
       <NavigateBackButton className='self-start' />
       <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
-          {({ isActive }) => <CubeButton asButton={false} cube='3by3' isActive={isActive} />}
+          {({ isActive }) => <CubeSwitcher asButton={false} cube='3by3' isActive={isActive} />}
         </Link>
         <Pagination currentPage={page} totalPages={data?.totalPages} />
       </div>

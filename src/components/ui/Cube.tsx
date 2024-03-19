@@ -1,5 +1,5 @@
 import { cn } from '@/utils'
-import { type ComponentProps, forwardRef, type HTMLAttributes } from 'react'
+import { forwardRef, type HTMLAttributes } from 'react'
 import type { Discipline } from '@/types'
 import { CubeIcon } from './icons'
 
@@ -22,12 +22,13 @@ const CubeBadge = forwardRef<HTMLDivElement, CubeBadgeProps>(({ cube, className,
 })
 CubeBadge.displayName = 'CubeBadge'
 
-type CubeButtonProps = Omit<ComponentProps<'button'>, 'children'> & {
+type CubeSwitcherProps = {
+  className?: string
   asButton?: boolean
   isActive?: boolean
   cube: Discipline
 }
-const CubeButton = forwardRef<HTMLButtonElement, CubeButtonProps>(
+const CubeSwitcher = forwardRef<HTMLButtonElement, CubeSwitcherProps>(
   ({ className, isActive, cube, asButton = true, ...props }, ref) => {
     const Comp = asButton ? 'button' : 'span'
     return (
@@ -44,6 +45,6 @@ const CubeButton = forwardRef<HTMLButtonElement, CubeButtonProps>(
     )
   },
 )
-CubeButton.displayName = 'CubeButton'
+CubeSwitcher.displayName = 'CubeSwitcher'
 
-export { CubeBadge, CubeButton }
+export { CubeBadge, CubeSwitcher }
