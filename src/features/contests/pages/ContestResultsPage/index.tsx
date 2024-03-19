@@ -1,6 +1,6 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeSwitcher, Pagination, HintSignInSection } from '@/components/ui'
+import { CubeSwitcher, Pagination, HintSignInSection, PageTitleMobile } from '@/components/ui'
 import { useAutofillHeight } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
@@ -29,19 +29,19 @@ export function ContestResultsPage() {
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   const isOngoing = contestNumber === ongoingContestNumber // TODO: get from backend
 
-  let caption = ''
+  let title = ''
   if (!isOngoing) {
-    caption = 'Look through the contest results'
+    title = 'Look through the contest results'
   } else if (errorCode === 401) {
-    caption = `Ongoing contest (${contestDuration})` // TODO: get from backend
+    title = `Ongoing contest (${contestDuration})` // TODO: get from backend
   } else {
-    caption = 'Check out ongoing contest results'
+    title = 'Check out ongoing contest results'
   }
 
   return (
     <section className='flex flex-1 flex-col gap-3'>
-      <Header caption={caption} />
-      <p className='title-h2 hidden text-secondary-20 lg:block'>{caption}</p>
+      <Header title={title} />
+      <PageTitleMobile>{title}</PageTitleMobile>
 
       <NavigateBackButton className='self-start' />
       <ErrorHandler errorCode={errorCode}>
@@ -109,7 +109,7 @@ function View({ totalPages, children }: ViewProps) {
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         <div>
-          <h1 className='title-h2 mb-1'>Contest {contestNumber}</h1>
+          <h2 className='title-h2 mb-1'>Contest {contestNumber}</h2>
           <p className='text-lg text-grey-40'>{contestDuration}</p>
         </div>
         <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />

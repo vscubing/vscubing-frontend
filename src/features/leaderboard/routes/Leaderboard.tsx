@@ -3,7 +3,7 @@ import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
-import { CubeSwitcher, HintSection, Pagination } from '@/components/ui'
+import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
 import { cn, useAutofillHeight } from '@/utils'
@@ -31,12 +31,12 @@ export function Leaderboard() {
     void navigate({ search: { page: 1 }, params: { discipline } })
   }
 
-  const caption = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
+  const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (
     <section className='flex flex-1 flex-col gap-3'>
-      <Header caption={caption} />
-      <h1 className='title-h2 hidden text-secondary-20 lg:block'>Check out our best solves</h1>
+      <Header title={title} />
+      <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>

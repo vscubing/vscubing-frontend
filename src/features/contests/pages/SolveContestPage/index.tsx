@@ -20,13 +20,13 @@ const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
   const title = (
     <>
-      Ongoing contest <span className='whitespace-nowrap'>(17 Dec 2023 - 23 Dec 2023)</span>{' '}
+      Ongoing contest <span className='whitespace-nowrap'>(17 Dec 2023 - 23 Dec 2023)</span>
     </>
   )
 
   return (
     <section className='flex flex-1 flex-col gap-3'>
-      <Header caption={<h1>{title}</h1>} /* TODO: add start/end date once backend is updated */ />
+      <Header title={title} /* TODO: add start/end date once backend is updated */ />
       <h1 className='title-h2 hidden text-secondary-20 lg:block'>{title}</h1>
 
       <NavigateBackButton className='self-start' />

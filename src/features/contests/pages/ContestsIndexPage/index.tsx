@@ -1,6 +1,6 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header } from '@/components/layout'
-import { CubeSwitcher, HintSection, Pagination } from '@/components/ui'
+import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { cn, matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
@@ -72,11 +72,11 @@ type ViewProps = {
   children: ReactNode
 }
 function View({ withPagination = false, page, discipline, totalPages, children }: ViewProps) {
-  const heading = 'Explore contests'
+  const title = 'Explore contests'
   return (
     <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
-      <Header caption={<h1>{heading}</h1>} />
-      <h1 className='title-h2 hidden text-secondary-20 lg:block'>{heading}</h1>
+      <Header title={title} />
+      <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4 sm:p-3'>
         <Link from={route.id} search={{ discipline: '3by3' }}>

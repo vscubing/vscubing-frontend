@@ -46,7 +46,7 @@ export function WatchSolvePage() {
 
   return (
     <section className='flex flex-1 flex-col gap-3'>
-      <Header caption={<h1>Watch solve</h1>} />
+      <Header title='Watch solve' />
 
       <NavigateBackButton className='self-start' />
       <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2'>
