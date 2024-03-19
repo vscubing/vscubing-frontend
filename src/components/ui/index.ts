@@ -1,6 +1,6 @@
 export * from './buttons'
 export * from './Input'
-export * from './CubeBadge'
+export * from './Cube'
 export * from './icons'
 export * from './Ellipsis'
 export * from './Pagination'
