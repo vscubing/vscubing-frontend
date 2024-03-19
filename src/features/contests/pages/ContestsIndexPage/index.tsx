@@ -3,7 +3,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { cn, matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
+import { matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
 import type { Discipline } from '@/types'
 import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
 import { type ReactNode } from 'react'
@@ -11,6 +11,7 @@ import { ContestsListHeader } from './ContestsListHeader'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/components/Contest'
+import { List } from '@/features/list'
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
 
@@ -89,12 +90,15 @@ function View({ withPagination = false, page, discipline, totalPages, children }
   )
 }
 
-type ContestsListProps = ContestsListInnerProps & {
+type ContestsListProps = {
+  contests: ContestsListDTO['contests'] | undefined
+  discipline: Discipline
+  pageSize: number | undefined
+  lastElementRef?: (node?: Element | null) => void
   containerRef: React.RefObject<HTMLUListElement>
   fakeElementRef: React.RefObject<HTMLLIElement>
 }
 function ContestsList({
-  className,
   contests,
   discipline,
   pageSize,
@@ -114,42 +118,19 @@ function ContestsList({
   }
 
   return (
-    <div className={cn('flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3', className)}>
+    <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
       <ContestsListHeader className='sm:hidden' />
-      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <ContestSkeleton ref={fakeElementRef} className='invisible fixed' aria-hidden />
-        <ContestsListInner
-          lastElementRef={lastElementRef}
-          contests={contests}
-          discipline={discipline}
-          pageSize={pageSize}
-        />
-      </ul>
+      <List
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        lastElementRef={lastElementRef}
+        pageSize={pageSize}
+        list={contests}
+        renderItem={({ id, contestNumber, startDate, endDate }) => (
+          <Contest discipline={discipline} contest={{ id, contestNumber, start: startDate, end: endDate }} />
+        )}
+        renderSkeleton={() => <ContestSkeleton />}
+      />
     </div>
   )
-}
-
-type ContestsListInnerProps = {
-  className?: string
-  contests?: ContestsListDTO['contests']
-  discipline: Discipline
-  pageSize?: number
-  lastElementRef?: (node?: Element | null) => void
-}
-function ContestsListInner({ contests, discipline, pageSize, lastElementRef }: ContestsListInnerProps) {
-  if (pageSize === undefined) {
-    return null
-  }
-  if (contests === undefined) {
-    return Array.from({ length: pageSize }, (_, index) => <ContestSkeleton key={index} />)
-  }
-
-  return contests.map(({ contestNumber, id, endDate, startDate }, index) => (
-    <Contest
-      ref={index === contests.length - 1 ? lastElementRef : undefined}
-      key={id}
-      contest={{ id, contestNumber, start: startDate, end: endDate }}
-      discipline={discipline}
-    />
-  ))
 }

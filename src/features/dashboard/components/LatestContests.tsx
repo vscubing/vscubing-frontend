@@ -32,7 +32,9 @@ export function LatestContests({ className, contests }: { className: string; con
         </UnderlineButton>
       </div>
       <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <ContestSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
+        <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
+          <ContestSkeleton />
+        </li>
         <Contests contests={contests?.slice(0, countToDisplay)} countToDisplay={countToDisplay} />
       </ul>
     </section>
@@ -47,5 +49,9 @@ function Contests({ contests, countToDisplay }: { contests?: DashboardDTO['conte
     return Array.from({ length: countToDisplay }, (_, index) => <ContestSkeleton key={index} />)
   }
 
-  return contests.map((contest) => <Contest key={contest.id} contest={contest} />)
+  return contests.map((contest) => (
+    <li key={contest.id}>
+      <Contest contest={contest} />
+    </li>
+  ))
 }

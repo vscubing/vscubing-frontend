@@ -2,12 +2,11 @@ import { cn, formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { SecondaryButton, ArrowRightIcon } from './ui'
 import { type ContestInfo } from '@/types'
-import { type ComponentProps, forwardRef } from 'react'
 
 type ContestProps = { contest: ContestInfo }
-export const Contest = forwardRef<HTMLLIElement, ContestProps>(({ contest: { contestNumber, start, end } }, ref) => {
+export function Contest({ contest: { contestNumber, start, end } }: ContestProps) {
   return (
-    <li ref={ref} className='flex min-h-20 items-center justify-between gap-8 rounded-xl bg-grey-100 pl-4 sm:min-h-16'>
+    <div className='flex min-h-20 items-center justify-between gap-8 rounded-xl bg-grey-100 pl-4 sm:min-h-16'>
       <div className='sm:space-y-2'>
         <p className='title-h3'>Contest {contestNumber}</p>
         <p className='text-grey-40'>
@@ -19,10 +18,11 @@ export const Contest = forwardRef<HTMLLIElement, ContestProps>(({ contest: { con
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>
-    </li>
+    </div>
   )
-})
+}
 
-export const ContestSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
-  return <li ref={ref} {...props} className={cn('h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16', className)}></li>
-})
+type ContestSkeletonProps = { className?: string }
+export function ContestSkeleton({ className }: ContestSkeletonProps) {
+  return <div className={cn('h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16', className)}></div>
+}
