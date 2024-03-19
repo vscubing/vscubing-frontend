@@ -1,6 +1,6 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
-import { Header } from '@/components/layout'
-import { CubeSwitcher, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
+import { Header, SectionHeader } from '@/components/layout'
+import { CubeBadge, CubeSwitcher, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { formatSolveTime } from '@/utils'
@@ -50,21 +50,15 @@ export function WatchSolvePage() {
 
       <NavigateBackButton className='self-start' />
       <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2'>
-        <div className='flex items-center gap-8 rounded-2xl bg-black-80 p-4'>
-          <Link
-            from={route.id}
-            params={{ contestNumber: String(contestNumber), solveId }}
-            search={{ discipline: '3by3' }}
-          >
-            <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-          </Link>
-          <div className='-my-2'>
+        <SectionHeader className='gap-8'>
+          <CubeBadge cube='3by3' />
+          <div>
             <p className='title-h2 mb-1 text-secondary-20'>
               Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
             </p>
             <p className='text-lg'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
           </div>
-        </div>
+        </SectionHeader>
         <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
           <div>
             <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>

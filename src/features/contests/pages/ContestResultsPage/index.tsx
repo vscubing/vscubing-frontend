@@ -1,5 +1,5 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
-import { Header } from '@/components/layout'
+import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, Pagination, HintSignInSection, PageTitleMobile } from '@/components/ui'
 import { useAutofillHeight } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -104,7 +104,7 @@ function View({ totalPages, children }: ViewProps) {
   const { contestNumber, discipline, page } = route.useLoaderData()
   return (
     <>
-      <div className='flex min-h-[5.75rem] items-center gap-4 rounded-2xl bg-black-80 px-4'>
+      <SectionHeader className='gap-4'>
         <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
@@ -113,7 +113,7 @@ function View({ totalPages, children }: ViewProps) {
           <p className='text-lg text-grey-40'>{contestDuration}</p>
         </div>
         <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />
-      </div>
+      </SectionHeader>
       {children}
     </>
   )

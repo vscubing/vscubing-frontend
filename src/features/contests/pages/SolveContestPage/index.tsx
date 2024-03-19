@@ -10,7 +10,7 @@ import {
 } from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
 import { useQuery } from '@tanstack/react-query'
-import { Header } from '@/components/layout'
+import { Header, SectionHeader } from '@/components/layout'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
@@ -90,17 +90,18 @@ export function SolvePageContent() {
 
   return (
     <>
-      <div className='flex min-h-[5.75rem] items-center justify-between gap-10 rounded-2xl bg-black-80 px-4'>
+      <SectionHeader>
         <div>
           <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
             <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
         </div>
-        <div className='flex flex-1 items-center gap-4'>
+        <div className='ml-10 flex flex-1 items-center gap-4'>
           <ExclamationCircleIcon />
           <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
         </div>
-      </div>
+      </SectionHeader>
+
       <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
         <UnderlineButton className='absolute right-4 top-4' /* TODO: add the instructions modal */>
           Virtual Cube Key Map

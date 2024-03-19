@@ -1,5 +1,5 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
-import { Header } from '@/components/layout'
+import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
@@ -78,12 +78,12 @@ function View({ withPagination = false, page, discipline, totalPages, children }
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
-      <div className='flex items-center justify-between rounded-2xl bg-black-80 p-4 sm:p-3'>
+      <SectionHeader>
         <Link from={route.id} search={{ discipline: '3by3' }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        {withPagination && page !== undefined && <Pagination currentPage={page} totalPages={totalPages} />}
-      </div>
+        {withPagination && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}
+      </SectionHeader>
       {children}
     </section>
   )

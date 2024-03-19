@@ -1,9 +1,9 @@
 import { MenuIcon } from '@/components/ui'
 import { type ReactNode } from 'react'
-import { Logo } from './Logo'
+import { Logo } from './components/Logo'
 import { useSetAtom } from 'jotai'
-import { mobileMenuOpenAtom } from '../store/mobileMenuOpenAtom'
-import { UsernameOrSignInButton } from './UsernameOrSignInButton'
+import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
+import { UsernameOrSignInButton } from './components/UsernameOrSignInButton'
 
 export function Header({ title }: { title: ReactNode }) {
   const setMobileMenuOpen = useSetAtom(mobileMenuOpenAtom)

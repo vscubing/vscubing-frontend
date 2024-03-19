@@ -9,10 +9,10 @@ export function Pagination({
   totalPages,
   ...props
 }: Omit<ComponentProps<'nav'>, 'children'> & {
-  currentPage: number
-  totalPages?: number
+  currentPage: number | undefined
+  totalPages: number | undefined
 }) {
-  if (totalPages === undefined || totalPages === 0) {
+  if (totalPages === undefined || totalPages === 0 || currentPage === undefined) {
     return null
   }
 

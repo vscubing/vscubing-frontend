@@ -1,4 +1,4 @@
-import { Header } from '@/components/layout'
+import { Header, SectionHeader } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton } from '@/components/NavigateBackButton'
@@ -38,12 +38,12 @@ export function Leaderboard() {
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
-      <div className='flex min-h-[5.75rem] items-center justify-between rounded-2xl bg-black-80 px-4'>
+      <SectionHeader>
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
-          {({ isActive }) => <CubeSwitcher asButton={false} cube='3by3' isActive={isActive} />}
+          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        <Pagination currentPage={page} totalPages={data?.totalPages} />
-      </div>
+        <Pagination currentPage={page} totalPages={data?.totalPages} className='ml-auto' />
+      </SectionHeader>
       <ResultsList
         className='flex-1'
         results={data?.results}
