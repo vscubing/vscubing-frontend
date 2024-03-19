@@ -3,7 +3,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { matchesQuery, useAutofillHeight, useControllerWithInfiniteScroll } from '@/utils'
+import { matchesQuery, useControllerWithInfiniteScroll } from '@/utils'
 import type { Discipline } from '@/types'
 import { getContestsQuery, getInfiniteContestsQuery, type ContestsListDTO } from '../../api'
 import { type ReactNode } from 'react'
@@ -11,7 +11,7 @@ import { ContestsListHeader } from './ContestsListHeader'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/components/Contest'
-import { List } from '@/features/list'
+import { AutofillHeight } from '@/features/autofillHeight'
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
 
@@ -23,7 +23,7 @@ export function ContestsIndexPage() {
 function ControllerWithInfiniteScroll() {
   const { discipline } = route.useLoaderData()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getInfiniteContestsQuery({ discipline, pageSize })
   const { data, lastElementRef } = useControllerWithInfiniteScroll(query)
 
@@ -44,7 +44,7 @@ function ControllerWithInfiniteScroll() {
 function ControllerWithPagination() {
   const { page, discipline } = route.useLoaderData()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestsQuery({ discipline, page, pageSize })
   const { data, error } = useQuery(query)
 
@@ -120,7 +120,7 @@ function ContestsList({
   return (
     <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
       <ContestsListHeader className='sm:hidden' />
-      <List
+      <AutofillHeight.List
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         lastElementRef={lastElementRef}

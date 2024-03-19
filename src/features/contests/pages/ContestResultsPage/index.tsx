@@ -1,20 +1,20 @@
 import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, Pagination, HintSignInSection, PageTitleMobile } from '@/components/ui'
-import { useAutofillHeight } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { getContestResultsQuery, ongoingContestNumberQuery, type ContestResultsDTO } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 import { type ReactNode, type RefObject } from 'react'
+import { AutofillHeight } from '@/features/autofillHeight'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
 export function ContestResultsPage() {
   const { contestNumber, discipline, page } = route.useLoaderData()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
     contestNumber: contestNumber,
     discipline,

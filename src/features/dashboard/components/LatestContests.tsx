@@ -1,14 +1,16 @@
-import { cn, matchesQuery, useAutofillHeight } from '@/utils'
+import { cn, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api'
 import { UnderlineButton } from '@/components/ui'
 import { ContestSkeleton, Contest } from '@/components/Contest'
+import { AutofillHeight } from '@/features/autofillHeight'
 
 const MOBILE_MAX_OVERFLOWING_ITEMS = 3
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
-  contests = contests && [...contests] //.reverse().filter(({ ongoing }) => !ongoing) TODO: remove filter when backend is ready
+  // contests = contests && Array.from({ length: 10 }, () => ({ ...contests[0], id: Math.random() }))
+  // contests = contests.reverse().filter(({ ongoing }) => !ongoing) // TODO: remove filter when backend is ready
 
-  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight(undefined)
+  const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount(undefined)
   let countToDisplay = fittingCount
   if (fittingCount && matchesQuery('sm')) {
     countToDisplay = Math.max(fittingCount, MOBILE_MAX_OVERFLOWING_ITEMS)
@@ -25,33 +27,21 @@ export function LatestContests({ className, contests }: { className: string; con
         <h2 className='title-h3'>Latest contests</h2>
         <UnderlineButton
           asChild
-          className={cn('whitespace-nowrap', { 'invisible w-0': allDisplayed })}
+          className={cn('whitespace-nowrap', { invisible: allDisplayed })}
           aria-hidden={allDisplayed}
         >
           <Link to='/contests'>View all</Link>
         </UnderlineButton>
       </div>
-      <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-        <li className='invisible fixed' aria-hidden ref={fakeElementRef}>
-          <ContestSkeleton />
-        </li>
-        <Contests contests={contests?.slice(0, countToDisplay)} countToDisplay={countToDisplay} />
-      </ul>
+      <AutofillHeight.List
+        className='gap-3'
+        renderItem={(contest) => <Contest contest={contest} />}
+        renderSkeleton={() => <ContestSkeleton />}
+        pageSize={countToDisplay}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        list={contests?.slice(0, countToDisplay)}
+      />
     </section>
   )
-}
-
-function Contests({ contests, countToDisplay }: { contests?: DashboardDTO['contests']; countToDisplay?: number }) {
-  if (countToDisplay === undefined) {
-    return null
-  }
-  if (contests === undefined) {
-    return Array.from({ length: countToDisplay }, (_, index) => <ContestSkeleton key={index} />)
-  }
-
-  return contests.map((contest) => (
-    <li key={contest.id}>
-      <Contest contest={contest} />
-    </li>
-  ))
 }

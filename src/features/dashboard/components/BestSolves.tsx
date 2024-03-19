@@ -8,12 +8,14 @@ import {
 } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
-import { cn, matchesQuery, useAutofillHeight } from '@/utils'
-import { ResultSkeleton } from '@/features/leaderboard/components'
+import { cn, matchesQuery } from '@/utils'
+import { AutofillHeight } from '@/features/autofillHeight'
 
 type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  const { fittingCount, containerRef, fakeElementRef } = useAutofillHeight()
+  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
+
+  const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
   if (solves && matchesQuery('sm')) {
     countToDisplay = solves?.length
@@ -46,31 +48,18 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
             <OpenLeaderboardButton discipline='3x3' />
           </div>
         </div>
-        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-          <ResultSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
-          <Solves solves={solves?.slice(0, countToDisplay)} countToDisplay={countToDisplay} />
-        </ul>
+        <AutofillHeight.List
+          className='gap-3'
+          pageSize={countToDisplay}
+          fakeElementRef={fakeElementRef}
+          containerRef={containerRef}
+          renderItem={(solve) => <Solve solve={solve} />}
+          renderSkeleton={SolveSkeleton}
+          list={solves?.slice(0, countToDisplay)}
+        />
       </div>
     </section>
   )
-}
-
-function Solves({ solves, countToDisplay }: { solves?: DashboardDTO['bestSolves']; countToDisplay?: number }) {
-  if (countToDisplay === undefined) {
-    return null
-  }
-  if (solves === undefined) {
-    return Array.from({ length: countToDisplay }, (_, index) => <SolveSkeleton key={index} />)
-  }
-  if (solves.length === 0) {
-    return 'Seems like no one has solved yet'
-  }
-
-  return solves.map((solve) => (
-    <li key={solve.id}>
-      <Solve solve={solve} />
-    </li>
-  ))
 }
 
 function SolveSkeleton() {

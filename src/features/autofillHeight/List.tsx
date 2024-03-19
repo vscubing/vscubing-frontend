@@ -1,16 +1,19 @@
+import { cn } from '@/utils'
 import { type ReactNode, type ReactElement } from 'react'
 
 type ListItemData = { id: React.Key }
 type ListProps<T extends ListItemData> = {
+  className?: string
   list: T[] | undefined
   pageSize: number | undefined
-  renderItem: (data: T) => ReactNode
+  renderItem: (item: T) => ReactNode
   renderSkeleton: () => ReactElement
   lastElementRef?: (node?: Element | null) => void
   fakeElementRef: React.RefObject<HTMLLIElement>
   containerRef: React.RefObject<HTMLUListElement>
 }
 function List<T extends ListItemData>({
+  className,
   fakeElementRef,
   containerRef,
   list,
@@ -20,7 +23,7 @@ function List<T extends ListItemData>({
   renderSkeleton,
 }: ListProps<T>) {
   return (
-    <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
+    <ul className={cn('flex flex-1 flex-col gap-2', className)} ref={containerRef}>
       <li aria-hidden className='invisible fixed' ref={fakeElementRef}>
         {renderSkeleton()}
       </li>

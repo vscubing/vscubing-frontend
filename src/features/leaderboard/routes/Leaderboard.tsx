@@ -6,7 +6,8 @@ import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery } from '../api'
-import { cn, useAutofillHeight } from '@/utils'
+import { cn } from '@/utils'
+import { AutofillHeight } from '@/features/autofillHeight'
 
 const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
@@ -16,7 +17,7 @@ export function Leaderboard() {
 
   const { discipline, page } = route.useLoaderData()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = useAutofillHeight()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
     discipline,
