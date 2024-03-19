@@ -3,11 +3,16 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, Pagination, HintSignInSection, PageTitleMobile } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
-import { getContestResultsQuery, ongoingContestNumberQuery, type ContestResultsDTO } from '../../api'
+import {
+  type ContestSessionDTO,
+  getContestResultsQuery,
+  ongoingContestNumberQuery,
+  type ContestResultsDTO,
+} from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
-import { type ReactNode, type RefObject } from 'react'
-import { AutofillHeight } from '@/features/autofillHeight'
+import { type ReactNode } from 'react'
+import { AutofillHeight, type ListWithPinnedItemProps, type ListWrapperProps } from '@/features/autofillHeight'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
@@ -47,8 +52,8 @@ export function ContestResultsPage() {
       <ErrorHandler errorCode={errorCode}>
         <View totalPages={data?.totalPages}>
           <SessionsList
-            errorCode={errorCode}
-            data={data}
+            list={data?.sessions ?? undefined}
+            ownSession={data?.ownSession ?? null}
             containerRef={containerRef}
             fakeElementRef={fakeElementRef}
             isFetching={isFetching}
@@ -119,64 +124,46 @@ function View({ totalPages, children }: ViewProps) {
   )
 }
 
-type SessionsListProps = {
-  errorCode?: number
-  data?: ContestResultsDTO
-  containerRef: RefObject<HTMLUListElement>
-  fakeElementRef: RefObject<HTMLLIElement>
-  isFetching: boolean
-  pageSize?: number
-}
-function SessionsList({ isFetching, data, pageSize, containerRef, fakeElementRef }: SessionsListProps) {
+type SessionsListProps = { ownSession: ContestResultsDTO['ownSession'] } & Pick<
+  ListWrapperProps,
+  'containerRef' | 'fakeElementRef'
+> &
+  Pick<ListWithPinnedItemProps<ContestSessionDTO>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching'>
+function SessionsList({ isFetching, ownSession, list, pageSize, containerRef, fakeElementRef }: SessionsListProps) {
+  const { contestNumber } = route.useLoaderData()
+
   return (
     <>
       <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
         <SessionsListHeader className='md:hidden' />
-        <ul className='flex flex-1 flex-col gap-3' ref={containerRef}>
-          <SessionSkeleton className='invisible fixed' aria-hidden ref={fakeElementRef} />
-          <SessionsListInner
-            sessions={data?.sessions}
-            isFetching={isFetching}
-            ownSession={data?.ownSession}
+        <AutofillHeight.ListWrapper
+          renderSkeleton={() => <SessionSkeleton />}
+          className='gap-3'
+          fakeElementRef={fakeElementRef}
+          containerRef={containerRef}
+        >
+          <AutofillHeight.ListWithPinnedItem
+            hasPinnedItem={ownSession?.isDisplayedSeparately === true}
+            renderPinnedItem={() =>
+              ownSession ? (
+                <Session
+                  contestNumber={contestNumber}
+                  linkToPage={ownSession.page}
+                  isOwn
+                  session={ownSession.session}
+                />
+              ) : null
+            }
             pageSize={pageSize}
+            renderItem={(session) => (
+              <Session isOwn={session.id === ownSession?.session.id} contestNumber={contestNumber} session={session} />
+            )}
+            renderSkeleton={() => <SessionSkeleton />}
+            list={list}
+            isFetching={isFetching}
           />
-        </ul>
+        </AutofillHeight.ListWrapper>
       </div>
-    </>
-  )
-}
-
-type SessionsListInnerProps = {
-  sessions?: ContestResultsDTO['sessions']
-  ownSession?: ContestResultsDTO['ownSession']
-  pageSize?: number
-  isFetching: boolean
-}
-function SessionsListInner({ sessions, ownSession, pageSize, isFetching }: SessionsListInnerProps) {
-  const { contestNumber } = route.useLoaderData()
-
-  if (!pageSize) {
-    return null
-  }
-
-  const isOwnDisplayedSeparately = ownSession && (ownSession.isDisplayedSeparately || isFetching)
-  const skeletonSize = isOwnDisplayedSeparately ? pageSize - 1 : pageSize
-
-  return (
-    <>
-      {isOwnDisplayedSeparately && (
-        <Session contestNumber={contestNumber} isOwn session={ownSession.session} linkToPage={ownSession.page} />
-      )}
-      {!sessions && isFetching
-        ? Array.from({ length: skeletonSize }, (_, index) => <SessionSkeleton key={index} />)
-        : sessions?.map((session) => (
-            <Session
-              contestNumber={contestNumber}
-              isOwn={session.user.username === ownSession?.session.user.username} // TODO: compare by id
-              key={session.id}
-              session={session}
-            />
-          ))}
     </>
   )
 }
