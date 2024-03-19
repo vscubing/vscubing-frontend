@@ -3,7 +3,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { matchesQuery, useControllerWithInfiniteScroll } from '@/utils'
+import { matchesQuery } from '@/utils'
 import type { Discipline } from '@/types'
 import { type ContestListItemDTO, getContestsQuery, getInfiniteContestsQuery } from '../../api'
 import { type ReactNode } from 'react'
@@ -26,7 +26,7 @@ function ControllerWithInfiniteScroll() {
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getInfiniteContestsQuery({ discipline, pageSize })
-  const { data, lastElementRef } = useControllerWithInfiniteScroll(query)
+  const { data, lastElementRef } = AutofillHeight.useControllerWithInfiniteScroll(query)
 
   return (
     <View discipline={discipline}>

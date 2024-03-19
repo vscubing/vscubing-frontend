@@ -9,33 +9,30 @@ import {
   MinusIcon,
 } from '@/components/ui'
 import { cn } from '@/utils'
-import { useMemo, forwardRef, type ComponentProps, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { type ContestSessionDTO } from '../../api'
 
 export function Session({
   session,
   linkToPage,
   isOwn,
-  className,
   contestNumber,
 }: {
   session: ContestSessionDTO
   contestNumber: number
   linkToPage?: number
   isOwn?: boolean
-  className?: string
 }) {
   const currentUserLabel = isOwn ? ' (you)' : ''
   const [accordionOpen, setAccordionOpen] = useState(false)
 
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solves), [session.solves])
   return (
-    <li
+    <div
       className={cn(
         'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:flex-wrap md:py-2',
         accordionOpen ? 'md:h-auto' : 'md:h-[4.5rem]',
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
-        className,
       )}
     >
       <span
@@ -78,19 +75,13 @@ export function Session({
           </li>
         ))}
       </ul>
-    </li>
+    </div>
   )
 }
 
-export const SessionSkeleton = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => {
-  return (
-    <li
-      ref={ref}
-      {...props}
-      className={cn('h-15 animate-pulse rounded-xl bg-grey-100 md:min-h-[4.5rem]', className)}
-    ></li>
-  )
-})
+export function SessionSkeleton() {
+  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:min-h-[4.5rem]'></div>
+}
 
 function getBestAndWorstIds(solves: ContestSessionDTO['solves']) {
   const dnfSolve = solves.find(({ dnf }) => dnf)

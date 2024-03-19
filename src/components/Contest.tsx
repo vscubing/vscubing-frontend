@@ -1,4 +1,4 @@
-import { cn, formatDate } from '@/utils'
+import { formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { SecondaryButton, ArrowRightIcon } from './ui'
 import { type ContestInfo } from '@/types'
@@ -22,7 +22,6 @@ export function Contest({ contest: { contestNumber, start, end } }: ContestProps
   )
 }
 
-type ContestSkeletonProps = { className?: string }
-export function ContestSkeleton({ className }: ContestSkeletonProps) {
-  return <div className={cn('h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16', className)}></div>
+export function ContestSkeleton() {
+  return <div className='h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16'></div>
 }
