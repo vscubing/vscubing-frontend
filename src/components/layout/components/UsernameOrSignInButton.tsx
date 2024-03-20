@@ -21,7 +21,7 @@ export function UsernameOrSignInButton({
       {user.isAuthed ? (
         <>
           <span
-            className={cn('vertical-alignment-fix whitespace-nowrap text-right text-lg', {
+            className={cn('vertical-alignment-fix whitespace-nowrap text-right text-large', {
               'w-0 flex-1 overflow-x-clip text-ellipsis': usernameEllipsis,
             })}
           >

@@ -56,13 +56,13 @@ export function WatchSolvePage() {
             <p className='title-h2 mb-1 text-secondary-20'>
               Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
             </p>
-            <p className='text-lg'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
+            <p className='text-large'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
           </div>
         </SectionHeader>
         <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
           <div>
             <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
-            <p className='text-lg text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
+            <p className='text-large text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
           </div>
           <SecondaryButton onClick={copyWatchSolveLink}>
             <ShareIcon />

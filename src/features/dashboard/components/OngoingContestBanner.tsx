@@ -30,7 +30,7 @@ function BannerContent({ className }: { className?: string }) {
           <div className='flex w-full items-end justify-between'>
             <div>
               <p className='title-h3 mb-2'>Duration</p>
-              <p className='text-lg' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+              <p className='text-large' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
             </div>
             <PrimaryButton asChild>
               <Link to='/contests/ongoing'>Solve now</Link>
@@ -62,7 +62,7 @@ function BannerContentMobile({ className }: { className?: string }) {
       <div className='flex flex-col items-end gap-6 py-4 pr-4 text-right sm:flex-row-reverse sm:items-center sm:justify-end sm:gap-2 sm:p-0 sm:text-left'>
         <div className='space-y-3 sm:space-y-1'>
           <p className='title-h3'>Duration</p>
-          <p className='text-lg' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+          <p className='text-large' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
         </div>
         <Disciplines />
       </div>

@@ -105,19 +105,19 @@ function View({ totalPages, children, behavior, errorCode }: ViewProps) {
 
   return (
     <>
-      <section className='flex flex-1 flex-col gap-3'>
+      <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
         <Header title={title} />
         <PageTitleMobile>{title}</PageTitleMobile>
 
         <NavigateBackButton className='self-start' />
         <ErrorHandler errorCode={errorCode}>
-          <SectionHeader className='gap-4 sm:gap-2'>
+          <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
             <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
               <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
             </Link>
             <div>
               <h2 className='title-h2 mb-1'>Contest {contestNumber}</h2>
-              <p className='text-lg text-grey-40'>{contestDuration}</p>
+              <p className='text-large text-grey-40'>{contestDuration}</p>
             </div>
             {behavior === 'pagination' && (
               <Pagination currentPage={page} totalPages={totalPages} className='ml-auto sm:hidden' />

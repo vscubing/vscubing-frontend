@@ -7,7 +7,7 @@ const route = getRouteApi('/contests/')
 type ContestProps = { contest: ContestInfo; discipline: Discipline }
 export function ContestRow({ contest, discipline }: ContestProps) {
   return (
-    <div className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-lg'>
+    <div className='flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4 text-large'>
       <CubeIcon cube='3by3' className='mr-4' />
       <span className='vertical-alignment-fix relative mr-4 flex-1 pr-4 after:absolute after:right-0 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60'>
         Contest {contest.contestNumber}

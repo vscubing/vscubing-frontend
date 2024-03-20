@@ -35,7 +35,7 @@
   .btn-sm {
     @apply font-kanit text-[1rem] font-medium sm:text-[0.875rem];
   }
-  .text-lg {
+  .text-large {
     @apply text-[1.125rem] sm:text-[0.9375rem];
   }
   .caption {
