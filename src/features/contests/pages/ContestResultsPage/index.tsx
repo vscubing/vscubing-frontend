@@ -109,7 +109,7 @@ function View({ totalPages, children }: ViewProps) {
   const { contestNumber, discipline, page } = route.useLoaderData()
   return (
     <>
-      <SectionHeader className='gap-4'>
+      <SectionHeader className='gap-4 sm:gap-2'>
         <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
@@ -117,7 +117,7 @@ function View({ totalPages, children }: ViewProps) {
           <h2 className='title-h2 mb-1'>Contest {contestNumber}</h2>
           <p className='text-lg text-grey-40'>{contestDuration}</p>
         </div>
-        <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />
+        <Pagination currentPage={page} totalPages={totalPages} className='ml-auto sm:hidden' />
       </SectionHeader>
       {children}
     </>
@@ -134,7 +134,7 @@ function SessionsList({ isFetching, ownSession, list, pageSize, containerRef, fa
 
   return (
     <>
-      <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6'>
+      <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
         <SessionsListHeader className='md:hidden' />
         <AutofillHeight.ListWrapper
           renderFakeElement={() => <SessionSkeleton />}
