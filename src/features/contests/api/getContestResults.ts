@@ -1,11 +1,9 @@
 import { type Discipline, type Scramble } from '@/types'
-import { queryOptions } from '@tanstack/react-query'
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { USER_QUERY_KEY, userQuery } from '@/features/auth'
 import { getOwnResultPage, getPageStartEndIndexes, getTotalPages, timeout } from '@/utils'
 import { AxiosError, type AxiosResponse } from 'axios'
 import { queryClient } from '@/lib/reactQuery'
-import { ongoingContestNumberQuery } from './getOngoingContestNumber'
-import { axiosClient } from '@/lib/axios'
 
 export type ContestResultsDTO = {
   totalPages: number
@@ -35,41 +33,59 @@ export type ContestSessionDTO = {
 export function getContestQueryKey({ contestNumber, discipline }: { contestNumber: number; discipline: Discipline }) {
   return [USER_QUERY_KEY, 'contest-results', contestNumber, discipline]
 }
+
 export function getContestResultsQuery({
   contestNumber,
   discipline,
   page,
   pageSize,
-  isEnabled = true,
 }: {
   contestNumber: number
   discipline: Discipline
   page: number
-  pageSize: number
-  isEnabled: boolean
+  pageSize?: number
 }) {
+  let enabled = true
+  if (pageSize === undefined) {
+    enabled = false
+  }
+  pageSize = pageSize ?? 0
+
   return queryOptions({
     queryKey: [...getContestQueryKey({ contestNumber, discipline }), page, pageSize],
-    queryFn: async () => {
-      const ongoing = await queryClient.fetchQuery(ongoingContestNumberQuery)
-      if (contestNumber === ongoing) {
-        try {
-          await axiosClient.get(`/contests/contest/${contestNumber}/discipline/${discipline}/`)
-        } catch (e) {
-          if (e instanceof AxiosError && (e?.response?.status === 403 || e?.response?.status === 401)) {
-            throw e
-          }
-        }
-      }
-      return getMockContestResults({ page, pageSize })
-    },
+    queryFn: () => getMockContestResults({ page, pageSize }),
     placeholderData: (prev) =>
       prev && {
         totalPages: prev.totalPages,
         sessions: null,
         ownSession: prev.ownSession,
       },
-    enabled: isEnabled,
+    enabled,
+  })
+}
+
+export function getContestResultsInfiniteQuery({
+  contestNumber,
+  discipline,
+  pageSize,
+}: {
+  contestNumber: number
+  discipline: Discipline
+  pageSize?: number
+}) {
+  let enabled = true
+  if (pageSize === undefined) {
+    enabled = false
+  }
+  pageSize = pageSize ?? 0
+  pageSize = Math.floor(pageSize * 2)
+
+  return infiniteQueryOptions({
+    queryKey: [...getContestQueryKey({ contestNumber, discipline }), pageSize],
+    queryFn: ({ pageParam: page }) => getMockContestResults({ page, pageSize }),
+    getNextPageParam: (_, pages) => pages.length + 1,
+    initialPageParam: 1,
+    enabled,
   })
 }
 
@@ -120,7 +136,7 @@ async function getMockSessionsWithOwn() {
   return { allSessions: MOCK_SESSIONS, ownSession }
 }
 
-const MOCK_SESSIONS = Array.from({ length: randomInteger(0, 100) }, () => getMockSession())
+const MOCK_SESSIONS = Array.from({ length: 100 }, () => getMockSession())
   .sort((a, b) => {
     if (a.avgMs === null) return Infinity
     if (b.avgMs === null) return -Infinity

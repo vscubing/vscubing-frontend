@@ -8,15 +8,26 @@ import {
   getContestResultsQuery,
   ongoingContestNumberQuery,
   type ContestResultsDTO,
+  getContestResultsInfiniteQuery,
 } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 import { type ReactNode } from 'react'
-import { AutofillHeight, type ListWithPinnedItemProps, type ListWrapperProps } from '@/features/autofillHeight'
+import {
+  AutofillHeight,
+  type Behavior,
+  type ListWithPinnedItemProps,
+  type ListWrapperProps,
+} from '@/features/autofillHeight'
+import { cn, matchesQuery } from '@/utils'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
 export function ContestResultsPage() {
+  return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
+}
+
+function ControllerWithPagination() {
   const { contestNumber, discipline, page } = route.useLoaderData()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
@@ -24,12 +35,61 @@ export function ContestResultsPage() {
     contestNumber: contestNumber,
     discipline,
     page,
-    pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
+    pageSize,
   })
 
   const { data, error, isFetching } = useQuery(query)
-  const errorCode = error?.response?.status
+
+  return (
+    <View totalPages={data?.totalPages} behavior='pagination' errorCode={error?.response?.status}>
+      <SessionsList
+        behavior='pagination'
+        list={data?.sessions ?? undefined}
+        ownSession={data?.ownSession ?? null}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        isFetching={isFetching}
+        pageSize={pageSize}
+      />
+    </View>
+  )
+}
+
+function ControllerWithInfiniteScroll() {
+  const { contestNumber, discipline } = route.useLoaderData()
+
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const query = getContestResultsInfiniteQuery({
+    contestNumber: contestNumber,
+    discipline,
+    pageSize,
+  })
+  const { data, isFetching, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+
+  return (
+    <View behavior='infinite-scroll' errorCode={error?.response?.status}>
+      <SessionsList
+        behavior='infinite-scroll'
+        list={data?.pages.flatMap((page) => page.sessions!)}
+        ownSession={data?.pages.at(0)?.ownSession ?? null}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        lastElementRef={lastElementRef}
+        isFetching={isFetching}
+        pageSize={pageSize}
+      />
+    </View>
+  )
+}
+
+type ViewProps = {
+  behavior: Behavior
+  totalPages?: number
+  children: ReactNode
+  errorCode?: number
+}
+function View({ totalPages, children, behavior, errorCode }: ViewProps) {
+  const { contestNumber, discipline, page } = route.useLoaderData()
 
   const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
   const isOngoing = contestNumber === ongoingContestNumber // TODO: get from backend
@@ -44,24 +104,29 @@ export function ContestResultsPage() {
   }
 
   return (
-    <section className='flex flex-1 flex-col gap-3'>
-      <Header title={title} />
-      <PageTitleMobile>{title}</PageTitleMobile>
+    <>
+      <section className='flex flex-1 flex-col gap-3'>
+        <Header title={title} />
+        <PageTitleMobile>{title}</PageTitleMobile>
 
-      <NavigateBackButton className='self-start' />
-      <ErrorHandler errorCode={errorCode}>
-        <View totalPages={data?.totalPages}>
-          <SessionsList
-            list={data?.sessions ?? undefined}
-            ownSession={data?.ownSession ?? null}
-            containerRef={containerRef}
-            fakeElementRef={fakeElementRef}
-            isFetching={isFetching}
-            pageSize={pageSize}
-          />
-        </View>
-      </ErrorHandler>
-    </section>
+        <NavigateBackButton className='self-start' />
+        <ErrorHandler errorCode={errorCode}>
+          <SectionHeader className='gap-4 sm:gap-2'>
+            <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
+              <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+            </Link>
+            <div>
+              <h2 className='title-h2 mb-1'>Contest {contestNumber}</h2>
+              <p className='text-lg text-grey-40'>{contestDuration}</p>
+            </div>
+            {behavior === 'pagination' && (
+              <Pagination currentPage={page} totalPages={totalPages} className='ml-auto sm:hidden' />
+            )}
+          </SectionHeader>
+          {children}
+        </ErrorHandler>
+      </section>
+    </>
   )
 }
 
@@ -104,32 +169,20 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
   return children
 }
 
-type ViewProps = { totalPages?: number; children: ReactNode }
-function View({ totalPages, children }: ViewProps) {
-  const { contestNumber, discipline, page } = route.useLoaderData()
-  return (
-    <>
-      <SectionHeader className='gap-4 sm:gap-2'>
-        <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
-          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-        </Link>
-        <div>
-          <h2 className='title-h2 mb-1'>Contest {contestNumber}</h2>
-          <p className='text-lg text-grey-40'>{contestDuration}</p>
-        </div>
-        <Pagination currentPage={page} totalPages={totalPages} className='ml-auto sm:hidden' />
-      </SectionHeader>
-      {children}
-    </>
-  )
-}
-
-type SessionsListProps = { ownSession: ContestResultsDTO['ownSession'] } & Pick<
-  ListWrapperProps,
-  'containerRef' | 'fakeElementRef'
-> &
-  Pick<ListWithPinnedItemProps<ContestSessionDTO>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching'>
-function SessionsList({ isFetching, ownSession, list, pageSize, containerRef, fakeElementRef }: SessionsListProps) {
+type SessionsListProps = {
+  ownSession: ContestResultsDTO['ownSession']
+} & Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
+  Pick<ListWithPinnedItemProps<ContestSessionDTO>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
+function SessionsList({
+  isFetching,
+  lastElementRef,
+  behavior,
+  ownSession,
+  list,
+  pageSize,
+  containerRef,
+  fakeElementRef,
+}: SessionsListProps) {
   const { contestNumber } = route.useLoaderData()
 
   return (
@@ -142,15 +195,20 @@ function SessionsList({ isFetching, ownSession, list, pageSize, containerRef, fa
           containerRef={containerRef}
         >
           <AutofillHeight.ListWithPinnedItem
+            lastElementRef={lastElementRef}
             pinnedItem={ownSession ?? undefined}
+            pinnedItemPage={ownSession?.page}
+            behavior={behavior}
             renderPinnedItem={() =>
               ownSession ? (
-                <Session
-                  contestNumber={contestNumber}
-                  linkToPage={ownSession.page}
-                  isOwn
-                  session={ownSession.session}
-                />
+                <div className={cn({ 'sticky top-20 z-10': behavior === 'infinite-scroll' })}>
+                  <Session
+                    contestNumber={contestNumber}
+                    linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
+                    isOwn
+                    session={ownSession.session}
+                  />
+                </div>
               ) : null
             }
             pageSize={pageSize}

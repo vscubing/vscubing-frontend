@@ -1,5 +1,6 @@
 import { cn } from '@/utils'
 import { type ReactNode, type ReactElement } from 'react'
+import { type Behavior } from '.'
 
 type ListWrapperProps = {
   children: ReactNode
@@ -57,29 +58,39 @@ function List<T extends ListItemData>({
 type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
   isFetching: boolean
   renderPinnedItem: () => ReactNode
-  pinnedItem: { isDisplayedSeparately: boolean } | undefined
+  pinnedItem?: { isDisplayedSeparately: boolean }
+  pinnedItemPage?: number
+  behavior: Behavior
 }
 function ListWithPinnedItem<T extends ListItemData>({
   list,
   pageSize,
   isFetching,
+  pinnedItemPage,
   pinnedItem,
   renderPinnedItem,
   renderSkeleton,
   renderItem,
   lastElementRef,
+  behavior,
 }: ListWithPinnedItemProps<T>) {
   if (!pageSize) {
     return null
   }
 
-  const isPinnedDisplayedSepararely = pinnedItem && (pinnedItem.isDisplayedSeparately || isFetching)
-  const skeletonSize = isPinnedDisplayedSepararely ? pageSize - 1 : pageSize
+  let isPinnedDisplayedSepararely = false
+  if (behavior === 'pagination') {
+    isPinnedDisplayedSepararely = !!pinnedItem && (pinnedItem.isDisplayedSeparately || isFetching)
+  } else if (behavior === 'infinite-scroll') {
+    isPinnedDisplayedSepararely = !!pinnedItem && pinnedItemPage !== 1
+  }
 
+  const skeletonSize = isPinnedDisplayedSepararely ? pageSize - 1 : pageSize
+  const isSkeletonShown = !list || (isFetching && behavior === 'pagination')
   return (
     <>
-      {isPinnedDisplayedSepararely && <li>{renderPinnedItem()}</li>}
-      {!list || isFetching
+      {isPinnedDisplayedSepararely && <li className='contents'>{renderPinnedItem()}</li>}
+      {isSkeletonShown
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
         : list?.map((item, index) => (
             <li ref={index === list.length - 1 ? lastElementRef : undefined} key={item.id}>

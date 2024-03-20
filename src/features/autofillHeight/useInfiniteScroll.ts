@@ -13,7 +13,8 @@ export function useInfiniteScroll<T extends { totalPages?: number }>(
     number
   >,
 ) {
-  const { data, fetchNextPage } = useInfiniteQuery(query)
+  const queryResult = useInfiniteQuery(query)
+  const { data, fetchNextPage } = queryResult
 
   const totalPages = data?.pages?.[0].totalPages
   const allPagesLoaded = totalPages && data?.pages?.length === totalPages
@@ -25,5 +26,5 @@ export function useInfiniteScroll<T extends { totalPages?: number }>(
     }
   }, [lastEntry, isIntersecting, allPagesLoaded, fetchNextPage])
 
-  return { data, lastElementRef }
+  return { ...queryResult, lastElementRef }
 }
