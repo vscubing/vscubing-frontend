@@ -33,7 +33,7 @@ export function getContestsQuery({
 
   return queryOptions({
     queryKey: ['contests-list', discipline, page, pageSize],
-    queryFn: () => getMockContests({ page, pageSize }),
+    queryFn: () => getMockContests({ page, pageSize: pageSize! }),
     placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
     enabled,
   })
@@ -49,7 +49,7 @@ export function getInfiniteContestsQuery({ discipline, pageSize }: { discipline:
 
   return infiniteQueryOptions({
     queryKey: ['contests-list', discipline, pageSize],
-    queryFn: ({ pageParam: page }) => getMockContests({ page, pageSize }),
+    queryFn: ({ pageParam: page }) => getMockContests({ page, pageSize: pageSize! }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,

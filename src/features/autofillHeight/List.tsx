@@ -89,7 +89,9 @@ function ListWithPinnedItem<T extends ListItemData>({
   const isSkeletonShown = !list || (isFetching && behavior === 'pagination')
   return (
     <>
-      {isPinnedDisplayedSepararely && <li className='contents'>{renderPinnedItem()}</li>}
+      {isPinnedDisplayedSepararely && (
+        <li className={cn({ 'sticky top-20 z-10': behavior === 'infinite-scroll' })}>{renderPinnedItem()}</li>
+      )}
       {isSkeletonShown
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
         : list?.map((item, index) => (

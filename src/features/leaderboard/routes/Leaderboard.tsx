@@ -81,6 +81,7 @@ function ResultsList({ list, ownResult, pageSize, containerRef, fakeElementRef, 
         fakeElementRef={fakeElementRef}
       >
         <AutofillHeight.ListWithPinnedItem
+          behavior='pagination'
           pinnedItem={ownResult ?? undefined}
           renderPinnedItem={() =>
             ownResult ? <Result isOwn linkToPage={ownResult.page} result={ownResult.result} /> : null

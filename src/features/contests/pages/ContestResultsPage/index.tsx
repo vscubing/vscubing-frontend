@@ -19,7 +19,7 @@ import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
 } from '@/features/autofillHeight'
-import { cn, matchesQuery } from '@/utils'
+import { matchesQuery } from '@/utils'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
@@ -201,14 +201,12 @@ function SessionsList({
             behavior={behavior}
             renderPinnedItem={() =>
               ownSession ? (
-                <div className={cn({ 'sticky top-20 z-10': behavior === 'infinite-scroll' })}>
-                  <Session
-                    contestNumber={contestNumber}
-                    linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
-                    isOwn
-                    session={ownSession.session}
-                  />
-                </div>
+                <Session
+                  contestNumber={contestNumber}
+                  linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
+                  isOwn
+                  session={ownSession.session}
+                />
               ) : null
             }
             pageSize={pageSize}
