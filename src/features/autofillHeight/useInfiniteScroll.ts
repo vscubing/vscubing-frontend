@@ -3,7 +3,7 @@ import { type AxiosError } from 'axios'
 import { useEffect } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 
-export function useControllerWithInfiniteScroll<T extends { totalPages?: number }>(
+export function useInfiniteScroll<T extends { totalPages?: number }>(
   query: UseInfiniteQueryOptions<
     T,
     AxiosError<unknown, unknown>,

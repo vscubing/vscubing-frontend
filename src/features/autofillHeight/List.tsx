@@ -1,14 +1,14 @@
 import { cn } from '@/utils'
 import { type ReactNode, type ReactElement } from 'react'
 
-export type ListWrapperProps = {
+type ListWrapperProps = {
   children: ReactNode
   className?: string
   renderFakeElement: () => ReactElement
   fakeElementRef: React.RefObject<HTMLLIElement>
   containerRef: React.RefObject<HTMLUListElement>
 }
-export function ListWrapper({
+function ListWrapper({
   children,
   className,
   fakeElementRef,
@@ -25,15 +25,15 @@ export function ListWrapper({
   )
 }
 
-export type ListItemData = { id: React.Key }
-export type ListProps<T extends ListItemData> = {
+type ListItemData = { id: React.Key }
+type ListProps<T extends ListItemData> = {
   list: T[] | undefined
   pageSize: number | undefined
   renderItem: (item: T) => ReactNode
   renderSkeleton: () => ReactElement
   lastElementRef?: (node?: Element | null) => void
 }
-export function List<T extends ListItemData>({
+function List<T extends ListItemData>({
   list,
   pageSize,
   lastElementRef,
@@ -54,12 +54,12 @@ export function List<T extends ListItemData>({
   ))
 }
 
-export type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
+type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
   isFetching: boolean
   renderPinnedItem: () => ReactNode
   pinnedItem: { isDisplayedSeparately: boolean } | undefined
 }
-export function ListWithPinnedItem<T extends ListItemData>({
+function ListWithPinnedItem<T extends ListItemData>({
   list,
   pageSize,
   isFetching,
@@ -89,3 +89,6 @@ export function ListWithPinnedItem<T extends ListItemData>({
     </>
   )
 }
+
+export type { ListItemData, ListWrapperProps, ListProps, ListWithPinnedItemProps }
+export { ListWrapper, List, ListWithPinnedItem }

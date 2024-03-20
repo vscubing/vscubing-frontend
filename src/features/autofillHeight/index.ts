@@ -1,6 +1,6 @@
 import { ListWrapper, ListWithPinnedItem, List } from './List'
 import { useFittingCount } from './useAutofillHeight'
-import { useControllerWithInfiniteScroll } from './useControllerWithInfiniteScroll'
+import { useInfiniteScroll } from './useInfiniteScroll'
 
 export type { ListWrapperProps, ListProps, ListWithPinnedItemProps } from './List'
 export const AutofillHeight = {
@@ -8,5 +8,5 @@ export const AutofillHeight = {
   List,
   ListWithPinnedItem,
   useFittingCount,
-  useControllerWithInfiniteScroll,
+  useInfiniteScroll,
 }

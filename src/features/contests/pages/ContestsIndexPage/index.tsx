@@ -26,7 +26,7 @@ function ControllerWithInfiniteScroll() {
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getInfiniteContestsQuery({ discipline, pageSize })
-  const { data, lastElementRef } = AutofillHeight.useControllerWithInfiniteScroll(query)
+  const { data, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
     <View discipline={discipline}>
