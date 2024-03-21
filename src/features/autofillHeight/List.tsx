@@ -57,16 +57,14 @@ function List<T extends ListItemData>({
 
 type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
   isFetching: boolean
-  renderPinnedItem: () => ReactNode
-  pinnedItem?: { isDisplayedSeparately: boolean }
-  pinnedItemPage?: number
+  renderPinnedItem: (linkToPage?: number) => ReactNode
+  pinnedItem?: { isDisplayedSeparately: boolean; page: number }
   behavior: Behavior
 }
 function ListWithPinnedItem<T extends ListItemData>({
   list,
   pageSize,
   isFetching,
-  pinnedItemPage,
   pinnedItem,
   renderPinnedItem,
   renderSkeleton,
@@ -82,16 +80,18 @@ function ListWithPinnedItem<T extends ListItemData>({
   if (behavior === 'pagination') {
     isPinnedDisplayedSepararely = !!pinnedItem && (pinnedItem.isDisplayedSeparately || isFetching)
   } else if (behavior === 'infinite-scroll') {
-    isPinnedDisplayedSepararely = !!pinnedItem && pinnedItemPage !== 1
+    isPinnedDisplayedSepararely = !!pinnedItem && pinnedItem.page !== 1
   }
 
   const skeletonSize = isPinnedDisplayedSepararely ? pageSize - 1 : pageSize
   const isSkeletonShown = !list || (isFetching && behavior === 'pagination')
+
+  const linkToPinnedItemPage = behavior === 'pagination' ? pinnedItem?.page : undefined
   return (
     <>
       {isPinnedDisplayedSepararely && (
         <li className={cn({ 'sticky top-[calc(var(--header-height)+1.5rem)] z-10': behavior === 'infinite-scroll' })}>
-          {renderPinnedItem()}
+          {renderPinnedItem(linkToPinnedItemPage)}
         </li>
       )}
       {isSkeletonShown

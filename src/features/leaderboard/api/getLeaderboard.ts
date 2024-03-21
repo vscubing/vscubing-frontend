@@ -2,7 +2,7 @@ import { USER_QUERY_KEY, userQuery } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { type Discipline, type Scramble } from '@/types'
 import { timeout } from '@/utils'
-import { queryOptions } from '@tanstack/react-query'
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
 export type LeaderboardDTO = {
@@ -48,6 +48,26 @@ export const getLeaderboardQuery = ({
       },
     enabled: isEnabled,
   })
+
+export const getLeaderboardInfiniteQuery = ({
+  discipline,
+  pageSize,
+  isEnabled = true,
+}: {
+  discipline: Discipline
+  pageSize: number
+  isEnabled: boolean
+}) => {
+  pageSize = Math.floor(pageSize * 2)
+
+  return infiniteQueryOptions({
+    queryKey: [USER_QUERY_KEY, 'leaderboard', discipline, pageSize],
+    queryFn: ({ pageParam: page }) => fetchMockLeaderboard(page, pageSize),
+    getNextPageParam: (_, pages) => pages.length + 1,
+    initialPageParam: 1,
+    enabled: isEnabled,
+  })
+}
 
 async function fetchMockLeaderboard(page: number, pageSize: number): Promise<LeaderboardDTO> {
   const { resultsWithoutOwn, ownResult, ownResultIndex } = await getMockResultsWithoutOwn()
@@ -122,8 +142,8 @@ async function getMockResultsWithoutOwn() {
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 500 }, getMockResult)
-const MOCK_OWN_RESULT_INDEX = 7
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, getMockResult)
+const MOCK_OWN_RESULT_INDEX = randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)
 
 function getMockResult(): LeaderboardResult {
   return {
@@ -146,4 +166,8 @@ function getMockResult(): LeaderboardResult {
       contestNumber: 1,
     },
   }
+}
+
+function randomInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }

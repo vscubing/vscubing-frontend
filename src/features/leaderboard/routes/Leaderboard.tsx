@@ -5,17 +5,25 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
-import { type LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult } from '../api'
-import { type ListWithPinnedItemProps, type ListWrapperProps, AutofillHeight } from '@/features/autofillHeight'
+import { type LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult, getLeaderboardInfiniteQuery } from '../api'
+import {
+  type ListWithPinnedItemProps,
+  type ListWrapperProps,
+  AutofillHeight,
+  type Behavior,
+} from '@/features/autofillHeight'
+import { matchesQuery } from '@/utils'
+import { type ReactNode } from 'react'
 
 const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
-  const { data: user } = useQuery(userQuery)
+  return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
+}
 
+function ControllerWithPagination() {
   const navigate = useNavigate({ from: route.id })
 
   const { discipline, page } = route.useLoaderData()
-
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
@@ -24,13 +32,62 @@ export function Leaderboard() {
     pageSize: pageSize ?? 0,
     isEnabled: pageSize !== undefined,
   })
-
   const { data, error, isFetching } = useQuery(query)
 
   if (error?.response?.status === 400) {
     void navigate({ search: { page: 1 }, params: { discipline } })
   }
 
+  return (
+    <View totalPages={data?.totalPages} behavior='pagination'>
+      <ResultsList
+        behavior='pagination'
+        list={data?.results ?? undefined}
+        ownResult={data?.ownResult ?? null}
+        pageSize={pageSize}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        isFetching={isFetching}
+      />
+    </View>
+  )
+}
+
+function ControllerWithInfiniteScroll() {
+  const { discipline } = route.useLoaderData()
+
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const query = getLeaderboardInfiniteQuery({
+    discipline,
+    pageSize: pageSize ?? 0,
+    isEnabled: pageSize !== undefined,
+  })
+  const { data, isFetching, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+
+  return (
+    <View behavior='infinite-scroll'>
+      <ResultsList
+        behavior='infinite-scroll'
+        list={data?.pages.flatMap((page) => page.results!)}
+        ownResult={data?.pages.at(0)?.ownResult ?? null}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+        lastElementRef={lastElementRef}
+        isFetching={isFetching}
+        pageSize={pageSize}
+      />
+    </View>
+  )
+}
+
+type ViewProps = {
+  behavior: Behavior
+  totalPages?: number
+  children: ReactNode
+}
+function View({ totalPages, children, behavior }: ViewProps) {
+  const { discipline, page } = route.useLoaderData()
+  const { data: user } = useQuery(userQuery)
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (
@@ -42,16 +99,9 @@ export function Leaderboard() {
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        <Pagination currentPage={page} totalPages={data?.totalPages} className='ml-auto' />
+        {behavior === 'pagination' && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}
       </SectionHeader>
-      <ResultsList
-        list={data?.results ?? undefined}
-        ownResult={data?.ownResult ?? null}
-        pageSize={pageSize}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        isFetching={isFetching}
-      />
+      {children}
     </section>
   )
 }
@@ -60,8 +110,17 @@ type ResultsListProps = { ownResult: LeaderboardDTO['ownResult'] } & Pick<
   ListWrapperProps,
   'containerRef' | 'fakeElementRef'
 > &
-  Pick<ListWithPinnedItemProps<LeaderboardResult>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching'>
-function ResultsList({ list, ownResult, pageSize, containerRef, fakeElementRef, isFetching }: ResultsListProps) {
+  Pick<ListWithPinnedItemProps<LeaderboardResult>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
+function ResultsList({
+  list,
+  ownResult,
+  pageSize,
+  behavior,
+  lastElementRef,
+  containerRef,
+  fakeElementRef,
+  isFetching,
+}: ResultsListProps) {
   if (list?.length === 0) {
     return (
       <HintSection>
@@ -81,16 +140,17 @@ function ResultsList({ list, ownResult, pageSize, containerRef, fakeElementRef, 
         fakeElementRef={fakeElementRef}
       >
         <AutofillHeight.ListWithPinnedItem
-          behavior='pagination'
+          behavior={behavior}
           pinnedItem={ownResult ?? undefined}
-          renderPinnedItem={() =>
-            ownResult ? <Result isOwn linkToPage={ownResult.page} result={ownResult.result} /> : null
+          renderPinnedItem={(linkToPage) =>
+            ownResult ? <Result isOwn linkToPage={linkToPage} result={ownResult.result} /> : null
           }
           renderItem={(result) => <Result isOwn={result.id === ownResult?.result.id} result={result} />}
           renderSkeleton={() => <ResultSkeleton />}
           pageSize={pageSize}
           list={list}
           isFetching={isFetching}
+          lastElementRef={lastElementRef}
         />
       </AutofillHeight.ListWrapper>
     </div>

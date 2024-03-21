@@ -32,7 +32,7 @@ function ControllerWithPagination() {
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
-    contestNumber: contestNumber,
+    contestNumber,
     discipline,
     page,
     pageSize,
@@ -197,16 +197,10 @@ function SessionsList({
           <AutofillHeight.ListWithPinnedItem
             lastElementRef={lastElementRef}
             pinnedItem={ownSession ?? undefined}
-            pinnedItemPage={ownSession?.page}
             behavior={behavior}
-            renderPinnedItem={() =>
+            renderPinnedItem={(linkToPage) =>
               ownSession ? (
-                <Session
-                  contestNumber={contestNumber}
-                  linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
-                  isOwn
-                  session={ownSession.session}
-                />
+                <Session contestNumber={contestNumber} linkToPage={linkToPage} isOwn session={ownSession.session} />
               ) : null
             }
             pageSize={pageSize}
