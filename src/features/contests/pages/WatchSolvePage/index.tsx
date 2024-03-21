@@ -49,7 +49,7 @@ export function WatchSolvePage() {
       <Header title='Watch solve' />
 
       <NavigateBackButton className='self-start' />
-      <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2'>
+      <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2 sm:grid-cols-1 sm:grid-rows-[min-content,min-content,1fr]'>
         <SectionHeader className='gap-8'>
           <CubeBadge cube='3by3' />
           <div>
@@ -60,14 +60,15 @@ export function WatchSolvePage() {
           </div>
         </SectionHeader>
         <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
-          <div>
+          <div className='sm:min-h-14'>
             <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
             <p className='text-large text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
           </div>
-          <SecondaryButton onClick={copyWatchSolveLink}>
+          <SecondaryButton size='iconSm' onClick={copyWatchSolveLink}>
             <ShareIcon />
           </SecondaryButton>
         </div>
+
         <Suspense
           fallback={
             <div className='col-span-full flex items-center justify-center rounded-2xl bg-black-80'>
