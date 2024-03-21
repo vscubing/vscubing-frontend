@@ -19,7 +19,7 @@ export function PlaceLabel({ children: place, linkToPage, size = 'normal', class
           'transition-base outline-ring hover:border-primary-80 active:border-primary-80 active:text-primary-80':
             !!linkToPage,
         },
-        size === 'small' ? 'caption h-6 w-6' : 'h-11 w-11 text-large',
+        size === 'small' ? 'caption h-6 w-6' : 'text-large h-11 w-11 sm:h-9 sm:w-9',
         className,
       )}
     >

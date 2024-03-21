@@ -1,5 +1,5 @@
 import { CubeIcon, Ellipsis, MinusIcon, PlusIcon, SecondaryButton, SolveTimeLinkOrDnf } from '@/components/ui'
-import { cn, formatDate } from '@/utils'
+import { cn, formatDate, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
 import { useState } from 'react'
@@ -17,45 +17,57 @@ export function Result({ result, isOwn, linkToPage }: ResultProps) {
   return (
     <div
       className={cn(
-        'flex h-15 items-center whitespace-nowrap rounded-xl pl-2 md:flex-wrap md:px-4 md:py-2',
-        accordionOpen ? 'md:h-auto' : 'md:h-[4.75rem]',
+        'flex h-15 items-center whitespace-nowrap rounded-xl pl-2 md:flex-wrap md:px-4 md:py-2 sm:p-4',
+        accordionOpen ? 'md:h-auto' : 'md:h-[4.75rem] sm:h-28',
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
       )}
     >
       <span
-        className={cn('flex flex-1 items-center md:w-full', {
-          'md:mb-4 md:border-b md:border-grey-60': accordionOpen,
-        })}
+        className={cn(
+          'flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[min-content_min-content] sm:gap-x-3 sm:gap-y-1',
+          {
+            'md:mb-4 md:border-b md:border-grey-60': accordionOpen,
+          },
+        )}
       >
-        <PlaceLabel className='mr-3' linkToPage={linkToPage}>
+        <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
           {result.place}
         </PlaceLabel>
-        <CubeIcon className='mr-3' cube={result.discipline.name} />
-        <Ellipsis className='vertical-alignment-fix flex-1'>{username}</Ellipsis>
-        <span className='mr-6 md:mr-10'>
+        <CubeIcon className='mr-3 sm:mr-0' cube={result.discipline.name} />
+        <Ellipsis className='vertical-alignment-fix flex-1 sm:col-span-2 sm:w-auto'>{username}</Ellipsis>
+        <span className='mr-6 md:mr-10 sm:mr-0 sm:flex sm:items-end'>
           <span className='mb-1 hidden text-center text-grey-40 md:block'>Single time</span>
           <SolveTimeLinkOrDnf timeMs={result.timeMs} solveId={result.id} contestNumber={result.contest.contestNumber} />
         </span>
-        <button onClick={() => setAccordionOpen((prev) => !prev)} className='outline-ring hidden md:block'>
+        <button onClick={() => setAccordionOpen((prev) => !prev)} className='outline-ring hidden md:block sm:py-2'>
           {accordionOpen ? <MinusIcon /> : <PlusIcon />}
         </button>
       </span>
-      <span className={cn('flex items-center md:items-start', accordionOpen ? 'md:w-full' : 'md:sr-only')}>
-        <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none md:pt-0'>
-          <span className='mb-2 hidden text-center text-grey-40 md:block'>Solve date</span>
+      <span
+        className={cn(
+          'flex items-center md:items-start sm:grid sm:grid-cols-2 sm:gap-4',
+          accordionOpen ? 'md:w-full' : 'md:sr-only',
+        )}
+      >
+        <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none md:pt-0 sm:ml-auto sm:w-24'>
+          <span className='mb-2 hidden text-center text-grey-40 md:block sm:mb-0'>Solve date</span>
           {formatDate(result.created)}
         </span>
-        <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center md:pt-0'>
-          <span className='mb-2 hidden text-center text-grey-40 md:block'>Contest name</span>
+        <span className='vertical-alignment-fix sm:text-large mr-10 w-[9.375rem] text-center md:pt-0 sm:order-first sm:mr-0 sm:w-auto sm:text-left'>
+          <span className='mb-2 hidden text-center text-grey-40 md:block sm:hidden'>Contest name</span>
           Contest {result.contest.contestNumber}
         </span>
-        <SecondaryButton asChild className='md:mb-2 md:ml-auto'>
+        <SecondaryButton
+          asChild
+          size={matchesQuery('sm') ? 'sm' : 'lg'}
+          className='md:mb-2 md:ml-auto sm:col-span-full sm:m-0 sm:w-full'
+        >
           <Link
             to='/contests/$contestNumber'
             params={{ contestNumber: String(result.contest.contestNumber) }}
             search={{ discipline: result.discipline.name }}
           >
-            view contest
+            <span className='sm:uppercase'>v</span>iew contest
           </Link>
         </SecondaryButton>
       </span>
@@ -64,7 +76,7 @@ export function Result({ result, isOwn, linkToPage }: ResultProps) {
 }
 
 export function ResultSkeleton() {
-  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.75rem]'></div>
+  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.75rem] sm:h-28'></div>
 }
 
 export function ResultsHeader({ className }: { className: string }) {
