@@ -91,7 +91,7 @@ function View({ totalPages, children, behavior }: ViewProps) {
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (
-    <section className='flex flex-1 flex-col gap-3'>
+    <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
