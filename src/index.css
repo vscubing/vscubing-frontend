@@ -99,13 +99,4 @@
     @apply after:transition-transform;
     @apply after:block after:h-[.5px] after:w-full after:scale-x-0 after:bg-current;
   }
-
-  @keyframes spinner-rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 }

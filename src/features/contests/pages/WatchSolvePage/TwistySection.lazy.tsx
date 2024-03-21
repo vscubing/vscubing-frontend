@@ -1,8 +1,9 @@
 import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls, TwistyTempo } from './twisty'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { MinusIcon, PlusIcon } from '@/components/ui'
-import { cn } from '@/utils'
+import { cn, matchesQuery } from '@/utils'
+import * as Accordion from '@radix-ui/react-accordion'
 
 export default function TwistySection({ scramble, solution }: { scramble?: string; solution?: string }) {
   const { player } = useTwistyPlayer(scramble, solution)
@@ -29,8 +30,6 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
     [scrambleWrapperRef, scrambleRef, movesWrapperRef],
   )
 
-  const [scrambleAccordionOpen, setScrambleAccordionOpen] = useState(false)
-  const [solveAccordionOpen, setSolveAccordionOpen] = useState(false)
   return (
     <>
       <div className='flex flex-col gap-10 rounded-2xl bg-black-80 pb-6 md:col-span-full sm:overflow-x-clip'>
@@ -43,52 +42,28 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
         </div>
       </div>
       <div className='flex flex-col gap-3 md:col-span-full md:flex-col-reverse'>
-        <div className='flex flex-1 flex-col gap-3 md:grid md:grid-cols-2 sm:flex' ref={movesWrapperRef}>
-          <div className='flex flex-col rounded-2xl bg-black-80 p-4'>
-            <div
-              className={cn('mb-2 flex justify-between border-b border-secondary-20', {
-                'sm:mb-0 sm:border-none': !scrambleAccordionOpen,
-              })}
-            >
-              <h2 className='title-h3 text-grey-20'>Scramble</h2>
-              <button
-                onClick={() => setScrambleAccordionOpen((prev) => !prev)}
-                className='outline-ring hidden sm:block'
-              >
-                {scrambleAccordionOpen ? <MinusIcon /> : <PlusIcon />}
-              </button>
+        <Accordion.Root
+          className='flex flex-1 flex-col gap-3 md:grid md:grid-cols-2 sm:flex'
+          ref={movesWrapperRef}
+          type='multiple'
+          defaultValue={matchesQuery('sm') ? [] : ['Scramble', 'Solve']}
+        >
+          <AccordionItem value='Scramble'>
+            <div className='flex flex-col border-t border-secondary-20 pt-2'>
+              <div className='scrollbar basis-0 overflow-y-auto pr-2 md:overflow-y-visible' ref={scrambleWrapperRef}>
+                <span ref={scrambleRef}>{scramble}</span>
+              </div>
             </div>
-            <span
-              className={cn(
-                'title-h3 scrollbar basis-0 overflow-y-auto pr-2 tracking-wide md:basis-auto md:overflow-y-visible',
-                { 'sm:sr-only': !scrambleAccordionOpen },
-              )}
-              ref={scrambleWrapperRef}
-            >
-              <span ref={scrambleRef}>{scramble}</span>
-            </span>
-          </div>
+          </AccordionItem>
 
-          <div className='flex flex-1 flex-col rounded-2xl bg-black-80 p-4'>
-            <div
-              className={cn('mb-2 flex justify-between border-b border-secondary-20', {
-                'sm:mb-0 sm:border-none': !scrambleAccordionOpen,
-              })}
-            >
-              <h2 className='title-h3 text-grey-20'>Solve</h2>
-              <button onClick={() => setSolveAccordionOpen((prev) => !prev)} className='outline-ring hidden sm:block'>
-                {solveAccordionOpen ? <MinusIcon /> : <PlusIcon />}
-              </button>
+          <AccordionItem value='Solve' className='flex-1'>
+            <div className={cn('flex flex-col border-t border-secondary-20 pt-2', 'h-full')}>
+              <div className={cn('scrollbar basis-0 overflow-y-auto pr-2 md:overflow-y-visible', 'flex-grow')}>
+                <TwistyAlgViewer twistyPlayer={player} />
+              </div>
             </div>
-            <TwistyAlgViewer
-              twistyPlayer={player}
-              className={cn(
-                'title-h3 scrollbar flex-grow basis-0 overflow-y-auto pr-2 tracking-wide md:basis-auto md:overflow-y-visible',
-                { 'sm:sr-only': !solveAccordionOpen },
-              )}
-            />
-          </div>
-        </div>
+          </AccordionItem>
+        </Accordion.Root>
 
         <div className='rounded-2xl bg-black-80 p-4 md:flex md:justify-center'>
           <div className='md:w-[25rem] md:max-w-full'>
@@ -98,6 +73,28 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
         </div>
       </div>
     </>
+  )
+}
+
+type AccordionItemProps = { value: string; className?: string; children: ReactNode }
+function AccordionItem({ value, className, children }: AccordionItemProps) {
+  return (
+    <Accordion.Item className={cn('flex flex-col rounded-2xl bg-black-80 p-4', className)} value={value}>
+      <Accordion.Header className='flex justify-between'>
+        <div className='title-h3 text-grey-20'>{value}</div>
+        <Accordion.Trigger className='outline-ring group hidden sm:block'>
+          <PlusIcon className='block group-data-[state=open]:hidden' />
+          <MinusIcon className='hidden group-data-[state=open]:block' />
+        </Accordion.Trigger>
+      </Accordion.Header>
+      <Accordion.Content
+        className={cn(
+          'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down title-h3 h-full overflow-y-clip tracking-wide',
+        )}
+      >
+        {children}
+      </Accordion.Content>
+    </Accordion.Item>
   )
 }
 
