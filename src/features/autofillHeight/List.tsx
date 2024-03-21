@@ -90,7 +90,9 @@ function ListWithPinnedItem<T extends ListItemData>({
   return (
     <>
       {isPinnedDisplayedSepararely && (
-        <li className={cn({ 'sticky top-20 z-10': behavior === 'infinite-scroll' })}>{renderPinnedItem()}</li>
+        <li className={cn({ 'sticky top-[calc(var(--header-height)+1.5rem)] z-10': behavior === 'infinite-scroll' })}>
+          {renderPinnedItem()}
+        </li>
       )}
       {isSkeletonShown
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)

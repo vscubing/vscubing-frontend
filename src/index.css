@@ -7,6 +7,11 @@
 @layer base {
   :root {
     @apply text-base;
+
+    --header-height: 4.375rem;
+    @screen sm {
+      --header-height: 3.5rem;
+    }
   }
   body {
     @apply bg-black-100 font-hind leading-[1.5] text-white-100 sm:text-[0.875rem];

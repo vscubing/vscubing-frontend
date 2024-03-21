@@ -10,7 +10,7 @@ export function Header({ title }: { title: ReactNode }) {
 
   return (
     <header className='z-10 bg-black-100 sm:sticky sm:top-0 sm:py-3'>
-      <div className='flex h-[4.375rem] gap-3 sm:h-14 sm:gap-2'>
+      <div className='flex h-[var(--header-height)] gap-3 sm:gap-2'>
         <Logo className='hidden lg:flex sm:flex-1' />
         <div className='flex flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end sm:min-h-0 sm:flex-grow-0 sm:p-[0.375rem]'>
           <h1 className='title-h3 lg:hidden sm:hidden'>{title}</h1>
