@@ -46,7 +46,7 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
           className='flex flex-1 flex-col gap-3 md:grid md:grid-cols-2 sm:flex'
           ref={movesWrapperRef}
           type='multiple'
-          defaultValue={matchesQuery('sm') ? [] : ['Scramble', 'Solve']}
+          value={matchesQuery('sm') ? undefined : ['Scramble', 'Solve']}
         >
           <AccordionItem value='Scramble'>
             <div className='flex flex-col border-t border-secondary-20 pt-2'>
