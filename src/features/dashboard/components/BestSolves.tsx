@@ -13,7 +13,7 @@ import { AutofillHeight } from '@/features/autofillHeight'
 
 type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
+  solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
 
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
@@ -56,7 +56,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
         >
           <AutofillHeight.List
             pageSize={countToDisplay}
-            renderItem={(solve) => <Solve solve={solve} />}
+            renderItem={(solve, isFirstOnPage) => <Solve isFirstOnPage={isFirstOnPage} solve={solve} />}
             renderSkeleton={SolveSkeleton}
             list={solves?.slice(0, countToDisplay)}
           />
@@ -70,7 +70,8 @@ function SolveSkeleton() {
   return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
-function Solve({ solve }: { solve: DashboardDTO['bestSolves'][number] }) {
+type SolveProps = { solve: DashboardDTO['bestSolves'][number]; isFirstOnPage: boolean }
+function Solve({ solve, isFirstOnPage }: SolveProps) {
   return (
     <div className='flex min-h-15 items-center rounded-xl bg-grey-100 pl-3'>
       <span className='relative mr-3 flex flex-1 items-center pr-2 after:absolute after:right-0 after:top-1/2 after:block after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 sm:mr-0 sm:flex-col sm:items-start'>
@@ -79,12 +80,14 @@ function Solve({ solve }: { solve: DashboardDTO['bestSolves'][number] }) {
           <Ellipsis className='flex-1'>{solve.user.username}</Ellipsis>
         </span>
       </span>
-      <SolveTimeLinkOrDnf
-        className='mr-4 sm:mr-0'
-        timeMs={solve.timeMs}
-        solveId={solve.id}
-        contestNumber={solve.contestNumber}
-      />
+      <span className='mr-4 sm:mr-0'>
+        <SolveTimeLinkOrDnf
+          isFirstOnPage={isFirstOnPage}
+          timeMs={solve.timeMs}
+          solveId={solve.id}
+          contestNumber={solve.contestNumber}
+        />
+      </span>
       <OpenLeaderboardButton discipline={solve.discipline.name} />
     </div>
   )

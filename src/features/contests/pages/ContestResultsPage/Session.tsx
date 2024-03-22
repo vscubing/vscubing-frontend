@@ -9,7 +9,7 @@ import {
   MinusIcon,
 } from '@/components/ui'
 import { cn, matchesQuery } from '@/utils'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { type ContestSessionDTO } from '../../api'
 import * as Accordion from '@radix-ui/react-accordion'
 
@@ -18,11 +18,13 @@ export function Session({
   linkToPage,
   isOwn,
   contestNumber,
+  isFirstOnPage,
 }: {
   session: ContestSessionDTO
   contestNumber: number
   linkToPage?: number
   isOwn?: boolean
+  isFirstOnPage: boolean
 }) {
   const currentUserLabel = isOwn ? ' (you)' : ''
 
@@ -36,14 +38,7 @@ export function Session({
           isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         )}
       >
-        <Accordion.Header
-          className={cn(
-            'flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[repeat(2,min-content)] sm:gap-x-3 sm:gap-y-1',
-            // {
-            //   'md:mb-4 md:border-b md:border-grey-60 sm:pb-3': accordionOpen,
-            // },
-          )}
-        >
+        <Accordion.Header className='flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[repeat(2,min-content)] sm:gap-x-3 sm:gap-y-1'>
           <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
             {session.place}
           </PlaceLabel>
@@ -63,14 +58,16 @@ export function Session({
             <MinusIcon className='hidden group-data-[state=open]:block' />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Content className='overflow-y-clip data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:w-full'>
+        <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:w-full md:overflow-y-clip'>
           <ul className='grid grid-cols-[repeat(5,min-content)] gap-x-2 md:grid-flow-col md:grid-rows-2 md:justify-end md:border-t md:border-grey-60 md:pt-4 sm:grid-flow-row sm:grid-cols-2 sm:grid-rows-none sm:items-center sm:pl-2 sm:pt-3'>
             {session.solves.map((solve, index) => (
               <li key={solve.id} className='contents'>
                 <span className='hidden text-center text-grey-40 md:block sm:text-left'>Attempt {index + 1}</span>
                 <span className='relative sm:text-right'>
                   <SolveTimeLinkOrDnf
+                    isFirstOnPage={isFirstOnPage && index === 0}
                     contestNumber={contestNumber}
+                    popoverDisabled={matchesQuery('md')}
                     solveId={solve.id}
                     timeMs={solve.timeMs ?? null}
                     variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}

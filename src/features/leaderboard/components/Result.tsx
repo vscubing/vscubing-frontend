@@ -5,8 +5,8 @@ import { type LeaderboardResult } from '../api'
 import { PlaceLabel } from '@/components/ui'
 import * as Accordion from '@radix-ui/react-accordion'
 
-type ResultProps = { result: LeaderboardResult; linkToPage?: number; isOwn?: boolean }
-export function Result({ result, isOwn, linkToPage }: ResultProps) {
+type ResultProps = { result: LeaderboardResult; linkToPage?: number; isOwn?: boolean; isFirstOnPage: boolean }
+export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps) {
   let username = result.user.username
   if (isOwn) {
     username = username + ' (you)'
@@ -32,6 +32,7 @@ export function Result({ result, isOwn, linkToPage }: ResultProps) {
               Single time
             </span>
             <SolveTimeLinkOrDnf
+              isFirstOnPage={isFirstOnPage}
               timeMs={result.timeMs}
               solveId={result.id}
               contestNumber={result.contest.contestNumber}

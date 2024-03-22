@@ -30,7 +30,7 @@ type ListItemData = { id: React.Key }
 type ListProps<T extends ListItemData> = {
   list: T[] | undefined
   pageSize: number | undefined
-  renderItem: (item: T) => ReactNode
+  renderItem: (item: T, isFirst: boolean) => ReactNode
   renderSkeleton: () => ReactElement
   lastElementRef?: (node?: Element | null) => void
 }
@@ -50,14 +50,14 @@ function List<T extends ListItemData>({
 
   return list.map((data, index) => (
     <li key={data.id} ref={index === list.length - 1 ? lastElementRef : undefined}>
-      {renderItem(data)}
+      {renderItem(data, index === 0)}
     </li>
   ))
 }
 
 type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
   isFetching: boolean
-  renderPinnedItem: (linkToPage?: number) => ReactNode
+  renderPinnedItem: (isFirstOnPage: boolean, linkToPage?: number) => ReactNode
   pinnedItem?: { isDisplayedSeparately: boolean; page: number }
   behavior: Behavior
 }
@@ -91,14 +91,14 @@ function ListWithPinnedItem<T extends ListItemData>({
     <>
       {isPinnedDisplayedSepararely && (
         <li className={cn({ 'sticky top-[calc(var(--header-height)+1.5rem)] z-10': behavior === 'infinite-scroll' })}>
-          {renderPinnedItem(linkToPinnedItemPage)}
+          {renderPinnedItem(true, linkToPinnedItemPage)}
         </li>
       )}
       {isSkeletonShown
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
         : list?.map((item, index) => (
             <li ref={index === list.length - 1 ? lastElementRef : undefined} key={item.id}>
-              {renderItem(item)}
+              {renderItem(item, index === 0 && !isPinnedDisplayedSepararely)}
             </li>
           ))}
     </>

@@ -142,10 +142,14 @@ function ResultsList({
         <AutofillHeight.ListWithPinnedItem
           behavior={behavior}
           pinnedItem={ownResult ?? undefined}
-          renderPinnedItem={(linkToPage) =>
-            ownResult ? <Result isOwn linkToPage={linkToPage} result={ownResult.result} /> : null
+          renderPinnedItem={(isFirst, linkToPage) =>
+            ownResult ? (
+              <Result isOwn isFirstOnPage={isFirst} linkToPage={linkToPage} result={ownResult.result} />
+            ) : null
           }
-          renderItem={(result) => <Result isOwn={result.id === ownResult?.result.id} result={result} />}
+          renderItem={(result, isFirst) => (
+            <Result isFirstOnPage={isFirst} isOwn={result.id === ownResult?.result.id} result={result} />
+          )}
           renderSkeleton={() => <ResultSkeleton />}
           pageSize={pageSize}
           list={list}

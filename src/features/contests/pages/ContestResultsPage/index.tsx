@@ -198,14 +198,25 @@ function SessionsList({
             lastElementRef={lastElementRef}
             pinnedItem={ownSession ?? undefined}
             behavior={behavior}
-            renderPinnedItem={(linkToPage) =>
+            renderPinnedItem={(isFirstOnPage, linkToPage) =>
               ownSession ? (
-                <Session contestNumber={contestNumber} linkToPage={linkToPage} isOwn session={ownSession.session} />
+                <Session
+                  isFirstOnPage={isFirstOnPage}
+                  contestNumber={contestNumber}
+                  linkToPage={linkToPage}
+                  isOwn
+                  session={ownSession.session}
+                />
               ) : null
             }
             pageSize={pageSize}
-            renderItem={(session) => (
-              <Session isOwn={session.id === ownSession?.session.id} contestNumber={contestNumber} session={session} />
+            renderItem={(session, isFirstOnPage) => (
+              <Session
+                isOwn={session.id === ownSession?.session.id}
+                isFirstOnPage={isFirstOnPage}
+                contestNumber={contestNumber}
+                session={session}
+              />
             )}
             renderSkeleton={() => <SessionSkeleton />}
             list={list}

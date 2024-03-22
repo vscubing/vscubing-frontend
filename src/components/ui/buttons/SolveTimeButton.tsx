@@ -1,7 +1,10 @@
-import { cn, formatSolveTime } from '@/utils'
+import { cn, formatSolveTime, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
-import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
+import { type ReactNode, forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
+import { UnderlineButton } from './UnderlineButton'
+import { PopoverPortal, Popover, PopoverContent, PopoverTrigger } from '../Popover'
 
 const solveTimeButtonVariants = cva(
   'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',
@@ -25,25 +28,31 @@ export function SolveTimeLinkOrDnf({
   className,
   contestNumber,
   solveId,
+  popoverDisabled,
+  isFirstOnPage,
   ...props
 }: VariantProps<typeof solveTimeButtonVariants> &
   ComponentPropsWithoutRef<'a'> & {
     timeMs: number | null
     contestNumber: number
     solveId: number
+    isFirstOnPage: boolean
+    popoverDisabled?: boolean
   }) {
   if (timeMs === null) {
     return <SolveTimeLabel className={className} {...props} />
   }
   return (
-    <Link
-      {...props}
-      to='/contests/$contestNumber/watch/$solveId'
-      params={{ contestNumber: String(contestNumber), solveId: String(solveId) }}
-      className={cn(solveTimeButtonVariants({ variant, className }))}
-    >
-      {formatSolveTime(timeMs)}
-    </Link>
+    <WatchSolveHintPopover disabled={popoverDisabled} isFirstOnPage={isFirstOnPage}>
+      <Link
+        {...props}
+        to='/contests/$contestNumber/watch/$solveId'
+        params={{ contestNumber: String(contestNumber), solveId: String(solveId) }}
+        className={cn(solveTimeButtonVariants({ variant, className }))}
+      >
+        {formatSolveTime(timeMs)}
+      </Link>
+    </WatchSolveHintPopover>
   )
 }
 
@@ -83,3 +92,40 @@ export const SolveTimeLabel = forwardRef<HTMLSpanElement, SolveTimeLabelProps>(
     )
   },
 )
+
+const hintCaption = matchesQuery('sm') ? 'Tap on time to watch a solve' : 'Click on time to watch a solve'
+type WatchSolveHintPopoverProps = {
+  children: ReactNode
+  className?: string
+  isFirstOnPage: boolean
+  disabled?: boolean
+}
+export function WatchSolveHintPopover({
+  children,
+  className,
+  disabled = false,
+  isFirstOnPage,
+}: WatchSolveHintPopoverProps) {
+  const [seenHint, setSeenHint] = useLocalStorage('vs-seenWatchSolveHint', false)
+
+  function handleClose() {
+    setSeenHint(true)
+  }
+
+  return (
+    <Popover open={!seenHint && isFirstOnPage && !disabled}>
+      <PopoverContent>
+        <p>{hintCaption}</p>
+        <UnderlineButton onClick={handleClose} size='sm'>
+          Got it
+        </UnderlineButton>
+      </PopoverContent>
+
+      <PopoverTrigger asChild>
+        <div onClick={handleClose} className={className}>
+          {children}
+        </div>
+      </PopoverTrigger>
+    </Popover>
+  )
+}
