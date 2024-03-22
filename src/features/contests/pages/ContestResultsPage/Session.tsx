@@ -8,7 +8,7 @@ import {
   PlusIcon,
   MinusIcon,
 } from '@/components/ui'
-import { cn, matchesQuery } from '@/utils'
+import { cn } from '@/utils'
 import { useMemo, useState } from 'react'
 import { type ContestSessionDTO } from '../../api'
 
@@ -30,31 +30,34 @@ export function Session({
   return (
     <div
       className={cn(
-        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:flex-wrap md:py-2 sm:p-4',
-        accordionOpen ? 'md:h-auto' : 'md:h-[4.5rem] sm:h-16',
+        'flex h-15 items-center whitespace-nowrap rounded-xl px-2 md:flex-wrap md:px-4 md:py-2 sm:p-4',
+        accordionOpen ? 'md:h-auto' : 'md:h-[4.5rem] sm:h-28',
         isOwn ? 'bg-secondary-80' : 'bg-grey-100',
       )}
     >
       <span
-        className={cn('flex flex-1 items-center md:w-full', {
-          'md:mb-4 md:border-b md:border-grey-60 sm:pb-3': accordionOpen,
-        })}
+        className={cn(
+          'flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[repeat(2,min-content)] sm:gap-x-3 sm:gap-y-1',
+          {
+            'md:mb-4 md:border-b md:border-grey-60 sm:pb-3': accordionOpen,
+          },
+        )}
       >
-        <PlaceLabel className='mr-3 sm:mr-1' linkToPage={linkToPage} size={matchesQuery('sm') ? 'small' : 'normal'}>
+        <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
           {session.place}
         </PlaceLabel>
-        <CubeIcon className='mr-3 sm:hidden' cube={session.discipline.name} />
-        <Ellipsis className='vertical-alignment-fix flex-1'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
+        <CubeIcon className='mr-3 sm:mr-0' cube={session.discipline.name} />
+        <Ellipsis className='vertical-alignment-fix flex-1 sm:col-span-2 sm:w-auto'>{`${session.user.username}${currentUserLabel}`}</Ellipsis>
 
-        <span className='mr-4 md:mr-10 sm:mr-0'>
-          <span className='hidden text-center text-grey-40 md:block sm:hidden'>Average time</span>
+        <span className='mr-4 md:mr-10 sm:mr-0 sm:flex sm:items-center'>
+          <span className='sm:vertical-alignment-fix hidden text-center text-grey-40 md:block'>Average time</span>
           <SolveTimeLabel
             timeMs={session.avgMs ?? undefined}
             isAverage
             className='relative after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 md:after:hidden'
           />
         </span>
-        <button onClick={() => setAccordionOpen((prev) => !prev)} className='outline-ring hidden md:block'>
+        <button onClick={() => setAccordionOpen((prev) => !prev)} className='outline-ring hidden md:block sm:py-2'>
           {accordionOpen ? <MinusIcon /> : <PlusIcon />}
         </button>
       </span>
@@ -87,7 +90,7 @@ export function Session({
 }
 
 export function SessionSkeleton() {
-  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.5rem] sm:h-16'></div>
+  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.5rem] sm:h-28'></div>
 }
 
 function getBestAndWorstIds(solves: ContestSessionDTO['solves']) {

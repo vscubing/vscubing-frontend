@@ -27,8 +27,10 @@ export function Result({ result, isOwn, linkToPage }: ResultProps) {
           </PlaceLabel>
           <CubeIcon className='mr-3 sm:mr-0' cube={result.discipline.name} />
           <Ellipsis className='vertical-alignment-fix flex-1 sm:col-span-2 sm:w-auto'>{username}</Ellipsis>
-          <span className='mr-6 md:mr-10 sm:mr-0 sm:flex sm:items-end'>
-            <span className='mb-1 hidden text-center text-grey-40 md:block'>Single time</span>
+          <span className='mr-6 md:mr-10 sm:mr-0 sm:flex sm:items-center'>
+            <span className='sm:vertical-alignment-fix mb-1 hidden text-center text-grey-40 md:block sm:mb-0'>
+              Single time
+            </span>
             <SolveTimeLinkOrDnf
               timeMs={result.timeMs}
               solveId={result.id}
@@ -40,13 +42,13 @@ export function Result({ result, isOwn, linkToPage }: ResultProps) {
             <MinusIcon className='hidden group-data-[state=open]:block' />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-y-clip md:w-full'>
+        <Accordion.Content className='overflow-y-clip data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:w-full'>
           <span className='flex items-center md:items-start md:border-t md:border-grey-60 md:pt-4 sm:grid sm:grid-cols-2 sm:gap-4'>
             <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none md:pt-0 sm:ml-auto sm:w-24'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:mb-0'>Solve date</span>
               {formatDate(result.created)}
             </span>
-            <span className='vertical-alignment-fix sm:text-large mr-10 w-[9.375rem] text-center md:pt-0 sm:order-first sm:mr-0 sm:w-auto sm:text-left'>
+            <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center md:pt-0 sm:order-first sm:mr-0 sm:w-auto sm:text-left'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:hidden'>Contest name</span>
               Contest {result.contest.contestNumber}
             </span>
