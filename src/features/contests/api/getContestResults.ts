@@ -4,6 +4,8 @@ import { USER_QUERY_KEY, userQuery } from '@/features/auth'
 import { getOwnResultPage, getPageStartEndIndexes, getTotalPages, timeout } from '@/utils'
 import { AxiosError, type AxiosResponse } from 'axios'
 import { queryClient } from '@/lib/reactQuery'
+import { ongoingContestNumberQuery } from './getOngoingContestNumber'
+import { axiosClient } from '@/lib/axios'
 
 export type ContestResultsDTO = {
   totalPages: number
@@ -53,7 +55,19 @@ export function getContestResultsQuery({
 
   return queryOptions({
     queryKey: [...getContestQueryKey({ contestNumber, discipline }), page, pageSize],
-    queryFn: () => getMockContestResults({ page, pageSize: pageSize! }),
+    queryFn: async () => {
+      const ongoing = await queryClient.fetchQuery(ongoingContestNumberQuery)
+      if (contestNumber === ongoing) {
+        try {
+          await axiosClient.get(`/contests/contest/${contestNumber}/discipline/${discipline}/`)
+        } catch (e) {
+          if (e instanceof AxiosError && (e?.response?.status === 403 || e?.response?.status === 401)) {
+            throw e
+          }
+        }
+      }
+      return getMockContestResults({ page, pageSize })
+    },
     placeholderData: (prev) =>
       prev && {
         totalPages: prev.totalPages,
