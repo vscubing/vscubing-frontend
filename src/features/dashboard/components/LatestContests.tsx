@@ -8,7 +8,7 @@ import { AutofillHeight } from '@/features/autofillHeight'
 const MOBILE_MAX_OVERFLOWING_ITEMS = 3
 export function LatestContests({ className, contests }: { className: string; contests?: DashboardDTO['contests'] }) {
   // contests = contests && Array.from({ length: 10 }, () => ({ ...contests[0], id: Math.random() }))
-  // contests = contests.reverse().filter(({ ongoing }) => !ongoing) // TODO: remove filter when backend is ready
+  contests = contests?.reverse().filter(({ ongoing }) => !ongoing) // TODO: remove filter when backend is ready
 
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount(undefined)
   let countToDisplay = fittingCount
