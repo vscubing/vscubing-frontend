@@ -7,6 +7,7 @@ import { copyToClipboard, formatSolveTime } from '@/utils'
 import { z } from 'zod'
 import { reconstructionQuery } from '../../api'
 import { Suspense, lazy } from 'react'
+import { toast } from '@/components/toasts'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
 const route = getRouteApi('/contests/$contestNumber/watch/$solveId')
@@ -39,8 +40,12 @@ export function WatchSolvePage() {
   function copyWatchSolveLink() {
     copyToClipboard(window.location.href).then(
       // TODO: replace with a toast
-      () => alert('Link copied'),
-      () => alert('An unexpected error occured while copying the link'),
+      () => toast({ title: 'Link copied', description: 'You can now share the link with your friends.' }),
+      () =>
+        toast({
+          title: 'Uh-oh! An error occured while copying the link',
+          description: 'Try changing permissions in your browser settings.',
+        }),
     )
   }
 

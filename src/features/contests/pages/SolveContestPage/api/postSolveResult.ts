@@ -10,6 +10,7 @@ import { TOASTS_PRESETS, toast } from '@/components/toasts'
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
   description: "Under normal circumstances this shouldn't happen.",
+  autoClose: false,
 }
 export const usePostSolveResult = (contestNumber: number, discipline: Discipline) =>
   useMutation({
@@ -31,7 +32,7 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
       } else if (res.status === 400) {
         // TODO: make sure that this is synched with the backend
         solve = { id: res.data.solveId, timeMs: null, dnf: true }
-        toast(SOLVE_REJECTED_TOAST, false)
+        toast(SOLVE_REJECTED_TOAST)
       } else if (res.status !== 500) {
         toast(TOASTS_PRESETS.internalError)
       }

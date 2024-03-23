@@ -6,7 +6,7 @@ export function Toaster() {
       toastOptions={{
         unstyled: true,
         classNames: {
-          toast: 'bg-grey-80 py-4 pl-4 pr-10 rounded-xl flex gap-4',
+          toast: 'bg-grey-80 py-4 pl-4 pr-10 rounded-xl flex gap-4 right-0',
           title: 'text-white-100 btn-sm mb-3',
           description: 'text-white caption',
           // we can remove !imporant in actionButton and closeButton after https://github.com/emilkowalski/sonner/issues/321 is fixed
@@ -20,23 +20,28 @@ export function Toaster() {
   )
 }
 
-export function toast({ title, description }: ToastData, autoClose = true) {
+type Toast = { title: string; description: string; contactUsButton?: boolean; autoClose?: boolean; duration?: number }
+export function toast({ title, description, contactUsButton = false, autoClose = true, duration = 10_000 }: Toast) {
+  // TODO: debounce error toasts
+
   Sonner.toast(title, {
     closeButton: true,
     description,
-    action: { label: 'Contact us', onClick: () => alert('clicked on toast') /* TODO: add contact link (discord?) */ },
-    duration: autoClose ? 60_000 : Infinity,
+    action: contactUsButton ? { label: 'Contact us', onClick: () => alert('clicked on toast') } : undefined,
+    //  TODO: add contact link (discord?)
+    duration: autoClose ? duration : Infinity,
   })
 }
 
-type ToastData = { title: string; description: string }
 export const TOASTS_PRESETS = {
   noConnection: {
     title: 'Uh-oh! No Internet connection',
     description: 'Check your connection and get back to the fun. Need help?',
+    contactUsButton: true,
   },
   internalError: {
     title: 'Uh-oh! Something went wrong',
     description: 'Give it a moment, or reach out to our support team',
+    contactUsButton: true,
   },
-} satisfies Record<string, ToastData>
+} satisfies Record<string, Toast>
