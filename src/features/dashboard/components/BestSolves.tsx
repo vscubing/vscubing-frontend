@@ -82,7 +82,7 @@ function Solve({ solve, isFirstOnPage }: SolveProps) {
       </span>
       <span className='mr-4 sm:mr-0'>
         <SolveTimeLinkOrDnf
-          isFirstOnPage={isFirstOnPage}
+          canShowHint={isFirstOnPage}
           timeMs={solve.timeMs}
           solveId={solve.id}
           contestNumber={solve.contestNumber}

@@ -32,7 +32,7 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
               Single time
             </span>
             <SolveTimeLinkOrDnf
-              isFirstOnPage={isFirstOnPage}
+              canShowHint={isFirstOnPage}
               timeMs={result.timeMs}
               solveId={result.id}
               contestNumber={result.contest.contestNumber}

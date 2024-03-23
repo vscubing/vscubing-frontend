@@ -30,7 +30,7 @@ export function Session({
 
   const { bestId, worstId } = useMemo(() => getBestAndWorstIds(session.solves), [session.solves])
   return (
-    <Accordion.Root type='single' collapsible value={matchesQuery('md') ? undefined : 'result'}>
+    <Accordion.Root type='single' collapsible defaultValue={matchesQuery('md') ? undefined : 'result'}>
       <Accordion.Item
         value='result'
         className={cn(
@@ -65,7 +65,7 @@ export function Session({
                 <span className='hidden text-center text-grey-40 md:block sm:text-left'>Attempt {index + 1}</span>
                 <span className='relative sm:ml-auto sm:text-right'>
                   <SolveTimeLinkOrDnf
-                    isFirstOnPage={isFirstOnPage && index === 0}
+                    canShowHint={isFirstOnPage && index === 0}
                     contestNumber={contestNumber}
                     solveId={solve.id}
                     timeMs={solve.timeMs ?? null}

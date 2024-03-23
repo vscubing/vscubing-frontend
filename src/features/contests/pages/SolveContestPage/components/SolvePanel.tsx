@@ -38,7 +38,9 @@ export function SolvePanel({
 }
 
 const route = getRouteApi('/contests/$contestNumber/solve')
-function TimeSection({ timeMs, id, isInited }: { timeMs?: number; id?: number; isInited: boolean }) {
+
+type TimeSectionProps = { timeMs?: number; id?: number; isInited: boolean }
+function TimeSection({ timeMs, id, isInited }: TimeSectionProps) {
   const { contestNumber } = route.useLoaderData()
   if (!isInited) {
     return <SolveTimeLabel isPlaceholder />
@@ -49,5 +51,5 @@ function TimeSection({ timeMs, id, isInited }: { timeMs?: number; id?: number; i
   if (id === undefined) {
     throw Error('solve id is undefined')
   }
-  return <SolveTimeLinkOrDnf contestNumber={contestNumber} solveId={id} timeMs={timeMs} />
+  return <SolveTimeLinkOrDnf canShowHint={false} contestNumber={contestNumber} solveId={id} timeMs={timeMs} />
 }

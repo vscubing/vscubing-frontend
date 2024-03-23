@@ -93,7 +93,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
       <div
         onClick={handleOverlayClick}
         className={cn(
-          'wrapper fixed inset-0 z-20 bg-black-1000 bg-opacity-25 p-[1.625rem] transition duration-100 ease-in-out',
+          'wrapper fixed inset-0 z-50 bg-black-1000 bg-opacity-25 p-[1.625rem] transition duration-100 ease-in-out',
           {
             'pointer-events-none opacity-0': !isModalOpen,
           },
