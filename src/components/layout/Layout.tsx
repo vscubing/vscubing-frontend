@@ -3,7 +3,6 @@ import { useAtom, useSetAtom } from 'jotai'
 import { Logo, Navbar, UsernameOrSignInButton } from './components'
 import { PickUsernameModal } from '../PickUsernameModal'
 import { cn } from '@/utils'
-import * as Dialog from '@radix-ui/react-dialog'
 import { CloseIcon, DiscordIcon, GhostButton, GithubIcon, LinkedinIcon, LogoutIcon } from '../ui'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
 import { userQuery, logout } from '@/features/auth'
@@ -17,13 +16,17 @@ import {
 } from '@/components/AlertDialog'
 import { useQuery } from '@tanstack/react-query'
 import { AlertDialogFooter } from '../AlertDialog'
+import { Drawer } from 'vaul'
 
 export function Layout() {
   return (
     <>
       <PickUsernameModal />
       <PopupMenu />
-      <div className='flex min-h-screen gap-3 p-[1.625rem] sm:flex-col sm:px-3 sm:pb-0 sm:pt-0'>
+      <div
+        vaul-drawer-wrapper='vaul-drawer-wrapper'
+        className='flex min-h-screen gap-3 p-[1.625rem] sm:flex-col sm:px-3 sm:pb-0 sm:pt-0'
+      >
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
         <main className='contents'>
           <Outlet />
@@ -72,14 +75,14 @@ function PopupMenu() {
   const [open, setOpen] = useAtom(mobileMenuOpenAtom)
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Portal>
-        <Dialog.Overlay className='fixed inset-0 z-50 bg-black-1000/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
-        <Dialog.Content className='fixed bottom-0 right-0 top-0 z-50 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'>
+    <Drawer.Root open={open} onOpenChange={setOpen} direction='right' shouldScaleBackground>
+      <Drawer.Portal>
+        <Drawer.Overlay className='fixed inset-0 z-50 bg-black-1000/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
+        <Drawer.Content className='fixed bottom-0 right-0 top-0 z-50'>
           <Sidebar className='h-full w-full bg-black-100 p-[1.625rem] sm:w-screen sm:p-3' />
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
   )
 }
 

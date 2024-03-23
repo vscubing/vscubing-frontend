@@ -14,7 +14,8 @@
     }
   }
   body {
-    @apply bg-black-100 font-hind leading-[1.5] text-white-100 sm:text-[0.875rem];
+    @apply font-hind leading-[1.5] text-white-100 sm:text-[0.875rem];
+    @apply !bg-black-100; /* !important for vaul's shouldScaleBackground */
   }
   svg {
     @apply text-[1rem];

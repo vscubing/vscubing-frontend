@@ -13,7 +13,7 @@ import { AutofillHeight } from '@/features/autofillHeight'
 
 type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
+  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
 
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
