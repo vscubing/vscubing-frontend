@@ -1,13 +1,11 @@
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
-import { cn, isTouchDevice, useConditionalBeforeUnload } from '@/utils'
-import { useLocalStorage } from 'usehooks-ts'
-import { type CubeSolveResult } from '..'
-import { type CubeSolveFinishCallback, Cube } from './Cube'
+import { cn, useConditionalBeforeUnload } from '@/utils'
+import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
-import { DeviceWarningModal } from './DeviceWarningModal'
+import { CloseIcon, LoadingSpinner, SecondaryButton } from '@/components/ui'
 
 type CubeContextValue = {
-  initSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
+  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback, onEarlyAbort: () => void) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({
@@ -21,98 +19,107 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
     scramble: string
     solveCallback: CubeSolveFinishCallback
+    earlyAbortCallback: () => void
     wasTimeStarted: boolean
   } | null>(null)
-  const [deviceWarningCallback, setDeviceWarningCallback] = useState<(() => void) | null>(null)
-  const [isIgnoreDeviceWarning, setIsIgnoreDeviceWarning] = useLocalStorage('ignore-device-warning', false)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  const initSolve = useCallback(
+    (scramble: string, solveCallback: CubeSolveFinishCallback, earlyAbortCallback: () => void) => {
+      setSolveState({ scramble, solveCallback, wasTimeStarted: false, earlyAbortCallback })
+    },
+    [],
+  )
+
+  function handleEarlyAbort() {
+    setSolveState(null)
+    solveState!.earlyAbortCallback()
+  }
 
   const handleTimeStart = useCallback(() => {
     setSolveState((prev) => prev && { ...prev, wasTimeStarted: true })
   }, [])
 
-  const solveStateCallback = solveState?.solveCallback
+  const solveCallback = solveState?.solveCallback
   const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
-      if (!solveStateCallback) throw Error('no saved solve callback')
-      solveStateCallback(result)
+      solveCallback!(result)
       setSolveState(null)
     },
-    [solveStateCallback],
+    [solveCallback],
   )
 
-  useConditionalBeforeUnload(solveState ? solveState.wasTimeStarted : false, () =>
+  const shouldDNFOnPageLeave = !!solveState && solveState.wasTimeStarted
+  useConditionalBeforeUnload(shouldDNFOnPageLeave, () =>
     handleSolveFinish({ dnf: true, timeMs: null, reconstruction: null }),
   )
 
-  const handleOverlayClick = (event: React.MouseEvent) => {
-    if (event.target !== event.currentTarget || !solveState) {
-      return
+  function handleOverlayClick(event: React.MouseEvent) {
+    if (event.target === event.currentTarget) {
+      abortOrShowPrompt()
     }
+  }
 
-    if (!solveState.wasTimeStarted) {
-      setSolveState(null)
+  const abortOrShowPrompt = () => {
+    if (solveState!.wasTimeStarted === false) {
+      handleEarlyAbort()
       return
     }
 
     setIsAbortPromptVisible(true)
   }
 
-  const handleAbortConfirm = useCallback(() => {
+  const confirmAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
     handleSolveFinish({ timeMs: null, dnf: true, reconstruction: null })
   }, [handleSolveFinish])
 
-  const handleAbortCancel = useCallback(() => {
+  const cancelAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
     iframeRef.current?.contentWindow?.focus()
   }, [])
 
   const contextValue = useMemo(
     () => ({
-      initSolve: (scramble: string, solveCallback: CubeSolveFinishCallback) => {
-        const initSolve = () => setSolveState({ scramble, solveCallback, wasTimeStarted: false })
-        if (!isTouchDevice || isIgnoreDeviceWarning) {
-          initSolve()
-          return
-        }
-
-        setDeviceWarningCallback(() => initSolve)
-      },
+      initSolve,
     }),
-    [isIgnoreDeviceWarning],
+    [initSolve],
   )
 
+  const isModalOpen = !!solveState
   return (
     <CubeContext.Provider value={contextValue}>
-      {deviceWarningCallback && (
-        <DeviceWarningModal
-          onCancel={() => {
-            setDeviceWarningCallback(null)
-          }}
-          onConfirm={(isIgnoreChecked) => {
-            deviceWarningCallback?.()
-            setDeviceWarningCallback(null)
-            if (isIgnoreChecked) setIsIgnoreDeviceWarning(isIgnoreChecked)
-          }}
-        />
-      )}
       <div
         onClick={handleOverlayClick}
         className={cn(
-          { invisible: !solveState?.scramble },
-          'wrapper fixed inset-0 z-20 bg-black bg-opacity-40 px-10 pb-5 pt-[50px] md:py-[max(5%,55px)]',
+          'wrapper fixed inset-0 z-50 bg-black-1000 bg-opacity-25 p-[1.625rem] transition duration-100 ease-in-out',
+          {
+            'pointer-events-none opacity-0': !isModalOpen,
+          },
         )}
+        aria-hidden={!isModalOpen}
       >
-        <div className='relative h-full'>
-          {isAbortPromptVisible && <AbortPrompt onConfirm={handleAbortConfirm} onCancel={handleAbortCancel} />}
+        <div className='relative h-full rounded-2xl bg-black-80'>
+          <div className='absolute inset-0 h-full w-full bg-black-1000 bg-opacity-25'></div>
+          <div className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40')}></div>
           <Cube
+            fallback={
+              <div className='flex h-full items-center justify-center'>
+                <LoadingSpinner />
+              </div>
+            }
+            className='relative'
             scramble={solveState?.scramble}
             onSolveFinish={handleSolveFinish}
             onTimeStart={handleTimeStart}
             iframeRef={iframeRef}
           />
+          <SecondaryButton size='iconSm' className='absolute right-4 top-4' onClick={abortOrShowPrompt}>
+            <CloseIcon />
+          </SecondaryButton>
+
+          <AbortPrompt isVisible={isAbortPromptVisible} onConfirm={confirmAbort} onCancel={cancelAbort} />
         </div>
       </div>
       {children}

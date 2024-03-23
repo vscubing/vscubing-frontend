@@ -7,6 +7,7 @@ const config = {
   jsxSingleQuote: true,
   trailingComma: 'all',
   plugins: ['prettier-plugin-tailwindcss'],
+  tailwindFunctions: ['cva'],
 }
 
 export default config

@@ -1,1 +1,1 @@
-export * from './LeaderboardDiscipline'
+export * from './Result'

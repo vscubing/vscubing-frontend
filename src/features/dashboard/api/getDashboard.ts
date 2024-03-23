@@ -14,7 +14,7 @@ export type DashboardDTO = {
     id: number
     contestNumber: number
     start: string
-    end: string | null
+    end: string
     ongoing: boolean
   }>
 }

@@ -1,5 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios'
-import { getAuthTokens, setAuthTokens, deleteAuthTokens } from '../authTokens'
+import { queryClient } from '@/lib/reactQuery'
+import { deleteAuthTokens, getAuthTokens, setAuthTokens } from '@/utils'
+import { USER_QUERY_KEY } from '../userQueryKey'
 
 export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {
   const tokens = getAuthTokens()
@@ -21,6 +23,6 @@ export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {
     setAuthTokens({ refresh, access: newAccess })
   } catch (error) {
     deleteAuthTokens()
-    window.location.reload()
+    await queryClient.resetQueries({ queryKey: [USER_QUERY_KEY] })
   }
 }
