@@ -30,7 +30,7 @@ function ControllerWithPagination() {
     discipline,
     page,
     pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
+    enabled: pageSize !== undefined,
   })
   const { data, error, isFetching } = useQuery(query)
 

@@ -20,20 +20,16 @@ export function getContestsQuery({
   discipline,
   page,
   pageSize,
+  enabled,
 }: {
   discipline: Discipline
   page: number
-  pageSize?: number
+  pageSize: number
+  enabled: boolean
 }) {
-  let enabled = true
-  if (pageSize === undefined) {
-    enabled = false
-  }
-  pageSize = pageSize ?? 0
-
   return queryOptions({
     queryKey: ['contests-list', discipline, page, pageSize],
-    queryFn: () => getMockContests({ page, pageSize: pageSize! }),
+    queryFn: () => getMockContests({ page, pageSize }),
     placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
     enabled,
   })

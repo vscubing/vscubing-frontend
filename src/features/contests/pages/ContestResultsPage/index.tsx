@@ -35,7 +35,8 @@ function ControllerWithPagination() {
     contestNumber,
     discipline,
     page,
-    pageSize,
+    pageSize: pageSize ?? 0,
+    enabled: pageSize !== undefined,
   })
 
   const { data, error, isFetching } = useQuery(query)
@@ -62,7 +63,8 @@ function ControllerWithInfiniteScroll() {
   const query = getContestResultsInfiniteQuery({
     contestNumber: contestNumber,
     discipline,
-    pageSize,
+    pageSize: pageSize ?? 0,
+    enabled: pageSize !== undefined,
   })
   const { data, isFetching, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 

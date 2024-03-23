@@ -41,18 +41,14 @@ export function getContestResultsQuery({
   discipline,
   page,
   pageSize,
+  enabled,
 }: {
   contestNumber: number
   discipline: Discipline
   page: number
-  pageSize?: number
+  pageSize: number
+  enabled: boolean
 }) {
-  let enabled = true
-  if (pageSize === undefined) {
-    enabled = false
-  }
-  pageSize = pageSize ?? 0
-
   return queryOptions({
     queryKey: [...getContestQueryKey({ contestNumber, discipline }), page, pageSize],
     queryFn: async () => {
@@ -82,21 +78,16 @@ export function getContestResultsInfiniteQuery({
   contestNumber,
   discipline,
   pageSize,
+  enabled,
 }: {
   contestNumber: number
   discipline: Discipline
-  pageSize?: number
+  pageSize: number
+  enabled: boolean
 }) {
-  let enabled = true
-  if (pageSize === undefined) {
-    enabled = false
-  }
-  pageSize = pageSize ?? 0
-  pageSize = Math.floor(pageSize * 2)
-
   return infiniteQueryOptions({
     queryKey: [...getContestQueryKey({ contestNumber, discipline }), pageSize],
-    queryFn: ({ pageParam: page }) => getMockContestResults({ page, pageSize: pageSize! }),
+    queryFn: ({ pageParam: page }) => getMockContestResults({ page, pageSize }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,

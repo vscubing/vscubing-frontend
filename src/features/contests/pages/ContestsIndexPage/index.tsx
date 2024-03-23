@@ -45,7 +45,12 @@ function ControllerWithPagination() {
   const { page, discipline } = route.useLoaderData()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = getContestsQuery({ discipline, page, pageSize })
+  const query = getContestsQuery({
+    discipline,
+    page,
+    pageSize: pageSize ?? 0,
+    enabled: pageSize !== undefined,
+  })
   const { data, error } = useQuery(query)
 
   if (error?.response?.status === 400) {

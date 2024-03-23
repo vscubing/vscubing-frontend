@@ -30,12 +30,12 @@ export const getLeaderboardQuery = ({
   discipline,
   page,
   pageSize,
-  isEnabled = true,
+  enabled = true,
 }: {
   discipline: Discipline
   page: number
   pageSize: number
-  isEnabled: boolean
+  enabled: boolean
 }) =>
   queryOptions({
     queryKey: [USER_QUERY_KEY, 'leaderboard', discipline, page, pageSize],
@@ -46,7 +46,7 @@ export const getLeaderboardQuery = ({
         ownResult: prev.ownResult,
         results: null,
       },
-    enabled: isEnabled,
+    enabled,
   })
 
 export const getLeaderboardInfiniteQuery = ({
