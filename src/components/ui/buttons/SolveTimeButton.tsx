@@ -27,7 +27,6 @@ export function SolveTimeLinkOrDnf({
   className,
   contestNumber,
   solveId,
-  popoverDisabled,
   isFirstOnPage,
   ...props
 }: VariantProps<typeof solveTimeButtonVariants> &
@@ -36,13 +35,12 @@ export function SolveTimeLinkOrDnf({
     contestNumber: number
     solveId: number
     isFirstOnPage: boolean
-    popoverDisabled?: boolean
   }) {
   if (timeMs === null) {
     return <SolveTimeLabel className={className} {...props} />
   }
   return (
-    <WatchSolveHintPopover disabled={popoverDisabled} isFirstOnPage={isFirstOnPage}>
+    <WatchSolveHintPopover isFirstOnPage={isFirstOnPage}>
       <Link
         {...props}
         to='/contests/$contestNumber/watch/$solveId'
@@ -97,9 +95,8 @@ type WatchSolveHintPopoverProps = {
   children: ReactNode
   className?: string
   isFirstOnPage: boolean
-  disabled?: boolean
 }
-export function WatchSolveHintPopover({ children, disabled = false, isFirstOnPage }: WatchSolveHintPopoverProps) {
+export function WatchSolveHintPopover({ children, isFirstOnPage }: WatchSolveHintPopoverProps) {
   const [seenHint, setSeenHint] = useLocalStorage('vs-seenWatchSolveHint', false)
 
   function handleClose() {
@@ -107,13 +104,15 @@ export function WatchSolveHintPopover({ children, disabled = false, isFirstOnPag
   }
 
   return (
-    <Popover open={!seenHint && isFirstOnPage && !disabled}>
+    <Popover open={!seenHint && isFirstOnPage}>
       <PopoverContent>
         <p>{hintCaption}</p>
         <PopoverCloseButton onClick={handleClose} />
       </PopoverContent>
 
-      <PopoverAnchor onClick={handleClose}>{children}</PopoverAnchor>
+      <PopoverAnchor asChild onClick={handleClose}>
+        {children}
+      </PopoverAnchor>
     </Popover>
   )
 }

@@ -8,7 +8,6 @@ import {
   PrimaryButton,
 } from '@/components/ui'
 import { cn } from '@/utils'
-import { PopoverPortal } from '@radix-ui/react-popover'
 import { Link } from '@tanstack/react-router'
 
 export function OngoingContestBanner() {
@@ -64,12 +63,11 @@ function BannerContentMobile({ className }: { className?: string }) {
         </h2>
 
         <Popover>
-          <PopoverPortal>
-            <PopoverContent>
-              <p>Solving from mobile devices is currently not supported</p>
-              <PopoverCloseButton />
-            </PopoverContent>
-          </PopoverPortal>
+          <PopoverContent>
+            <p>Solving from mobile devices is currently not supported</p>
+            <PopoverCloseButton />
+          </PopoverContent>
+
           <PopoverTrigger className='absolute -right-11 top-4 sm:static'>
             <ExclamationCircleIcon />
           </PopoverTrigger>

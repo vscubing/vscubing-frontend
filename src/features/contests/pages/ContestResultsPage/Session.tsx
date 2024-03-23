@@ -63,11 +63,10 @@ export function Session({
             {session.solves.map((solve, index) => (
               <li key={solve.id} className='contents'>
                 <span className='hidden text-center text-grey-40 md:block sm:text-left'>Attempt {index + 1}</span>
-                <span className='relative sm:text-right'>
+                <span className='relative sm:ml-auto sm:text-right'>
                   <SolveTimeLinkOrDnf
                     isFirstOnPage={isFirstOnPage && index === 0}
                     contestNumber={contestNumber}
-                    popoverDisabled={matchesQuery('md')}
                     solveId={solve.id}
                     timeMs={solve.timeMs ?? null}
                     variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
