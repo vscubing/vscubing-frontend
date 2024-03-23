@@ -16,11 +16,21 @@ export function WatchSolvePage() {
 
   const { data: reconstruction, error } = useQuery(reconstructionQuery(solveId))
 
-  const scramble = reconstruction?.scramble.scramble
-  const solution = reconstruction?.reconstruction.replace(/\/\*\d+?\*\//g, '')
+  let scramble = reconstruction?.scramble.scramble
+  let solution = reconstruction?.reconstruction.replace(/\/\*\d+?\*\//g, '')
 
   if (error?.response?.status === 404) {
-    alert('404') // TODO: add a 404 page
+    // TODO: add a 404 page
+
+    scramble = `F U2 L2 B2 F' U L2 U R2 D2 L' B L2 B' R2 U2`
+    solution = `y x' // inspection
+                U R2 U' F' L F' U' L' // XX-Cross + EO
+                U' R U R' // 3rd slot
+                R' U R U2' R' U R // 4th slot
+                U R' U' R U' R' U2 R // OLL / ZBLL
+                U // AUF
+
+                // this is a mock reconstruction from http://cubesolv.es/solve/5757`
   }
 
   if (
@@ -58,9 +68,7 @@ export function WatchSolvePage() {
         <SectionHeader className='gap-8'>
           <CubeBadge cube='3by3' />
           <div>
-            <p className='title-h2 mb-1 text-secondary-20'>
-              Contest {reconstruction?.contestNumber /* TODO: replace with slug */}
-            </p>
+            <p className='title-h2 mb-1 text-secondary-20'>Contest {contestNumber}</p>
             <p className='text-large'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
           </div>
         </SectionHeader>
