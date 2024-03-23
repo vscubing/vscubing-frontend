@@ -3,7 +3,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeBadge, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Navigate, getRouteApi } from '@tanstack/react-router'
-import { formatSolveTime } from '@/utils'
+import { copyToClipboard, formatSolveTime } from '@/utils'
 import { z } from 'zod'
 import { reconstructionQuery } from '../../api'
 import { Suspense, lazy } from 'react'
@@ -37,7 +37,7 @@ export function WatchSolvePage() {
   }
 
   function copyWatchSolveLink() {
-    navigator.clipboard.writeText(window.location.href).then(
+    copyToClipboard(window.location.href).then(
       // TODO: replace with a toast
       () => alert('Link copied'),
       () => alert('An unexpected error occured while copying the link'),
