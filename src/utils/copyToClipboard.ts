@@ -4,8 +4,8 @@ export function copyToClipboard(text: string) {
       const type = 'text/plain'
       const blob = new Blob([text], { type })
       const data = [new ClipboardItem({ [type]: blob })]
-      // @ts-expect-error write-on-clipboard not typed
-      void navigator.permissions.query({ name: 'write-on-clipboard' }).then((permission) => {
+      // @ts-expect-error clipboard-write not typed
+      void navigator.permissions.query({ name: 'clipboard-write' }).then((permission) => {
         if (permission.state === 'granted' || permission.state === 'prompt') {
           navigator.clipboard.write(data).then(resolve, reject).catch(reject)
         } else {
