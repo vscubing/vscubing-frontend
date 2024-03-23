@@ -69,13 +69,21 @@ export function WatchSolvePage() {
           <CubeBadge cube='3by3' />
           <div>
             <p className='title-h2 mb-1 text-secondary-20'>Contest {contestNumber}</p>
-            <p className='text-large'>Scramble {formatScramblePosition(reconstruction?.scramble.position)}</p>
+            <p className='text-large'>
+              Scramble {formatScramblePosition(reconstruction?.scramble.position).trim() || '1'}
+              {/* TODO: remove mock */}
+            </p>
           </div>
         </SectionHeader>
         <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
           <div className='sm:min-h-14'>
-            <p className='title-h3 mb-1'>{reconstruction?.user.username}</p>
-            <p className='text-large text-grey-20'>{getFormattedTimeFromSolution(reconstruction?.reconstruction)}</p>
+            <p className='title-h3 mb-1'>
+              {reconstruction?.user.username ?? 'Yusheng Du'} {/* TODO: remove mock */}
+            </p>
+            <p className='text-large text-grey-20'>
+              {getFormattedTimeFromSolution(reconstruction?.reconstruction).trim() || '00:03.470'}
+              {/* TODO: remove mock */}
+            </p>
           </div>
           <SecondaryButton size='iconSm' onClick={copyWatchSolveLink}>
             <ShareIcon />
