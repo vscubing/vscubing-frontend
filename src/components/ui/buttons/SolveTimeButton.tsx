@@ -3,8 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { type ReactNode, forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
-import { UnderlineButton } from './UnderlineButton'
-import { PopoverPortal, Popover, PopoverContent, PopoverTrigger } from '../Popover'
+import { Popover, PopoverAnchor, PopoverCloseButton, PopoverContent } from '../Popover'
 
 const solveTimeButtonVariants = cva(
   'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',
@@ -100,12 +99,7 @@ type WatchSolveHintPopoverProps = {
   isFirstOnPage: boolean
   disabled?: boolean
 }
-export function WatchSolveHintPopover({
-  children,
-  className,
-  disabled = false,
-  isFirstOnPage,
-}: WatchSolveHintPopoverProps) {
+export function WatchSolveHintPopover({ children, disabled = false, isFirstOnPage }: WatchSolveHintPopoverProps) {
   const [seenHint, setSeenHint] = useLocalStorage('vs-seenWatchSolveHint', false)
 
   function handleClose() {
@@ -116,16 +110,10 @@ export function WatchSolveHintPopover({
     <Popover open={!seenHint && isFirstOnPage && !disabled}>
       <PopoverContent>
         <p>{hintCaption}</p>
-        <UnderlineButton onClick={handleClose} size='sm'>
-          Got it
-        </UnderlineButton>
+        <PopoverCloseButton onClick={handleClose} />
       </PopoverContent>
 
-      <PopoverTrigger asChild>
-        <div onClick={handleClose} className={className}>
-          {children}
-        </div>
-      </PopoverTrigger>
+      <PopoverAnchor onClick={handleClose}>{children}</PopoverAnchor>
     </Popover>
   )
 }

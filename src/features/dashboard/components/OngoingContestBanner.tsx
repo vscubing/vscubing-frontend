@@ -1,5 +1,14 @@
-import { CubeBadge, ExclamationCircleIcon, PrimaryButton } from '@/components/ui'
+import {
+  CubeBadge,
+  ExclamationCircleIcon,
+  Popover,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  PrimaryButton,
+} from '@/components/ui'
 import { cn } from '@/utils'
+import { PopoverPortal } from '@radix-ui/react-popover'
 import { Link } from '@tanstack/react-router'
 
 export function OngoingContestBanner() {
@@ -53,7 +62,18 @@ function BannerContentMobile({ className }: { className?: string }) {
         <h2 className='title-lg'>
           <span className='text-secondary-20'>Ongoing</span> Contest
         </h2>
-        <ExclamationCircleIcon className='absolute -right-11 top-4 sm:static' />
+
+        <Popover>
+          <PopoverPortal>
+            <PopoverContent>
+              <p>Solving from mobile devices is currently not supported</p>
+              <PopoverCloseButton />
+            </PopoverContent>
+          </PopoverPortal>
+          <PopoverTrigger className='absolute -right-11 top-4 sm:static'>
+            <ExclamationCircleIcon />
+          </PopoverTrigger>
+        </Popover>
       </div>
 
       <div className='relative flex-1 sm:hidden'>
