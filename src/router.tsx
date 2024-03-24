@@ -6,6 +6,7 @@ import { dashboardRoute } from './features/dashboard'
 import { devRoute } from './features/dev'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { NotFoundPage } from './components/NotFoundPage'
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -19,6 +20,7 @@ export const rootRoute = createRootRoute({
       )}
     </>
   ),
+  notFoundComponent: () => <NotFoundPage />,
 })
 
 const indexRoute = dashboardRoute
