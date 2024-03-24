@@ -90,7 +90,7 @@ function ListWithPinnedItem<T extends ListItemData>({
   return (
     <>
       {isPinnedDisplayedSepararely && (
-        <li className={cn({ 'sticky top-[calc(var(--header-height)+1.5rem)] z-10': behavior === 'infinite-scroll' })}>
+        <li className={cn({ 'sticky top-[calc(var(--header-height)+1.25rem)] z-10': behavior === 'infinite-scroll' })}>
           {renderPinnedItem(true, linkToPinnedItemPage)}
         </li>
       )}
