@@ -5,6 +5,7 @@ import BlueCube from '@/assets/images/not-found/blue-cube.svg'
 import GreenCube from '@/assets/images/not-found/green-cube.svg'
 import WhiteCube from '@/assets/images/not-found/white-cube.svg'
 import WhiteSmCube from '@/assets/images/not-found/white-sm-cube.svg'
+import Img404 from '@/assets/images/not-found/404.svg'
 import { MouseParallaxChild, MouseParallaxContainer } from 'react-parallax-mouse'
 import { type ReactNode } from 'react'
 
@@ -34,21 +35,24 @@ function ParallaxCubes() {
       >
         <img src={SeparatePurpleCube} alt='decorative cube' />
       </MouseParallaxChild>
-      <div className='pointer-events-none absolute left-[min(60%,40vw)] top-1/2 aspect-square w-[min(80%,80vh)] -translate-x-1/2 -translate-y-1/2 brightness-[60%]'>
+      <div className='pointer-events-none absolute left-1/2 top-[55%] aspect-square w-[min(80%,80vh)] -translate-x-1/2 -translate-y-1/2'>
         <MouseParallaxChild factorX={1.5} factorY={1.5} className='absolute right-[2%] top-[55%] w-[18%]'>
-          <img src={WhiteSmCube} alt='decorative cube' className='h-full w-full' />
+          <img src={WhiteSmCube} alt='decorative cube' className='h-full w-full brightness-[60%]' />
         </MouseParallaxChild>
         <MouseParallaxChild className='absolute bottom-[5%] left-[30%] w-[21%]'>
-          <img src={BlackCube} alt='decorative cube' className='h-full w-full' />
+          <img src={BlackCube} alt='decorative cube' className='h-full w-full brightness-[60%]' />
         </MouseParallaxChild>
         <MouseParallaxChild factorX={0.8} factorY={0.8} className='absolute bottom-[3%] left-[40%] w-[37%]'>
-          <img src={BlueCube} alt='decorative cube' className='h-full w-full' />
+          <img src={BlueCube} alt='decorative cube' className='h-full w-full brightness-[60%]' />
         </MouseParallaxChild>
         <MouseParallaxChild factorX={1.2} factorY={1.2} className='absolute left-[25%] top-[40%] w-[40%]'>
-          <img src={WhiteCube} alt='decorative cube' className='h-full w-full' />
+          <img src={WhiteCube} alt='decorative cube' className='h-full w-full brightness-[60%]' />
         </MouseParallaxChild>
-        <MouseParallaxChild factorX={0.3} factorY={0.3} className='absolute right-0 top-0 w-[67%]'>
-          <img src={GreenCube} alt='decorative cube' className='h-full w-full' />
+        <MouseParallaxChild factorX={0.5} factorY={0.5} className='absolute right-0 top-0 w-[67%]'>
+          <img src={GreenCube} alt='decorative cube' className='h-full w-full brightness-[60%]' />
+        </MouseParallaxChild>
+        <MouseParallaxChild factorX={2} factorY={4} className='pointer-events-auto absolute left-1/2 top-[40%] w-[80%]'>
+          <img src={Img404} alt='404 page not found' className='h-full w-full -translate-x-1/2' />
         </MouseParallaxChild>
       </div>
     </>
