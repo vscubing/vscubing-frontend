@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Layout } from '../layout'
 import { PrimaryButton } from '../ui'
 import { Suspense, lazy, type ReactNode } from 'react'
-import { cn, matchesQuery } from '@/utils'
+import { matchesQuery } from '@/utils'
 
 const ParallaxCubesWrapper = lazy(() => import('./ParallaxCubes.lazy'))
 
