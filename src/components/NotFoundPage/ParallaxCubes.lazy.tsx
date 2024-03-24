@@ -1,6 +1,3 @@
-import { Link } from '@tanstack/react-router'
-import { Layout } from './layout'
-import { PrimaryButton } from './ui'
 import SeparateLimeCube from '@/assets/images/not-found/separate-lime-cube.svg'
 import SeparatePurpleCube from '@/assets/images/not-found/separate-purple-cube.svg'
 import BlackCube from '@/assets/images/not-found/black-cube.svg'
@@ -8,26 +5,18 @@ import BlueCube from '@/assets/images/not-found/blue-cube.svg'
 import GreenCube from '@/assets/images/not-found/green-cube.svg'
 import WhiteCube from '@/assets/images/not-found/white-cube.svg'
 import WhiteSmCube from '@/assets/images/not-found/white-sm-cube.svg'
-
 import { MouseParallaxChild, MouseParallaxContainer } from 'react-parallax-mouse'
+import { type ReactNode } from 'react'
 
-export function NotFoundPage() {
+type ParallaxCubesProps = { children: (renderParallaxCubes: () => ReactNode) => ReactNode }
+export default function ParallaxCubesWrapper({ children }: ParallaxCubesProps) {
   return (
     <MouseParallaxContainer globalFactorX={0.022} globalFactorY={0.02}>
-      <Layout>
-        <div className='relative flex-1 rounded-xl bg-black-80 p-16'>
+      <>
+        {children(() => (
           <ParallaxCubes />
-          <div className='relative w-min'>
-            <p className='title-lg mb-4 whitespace-nowrap'>Lost in cuberspace?</p>
-            <p className='text-large mb-8 inline-block'>
-              Sorry, the page you're looking for seems to have gone on a digital adventure of its own
-            </p>
-            <Link to='/'>
-              <PrimaryButton>Go back to dashboard</PrimaryButton>
-            </Link>
-          </div>
-        </div>
-      </Layout>
+        ))}
+      </>
     </MouseParallaxContainer>
   )
 }
