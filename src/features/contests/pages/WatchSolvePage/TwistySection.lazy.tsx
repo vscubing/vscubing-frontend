@@ -46,10 +46,10 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
           className='flex flex-1 flex-col gap-3 md:grid md:grid-cols-2 sm:flex'
           ref={movesWrapperRef}
           type='multiple'
-          value={matchesQuery('sm') ? undefined : ['Scramble', 'Solve']}
+          defaultValue={matchesQuery('sm') ? [] : ['Scramble', 'Solve']}
         >
           <AccordionItem value='Scramble'>
-            <div className='flex flex-col border-t border-secondary-20 pt-2'>
+            <div className='mt-2 flex flex-col border-t border-grey-60 pt-2'>
               <div className='scrollbar basis-0 overflow-y-auto pr-2 md:overflow-y-visible' ref={scrambleWrapperRef}>
                 <span ref={scrambleRef}>{scramble}</span>
               </div>
@@ -57,7 +57,7 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
           </AccordionItem>
 
           <AccordionItem value='Solve' className='flex-1'>
-            <div className={cn('flex flex-col border-t border-secondary-20 pt-2', 'h-full')}>
+            <div className={cn('mt-2 flex flex-col border-t border-grey-60 pt-2', 'h-full')}>
               <div className={cn('scrollbar basis-0 overflow-y-auto pr-2 md:overflow-y-visible', 'flex-grow')}>
                 <TwistyAlgViewer twistyPlayer={player} />
               </div>
@@ -89,7 +89,7 @@ function AccordionItem({ value, className, children }: AccordionItemProps) {
       </Accordion.Header>
       <Accordion.Content
         className={cn(
-          'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down title-h3 h-full overflow-y-clip tracking-wide',
+          'title-h3 h-full overflow-y-clip tracking-wide data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
         )}
       >
         {children}
