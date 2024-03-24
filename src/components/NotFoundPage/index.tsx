@@ -19,7 +19,7 @@ type NotFoundInnerProps = { renderParallaxCubes?: () => ReactNode }
 function PageContent({ renderParallaxCubes }: NotFoundInnerProps) {
   return (
     <Layout>
-      <div className='relative flex-1 rounded-xl bg-black-80 p-16'>
+      <div className='relative flex-1 rounded-xl bg-black-80 p-16 sm:my-3'>
         {renderParallaxCubes?.()}
         <div className='relative w-min'>
           <p className='title-lg mb-4 whitespace-nowrap'>Lost in cuberspace?</p>
