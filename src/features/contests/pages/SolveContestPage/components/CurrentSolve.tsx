@@ -30,7 +30,7 @@ export function CurrentSolve({
             Solve
           </PrimaryButton>
         ) : (
-          <div className='flex'>
+          <div className='flex gap-1'>
             {currentSolve.canChangeToExtra && (
               <SecondaryButton
                 size='sm'
