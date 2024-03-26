@@ -120,7 +120,7 @@ function LogoutButton({ className }: { className?: string }) {
 
 function StickyNavbar({ className }: { className: string }) {
   return (
-    <div className={cn('sticky bottom-0 z-50 bg-black-100 px-3 pb-3 pt-2', className)}>
+    <div className={cn('sticky bottom-0 z-50 bg-black-100 pb-3 pt-2', className)}>
       <div className='rounded-b-xl border-b border-grey-20'>
         <Navbar variant='horizontal' />
       </div>
