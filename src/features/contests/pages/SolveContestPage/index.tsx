@@ -103,7 +103,7 @@ export function SolvePageContent() {
       </SectionHeader>
 
       <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
-        <UnderlineButton className='absolute right-4 top-4' /* TODO: add the instructions modal */>
+        <UnderlineButton size='sm' className='absolute right-4 top-4' /* TODO: add the instructions modal */>
           Virtual Cube Key Map
         </UnderlineButton>
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
