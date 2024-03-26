@@ -203,13 +203,15 @@ function SessionsList({
             isHighlighted={(session) => session.id === ownSession?.session.id}
             renderPinnedItem={(isFirstOnPage, linkToPage) =>
               ownSession ? (
-                <Session
-                  isFirstOnPage={isFirstOnPage}
-                  contestNumber={contestNumber}
-                  linkToPage={linkToPage}
-                  isOwn
-                  session={ownSession.session}
-                />
+                <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
+                  <Session
+                    isFirstOnPage={isFirstOnPage}
+                    contestNumber={contestNumber}
+                    linkToPage={linkToPage}
+                    isOwn
+                    session={ownSession.session}
+                  />
+                </div>
               ) : null
             }
             pageSize={pageSize}

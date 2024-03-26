@@ -76,7 +76,7 @@ function ListWithPinnedItem<T extends ListItemData>({
   behavior,
 }: ListWithPinnedItemProps<T>) {
   const { isIntersecting: isHighlightedIntersecting, ref: highlightedRef } = useIntersectionObserver({
-    rootMargin: '-60px', // sticky header and sticky navbar
+    rootMargin: '-200px 0px -80px', // accound for sticky header, pinned element's height and sticky navbar
   })
 
   if (!pageSize) {
@@ -97,7 +97,7 @@ function ListWithPinnedItem<T extends ListItemData>({
   return (
     <>
       {shouldPin && (
-        <li className={cn({ 'sticky top-[calc(var(--header-height)+1.25rem)] z-10': behavior === 'infinite-scroll' })}>
+        <li className={cn({ 'sticky top-[calc(var(--header-height)+2rem)] z-10': behavior === 'infinite-scroll' })}>
           {renderPinnedItem(true, linkToPinnedItemPage)}
         </li>
       )}

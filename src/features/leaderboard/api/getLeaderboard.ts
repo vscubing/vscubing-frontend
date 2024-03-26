@@ -142,8 +142,8 @@ async function getMockResultsWithoutOwn() {
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 20 }, getMockResult)
-const MOCK_OWN_RESULT_INDEX = 4
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, getMockResult)
+const MOCK_OWN_RESULT_INDEX = randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)
 
 function getMockResult(): LeaderboardResult {
   return {

@@ -145,7 +145,9 @@ function ResultsList({
           isHighlighted={(item) => item.id === ownResult?.result.id}
           renderPinnedItem={(isFirst, linkToPage) =>
             ownResult ? (
-              <Result isOwn isFirstOnPage={isFirst} linkToPage={linkToPage} result={ownResult.result} />
+              <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
+                <Result isOwn isFirstOnPage={isFirst} linkToPage={linkToPage} result={ownResult.result} />
+              </div>
             ) : null
           }
           renderItem={(result, isFirst) => (
