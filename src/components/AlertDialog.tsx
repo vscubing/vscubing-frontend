@@ -86,7 +86,7 @@ const AlertDialogCancel = forwardRef<
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
 const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex justify-center gap-4', className)} {...props} />
+  <div className={cn('flex w-full justify-center gap-4', className)} {...props} />
 )
 AlertDialogFooter.displayName = 'AlertDialogFooter'
 

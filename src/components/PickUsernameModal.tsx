@@ -67,19 +67,23 @@ export function PickUsernameModal() {
       <AlertDialogContent asChild>
         <form onSubmit={handleSubmit(onSubmit)}>
           <AlertDialogTitle>Choose your nickname</AlertDialogTitle>
-          <label className='inline-block'>
+          <label className='max-w-full'>
             <Input
               placeholder='Enter your nickname'
-              className='mb-1 block min-w-[20rem]'
+              className='block w-[20rem] max-w-full'
               error={!!errors.username}
               type='text'
               maxLength={32}
               {...register('username')}
             />
-            <span className='caption'>{errors.username?.message}</span>
+            <span className='caption mt-1'>{errors.username?.message}</span>
           </label>
           <AlertDialogFooter>
-            <AlertDialogAction type='submit' disabled={!!errors.username || isPending}>
+            <AlertDialogAction
+              className='max-w-full sm:w-[20rem]'
+              type='submit'
+              disabled={!!errors.username || isPending}
+            >
               Submit
             </AlertDialogAction>
           </AlertDialogFooter>
