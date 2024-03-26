@@ -26,7 +26,7 @@ export function Layout({ children }: LayoutProps) {
       <PopupMenu />
       <div
         vaul-drawer-wrapper='vaul-drawer-wrapper'
-        className='flex min-h-screen gap-3 p-[1.625rem] sm:flex-col sm:px-3 sm:pb-0 sm:pt-0'
+        className='flex min-h-dvh gap-3 p-[1.625rem] sm:flex-col sm:px-3 sm:pb-0 sm:pt-0'
       >
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
         <main className='contents'>{children ?? <Outlet />}</main>
