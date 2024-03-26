@@ -52,11 +52,11 @@ export const getLeaderboardQuery = ({
 export const getLeaderboardInfiniteQuery = ({
   discipline,
   pageSize,
-  isEnabled = true,
+  enabled = true,
 }: {
   discipline: Discipline
   pageSize: number
-  isEnabled: boolean
+  enabled: boolean
 }) => {
   pageSize = Math.floor(pageSize * 2)
 
@@ -65,7 +65,7 @@ export const getLeaderboardInfiniteQuery = ({
     queryFn: ({ pageParam: page }) => fetchMockLeaderboard(page, pageSize),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
-    enabled: isEnabled,
+    enabled,
   })
 }
 
@@ -142,8 +142,8 @@ async function getMockResultsWithoutOwn() {
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, getMockResult)
-const MOCK_OWN_RESULT_INDEX = randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)
+const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: 20 }, getMockResult)
+const MOCK_OWN_RESULT_INDEX = 4
 
 function getMockResult(): LeaderboardResult {
   return {

@@ -85,6 +85,8 @@ export function getContestResultsInfiniteQuery({
   pageSize: number
   enabled: boolean
 }) {
+  pageSize = Math.floor(pageSize * 2)
+
   return infiniteQueryOptions({
     queryKey: [...getContestQueryKey({ contestNumber, discipline }), pageSize],
     queryFn: ({ pageParam: page }) => getMockContestResults({ page, pageSize }),

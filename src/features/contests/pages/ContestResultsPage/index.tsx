@@ -200,6 +200,7 @@ function SessionsList({
             lastElementRef={lastElementRef}
             pinnedItem={ownSession ?? undefined}
             behavior={behavior}
+            isHighlighted={(session) => session.id === ownSession?.session.id}
             renderPinnedItem={(isFirstOnPage, linkToPage) =>
               ownSession ? (
                 <Session

@@ -1,6 +1,7 @@
 import { cn } from '@/utils'
 import { type ReactNode, type ReactElement } from 'react'
 import { type Behavior } from '.'
+import { useIntersectionObserver } from 'usehooks-ts'
 
 type ListWrapperProps = {
   children: ReactNode
@@ -59,6 +60,7 @@ type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
   isFetching: boolean
   renderPinnedItem: (isFirstOnPage: boolean, linkToPage?: number) => ReactNode
   pinnedItem?: { isDisplayedSeparately: boolean; page: number }
+  isHighlighted: (item: T) => boolean
   behavior: Behavior
 }
 function ListWithPinnedItem<T extends ListItemData>({
@@ -66,39 +68,46 @@ function ListWithPinnedItem<T extends ListItemData>({
   pageSize,
   isFetching,
   pinnedItem,
+  isHighlighted,
   renderPinnedItem,
   renderSkeleton,
   renderItem,
   lastElementRef,
   behavior,
 }: ListWithPinnedItemProps<T>) {
+  const { isIntersecting: isHighlightedIntersecting, ref: highlightedRef } = useIntersectionObserver({
+    rootMargin: '-60px', // sticky header and sticky navbar
+  })
+
   if (!pageSize) {
     return null
   }
 
-  let isPinnedDisplayedSepararely = false
+  let shouldPin = false
   if (behavior === 'pagination') {
-    isPinnedDisplayedSepararely = !!pinnedItem && (pinnedItem.isDisplayedSeparately || isFetching)
+    shouldPin = !!pinnedItem && (pinnedItem.isDisplayedSeparately || isFetching)
   } else if (behavior === 'infinite-scroll') {
-    isPinnedDisplayedSepararely = !!pinnedItem && pinnedItem.page !== 1
+    shouldPin = !!pinnedItem && !isHighlightedIntersecting
   }
 
-  const skeletonSize = isPinnedDisplayedSepararely ? pageSize - 1 : pageSize
-  const isSkeletonShown = !list || (isFetching && behavior === 'pagination')
+  const skeletonSize = shouldPin ? pageSize - 1 : pageSize
+  const isSkeletonVisible = !list || (isFetching && behavior === 'pagination')
 
   const linkToPinnedItemPage = behavior === 'pagination' ? pinnedItem?.page : undefined
   return (
     <>
-      {isPinnedDisplayedSepararely && (
+      {shouldPin && (
         <li className={cn({ 'sticky top-[calc(var(--header-height)+1.25rem)] z-10': behavior === 'infinite-scroll' })}>
           {renderPinnedItem(true, linkToPinnedItemPage)}
         </li>
       )}
-      {isSkeletonShown
+      {isSkeletonVisible
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
         : list?.map((item, index) => (
             <li ref={index === list.length - 1 ? lastElementRef : undefined} key={item.id}>
-              {renderItem(item, index === 0 && !isPinnedDisplayedSepararely)}
+              <div ref={isHighlighted?.(item) ? highlightedRef : undefined}>
+                {renderItem(item, index === 0 && !shouldPin)}
+              </div>
             </li>
           ))}
     </>

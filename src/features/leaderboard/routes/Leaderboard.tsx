@@ -60,7 +60,7 @@ function ControllerWithInfiniteScroll() {
   const query = getLeaderboardInfiniteQuery({
     discipline,
     pageSize: pageSize ?? 0,
-    isEnabled: pageSize !== undefined,
+    enabled: pageSize !== undefined,
   })
   const { data, isFetching, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
@@ -142,6 +142,7 @@ function ResultsList({
         <AutofillHeight.ListWithPinnedItem
           behavior={behavior}
           pinnedItem={ownResult ?? undefined}
+          isHighlighted={(item) => item.id === ownResult?.result.id}
           renderPinnedItem={(isFirst, linkToPage) =>
             ownResult ? (
               <Result isOwn isFirstOnPage={isFirst} linkToPage={linkToPage} result={ownResult.result} />
