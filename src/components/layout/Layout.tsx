@@ -62,7 +62,7 @@ function Sidebar({ className }: { className?: string }) {
               {/* TODO: animate the social links to slide up after login before the log out button appears */}
               <LogoutButton />
             </div>
-            <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2023</p>
+            <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2024</p>
           </div>
         </div>
       </aside>
