@@ -32,13 +32,13 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
 
   return (
     <>
-      <div className='flex flex-col gap-10 rounded-2xl bg-black-80 pb-6 md:col-span-full sm:overflow-x-clip'>
-        <TwistyPlayer player={player} className='flex-1 md:min-h-[20rem] sm:-mx-5' />
-        <div className='flex justify-center px-3'>
-          <div className='flex w-[27rem] max-w-full flex-col items-center gap-2'>
-            <TwistyScrubber twistyPlayer={player} className='w-full px-4' />
-            <TwistyControls twistyPlayer={player} className='w-full' />
-          </div>
+      <div className='flex flex-col gap-10 rounded-2xl bg-black-80 pb-6 lg:gap-6 md:col-span-full'>
+        <div className='flex max-h-[35rem] flex-1 md:min-h-[20rem] sm:max-w-full sm:overflow-x-clip'>
+          <TwistyPlayer player={player} className='h-full flex-1 sm:-mx-5' />
+        </div>
+        <div className='flex w-[27rem] max-w-full flex-col items-center gap-2 self-center sm:px-3'>
+          <TwistyScrubber twistyPlayer={player} className='w-full px-4' />
+          <TwistyControls twistyPlayer={player} className='w-full' />
         </div>
       </div>
       <div className='flex flex-col gap-3 md:col-span-full md:flex-col-reverse'>
