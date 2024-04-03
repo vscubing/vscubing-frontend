@@ -33,8 +33,8 @@ import {
   CubeIcon,
   CubeBadge,
 } from '@/components/ui'
-import { toast } from '@/components/toasts'
 import {
+  toast,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -42,7 +42,7 @@ import {
   AlertDialogFooter,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/AlertDialog'
+} from '@/components/ui'
 
 export function UiKit() {
   return (

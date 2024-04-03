@@ -1,17 +1,9 @@
-import {
-  PlaceLabel,
-  CubeIcon,
-  Ellipsis,
-  SolveTimeLabel,
-  SolveTimeLinkOrDnf,
-  ExtraLabel,
-  PlusIcon,
-  MinusIcon,
-} from '@/components/ui'
+import { CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeLinkOrDnf, PlusIcon, MinusIcon } from '@/components/ui'
 import { cn, matchesQuery } from '@/utils'
 import { useMemo } from 'react'
 import { type ContestSessionDTO } from '../../api'
 import * as Accordion from '@radix-ui/react-accordion'
+import { PlaceLabel, ExtraLabel } from '@/components/shared'
 
 export function Session({
   session,

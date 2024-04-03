@@ -5,7 +5,7 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogTitle,
-} from '@/components/AlertDialog'
+} from '@/components/ui'
 
 export function AbortPrompt({
   isVisible,

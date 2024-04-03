@@ -1,6 +1,5 @@
-import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header, SectionHeader } from '@/components/layout'
-import { CubeSwitcher, Pagination, HintSignInSection, PageTitleMobile } from '@/components/ui'
+import { CubeSwitcher } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
 import {
@@ -20,6 +19,7 @@ import {
   type ListWrapperProps,
 } from '@/features/autofillHeight'
 import { matchesQuery } from '@/utils'
+import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')

@@ -1,7 +1,7 @@
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import { cn } from '@/utils'
 import { type ReactNode } from 'react'
-import { UnderlineButton } from './buttons'
+import { UnderlineButton } from '../buttons'
 
 const Popover = PopoverPrimitive.Root
 const PopoverTrigger = PopoverPrimitive.Trigger

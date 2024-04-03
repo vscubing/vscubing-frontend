@@ -4,7 +4,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 import { USER_QUERY_KEY } from './userQueryKey'
 import { deleteAuthTokens, setAuthTokens } from '@/utils'
 import { useState } from 'react'
-import { toast } from '@/components/toasts'
+import { toast } from '@/components/ui'
 
 export * from './api'
 export * from './userQueryKey'

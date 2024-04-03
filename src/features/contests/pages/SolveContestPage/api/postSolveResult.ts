@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { solveContestStateQuery } from './getSolveContestState'
 import { getApiRoute } from './apiRoute'
 import { type FinishedSolve } from '../types'
-import { TOASTS_PRESETS, toast } from '@/components/toasts'
+import { TOASTS_PRESETS, toast } from '@/components/ui'
 
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',

@@ -1,7 +1,7 @@
 import { cn } from '@/utils'
 import { Link, type LinkProps } from '@tanstack/react-router'
 import { type ComponentProps } from 'react'
-import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon } from './icons'
+import { ChevronLeftIcon, EllipsisIcon, ChevronRightIcon } from '../ui'
 
 export function Pagination({
   className,

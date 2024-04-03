@@ -1,7 +1,6 @@
 import { Outlet } from '@tanstack/react-router'
 import { useAtom, useSetAtom } from 'jotai'
-import { Logo, Navbar, UsernameOrSignInButton } from './components'
-import { PickUsernameModal } from '../PickUsernameModal'
+import { PickUsernameDialog, Logo, Navbar, UsernameOrSignInButton } from './components'
 import { cn } from '@/utils'
 import { CloseIcon, DiscordIcon, GhostButton, GithubIcon, LinkedinIcon, LogoutIcon } from '../ui'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
@@ -13,16 +12,16 @@ import {
   AlertDialogTitle,
   AlertDialogCancel,
   AlertDialogAction,
-} from '@/components/AlertDialog'
+  AlertDialogFooter,
+} from '../ui'
 import { useQuery } from '@tanstack/react-query'
-import { AlertDialogFooter } from '../AlertDialog'
 import { Drawer } from 'vaul'
 
 type LayoutProps = { children?: React.ReactNode }
 export function Layout({ children }: LayoutProps) {
   return (
     <>
-      <PickUsernameModal />
+      <PickUsernameDialog />
       <PopupMenu />
       <div
         vaul-drawer-wrapper='vaul-drawer-wrapper'

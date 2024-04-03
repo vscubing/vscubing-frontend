@@ -1,12 +1,5 @@
-import {
-  CubeBadge,
-  ExclamationCircleIcon,
-  Popover,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverTrigger,
-  PrimaryButton,
-} from '@/components/ui'
+import { CubeBadge, ExclamationCircleIcon, PrimaryButton } from '@/components/ui'
+import { Popover, PopoverCloseButton, PopoverContent, PopoverTrigger } from '@/components/ui'
 import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
 

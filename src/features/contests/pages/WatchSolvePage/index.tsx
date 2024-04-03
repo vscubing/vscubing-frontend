@@ -1,4 +1,4 @@
-import { NavigateBackButton } from '@/components/NavigateBackButton'
+import { NavigateBackButton } from '@/components/shared'
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeBadge, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
@@ -7,7 +7,7 @@ import { copyToClipboard, formatSolveTime } from '@/utils'
 import { z } from 'zod'
 import { reconstructionQuery } from '../../api'
 import { Suspense, lazy } from 'react'
-import { toast } from '@/components/toasts'
+import { toast } from '@/components/ui'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
 const route = getRouteApi('/contests/$contestNumber/watch/$solveId')

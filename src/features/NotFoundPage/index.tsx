@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { Header, Layout } from '../layout'
-import { PrimaryButton } from '../ui'
+import { Header, Layout } from '@/components/layout'
+import { PrimaryButton } from '@/components/ui'
 import { Suspense, lazy, type ReactNode } from 'react'
 import { matchesQuery } from '@/utils'
 

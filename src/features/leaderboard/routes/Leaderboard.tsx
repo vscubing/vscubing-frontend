@@ -1,9 +1,9 @@
 import { Header, SectionHeader } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
-import { NavigateBackButton } from '@/components/NavigateBackButton'
+import { NavigateBackButton, HintSection, PageTitleMobile, Pagination } from '@/components/shared'
+import { CubeSwitcher } from '@/components/ui'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
-import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { type LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult, getLeaderboardInfiniteQuery } from '../api'
 import {

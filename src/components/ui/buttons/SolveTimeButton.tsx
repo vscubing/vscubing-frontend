@@ -1,9 +1,10 @@
+import { PopoverCloseButton } from '@/components/ui'
 import { cn, formatSolveTime, matchesQuery } from '@/utils'
+import { Popover, PopoverContent, PopoverAnchor } from '@radix-ui/react-popover'
 import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { type ReactNode, forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
-import { Popover, PopoverAnchor, PopoverCloseButton, PopoverContent } from '../Popover'
 
 const solveTimeButtonVariants = cva(
   'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',

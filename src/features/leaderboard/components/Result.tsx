@@ -2,7 +2,7 @@ import { CubeIcon, Ellipsis, MinusIcon, PlusIcon, SecondaryButton, SolveTimeLink
 import { cn, formatDate, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
-import { PlaceLabel } from '@/components/ui'
+import { PlaceLabel } from '@/components/shared'
 import * as Accordion from '@radix-ui/react-accordion'
 
 type ResultProps = { result: LeaderboardResult; linkToPage?: number; isOwn?: boolean; isFirstOnPage: boolean }

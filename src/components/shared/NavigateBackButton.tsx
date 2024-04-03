@@ -1,4 +1,4 @@
-import { GhostButton, ArrowBackUpIcon } from './ui'
+import { GhostButton, ArrowBackUpIcon } from '../ui'
 
 export function NavigateBackButton({ className }: { className?: string }) {
   // TODO: add more intelligent logic with a 'from' search param

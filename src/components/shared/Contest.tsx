@@ -1,6 +1,6 @@
 import { formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
-import { SecondaryButton, ArrowRightIcon } from './ui'
+import { SecondaryButton, ArrowRightIcon } from '../ui'
 import { type ContestInfo } from '@/types'
 
 type ContestProps = { contest: ContestInfo }

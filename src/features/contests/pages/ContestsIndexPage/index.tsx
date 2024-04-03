@@ -1,6 +1,5 @@
-import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header, SectionHeader } from '@/components/layout'
-import { CubeSwitcher, HintSection, PageTitleMobile, Pagination } from '@/components/ui'
+import { CubeSwitcher } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { matchesQuery } from '@/utils'
@@ -11,7 +10,14 @@ import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
-import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/components/Contest'
+import {
+  Contest as ContestMobile,
+  ContestSkeleton as ContestSkeletonMobile,
+  HintSection,
+  NavigateBackButton,
+  PageTitleMobile,
+  Pagination,
+} from '@/components/shared'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop

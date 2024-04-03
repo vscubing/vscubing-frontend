@@ -2,12 +2,18 @@ import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, AlertDialogTitle } from './AlertDialog'
-import { Input } from './ui'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTitle,
+} from '@/components/ui'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
+import { Input } from '@/components/ui'
 
 const formSchema = z.object({
   username: z
@@ -22,7 +28,7 @@ const formSchema = z.object({
 })
 type UsernameForm = z.infer<typeof formSchema>
 
-export function PickUsernameModal() {
+export function PickUsernameDialog() {
   const [isVisible, setIsVisible] = useState(false)
   const [isPending, setIsPending] = useState(false)
   const { data: userData } = useQuery(userQuery)

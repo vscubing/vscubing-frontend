@@ -1,4 +1,5 @@
-import { SolveTimeLinkOrDnf, CheckIcon, SolveTimeLabel, ExtraLabel, Ellipsis } from '@/components/ui'
+import { ExtraLabel } from '@/components/shared'
+import { SolveTimeLinkOrDnf, CheckIcon, SolveTimeLabel, Ellipsis } from '@/components/ui'
 import type { Scramble } from '@/types'
 import { getRouteApi } from '@tanstack/react-router'
 import { type ReactNode } from 'react'

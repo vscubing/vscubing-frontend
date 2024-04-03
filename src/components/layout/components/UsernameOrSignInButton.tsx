@@ -1,4 +1,5 @@
-import { AvatarIcon, SignInButton } from '@/components/ui'
+import { SignInButton } from '@/components/shared'
+import { AvatarIcon } from '@/components/ui'
 import { userQuery } from '@/features/auth'
 import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -21,7 +22,7 @@ export function UsernameOrSignInButton({
       {user.isAuthed ? (
         <>
           <span
-            className={cn('vertical-alignment-fix whitespace-nowrap text-right text-large', {
+            className={cn('vertical-alignment-fix text-large whitespace-nowrap text-right', {
               'w-0 flex-1 overflow-x-clip text-ellipsis': usernameEllipsis,
             })}
           >

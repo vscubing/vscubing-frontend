@@ -1,7 +1,7 @@
 import { cn, matchesQuery } from '@/utils'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { forwardRef, type ElementRef, type ComponentPropsWithoutRef } from 'react'
-import { PrimaryButton, SecondaryButton } from './ui'
+import { PrimaryButton, SecondaryButton } from '../buttons'
 
 const AlertDialog = AlertDialogPrimitive.Root
 
