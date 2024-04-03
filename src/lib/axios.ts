@@ -21,7 +21,7 @@ createAuthRefreshInterceptor(_axiosClient, () => refreshAccessToken(axiosParams)
   shouldRefresh: (err) => err.response?.status === 401 && !!getAuthTokens(),
 })
 
-_axiosClient.interceptors.response.use(undefined, (err) => {
+_axiosClient.interceptors.response.use(undefined, (err: unknown) => {
   if (!(err instanceof AxiosError)) {
     throw err
   }
