@@ -102,7 +102,11 @@ export function CubeProvider({ children }: CubeProviderProps) {
       >
         <div className='relative h-full rounded-2xl bg-black-80'>
           <div className='absolute inset-0 h-full w-full bg-black-1000 bg-opacity-25'></div>
-          <div className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40')}></div>
+          <div
+            className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40', {
+              hidden: !isModalOpen,
+            })}
+          ></div>
           <Cube
             fallback={
               <div className='flex h-full items-center justify-center'>
