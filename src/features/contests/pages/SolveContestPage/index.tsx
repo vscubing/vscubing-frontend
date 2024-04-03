@@ -1,4 +1,4 @@
-import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
 import {
   CubeSwitcher,
   ExclamationCircleIcon,
@@ -53,7 +53,7 @@ export function SolvePageContent() {
   }
 
   if (errorStatus === 404) {
-    return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
+    throw notFound()
   }
 
   if (isTouchDevice) {

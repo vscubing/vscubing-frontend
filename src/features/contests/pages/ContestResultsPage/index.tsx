@@ -2,7 +2,7 @@ import { NavigateBackButton } from '@/components/NavigateBackButton'
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, Pagination, HintSignInSection, PageTitleMobile } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
-import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
 import {
   type ContestSessionDTO,
   getContestResultsQuery,
@@ -137,7 +137,7 @@ type ErrorHandlerProps = {
   children: ReactNode
 }
 function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
-  const { contestNumber, discipline } = route.useLoaderData()
+  const { contestNumber } = route.useLoaderData()
   if (errorCode === 400) {
     return (
       <Navigate
@@ -165,7 +165,7 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
   }
 
   if (errorCode === 404) {
-    return <Navigate to='/contests/ongoing' search={{ discipline }} replace />
+    throw notFound()
   }
 
   return children
