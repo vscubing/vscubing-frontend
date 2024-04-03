@@ -1,4 +1,5 @@
-import { CubeIcon, Ellipsis, SolveTimeLabel, SolveTimeLinkOrDnf, PlusIcon, MinusIcon } from '@/components/ui'
+import { CubeIcon, Ellipsis, PlusIcon, MinusIcon } from '@/components/ui'
+import { SolveTimeLinkOrDnf, SolveTimeLabel } from '@/components/shared'
 import { cn, matchesQuery } from '@/utils'
 import { useMemo } from 'react'
 import { type ContestSessionDTO } from '../../api'

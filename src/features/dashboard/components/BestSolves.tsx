@@ -1,11 +1,5 @@
-import {
-  CubeIcon,
-  Ellipsis,
-  SolveTimeLinkOrDnf,
-  SecondaryButton,
-  UnderlineButton,
-  ArrowRightIcon,
-} from '@/components/ui'
+import { CubeIcon, Ellipsis, SecondaryButton, UnderlineButton, ArrowRightIcon } from '@/components/ui'
+import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { Link } from '@tanstack/react-router'
 import { type DashboardDTO } from '../api/getDashboard'
 import { cn, matchesQuery } from '@/utils'

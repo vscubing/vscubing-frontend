@@ -1,4 +1,5 @@
-import { CubeIcon, Ellipsis, MinusIcon, PlusIcon, SecondaryButton, SolveTimeLinkOrDnf } from '@/components/ui'
+import { CubeIcon, Ellipsis, MinusIcon, PlusIcon, SecondaryButton } from '@/components/ui'
+import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { cn, formatDate, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
