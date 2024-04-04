@@ -101,7 +101,7 @@ function LogoutButton({ className }: { className?: string }) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-        <AlertDialogFooter>
+        <AlertDialogFooter className='sm:grid sm:grid-cols-2'>
           <AlertDialogCancel>Stay</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
