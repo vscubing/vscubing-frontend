@@ -1,13 +1,15 @@
-import { userQuery, putChangeUsername, USER_QUERY_KEY } from '@/features/auth'
+import { userQuery, putChangeUsername, USER_QUERY_KEY, logout } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogTitle,
+  SecondaryButton,
 } from '@/components/ui'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -29,15 +31,10 @@ const formSchema = z.object({
 type UsernameForm = z.infer<typeof formSchema>
 
 export function PickUsernameDialog() {
-  const [isVisible, setIsVisible] = useState(false)
   const [isPending, setIsPending] = useState(false)
   const { data: userData } = useQuery(userQuery)
 
-  useEffect(() => {
-    if (userData?.authCompleted === false) {
-      setIsVisible(true)
-    }
-  }, [userData])
+  const isVisible = userData?.authCompleted === false
 
   const {
     register,
@@ -65,31 +62,32 @@ export function PickUsernameDialog() {
     await queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
     reset()
     setIsPending(false)
-    setIsVisible(false)
   }
 
   return (
     <AlertDialog open={isVisible}>
       <AlertDialogContent asChild>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <AlertDialogTitle>Choose your nickname</AlertDialogTitle>
-          <label className='max-w-full'>
+          <div>
+            <AlertDialogTitle className='mb-4'>Greetings, Speed Cuber</AlertDialogTitle>
+            <p className='text-center text-grey-20'>Just a quick nickname needed to personalize your experience.</p>
+          </div>
+          <label className='flex w-min max-w-full flex-col gap-1 sm:w-full'>
             <Input
               placeholder='Enter your nickname'
-              className='block w-[20rem] max-w-full'
+              className='block w-[20rem] max-w-full sm:w-full'
               error={!!errors.username}
               type='text'
               maxLength={32}
               {...register('username')}
             />
-            <span className='caption mt-1'>{errors.username?.message}</span>
+            <span className='caption'>{errors.username?.message}</span>
           </label>
-          <AlertDialogFooter>
-            <AlertDialogAction
-              className='max-w-full sm:w-[20rem]'
-              type='submit'
-              disabled={!!errors.username || isPending}
-            >
+          <AlertDialogFooter className='sm:grid sm:grid-cols-2'>
+            <AlertDialogCancel onClick={logout} type='button'>
+              Log out
+            </AlertDialogCancel>
+            <AlertDialogAction type='submit' disabled={!!errors.username || isPending}>
               Submit
             </AlertDialogAction>
           </AlertDialogFooter>
