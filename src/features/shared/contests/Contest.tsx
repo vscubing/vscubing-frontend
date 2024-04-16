@@ -1,20 +1,20 @@
 import { formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
-import { SecondaryButton, ArrowRightIcon } from '../ui'
-import { type ContestInfo } from '@/types'
+import { SecondaryButton, ArrowRightIcon } from '@/components/ui'
+import { type ContestDTO } from './getContests'
 
-type ContestProps = { contest: ContestInfo }
-export function Contest({ contest: { contestNumber, start, end } }: ContestProps) {
+type ContestProps = { contest: ContestDTO }
+export function Contest({ contest: { name, start_date, end_date } }: ContestProps) {
   return (
     <div className='flex min-h-20 items-center justify-between gap-8 rounded-xl bg-grey-100 pl-4 sm:min-h-16'>
       <div className='sm:space-y-2'>
-        <p className='title-h3'>Contest {contestNumber}</p>
+        <p className='title-h3'>Contest {name}</p>
         <p className='text-grey-40'>
-          {formatDate(start, 'long')} - {formatDate(end, 'long')}
+          {formatDate(start_date, 'long')} - {formatDate(end_date, 'long')}
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild className='sm:h-16 sm:w-16'>
-        <Link to='/contests/$contestNumber' params={{ contestNumber: String(contestNumber) }}>
+        <Link to='/contests/$contestNumber' params={{ contestNumber: String(name) }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>

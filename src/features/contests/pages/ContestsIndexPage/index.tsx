@@ -8,16 +8,10 @@ import { type ContestListItemDTO, getContestsQuery, getInfiniteContestsQuery } f
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
+import { HintSection, NavigateBackButton, PageTitleMobile, Pagination } from '@/components/shared'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
-import {
-  Contest as ContestMobile,
-  ContestSkeleton as ContestSkeletonMobile,
-  HintSection,
-  NavigateBackButton,
-  PageTitleMobile,
-  Pagination,
-} from '@/components/shared'
+import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/features/shared'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
@@ -129,7 +123,10 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
           renderItem={({ id, contestNumber, startDate, endDate }) => (
-            <Contest discipline={discipline} contest={{ id, contestNumber, start: startDate, end: endDate }} />
+            <Contest
+              discipline={discipline}
+              contest={{ id, contestNumber, start_date: startDate, end_date: endDate }}
+            />
           )}
         />
       </AutofillHeight.ListWrapper>

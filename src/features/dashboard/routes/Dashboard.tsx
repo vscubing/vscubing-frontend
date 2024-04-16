@@ -1,17 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
-import { getRouteApi } from '@tanstack/react-router'
 import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
 import { type DashboardDTO } from '../api'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
+import { type ContestListDTO, useContestList } from '@/features/shared'
 
-const route = getRouteApi('/')
 export function Dashboard() {
   const { data: user } = useQuery(userQuery)
-  const query = route.useLoaderData()
-  const { data } = useQuery(query)
+  const { data: latestContests } = useContestList({ limit: 5, offset: 0, orderBy: '-created_at' })
 
   const title = user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'
   return (
@@ -25,7 +23,7 @@ export function Dashboard() {
         <span className='title-h1 sm:title-lg hidden lg:inline'>{title}</span>
       </h1>
       <OngoingContestBanner />
-      <Lists className='flex-1' latestContests={data?.contests} bestSolves={data?.bestSolves} />
+      <Lists className='flex-1' latestContests={latestContests} bestSolves={undefined} />
     </div>
   )
 }
@@ -36,10 +34,10 @@ function Lists({
   bestSolves,
 }: {
   className?: string
-  latestContests?: DashboardDTO['contests']
+  latestContests?: ContestListDTO
   bestSolves?: DashboardDTO['bestSolves']
 }) {
-  if (latestContests?.length === 0 && bestSolves?.length === 0) {
+  if (latestContests?.results.length === 0 && bestSolves?.length === 0) {
     return (
       <div className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 pb-4 pt-10', className)}>
         <h2 className='title-h3 text-center'>
@@ -56,7 +54,7 @@ function Lists({
     <div className={cn('flex flex-wrap gap-3 sm:flex-col sm:flex-nowrap sm:gap-2', className)}>
       <LatestContests
         className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)] sm:min-h-0 sm:basis-auto'
-        contests={latestContests}
+        contests={latestContests?.results}
       />
       <BestSolves
         className='min-h-[calc(50%-0.75rem/2)] min-w-[35rem] flex-grow-[1] basis-[calc(60%-0.75rem/2)] sm:min-h-0 sm:min-w-0 sm:flex-1 sm:basis-auto'

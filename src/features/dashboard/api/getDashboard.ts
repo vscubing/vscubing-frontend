@@ -1,6 +1,4 @@
-import { axiosClient } from '@/lib/axios'
 import { type Discipline } from '@/types'
-import { queryOptions } from '@tanstack/react-query'
 
 export type DashboardDTO = {
   bestSolves: Array<{
@@ -18,10 +16,3 @@ export type DashboardDTO = {
     ongoing: boolean
   }>
 }
-
-async function getDashboard() {
-  const res = await axiosClient.get<DashboardDTO>('contests/dashboard/')
-  return res.data
-}
-
-export const dashboardQuery = queryOptions({ queryKey: ['dashboard'], queryFn: getDashboard })

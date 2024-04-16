@@ -1,4 +1,3 @@
-export * from './Contest'
 export * from './ExtraLabel'
 export * from './HintSection'
 export * from './NavigateBackButton'
