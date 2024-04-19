@@ -11,7 +11,7 @@ import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/feature
 import { HintSection, NavigateBackButton, PageTitleMobile, Pagination } from '@/components/shared'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
-import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/features/shared'
+import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/shared/contests'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop

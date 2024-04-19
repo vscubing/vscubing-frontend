@@ -1,7 +1,7 @@
 import { cn, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { UnderlineButton } from '@/components/ui'
-import { ContestSkeleton, Contest, type ContestDTO } from '@/features/shared'
+import { ContestSkeleton, Contest, type ContestDTO } from '@/shared/contests'
 import { AutofillHeight } from '@/features/autofillHeight'
 
 const MOBILE_MAX_OVERFLOWING_ITEMS = 3

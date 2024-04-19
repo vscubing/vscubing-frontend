@@ -5,7 +5,7 @@ import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
 import { type DashboardDTO } from '../api'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
-import { type ContestListDTO, useContestList } from '@/features/shared'
+import { type ContestListDTO, useContestList } from '@/shared/contests'
 
 export function Dashboard() {
   const { data: user } = useQuery(userQuery)

@@ -1,13 +1,13 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, DISCIPLINES, castDiscipline } from '@/types'
 import { Navigate, createRoute, redirect } from '@tanstack/react-router'
-import { ongoingContestNumberQuery } from './api'
 import { z } from 'zod'
 import { queryClient } from '@/lib/reactQuery'
 import { ContestResultsPage } from './pages/ContestResultsPage'
 import { ContestsIndexPage } from './pages/ContestsIndexPage'
 import { SolveContestPage } from './pages/SolveContestPage'
 import { WatchSolvePage } from './pages/WatchSolvePage'
+import { ongoingContestIdQuery } from '@/shared/contests'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).optional().catch(undefined),
@@ -44,7 +44,7 @@ const ongoingContestRedirectRoute = createRoute({
   path: 'ongoing',
   validateSearch: z.object({ discipline: z.enum(DISCIPLINES).optional().catch(DEFAULT_DISCIPLINE) }),
   beforeLoad: async ({ search: { discipline } }) => {
-    const contestNumber = await queryClient.fetchQuery(ongoingContestNumberQuery)
+    const contestNumber = await queryClient.fetchQuery(ongoingContestIdQuery)
     void redirect({
       to: contestRoute.id,
       params: { contestNumber: String(contestNumber) },

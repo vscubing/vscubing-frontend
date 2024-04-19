@@ -5,7 +5,6 @@ import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
 import {
   type ContestSessionDTO,
   getContestResultsQuery,
-  ongoingContestNumberQuery,
   type ContestResultsDTO,
   getContestResultsInfiniteQuery,
 } from '../../api'
@@ -20,6 +19,7 @@ import {
 } from '@/features/autofillHeight'
 import { matchesQuery } from '@/utils'
 import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
+import { ongoingContestIdQuery } from '@/shared/contests'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestNumber/results')
@@ -93,7 +93,7 @@ type ViewProps = {
 function View({ totalPages, children, behavior, errorCode }: ViewProps) {
   const { contestNumber, discipline, page } = route.useLoaderData()
 
-  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
+  const { data: ongoingContestNumber } = useQuery(ongoingContestIdQuery)
   const isOngoing = contestNumber === ongoingContestNumber // TODO: get from backend
 
   let title = ''

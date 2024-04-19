@@ -1,5 +1,5 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
-import { ongoingContestNumberQuery } from '@/features/contests'
+import { ongoingContestIdQuery } from '@/shared/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -59,7 +59,7 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
 }
 
 function useNavbar() {
-  const { data: ongoingContestNumber } = useQuery(ongoingContestNumberQuery)
+  const { data: ongoingContestNumber } = useQuery(ongoingContestIdQuery)
   const matchRoute = useMatchRoute()
   const isOnContests = !!matchRoute({
     to: '/contests',
