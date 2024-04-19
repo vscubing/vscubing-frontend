@@ -10,7 +10,7 @@ export type ContestsListDTO = {
 
 export type ContestListItemDTO = {
   id: number
-  contestNumber: number
+  contestSlug: string
   startDate: string
   endDate: string
   isOngoing: boolean
@@ -65,13 +65,13 @@ async function getMockContests({ page, pageSize }: { page: number; pageSize: num
 }
 
 const MOCK_CONTESTS: ContestListItemDTO[] = Array.from({ length: randomInteger(0, 50) }, (_, i) =>
-  getMockContest(i + 1),
+  getMockContest(String(i + 1)),
 ).reverse()
 
-function getMockContest(contestNumber: number): ContestListItemDTO {
+function getMockContest(contestSlug: string): ContestListItemDTO {
   return {
     id: Math.random(),
-    contestNumber,
+    contestSlug,
     startDate: '2023-12-31T16:05:18.595737Z',
     endDate: '2023-12-31T16:29:59Z',
     isOngoing: false,

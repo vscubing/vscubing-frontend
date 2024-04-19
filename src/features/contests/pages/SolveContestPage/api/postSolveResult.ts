@@ -12,7 +12,7 @@ const SOLVE_REJECTED_TOAST = {
   description: "Under normal circumstances this shouldn't happen.",
   autoClose: false,
 }
-export const usePostSolveResult = (contestNumber: number, discipline: Discipline) =>
+export const usePostSolveResult = (contestSlug: string, discipline: Discipline) =>
   useMutation({
     mutationFn: async ({
       scrambleId,
@@ -22,7 +22,7 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
       result: { reconstruction: string; timeMs: number; dnf: false } | { dnf: true; timeMs: null }
     }) => {
       const res = await axiosClient.post<{ solveId: number }>(
-        getApiRoute(contestNumber, discipline, `?scramble_id=${scrambleId}`),
+        getApiRoute(contestSlug, discipline, `?scramble_id=${scrambleId}`),
         result,
       )
 
@@ -37,7 +37,7 @@ export const usePostSolveResult = (contestNumber: number, discipline: Discipline
         toast(TOASTS_PRESETS.internalError)
       }
 
-      const query = solveContestStateQuery(contestNumber, discipline)
+      const query = solveContestStateQuery(contestSlug, discipline)
       const previousState = await queryClient.fetchQuery(query)
       queryClient.setQueryData(query.queryKey, {
         ...previousState,

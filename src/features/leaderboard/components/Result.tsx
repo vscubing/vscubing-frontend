@@ -36,7 +36,8 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
               canShowHint={isFirstOnPage}
               timeMs={result.timeMs}
               solveId={result.id}
-              contestNumber={result.contest.contestNumber}
+              contestSlug={result.contest.contestSlug}
+              discipline={result.discipline.name}
             />
           </span>
           <Accordion.Trigger className='outline-ring group hidden md:block sm:py-2'>
@@ -52,7 +53,7 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
             </span>
             <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center md:pt-0 sm:order-first sm:mr-0 sm:w-auto sm:text-left'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:hidden'>Contest name</span>
-              Contest {result.contest.contestNumber}
+              Contest {result.contest.contestSlug}
             </span>
             <SecondaryButton
               asChild
@@ -60,8 +61,8 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
               className='md:mb-2 md:ml-auto sm:col-span-full sm:m-0 sm:w-full'
             >
               <Link
-                to='/contests/$contestNumber'
-                params={{ contestNumber: String(result.contest.contestNumber) }}
+                to='/contests/$contestSlug'
+                params={{ contestSlug: String(result.contest.contestSlug) }}
                 search={{ discipline: result.discipline.name }}
               >
                 <span className='sm:uppercase'>v</span>iew contest

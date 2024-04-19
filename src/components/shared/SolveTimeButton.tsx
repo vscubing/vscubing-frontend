@@ -1,9 +1,10 @@
 import { PopoverCloseButton } from '@/components/ui'
+import { Discipline } from '@/types'
 import { cn, formatSolveTime, matchesQuery } from '@/utils'
 import { Popover, PopoverContent, PopoverAnchor } from '@radix-ui/react-popover'
 import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
-import { type ReactNode, forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from 'react'
+import { type ReactNode, forwardRef, type ComponentProps } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
 const solveTimeButtonVariants = cva(
@@ -22,30 +23,33 @@ const solveTimeButtonVariants = cva(
   },
 )
 
-export function SolveTimeLinkOrDnf({
+type SolveTimeLinkOrDnfProps<TTimeMs extends number | null> = VariantProps<typeof solveTimeButtonVariants> & {
+  timeMs: TTimeMs
+  contestSlug: string
+  discipline: Discipline
+  solveId: number
+  canShowHint: boolean
+  className?: string
+}
+
+export function SolveTimeLinkOrDnf<TTimeMs extends number | null>({
   timeMs,
   variant,
   className,
-  contestNumber,
+  contestSlug,
+  discipline,
   solveId,
   canShowHint,
-  ...props
-}: VariantProps<typeof solveTimeButtonVariants> &
-  ComponentPropsWithoutRef<'a'> & {
-    timeMs: number | null
-    contestNumber: number
-    solveId: number
-    canShowHint: boolean
-  }) {
+}: SolveTimeLinkOrDnfProps<TTimeMs>) {
   if (timeMs === null) {
-    return <SolveTimeLabel className={className} {...props} />
+    return <SolveTimeLabel className={className} />
   }
   return (
     <WatchSolveHintPopover disabled={!canShowHint}>
       <Link
-        {...props}
-        to='/contests/$contestNumber/watch/$solveId'
-        params={{ contestNumber: String(contestNumber), solveId: String(solveId) }}
+        to='/contests/$contestSlug/watch/$solveId'
+        params={{ contestSlug, solveId: String(solveId) }}
+        search={{ discipline }}
         className={cn(solveTimeButtonVariants({ variant, className }))}
       >
         {formatSolveTime(timeMs)}

@@ -8,11 +8,11 @@ import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
 import { useState } from 'react'
 
-type SolveContestProps = { state: SolveContestStateDTO; contestNumber: number; discipline: Discipline }
-export function SolveContestForm({ state, contestNumber, discipline }: SolveContestProps) {
-  const { mutateAsync: postSolveResult } = usePostSolveResult(contestNumber, discipline)
-  const { mutateAsync: submitSolve } = useSubmitSolve(contestNumber, discipline, handleSessionFinish)
-  const { mutateAsync: changeToExtra } = useChangeToExtra(contestNumber, discipline)
+type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; discipline: Discipline }
+export function SolveContestForm({ state, contestSlug, discipline }: SolveContestProps) {
+  const { mutateAsync: postSolveResult } = usePostSolveResult(contestSlug, discipline)
+  const { mutateAsync: submitSolve } = useSubmitSolve(contestSlug, discipline, handleSessionFinish)
+  const { mutateAsync: changeToExtra } = useChangeToExtra(contestSlug, discipline)
   const { initSolve } = useCube()
   const navigate = useNavigate()
   const [isPending, setIsPending] = useState(false)
@@ -44,8 +44,9 @@ export function SolveContestForm({ state, contestNumber, discipline }: SolveCont
 
   function handleSessionFinish() {
     void navigate({
-      to: '/contests/$contestNumber/results',
-      params: { contestNumber: String(contestNumber) },
+      to: '/contests/$contestSlug/results',
+      params: { contestSlug: contestSlug },
+      search: { discipline, page: 1 },
       replace: true,
     })
   }

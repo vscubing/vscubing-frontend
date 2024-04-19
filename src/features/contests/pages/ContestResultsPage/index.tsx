@@ -19,20 +19,21 @@ import {
 } from '@/features/autofillHeight'
 import { matchesQuery } from '@/utils'
 import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
-import { ongoingContestIdQuery } from '@/shared/contests'
+import { ongoingSlugQuery as ongoingSlugQuery } from '@/shared/contests'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
-const route = getRouteApi('/contests/$contestNumber/results')
+const route = getRouteApi('/contests/$contestSlug/results')
 export function ContestResultsPage() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
 }
 
 function ControllerWithPagination() {
-  const { contestNumber, discipline, page } = route.useLoaderData()
+  const { contestSlug } = route.useParams()
+  const { discipline, page } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
-    contestNumber,
+    contestSlug,
     discipline,
     page,
     pageSize: pageSize ?? 0,
@@ -57,11 +58,12 @@ function ControllerWithPagination() {
 }
 
 function ControllerWithInfiniteScroll() {
-  const { contestNumber, discipline } = route.useLoaderData()
+  const { contestSlug } = route.useParams()
+  const { discipline } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsInfiniteQuery({
-    contestNumber: contestNumber,
+    contestSlug,
     discipline,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -91,10 +93,11 @@ type ViewProps = {
   errorCode?: number
 }
 function View({ totalPages, children, behavior, errorCode }: ViewProps) {
-  const { contestNumber, discipline, page } = route.useLoaderData()
+  const { contestSlug } = route.useParams()
+  const { discipline, page } = route.useSearch()
 
-  const { data: ongoingContestNumber } = useQuery(ongoingContestIdQuery)
-  const isOngoing = contestNumber === ongoingContestNumber // TODO: get from backend
+  const { data: ongoingSlug } = useQuery(ongoingSlugQuery)
+  const isOngoing = contestSlug === ongoingSlug // TODO: get from backend
 
   let title = ''
   if (!isOngoing) {
@@ -114,11 +117,11 @@ function View({ totalPages, children, behavior, errorCode }: ViewProps) {
         <NavigateBackButton className='self-start' />
         <ErrorHandler errorCode={errorCode}>
           <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
-            <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
+            <Link from={route.id} search={{ discipline: '3by3', page: 1 }} params={{ contestSlug }}>
               <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
             </Link>
             <div>
-              <h2 className='title-h2 mb-1'>Contest {contestNumber}</h2>
+              <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
               <p className='text-large text-grey-40'>{contestDuration}</p>
             </div>
             {behavior === 'pagination' && (
@@ -137,12 +140,13 @@ type ErrorHandlerProps = {
   children: ReactNode
 }
 function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
-  const { contestNumber } = route.useLoaderData()
+  const { contestSlug } = route.useParams()
   if (errorCode === 400) {
     return (
       <Navigate
+        from={route.id}
         to={route.id}
-        params={{ contestNumber: String(contestNumber) }}
+        params={{ contestSlug }}
         search={(prev) => ({ ...prev, page: 1 })}
         replace
       />
@@ -153,8 +157,9 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
     return (
       <Navigate
         from={route.id}
-        to='/contests/$contestNumber/solve'
-        params={{ contestNumber: String(contestNumber) }}
+        to='/contests/$contestSlug/solve'
+        search={(prev) => prev}
+        params={{ contestSlug }}
         replace
       />
     )
@@ -185,7 +190,8 @@ function SessionsList({
   containerRef,
   fakeElementRef,
 }: SessionsListProps) {
-  const { contestNumber } = route.useLoaderData()
+  const { contestSlug } = route.useParams()
+  const { discipline } = route.useSearch()
 
   return (
     <>
@@ -206,7 +212,8 @@ function SessionsList({
                 <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
                   <Session
                     isFirstOnPage={isFirstOnPage}
-                    contestNumber={contestNumber}
+                    discipline={discipline}
+                    contestSlug={contestSlug}
                     linkToPage={linkToPage}
                     isOwn
                     session={ownSession.session}
@@ -219,7 +226,8 @@ function SessionsList({
               <Session
                 isOwn={session.id === ownSession?.session.id}
                 isFirstOnPage={isFirstOnPage}
-                contestNumber={contestNumber}
+                contestSlug={contestSlug}
+                discipline={discipline}
                 session={session}
               />
             )}

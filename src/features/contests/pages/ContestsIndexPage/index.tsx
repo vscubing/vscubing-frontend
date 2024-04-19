@@ -22,7 +22,7 @@ export function ContestsIndexPage() {
 }
 
 function ControllerWithInfiniteScroll() {
-  const { discipline } = route.useLoaderData()
+  const { discipline } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getInfiniteContestsQuery({ discipline, pageSize })
@@ -42,7 +42,7 @@ function ControllerWithInfiniteScroll() {
 }
 
 function ControllerWithPagination() {
-  const { page, discipline } = route.useLoaderData()
+  const { discipline, page } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestsQuery({
@@ -54,7 +54,7 @@ function ControllerWithPagination() {
   const { data, error } = useQuery(query)
 
   if (error?.response?.status === 400) {
-    return <Navigate from={route.id} params={discipline} search={{ page: 1 }} />
+    return <Navigate from={route.id} search={(prev) => ({ ...prev, page: 1 })} />
   }
 
   return (
@@ -84,7 +84,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link from={route.id} search={{ discipline: '3by3' }}>
+        <Link from={route.id} search={(prev) => ({ ...prev, discipline: '3by3' })}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         {withPagination && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}
@@ -97,7 +97,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
 type ContestsListProps = Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
   Pick<ListProps<ContestListItemDTO>, 'pageSize' | 'lastElementRef' | 'list'>
 function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElementRef }: ContestsListProps) {
-  const { discipline } = route.useLoaderData()
+  const { discipline } = route.useSearch()
   if (list?.length === 0) {
     return (
       <HintSection>
@@ -122,9 +122,9 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           pageSize={pageSize}
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
-          renderItem={({ id, contestNumber, startDate, endDate }) => (
+          renderItem={({ id, contestSlug, startDate, endDate }) => (
             // @ts-expect-error will be fixed during integration with new backend
-            <Contest discipline={discipline} contest={{ id, contestNumber, startDate, endDate }} />
+            <Contest discipline={discipline} contest={{ id, contestSlug, startDate, endDate }} />
           )}
         />
       </AutofillHeight.ListWrapper>

@@ -10,9 +10,10 @@ import { Suspense, lazy } from 'react'
 import { toast } from '@/components/ui'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
-const route = getRouteApi('/contests/$contestNumber/watch/$solveId')
+const route = getRouteApi('/contests/$contestSlug/watch/$solveId')
 export function WatchSolvePage() {
-  const { contestNumber, discipline, solveId } = route.useLoaderData()
+  const { contestSlug, solveId } = route.useParams()
+  const { discipline } = route.useSearch()
 
   const { data: reconstruction, error } = useQuery(reconstructionQuery(solveId))
 
@@ -33,15 +34,12 @@ export function WatchSolvePage() {
                 // this is a mock reconstruction from http://cubesolv.es/solve/5757`
   }
 
-  if (
-    reconstruction &&
-    (reconstruction.contestNumber !== contestNumber || reconstruction.discipline.name !== discipline)
-  ) {
+  if (reconstruction && (reconstruction.contestSlug !== contestSlug || reconstruction.discipline.name !== discipline)) {
     return (
       <Navigate
         from={route.id}
         to={route.id}
-        params={{ contestNumber: String(reconstruction.contestNumber), solveId }}
+        params={{ contestSlug: String(reconstruction.contestSlug), solveId }}
         search={{ discipline: reconstruction.discipline.name }}
       />
     )
@@ -68,7 +66,7 @@ export function WatchSolvePage() {
         <SectionHeader className='gap-8'>
           <CubeBadge cube='3by3' />
           <div>
-            <p className='title-h2 mb-1 text-secondary-20'>Contest {contestNumber}</p>
+            <p className='title-h2 mb-1 text-secondary-20'>Contest {contestSlug}</p>
             <p className='text-large'>
               Scramble {formatScramblePosition(reconstruction?.scramble.position).trim() || '1'}
               {/* TODO: remove mock */}

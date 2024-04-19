@@ -6,7 +6,7 @@ export type ReconstructionDTO = {
   id: string
   reconstruction: string
   scramble: Pick<Scramble, 'position' | 'scramble'>
-  contestNumber: number
+  contestSlug: string
   discipline: { name: Discipline }
   user: { username: string }
 }

@@ -1,5 +1,6 @@
 import { CubeBadge, ExclamationCircleIcon, PrimaryButton } from '@/components/ui'
 import { Popover, PopoverCloseButton, PopoverContent, PopoverTrigger } from '@/components/ui'
+import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
 
@@ -34,7 +35,9 @@ function BannerContent({ className }: { className?: string }) {
               <p className='text-large' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
             </div>
             <PrimaryButton asChild>
-              <Link to='/contests/ongoing'>Solve now</Link>
+              <Link search={{ discipline: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
+                Solve now
+              </Link>
             </PrimaryButton>
           </div>
         </div>

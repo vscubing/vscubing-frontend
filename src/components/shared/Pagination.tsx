@@ -1,5 +1,5 @@
 import { cn } from '@/utils'
-import { Link, type LinkProps } from '@tanstack/react-router'
+import { Link, type LinkComponent } from '@tanstack/react-router'
 import { type ComponentProps } from 'react'
 import { ChevronLeftIcon, EllipsisIcon, ChevronRightIcon } from '../ui'
 
@@ -47,7 +47,10 @@ export function Pagination({
   )
 }
 
-function PaginationLink({ children, className, ...props }: LinkProps) {
+type PaginationLinkProps = Omit<ComponentProps<LinkComponent<'a'>>, 'search'> & {
+  search: (prev: Record<string, any>) => Record<string, any>
+}
+function PaginationLink({ children, className, search, ...props }: PaginationLinkProps) {
   return (
     <li>
       <Link

@@ -5,7 +5,7 @@ import { getOwnResultPage, getPageStartEndIndexes, getTotalPages, timeout } from
 import { AxiosError, type AxiosResponse } from 'axios'
 import { queryClient } from '@/lib/reactQuery'
 import { axiosClient } from '@/lib/axios'
-import { ongoingContestIdQuery } from '@/shared/contests'
+import { ongoingSlugQuery } from '@/shared/contests'
 
 export type ContestResultsDTO = {
   totalPages: number
@@ -32,30 +32,30 @@ export type ContestSessionDTO = {
   }>
 }
 
-export function getContestQueryKey({ contestNumber, discipline }: { contestNumber: number; discipline: Discipline }) {
-  return [USER_QUERY_KEY, 'contest-results', contestNumber, discipline]
+export function getContestQueryKey({ contestSlug, discipline }: { contestSlug: string; discipline: Discipline }) {
+  return [USER_QUERY_KEY, 'contest-results', contestSlug, discipline]
 }
 
 export function getContestResultsQuery({
-  contestNumber,
+  contestSlug,
   discipline,
   page,
   pageSize,
   enabled,
 }: {
-  contestNumber: number
+  contestSlug: string
   discipline: Discipline
   page: number
   pageSize: number
   enabled: boolean
 }) {
   return queryOptions({
-    queryKey: [...getContestQueryKey({ contestNumber, discipline }), page, pageSize],
+    queryKey: [...getContestQueryKey({ contestSlug, discipline }), page, pageSize],
     queryFn: async () => {
-      const ongoing = await queryClient.fetchQuery(ongoingContestIdQuery)
-      if (contestNumber === ongoing) {
+      const ongoing = await queryClient.fetchQuery(ongoingSlugQuery)
+      if (contestSlug === ongoing) {
         try {
-          await axiosClient.get(`/contests/contest/${contestNumber}/discipline/${discipline}/`)
+          await axiosClient.get(`/contests/contest/${contestSlug}/discipline/${discipline}/`)
         } catch (e) {
           if (e instanceof AxiosError && (e?.response?.status === 403 || e?.response?.status === 401)) {
             throw e
@@ -75,12 +75,12 @@ export function getContestResultsQuery({
 }
 
 export function getContestResultsInfiniteQuery({
-  contestNumber,
+  contestSlug,
   discipline,
   pageSize,
   enabled,
 }: {
-  contestNumber: number
+  contestSlug: string
   discipline: Discipline
   pageSize: number
   enabled: boolean
@@ -88,7 +88,7 @@ export function getContestResultsInfiniteQuery({
   pageSize = Math.floor(pageSize * 2)
 
   return infiniteQueryOptions({
-    queryKey: [...getContestQueryKey({ contestNumber, discipline }), pageSize],
+    queryKey: [...getContestQueryKey({ contestSlug, discipline }), pageSize],
     queryFn: ({ pageParam: page }) => getMockContestResults({ page, pageSize }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,

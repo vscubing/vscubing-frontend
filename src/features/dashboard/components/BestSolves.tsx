@@ -1,11 +1,11 @@
 import { CubeIcon, Ellipsis, SecondaryButton, UnderlineButton, ArrowRightIcon } from '@/components/ui'
 import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { Link } from '@tanstack/react-router'
-import { type DashboardDTO } from '../api/getDashboard'
 import { cn, matchesQuery } from '@/utils'
 import { AutofillHeight } from '@/features/autofillHeight'
+import { type SolveListItem } from '@/shared/solves'
 
-type BestSolvesProps = { className: string; solves?: DashboardDTO['bestSolves'] }
+type BestSolvesProps = { className: string; solves?: SolveListItem[] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
   // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
 
@@ -64,12 +64,12 @@ function SolveSkeleton() {
   return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
-type SolveProps = { solve: DashboardDTO['bestSolves'][number]; isFirstOnPage: boolean }
+type SolveProps = { solve: SolveListItem; isFirstOnPage: boolean }
 function Solve({ solve, isFirstOnPage }: SolveProps) {
   return (
     <div className='flex min-h-15 items-center rounded-xl bg-grey-100 pl-3'>
       <span className='relative mr-3 flex flex-1 items-center pr-2 after:absolute after:right-0 after:top-1/2 after:block after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 sm:mr-0 sm:flex-col sm:items-start'>
-        <CubeIcon className='mr-3' cube={solve.discipline.name} />
+        <CubeIcon className='mr-3' cube={solve.discipline.slug} />
         <span className='flex w-full'>
           <Ellipsis className='flex-1'>{solve.user.username}</Ellipsis>
         </span>
@@ -79,7 +79,8 @@ function Solve({ solve, isFirstOnPage }: SolveProps) {
           canShowHint={isFirstOnPage}
           timeMs={solve.timeMs}
           solveId={solve.id}
-          contestNumber={solve.contestNumber}
+          discipline={solve.discipline.slug}
+          contestSlug={solve.contest.slug}
         />
       </span>
       <OpenLeaderboardButton discipline={solve.discipline.name} />

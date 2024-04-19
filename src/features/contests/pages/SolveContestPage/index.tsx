@@ -8,7 +8,7 @@ import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
 import { NavigateBackButton, HintSection, HintSignInSection } from '@/components/shared'
 
-const route = getRouteApi('/contests/$contestNumber/solve')
+const route = getRouteApi('/contests/$contestSlug/solve')
 export function SolveContestPage() {
   const title = (
     <>
@@ -28,17 +28,19 @@ export function SolveContestPage() {
 }
 
 export function SolvePageContent() {
-  const { contestNumber, discipline } = route.useLoaderData()
+  const { contestSlug } = route.useParams()
+  const { discipline } = route.useSearch()
+
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
-  const { data: state, error } = useQuery(solveContestStateQuery(contestNumber, discipline))
+  const { data: state, error } = useQuery(solveContestStateQuery(contestSlug, discipline))
   const errorStatus = error?.response?.status
 
   if (errorStatus === 403) {
     return (
       <Navigate
-        to='/contests/$contestNumber/results'
-        params={{ contestNumber: String(contestNumber) }}
-        search={{ discipline }}
+        to='/contests/$contestSlug/results'
+        params={{ contestSlug: String(contestSlug) }}
+        search={{ discipline, page: 1 }}
         replace
       />
     )
@@ -84,7 +86,7 @@ export function SolvePageContent() {
     <>
       <SectionHeader>
         <div>
-          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestNumber: String(contestNumber) }}>
+          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
             <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
         </div>
@@ -99,7 +101,7 @@ export function SolvePageContent() {
           Virtual Cube Key Map
         </UnderlineButton>
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContestForm contestNumber={contestNumber} discipline={discipline} state={state} />
+        <SolveContestForm contestSlug={contestSlug} discipline={discipline} state={state} />
       </div>
     </>
   )

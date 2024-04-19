@@ -6,14 +6,14 @@ import { type SolveContestStateDTO } from '../types'
 import { solveContestStateQuery } from './getSolveContestState'
 import { getApiRoute } from './apiRoute'
 
-export const useChangeToExtra = (contestNumber: number, discipline: Discipline) =>
+export const useChangeToExtra = (contestSlug: string, discipline: Discipline) =>
   useMutation({
     mutationFn: async () => {
       const { data: newSolvesState } = await axiosClient.put<SolveContestStateDTO>(
-        getApiRoute(contestNumber, discipline, '?action=change_to_extra'),
+        getApiRoute(contestSlug, discipline, '?action=change_to_extra'),
       )
 
-      const query = solveContestStateQuery(contestNumber, discipline)
+      const query = solveContestStateQuery(contestSlug, discipline)
       queryClient.setQueryData(query.queryKey, newSolvesState)
     },
   })

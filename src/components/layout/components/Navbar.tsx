@@ -1,5 +1,5 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
-import { ongoingContestIdQuery } from '@/shared/contests'
+import { ongoingSlugQuery } from '@/shared/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -59,24 +59,24 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
 }
 
 function useNavbar() {
-  const { data: ongoingContestNumber } = useQuery(ongoingContestIdQuery)
+  const { data: ongoingContest } = useQuery(ongoingSlugQuery)
   const matchRoute = useMatchRoute()
   const isOnContests = !!matchRoute({
     to: '/contests',
     fuzzy: true,
   })
   const isOnOngoingContest = !!matchRoute({
-    to: '/contests/$contestNumber',
+    to: '/contests/$contestSlug',
     fuzzy: true,
-    params: { contestNumber: String(ongoingContestNumber) },
+    params: { contest: ongoingContest },
   })
   const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
 
-  return getLinks(ongoingContestNumber, shouldHighlightAllContests)
+  return getLinks(ongoingContest, shouldHighlightAllContests)
 }
 
 function getLinks(
-  ongoingContestNumber: number | undefined,
+  ongoingContest: string | undefined,
   shouldHighlightAllContests: boolean,
 ): (LinkProps & { activeCondition?: boolean })[] {
   return [
@@ -118,10 +118,10 @@ function getLinks(
           <span>Ongoing contest</span>
         </>
       ),
-      to: `/contests/$contestNumber`,
+      to: `/contests/$contestSlug`,
       params: {
         discipline: DEFAULT_DISCIPLINE,
-        contestNumber: ongoingContestNumber === undefined ? undefined : String(ongoingContestNumber),
+        contestSlug: ongoingContest === undefined ? undefined : ongoingContest,
       },
     },
   ]

@@ -5,11 +5,11 @@ import { type SolveContestStateDTO } from '../types'
 import { USER_QUERY_KEY } from '@/features/auth'
 import { getApiRoute } from './apiRoute'
 
-export const solveContestStateQuery = (contestNumber: number, discipline: Discipline) =>
+export const solveContestStateQuery = (contestSlug: string, discipline: Discipline) =>
   queryOptions({
-    queryKey: [USER_QUERY_KEY, 'solve-contest-state', { contestNumber, discipline }],
+    queryKey: [USER_QUERY_KEY, 'solve-contest-state', { contestSlug, discipline }],
     queryFn: async () => {
-      const res = await axiosClient.get<SolveContestStateDTO>(getApiRoute(contestNumber, discipline))
+      const res = await axiosClient.get<SolveContestStateDTO>(getApiRoute(contestSlug, discipline))
       return res.data
     },
   })

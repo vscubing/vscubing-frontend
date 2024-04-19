@@ -5,16 +5,19 @@ import { useMemo } from 'react'
 import { type ContestSessionDTO } from '../../api'
 import * as Accordion from '@radix-ui/react-accordion'
 import { PlaceLabel, ExtraLabel } from '@/components/shared'
+import { type Discipline } from '@/types'
 
 export function Session({
   session,
   linkToPage,
   isOwn,
-  contestNumber,
+  contestSlug,
+  discipline,
   isFirstOnPage,
 }: {
   session: ContestSessionDTO
-  contestNumber: number
+  contestSlug: string
+  discipline: Discipline
   linkToPage?: number
   isOwn?: boolean
   isFirstOnPage: boolean
@@ -59,7 +62,8 @@ export function Session({
                 <span className='relative sm:ml-auto sm:text-right'>
                   <SolveTimeLinkOrDnf
                     canShowHint={isFirstOnPage && index === 0}
-                    contestNumber={contestNumber}
+                    contestSlug={contestSlug}
+                    discipline={discipline}
                     solveId={solve.id}
                     timeMs={solve.timeMs ?? null}
                     variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}

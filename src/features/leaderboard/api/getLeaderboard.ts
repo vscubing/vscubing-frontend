@@ -22,7 +22,7 @@ export type LeaderboardResult = {
   scramble: Pick<Scramble, 'id' | 'scramble'>
   discipline: { name: Discipline }
   user: { id: number; username: string }
-  contest: { contestNumber: number }
+  contest: { contestSlug: string }
   place: number
 }
 
@@ -163,7 +163,7 @@ function getMockResult(): LeaderboardResult {
       username: Math.random().toString(),
     },
     contest: {
-      contestNumber: 1,
+      contestSlug: '1',
     },
   }
 }

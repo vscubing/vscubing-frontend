@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout'
 import { userQuery } from '@/features/auth'
 import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
-import { type DashboardDTO } from '../api'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
 import { type ContestListDTO, useContestList } from '@/shared/contests'
@@ -35,7 +34,7 @@ function Lists({
 }: {
   className?: string
   latestContests?: ContestListDTO
-  bestSolves?: DashboardDTO['bestSolves']
+  bestSolves?: unknown[] // TODO:
 }) {
   if (latestContests?.results.length === 0 && bestSolves?.length === 0) {
     return (
@@ -58,7 +57,7 @@ function Lists({
       />
       <BestSolves
         className='min-h-[calc(50%-0.75rem/2)] min-w-[35rem] flex-grow-[1] basis-[calc(60%-0.75rem/2)] sm:min-h-0 sm:min-w-0 sm:flex-1 sm:basis-auto'
-        solves={bestSolves}
+        solves={undefined}
       />
     </div>
   )
