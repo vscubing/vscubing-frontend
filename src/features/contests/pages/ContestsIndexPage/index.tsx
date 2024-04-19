@@ -123,10 +123,8 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
           renderItem={({ id, contestNumber, startDate, endDate }) => (
-            <Contest
-              discipline={discipline}
-              contest={{ id, contestNumber, start_date: startDate, end_date: endDate }}
-            />
+            // @ts-expect-error will be fixed during integration with new backend
+            <Contest discipline={discipline} contest={{ id, contestNumber, startDate, endDate }} />
           )}
         />
       </AutofillHeight.ListWrapper>

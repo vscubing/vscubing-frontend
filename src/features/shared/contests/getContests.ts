@@ -1,12 +1,12 @@
 import { axiosClient } from '@/lib/axios'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 export type ContestDTO = {
   id: number
   name: string
   slug: string
-  start_date: string // NOTE: mock because not present on backend yet
-  end_date: string // NOTE: mock not present on backend yet
+  startDate: string
+  endDate: string
 }
 
 export type ContestListDTO = {
@@ -26,11 +26,6 @@ type ContestListParams = {
 
 async function getContestList(params: ContestListParams) {
   const res = await axiosClient.get<ContestListDTO>('contests/contests/', { params })
-  res.data.results = res.data.results.map((contest) => ({
-    ...contest,
-    start: '2021-01-01T00:00:00Z',
-    end: '2021-01-01T00:00:00Z',
-  }))
   return res.data
 }
 

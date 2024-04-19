@@ -4,13 +4,13 @@ import { SecondaryButton, ArrowRightIcon } from '@/components/ui'
 import { type ContestDTO } from './getContests'
 
 type ContestProps = { contest: ContestDTO }
-export function Contest({ contest: { name, start_date, end_date } }: ContestProps) {
+export function Contest({ contest: { name, startDate, endDate } }: ContestProps) {
   return (
     <div className='flex min-h-20 items-center justify-between gap-8 rounded-xl bg-grey-100 pl-4 sm:min-h-16'>
       <div className='sm:space-y-2'>
         <p className='title-h3'>Contest {name}</p>
         <p className='text-grey-40'>
-          {formatDate(start_date, 'long')} - {formatDate(end_date, 'long')}
+          {formatDate(startDate, 'long')} - {formatDate(endDate, 'long')}
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild className='sm:h-16 sm:w-16'>
