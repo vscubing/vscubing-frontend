@@ -1,8 +1,7 @@
 import { SignInButton } from '@/components/shared'
 import { AvatarIcon } from '@/components/ui'
-import { userQuery } from '@/features/auth'
+import { useUser } from '@/features/auth'
 import { cn } from '@/utils'
-import { useQuery } from '@tanstack/react-query'
 
 export function UsernameOrSignInButton({
   className,
@@ -11,7 +10,7 @@ export function UsernameOrSignInButton({
   className?: string
   usernameEllipsis?: boolean
 }) {
-  const { data: user } = useQuery(userQuery)
+  const { data: user } = useUser()
 
   if (!user) {
     return

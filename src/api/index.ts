@@ -1,6 +1,2 @@
-import { axiosClient } from '@/lib/axios'
-import { createApiClient } from './schema'
-import { ZodiosHooks } from '@zodios/react'
-
-export const apiClient = createApiClient('', { axiosInstance: axiosClient })
-export const api = new ZodiosHooks('api', apiClient)
+export * from './vscubingApi'
+export * from './vscubingApi.schemas'

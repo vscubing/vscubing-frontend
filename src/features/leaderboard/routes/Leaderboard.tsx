@@ -1,5 +1,5 @@
 import { Header, SectionHeader } from '@/components/layout'
-import { userQuery } from '@/features/auth'
+import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton, HintSection, PageTitleMobile, Pagination } from '@/components/shared'
 import { CubeSwitcher } from '@/components/ui'
@@ -87,7 +87,7 @@ type ViewProps = {
 }
 function View({ totalPages, children, behavior }: ViewProps) {
   const { discipline, page } = route.useLoaderData()
-  const { data: user } = useQuery(userQuery)
+  const { data: user } = useUser()
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
   return (

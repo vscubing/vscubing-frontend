@@ -4,7 +4,7 @@ import { PickUsernameDialog, Logo, Navbar, UsernameOrSignInButton } from './comp
 import { cn } from '@/utils'
 import { CloseIcon, DiscordIcon, GhostButton, GithubIcon, LinkedinIcon, LogoutIcon } from '../ui'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
-import { userQuery, logout } from '@/features/auth'
+import { logout, useUser } from '@/features/auth'
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -85,7 +85,7 @@ function PopupMenu() {
 }
 
 function LogoutButton({ className }: { className?: string }) {
-  const { data: user } = useQuery(userQuery)
+  const { data: user } = useUser()
   const setMobileMenuOpen = useSetAtom(mobileMenuOpenAtom)
 
   if (user === undefined || user.isAuthed === false) {

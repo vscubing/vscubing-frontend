@@ -6,7 +6,6 @@ import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import applyCaseMiddleware from 'axios-case-converter'
 
 const axiosParams: AxiosRequestConfig = {
-  baseURL: `/api`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

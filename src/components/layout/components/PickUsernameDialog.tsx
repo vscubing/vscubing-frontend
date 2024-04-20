@@ -1,6 +1,5 @@
-import { userQuery, putChangeUsername, USER_QUERY_KEY, logout } from '@/features/auth'
+import { putChangeUsername, USER_QUERY_KEY, logout, useUser } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import {
   AlertDialog,
@@ -15,6 +14,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
 import { Input } from '@/components/ui'
+import { useAccountsChangeUsernameUpdate } from '@/api'
 
 const formSchema = z.object({
   username: z
@@ -31,7 +31,7 @@ type UsernameForm = z.infer<typeof formSchema>
 
 export function PickUsernameDialog() {
   const [isPending, setIsPending] = useState(false)
-  const { data: userData } = useQuery(userQuery)
+  const { data: userData } = useUser()
 
   const isVisible = userData?.authCompleted === false
 

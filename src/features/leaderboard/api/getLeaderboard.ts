@@ -1,4 +1,4 @@
-import { USER_QUERY_KEY, userQuery } from '@/features/auth'
+import { USER_QUERY_KEY } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { type Discipline, type Scramble } from '@/types'
 import { timeout } from '@/utils'

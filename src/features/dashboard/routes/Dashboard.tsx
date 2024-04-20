@@ -1,14 +1,19 @@
-import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout'
-import { userQuery } from '@/features/auth'
 import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
-import { type ContestListDTO, useContestList } from '@/shared/contests'
+import { type ContestListDTO } from '@/shared/contests'
+import { useContestsContestsRetrieve } from '@/api'
+import { useUser } from '@/features/auth'
 
 export function Dashboard() {
-  const { data: user } = useQuery(userQuery)
-  const { data: latestContests } = useContestList({ limit: 5, offset: 0, orderBy: '-created_at' })
+  const { data: user } = useUser()
+  const { data: latestContests } = useContestsContestsRetrieve<ContestListDTO>({
+    // TODO: remove this generic type when backend swagger is updated
+    limit: 5,
+    offset: 0,
+    orderBy: '-created_at',
+  })
 
   const title = user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'
   return (
