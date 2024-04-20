@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview --port 3000"
+    "preview": "vite preview --port 3000",
+    "gen:api": "tsx scripts/generate-api.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -62,6 +63,7 @@
     "prettier-plugin-tailwindcss": "^0.5.10",
     "tailwindcss": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.7.2",
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
     "vite-plugin-svgr": "^4.2.0"

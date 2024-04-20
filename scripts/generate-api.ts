@@ -12,7 +12,7 @@ async function main() {
   await fs.writeFile(apiPath, apiDocRaw)
 
   const apiDoc = (await SwaggerParser.parse(apiPath)) as OpenAPIObject
-  const distPath = path.resolve('src', 'api-client.ts')
+  const distPath = path.resolve('src', 'api', 'schema.ts')
 
   await generateZodClientFromOpenAPI({
     openApiDoc: apiDoc,
