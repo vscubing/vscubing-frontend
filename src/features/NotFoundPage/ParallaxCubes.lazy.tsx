@@ -12,7 +12,7 @@ import { type ReactNode } from 'react'
 type ParallaxCubesProps = { children: (renderParallaxCubes: () => ReactNode) => ReactNode }
 export default function ParallaxCubesWrapper({ children }: ParallaxCubesProps) {
   return (
-    <MouseParallaxContainer globalFactorX={0.022} globalFactorY={0.02}>
+    <MouseParallaxContainer globalFactorX={0.022} globalFactorY={0.02} className='contents'>
       <>
         {children(() => (
           <ParallaxCubes />
@@ -24,7 +24,7 @@ export default function ParallaxCubesWrapper({ children }: ParallaxCubesProps) {
 
 function ParallaxCubes() {
   return (
-    <>
+    <div className='absolute inset-0 overflow-clip'>
       <MouseParallaxChild factorX={1.1} factorY={1.1} className='pointer-events-none absolute bottom-[15%] left-[10%]'>
         <img src={SeparateLimeCube} alt='' />
       </MouseParallaxChild>
@@ -55,6 +55,6 @@ function ParallaxCubes() {
           <img src={Img404} alt='' className='h-full w-full -translate-x-1/2' />
         </MouseParallaxChild>
       </div>
-    </>
+    </div>
   )
 }

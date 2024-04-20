@@ -20,7 +20,6 @@ export const rootRoute = createRootRoute({
       )}
     </>
   ),
-  notFoundComponent: () => <NotFoundPage />,
 })
 
 const indexRoute = dashboardRoute
@@ -28,6 +27,7 @@ const indexRoute = dashboardRoute
 const routeTree = rootRoute.addChildren([indexRoute, leaderboardRoute, contestsRoute, devRoute])
 export const router = createRouter({
   routeTree,
+  defaultNotFoundComponent: NotFoundPage,
   defaultPreloadStaleTime: 0,
 })
 
