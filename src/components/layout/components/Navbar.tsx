@@ -4,6 +4,7 @@ import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useMatchRoute, type LinkProps } from '@tanstack/react-router'
+import { type ReactNode } from 'react'
 
 type NavbarProps = {
   onItemSelect?: () => void
@@ -59,26 +60,27 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
 }
 
 function useNavbar() {
-  const { data: ongoingContest } = useQuery(ongoingSlugQuery)
+  const { data: ongoingSlug } = useQuery(ongoingSlugQuery)
   const matchRoute = useMatchRoute()
+
   const isOnContests = !!matchRoute({
-    to: '/contests',
+    to: '/contests/',
     fuzzy: true,
   })
   const isOnOngoingContest = !!matchRoute({
-    to: '/contests/$contestSlug',
+    to: '/contests/$contestSlug/results',
     fuzzy: true,
-    params: { contest: ongoingContest },
+    params: { contestSlug: ongoingSlug },
   })
-  const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
 
-  return getLinks(ongoingContest, shouldHighlightAllContests)
+  const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
+  return getLinks(ongoingSlug, shouldHighlightAllContests)
 }
 
 function getLinks(
   ongoingContest: string | undefined,
   shouldHighlightAllContests: boolean,
-): (LinkProps & { activeCondition?: boolean })[] {
+): (LinkProps & { children: ReactNode } & { activeCondition?: boolean })[] {
   return [
     {
       children: (
@@ -88,7 +90,6 @@ function getLinks(
         </>
       ),
       to: '/',
-      params: {},
     },
     {
       children: (
@@ -98,7 +99,6 @@ function getLinks(
         </>
       ),
       to: '/leaderboard',
-      params: {},
     },
     {
       children: (
@@ -107,9 +107,9 @@ function getLinks(
           <span>All contests</span>
         </>
       ),
-      to: '/contests',
+      to: '/contests/',
+      search: { discipline: DEFAULT_DISCIPLINE, page: 1 },
       activeCondition: shouldHighlightAllContests,
-      params: {},
     },
     {
       children: (

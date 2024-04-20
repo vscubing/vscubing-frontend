@@ -10,7 +10,7 @@ import { WatchSolvePage } from './pages/WatchSolvePage'
 import { ongoingSlugQuery } from '@/shared/contests'
 
 const paginationSchema = z.object({
-  page: z.number().int().gte(1).catch(1).optional().default(1),
+  page: z.number().int().gte(1).catch(1),
 })
 
 const disciplineSchema = z.object({ discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE) })
