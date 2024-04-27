@@ -1,14 +1,12 @@
-import { cn, matchesQuery } from '@/utils'
+import { cn } from '@/utils'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { forwardRef, type ElementRef, type ComponentPropsWithoutRef } from 'react'
-import { PrimaryButton, SecondaryButton } from '../buttons'
 import {
+  BaseDialogButton,
   baseDialogContent,
   baseDialogFooter,
   baseDialogOverlay,
   baseDialogOverlayInner,
-  baseDialogPrimary,
-  baseDialogSecondary,
   baseDialogTitle,
 } from './BaseDialog'
 
@@ -49,35 +47,25 @@ AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
 const AlertDialogAction = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Action>,
-  ComponentPropsWithoutRef<typeof PrimaryButton>
->(({ className, ...props }, ref) => (
+  ComponentPropsWithoutRef<typeof BaseDialogButton>
+>(({ version = 'primary', ...props }, ref) => (
   <AlertDialogPrimitive.Action asChild>
-    <PrimaryButton
-      size={matchesQuery('sm') ? 'sm' : 'lg'}
-      ref={ref}
-      className={cn(baseDialogPrimary, className)}
-      {...props}
-    />
+    <BaseDialogButton version={version} ref={ref} {...props} />
   </AlertDialogPrimitive.Action>
 ))
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 
 const AlertDialogCancel = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Cancel>,
-  ComponentPropsWithoutRef<typeof SecondaryButton>
->(({ className, ...props }, ref) => (
+  ComponentPropsWithoutRef<typeof BaseDialogButton>
+>(({ version = 'secondary', ...props }, ref) => (
   <AlertDialogPrimitive.Cancel asChild>
-    <SecondaryButton
-      size={matchesQuery('sm') ? 'sm' : 'lg'}
-      ref={ref}
-      className={cn(baseDialogSecondary, className)}
-      {...props}
-    />
+    <BaseDialogButton version={version} ref={ref} {...props} />
   </AlertDialogPrimitive.Cancel>
 ))
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
-const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+const AlertDialogFooter = ({ className, ...props }: ComponentPropsWithoutRef<'div'>) => (
   <div className={cn(baseDialogFooter, className)} {...props} />
 )
 AlertDialogFooter.displayName = 'AlertDialogFooter'
