@@ -1,4 +1,4 @@
-import { cn } from '@/utils'
+import { type SetOptional, cn } from '@/utils'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { forwardRef, type ElementRef, type ComponentPropsWithoutRef } from 'react'
 import {
@@ -47,7 +47,7 @@ AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
 const AlertDialogAction = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Action>,
-  ComponentPropsWithoutRef<typeof BaseDialogButton>
+  SetOptional<ComponentPropsWithoutRef<typeof BaseDialogButton>, 'version'>
 >(({ version = 'primary', ...props }, ref) => (
   <AlertDialogPrimitive.Action asChild>
     <BaseDialogButton version={version} ref={ref} {...props} />
@@ -57,7 +57,7 @@ AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 
 const AlertDialogCancel = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Cancel>,
-  ComponentPropsWithoutRef<typeof BaseDialogButton>
+  SetOptional<ComponentPropsWithoutRef<typeof BaseDialogButton>, 'version'>
 >(({ version = 'secondary', ...props }, ref) => (
   <AlertDialogPrimitive.Cancel asChild>
     <BaseDialogButton version={version} ref={ref} {...props} />

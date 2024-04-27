@@ -13,7 +13,7 @@ export const baseDialogContent = tw(
 export const baseDialogTitle = tw('title-h2 text-center')
 
 type BaseDialogButtonProps = ComponentPropsWithoutRef<'button'> & {
-  size: 'sm' | 'lg'
+  size?: 'sm' | 'lg'
   version: 'secondary' | 'primary'
 }
 
