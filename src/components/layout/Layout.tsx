@@ -5,15 +5,7 @@ import { cn } from '@/utils'
 import { CloseIcon, DiscordIcon, GhostButton, GithubIcon, LinkedinIcon, LogoutIcon } from '../ui'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
 import { userQuery, logout } from '@/features/auth'
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogCancel,
-  AlertDialogAction,
-  AlertDialogFooter,
-} from '../ui'
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogClose, DialogFooter } from '../ui'
 import { useQuery } from '@tanstack/react-query'
 import { Drawer } from 'vaul'
 
@@ -93,27 +85,28 @@ function LogoutButton({ className }: { className?: string }) {
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <Dialog>
+      <DialogTrigger asChild>
         <GhostButton className={className}>
           Log out <LogoutIcon />
         </GhostButton>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-        <AlertDialogFooter className='sm:grid sm:grid-cols-2'>
-          <AlertDialogCancel>Stay</AlertDialogCancel>
-          <AlertDialogAction
+      </DialogTrigger>
+      <DialogContent>
+        <DialogTitle>Are you sure you want to log out?</DialogTitle>
+        <DialogFooter className='sm:grid sm:grid-cols-2'>
+          <DialogClose version='secondary'>Stay</DialogClose>
+          <DialogClose
+            version='primary'
             onClick={() => {
               setMobileMenuOpen(false)
               void logout()
             }}
           >
             Log out
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
