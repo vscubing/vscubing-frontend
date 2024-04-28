@@ -2,19 +2,19 @@ import { Outlet } from '@tanstack/react-router'
 import { useAtom, useSetAtom } from 'jotai'
 import { PickUsernameDialog, Logo, Navbar, UsernameOrSignInButton } from './components'
 import { cn } from '@/utils'
-import { CloseIcon, DiscordIcon, GhostButton, GithubIcon, LinkedinIcon, LogoutIcon } from '../ui'
+import {
+  CloseIcon,
+  DialogOverlay,
+  DialogPortal,
+  DiscordIcon,
+  GhostButton,
+  GithubIcon,
+  LinkedinIcon,
+  LogoutIcon,
+} from '../ui'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
 import { logout, useUser } from '@/features/auth'
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogCancel,
-  AlertDialogAction,
-  AlertDialogFooter,
-} from '../ui'
-import { useQuery } from '@tanstack/react-query'
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogClose, DialogFooter } from '../ui'
 import { Drawer } from 'vaul'
 
 type LayoutProps = { children?: React.ReactNode }
@@ -93,27 +93,31 @@ function LogoutButton({ className }: { className?: string }) {
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <Dialog>
+      <DialogTrigger asChild>
         <GhostButton className={className}>
           Log out <LogoutIcon />
         </GhostButton>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-        <AlertDialogFooter className='sm:grid sm:grid-cols-2'>
-          <AlertDialogCancel>Stay</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              setMobileMenuOpen(false)
-              void logout()
-            }}
-          >
-            Log out
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogTrigger>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogContent>
+          <DialogTitle>Are you sure you want to log out?</DialogTitle>
+          <DialogFooter className='sm:grid sm:grid-cols-2'>
+            <DialogClose version='secondary'>Stay</DialogClose>
+            <DialogClose
+              version='primary'
+              onClick={() => {
+                setMobileMenuOpen(false)
+                void logout()
+              }}
+            >
+              Log out
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </DialogPortal>
+    </Dialog>
   )
 }
 

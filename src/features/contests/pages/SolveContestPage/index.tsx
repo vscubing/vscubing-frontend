@@ -1,12 +1,26 @@
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
-import { CubeSwitcher, ExclamationCircleIcon, LoadingSpinner, PrimaryButton, UnderlineButton } from '@/components/ui'
+import {
+  CubeSwitcher,
+  Dialog,
+  DialogOverlay,
+  DialogPortal,
+  ExclamationCircleIcon,
+  LoadingSpinner,
+  PrimaryButton,
+} from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
 import { useQuery } from '@tanstack/react-query'
 import { Header, SectionHeader } from '@/components/layout'
 import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
-import { NavigateBackButton, HintSection, HintSignInSection } from '@/components/shared'
+import {
+  KeyMapDialogContent,
+  KeyMapDialogTrigger,
+  NavigateBackButton,
+  HintSection,
+  HintSignInSection,
+} from '@/components/shared'
 
 const route = getRouteApi('/contests/$contestSlug/solve')
 export function SolveContestPage() {
@@ -97,9 +111,14 @@ export function SolvePageContent() {
       </SectionHeader>
 
       <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
-        <UnderlineButton size='sm' className='absolute right-4 top-4' /* TODO: add the instructions modal */>
-          Virtual Cube Key Map
-        </UnderlineButton>
+        <Dialog>
+          <KeyMapDialogTrigger className='absolute right-4 top-4' />
+          <DialogPortal>
+            <DialogOverlay className='bg-black-1000/40' withCubes={false} />
+            <KeyMapDialogContent />
+          </DialogPortal>
+        </Dialog>
+
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
         <SolveContestForm contestSlug={contestSlug} discipline={discipline} state={state} />
       </div>

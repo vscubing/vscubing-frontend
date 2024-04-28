@@ -1,10 +1,11 @@
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogTitle,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
 } from '@/components/ui'
 
 export function AbortPrompt({
@@ -17,14 +18,21 @@ export function AbortPrompt({
   onCancel: () => void
 }) {
   return (
-    <AlertDialog open={isVisible}>
-      <AlertDialogContent>
-        <AlertDialogTitle>If you quit now your result will be DFNed</AlertDialogTitle>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={onConfirm}>Quit</AlertDialogCancel>
-          <AlertDialogAction onClick={onCancel}>Resume</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Dialog open={isVisible}>
+      <DialogPortal>
+        <DialogOverlay onClick={onCancel} />
+        <DialogContent onEscapeKeyDown={onCancel}>
+          <DialogTitle>If you quit now your result will be DFNed</DialogTitle>
+          <DialogFooter>
+            <DialogClose version='secondary' onClick={onConfirm}>
+              Quit
+            </DialogClose>
+            <DialogClose version='primary' onClick={onCancel}>
+              Resume
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </DialogPortal>
+    </Dialog>
   )
 }
