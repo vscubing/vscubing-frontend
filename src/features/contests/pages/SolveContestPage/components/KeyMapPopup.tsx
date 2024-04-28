@@ -1,19 +1,21 @@
-import { type ReactNode } from 'react'
+import { DialogCloseCross, DialogContent } from '@/components/ui'
 
-export function KeyMapPopup({ renderCloseButton }: { renderCloseButton: () => ReactNode }) {
+export function KeyMapDialogContent() {
   return (
-    <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
-      <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
-        <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
-        {renderCloseButton()}
-      </header>
+    <DialogContent className='max-w-none p-10'>
+      <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
+        <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
+          <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
+          <DialogCloseCross />
+        </header>
 
-      <ul className='contents'>
-        {keyMap.map(({ keyName, cubeMovement }) => (
-          <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
-        ))}
-      </ul>
-    </div>
+        <ul className='contents'>
+          {keyMap.map(({ keyName, cubeMovement }) => (
+            <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
+          ))}
+        </ul>
+      </div>
+    </DialogContent>
   )
 }
 
@@ -23,7 +25,7 @@ function KeyTile({ keyName, cubeMovement }: (typeof keyMap)[number]) {
       className='title-h3 flex h-[4.625rem] w-[4.625rem] flex-col justify-between rounded-xl bg-black-80 px-3 py-1'
       aria-hidden={cubeMovement ? undefined : true}
     >
-      <span>{keyName}</span>
+      <span className='text-grey-20'>{keyName}</span>
       <span className='text-end'>{cubeMovement}</span>
     </li>
   )

@@ -6,9 +6,7 @@ import {
   DialogContent,
   DialogTrigger,
   ExclamationCircleIcon,
-  GhostButton,
   LoadingSpinner,
-  LogoutIcon,
   PrimaryButton,
   UnderlineButton,
 } from '@/components/ui'
@@ -19,8 +17,7 @@ import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
 import { NavigateBackButton, HintSection, HintSignInSection } from '@/components/shared'
-import { logout } from '@/features/auth'
-import { KeyMapPopup } from './components/KeyMapPopup'
+import { KeyMapDialogContent } from './components/KeyMapPopup'
 
 const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
@@ -115,9 +112,7 @@ export function SolvePageContent() {
               Virtual Cube Key Map
             </UnderlineButton>
           </DialogTrigger>
-          <DialogContent className='max-w-none p-10'>
-            <KeyMapPopup renderCloseButton={() => <DialogClose version='primary'>X</DialogClose>} />
-          </DialogContent>
+          <KeyMapDialogContent />
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>

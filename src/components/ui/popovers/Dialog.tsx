@@ -10,6 +10,8 @@ import {
   baseDialogOverlayInner,
   baseDialogTitle,
 } from './BaseDialog'
+import { SecondaryButton } from '../buttons'
+import { CloseIcon } from '../icons'
 
 const Dialog = DialogPrimitive.Root
 
@@ -48,6 +50,18 @@ const DialogTitle = forwardRef<
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
+const DialogCloseCross = forwardRef<
+  ElementRef<typeof DialogPrimitive.Close>,
+  ComponentPropsWithoutRef<typeof SecondaryButton>
+>((props, ref) => (
+  <DialogPrimitive.Close asChild>
+    <SecondaryButton size='iconSm' ref={ref} {...props}>
+      <CloseIcon />
+    </SecondaryButton>
+  </DialogPrimitive.Close>
+))
+DialogCloseCross.displayName = DialogPrimitive.Close.displayName
+
 const DialogClose = forwardRef<
   ElementRef<typeof DialogPrimitive.Close>,
   ComponentPropsWithoutRef<typeof BaseDialogButton>
@@ -63,4 +77,14 @@ const DialogFooter = ({ className, ...props }: ComponentPropsWithoutRef<'div'>) 
 )
 DialogFooter.displayName = 'DialogFooter'
 
-export { Dialog, DialogPortal, DialogOverlay, DialogClose, DialogTrigger, DialogContent, DialogFooter, DialogTitle }
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogCloseCross,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+}
