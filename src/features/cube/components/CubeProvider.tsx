@@ -3,10 +3,7 @@ import { cn, useConditionalBeforeUnload } from '@/utils'
 import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import { CloseIcon, Dialog, LoadingSpinner, SecondaryButton } from '@/components/ui'
-import {
-  KeyMapDialogContent,
-  KeyMapDialogTrigger,
-} from '@/features/contests/pages/SolveContestPage/components/KeyMapPopup'
+import { KeyMapDialogContent, KeyMapDialogTrigger } from '@/components/shared'
 
 type CubeContextValue = {
   initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback, onEarlyAbort: () => void) => void

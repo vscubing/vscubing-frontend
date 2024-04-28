@@ -1,21 +1,18 @@
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
-import {
-  CubeSwitcher,
-  Dialog,
-  DialogTrigger,
-  ExclamationCircleIcon,
-  LoadingSpinner,
-  PrimaryButton,
-  UnderlineButton,
-} from '@/components/ui'
+import { CubeSwitcher, Dialog, ExclamationCircleIcon, LoadingSpinner, PrimaryButton } from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
 import { useQuery } from '@tanstack/react-query'
 import { Header, SectionHeader } from '@/components/layout'
 import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
-import { NavigateBackButton, HintSection, HintSignInSection } from '@/components/shared'
-import { KeyMapDialogContent, KeyMapDialogTrigger } from './components/KeyMapPopup'
+import {
+  KeyMapDialogContent,
+  KeyMapDialogTrigger,
+  NavigateBackButton,
+  HintSection,
+  HintSignInSection,
+} from '@/components/shared'
 
 const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
