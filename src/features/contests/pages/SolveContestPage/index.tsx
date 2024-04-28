@@ -2,8 +2,6 @@ import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
 import {
   CubeSwitcher,
   Dialog,
-  DialogClose,
-  DialogContent,
   DialogTrigger,
   ExclamationCircleIcon,
   LoadingSpinner,
@@ -17,7 +15,7 @@ import { solveContestStateQuery } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
 import { NavigateBackButton, HintSection, HintSignInSection } from '@/components/shared'
-import { KeyMapDialogContent } from './components/KeyMapPopup'
+import { KeyMapDialogContent, KeyMapDialogTrigger } from './components/KeyMapPopup'
 
 const route = getRouteApi('/contests/$contestNumber/solve')
 export function SolveContestPage() {
@@ -107,12 +105,8 @@ export function SolvePageContent() {
 
       <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
         <Dialog>
-          <DialogTrigger asChild>
-            <UnderlineButton size='sm' className='absolute right-4 top-4'>
-              Virtual Cube Key Map
-            </UnderlineButton>
-          </DialogTrigger>
-          <KeyMapDialogContent />
+          <KeyMapDialogTrigger className='absolute right-4 top-4' />
+          <KeyMapDialogContent overlayClassname='bg-black-1000/40' />
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>

@@ -2,7 +2,11 @@ import { createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { cn, useConditionalBeforeUnload } from '@/utils'
 import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
-import { CloseIcon, LoadingSpinner, SecondaryButton } from '@/components/ui'
+import { CloseIcon, Dialog, LoadingSpinner, SecondaryButton } from '@/components/ui'
+import {
+  KeyMapDialogContent,
+  KeyMapDialogTrigger,
+} from '@/features/contests/pages/SolveContestPage/components/KeyMapPopup'
 
 type CubeContextValue = {
   initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback, onEarlyAbort: () => void) => void
@@ -119,9 +123,15 @@ export function CubeProvider({ children }: CubeProviderProps) {
             onTimeStart={handleTimeStart}
             iframeRef={iframeRef}
           />
-          <SecondaryButton size='iconSm' className='absolute right-4 top-4' onClick={abortOrShowPrompt}>
-            <CloseIcon />
-          </SecondaryButton>
+          <div className='absolute left-6 right-6 top-6 flex items-start justify-between'>
+            <Dialog>
+              <KeyMapDialogTrigger />
+              <KeyMapDialogContent overlayClassname='bg-black-1000/25' />
+            </Dialog>
+            <SecondaryButton size='iconSm' onClick={abortOrShowPrompt}>
+              <CloseIcon />
+            </SecondaryButton>
+          </div>
 
           <AbortPrompt isVisible={isAbortPromptVisible} onConfirm={confirmAbort} onCancel={cancelAbort} />
         </div>

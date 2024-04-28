@@ -21,10 +21,10 @@ const DialogPortal = DialogPrimitive.Portal
 
 const DialogOverlay = forwardRef<
   ElementRef<typeof DialogPrimitive.Overlay>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay> & { withCubes?: boolean }
+>(({ className, withCubes = true, ...props }, ref) => (
   <DialogPrimitive.Overlay className={cn(baseDialogOverlay, className)} {...props} ref={ref}>
-    <div className={baseDialogOverlayInner}></div>
+    {withCubes && <div className={cn(baseDialogOverlayInner)}></div>}
   </DialogPrimitive.Overlay>
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName

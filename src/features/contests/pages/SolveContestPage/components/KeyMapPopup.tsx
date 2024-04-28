@@ -1,8 +1,19 @@
-import { DialogCloseCross, DialogContent } from '@/components/ui'
+import { DialogCloseCross, DialogContent, DialogTrigger, UnderlineButton } from '@/components/ui'
+import { type ComponentPropsWithoutRef } from 'react'
 
-export function KeyMapDialogContent() {
+export function KeyMapDialogTrigger(props: ComponentPropsWithoutRef<typeof UnderlineButton>) {
   return (
-    <DialogContent className='max-w-none p-10'>
+    <DialogTrigger asChild>
+      <UnderlineButton size='sm' {...props}>
+        Virtual Cube Key Map
+      </UnderlineButton>
+    </DialogTrigger>
+  )
+}
+
+export function KeyMapDialogContent({ overlayClassname }: { overlayClassname?: string }) {
+  return (
+    <DialogContent className='max-w-none p-10' overlayProps={{ withCubes: false, className: overlayClassname }}>
       <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
         <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
           <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
@@ -23,7 +34,7 @@ function KeyTile({ keyName, cubeMovement }: (typeof keyMap)[number]) {
   return (
     <li
       className='title-h3 flex h-[4.625rem] w-[4.625rem] flex-col justify-between rounded-xl bg-black-80 px-3 py-1'
-      aria-hidden={cubeMovement ? undefined : true}
+      aria-hidden={!cubeMovement}
     >
       <span className='text-grey-20'>{keyName}</span>
       <span className='text-end'>{cubeMovement}</span>
