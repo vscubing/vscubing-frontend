@@ -1,35 +1,37 @@
 import { DialogCloseCross, DialogContent, DialogTrigger, UnderlineButton } from '@/components/ui'
 import { cn } from '@/utils'
-import { type ComponentPropsWithoutRef } from 'react'
+import { type ElementRef, forwardRef, type ComponentPropsWithoutRef } from 'react'
 
-export function KeyMapDialogTrigger(props: ComponentPropsWithoutRef<typeof UnderlineButton>) {
-  return (
-    <DialogTrigger asChild>
-      <UnderlineButton size='sm' {...props}>
-        Virtual Cube Key Map
-      </UnderlineButton>
-    </DialogTrigger>
-  )
-}
+export const KeyMapDialogTrigger = forwardRef<
+  ElementRef<typeof UnderlineButton>,
+  ComponentPropsWithoutRef<typeof UnderlineButton>
+>((props, ref) => (
+  <DialogTrigger asChild>
+    <UnderlineButton size='sm' {...props} ref={ref}>
+      Virtual Cube Key Map
+    </UnderlineButton>
+  </DialogTrigger>
+))
 
-export function KeyMapDialogContent({ className, ...props }: ComponentPropsWithoutRef<typeof DialogContent>) {
-  return (
-    <DialogContent className={cn('max-w-none p-10', className)} {...props}>
-      <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
-        <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
-          <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
-          <DialogCloseCross />
-        </header>
+export const KeyMapDialogContent = forwardRef<
+  ElementRef<typeof DialogContent>,
+  ComponentPropsWithoutRef<typeof DialogContent>
+>(({ className, ...props }, ref) => (
+  <DialogContent className={cn('max-w-none p-10', className)} {...props} ref={ref}>
+    <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
+      <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
+        <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
+        <DialogCloseCross />
+      </header>
 
-        <ul className='contents'>
-          {keyMap.map(({ keyName, cubeMovement }) => (
-            <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
-          ))}
-        </ul>
-      </div>
-    </DialogContent>
-  )
-}
+      <ul className='contents'>
+        {keyMap.map(({ keyName, cubeMovement }) => (
+          <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
+        ))}
+      </ul>
+    </div>
+  </DialogContent>
+))
 
 function KeyTile({ keyName, cubeMovement }: (typeof keyMap)[number]) {
   return (
