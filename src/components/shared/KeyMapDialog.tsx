@@ -1,11 +1,4 @@
-import {
-  DialogCloseCross,
-  DialogContent,
-  DialogOverlay,
-  DialogPortal,
-  DialogTrigger,
-  UnderlineButton,
-} from '@/components/ui'
+import { DialogCloseCross, DialogContent, DialogTrigger, UnderlineButton } from '@/components/ui'
 import { cn } from '@/utils'
 import { type ComponentPropsWithoutRef } from 'react'
 
