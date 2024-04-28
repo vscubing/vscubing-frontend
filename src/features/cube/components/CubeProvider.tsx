@@ -2,7 +2,7 @@ import { createContext, useCallback, useMemo, useRef, useState } from 'react'
 import { cn, useConditionalBeforeUnload } from '@/utils'
 import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
-import { CloseIcon, Dialog, LoadingSpinner, SecondaryButton } from '@/components/ui'
+import { CloseIcon, Dialog, DialogOverlay, DialogPortal, LoadingSpinner, SecondaryButton } from '@/components/ui'
 import { KeyMapDialogContent, KeyMapDialogTrigger } from '@/components/shared'
 
 type CubeContextValue = {
@@ -123,7 +123,10 @@ export function CubeProvider({ children }: CubeProviderProps) {
           <div className='absolute left-6 right-6 top-6 flex items-start justify-between'>
             <Dialog>
               <KeyMapDialogTrigger />
-              <KeyMapDialogContent overlayClassname='bg-black-1000/25' />
+              <DialogPortal>
+                <DialogOverlay className='bg-black-1000/25' withCubes={false} />
+                <KeyMapDialogContent />
+              </DialogPortal>
             </Dialog>
             <SecondaryButton size='iconSm' onClick={abortOrShowPrompt}>
               <CloseIcon />

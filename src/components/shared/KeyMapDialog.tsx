@@ -6,6 +6,7 @@ import {
   DialogTrigger,
   UnderlineButton,
 } from '@/components/ui'
+import { cn } from '@/utils'
 import { type ComponentPropsWithoutRef } from 'react'
 
 export function KeyMapDialogTrigger(props: ComponentPropsWithoutRef<typeof UnderlineButton>) {
@@ -18,25 +19,22 @@ export function KeyMapDialogTrigger(props: ComponentPropsWithoutRef<typeof Under
   )
 }
 
-export function KeyMapDialogContent({ overlayClassname }: { overlayClassname?: string }) {
+export function KeyMapDialogContent({ className, ...props }: ComponentPropsWithoutRef<typeof DialogContent>) {
   return (
-    <DialogPortal>
-      <DialogOverlay withCubes={false} className={overlayClassname} />
-      <DialogContent className='max-w-none p-10'>
-        <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
-          <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
-            <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
-            <DialogCloseCross />
-          </header>
+    <DialogContent className={cn('max-w-none p-10', className)} {...props}>
+      <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
+        <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
+          <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
+          <DialogCloseCross />
+        </header>
 
-          <ul className='contents'>
-            {keyMap.map(({ keyName, cubeMovement }) => (
-              <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
-            ))}
-          </ul>
-        </div>
-      </DialogContent>
-    </DialogPortal>
+        <ul className='contents'>
+          {keyMap.map(({ keyName, cubeMovement }) => (
+            <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
+          ))}
+        </ul>
+      </div>
+    </DialogContent>
   )
 }
 

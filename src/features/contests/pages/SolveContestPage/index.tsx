@@ -1,5 +1,13 @@
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
-import { CubeSwitcher, Dialog, ExclamationCircleIcon, LoadingSpinner, PrimaryButton } from '@/components/ui'
+import {
+  CubeSwitcher,
+  Dialog,
+  DialogOverlay,
+  DialogPortal,
+  ExclamationCircleIcon,
+  LoadingSpinner,
+  PrimaryButton,
+} from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
 import { useQuery } from '@tanstack/react-query'
 import { Header, SectionHeader } from '@/components/layout'
@@ -103,7 +111,10 @@ export function SolvePageContent() {
       <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
         <Dialog>
           <KeyMapDialogTrigger className='absolute right-4 top-4' />
-          <KeyMapDialogContent overlayClassname='bg-black-1000/40' />
+          <DialogPortal>
+            <DialogOverlay className='bg-black-1000/40' withCubes={false} />
+            <KeyMapDialogContent />
+          </DialogPortal>
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
