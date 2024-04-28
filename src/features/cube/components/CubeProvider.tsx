@@ -26,6 +26,10 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
+  const focusCube = useCallback(() => {
+    iframeRef.current?.contentWindow?.focus()
+  }, [])
+
   const initSolve = useCallback(
     (scramble: string, solveCallback: CubeSolveFinishCallback, earlyAbortCallback: () => void) => {
       setSolveState({ scramble, solveCallback, wasTimeStarted: false, earlyAbortCallback })
@@ -78,8 +82,8 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   const cancelAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
-    iframeRef.current?.contentWindow?.focus()
-  }, [])
+    focusCube()
+  }, [focusCube])
 
   const contextValue = useMemo(
     () => ({
@@ -125,7 +129,12 @@ export function CubeProvider({ children }: CubeProviderProps) {
               <KeyMapDialogTrigger />
               <DialogPortal>
                 <DialogOverlay className='bg-black-1000/25' withCubes={false} />
-                <KeyMapDialogContent />
+                <KeyMapDialogContent
+                  onCloseAutoFocus={(e) => {
+                    e.preventDefault()
+                    focusCube()
+                  }}
+                />
               </DialogPortal>
             </Dialog>
             <SecondaryButton size='iconSm' onClick={abortOrShowPrompt}>
