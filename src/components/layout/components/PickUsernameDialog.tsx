@@ -8,6 +8,8 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
+  AlertDialogOverlay,
+  AlertDialogPortal,
   AlertDialogTitle,
 } from '@/components/ui'
 import { useForm } from 'react-hook-form'
@@ -65,33 +67,36 @@ export function PickUsernameDialog() {
 
   return (
     <AlertDialog open={isVisible}>
-      <AlertDialogContent asChild>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <AlertDialogTitle className='mb-4'>Greetings, Speed Cuber</AlertDialogTitle>
-            <p className='text-center text-grey-20'>Just a quick nickname needed to personalize your experience.</p>
-          </div>
-          <label className='flex w-min max-w-full flex-col gap-1 sm:w-full'>
-            <Input
-              placeholder='Enter your nickname'
-              className='block w-[20rem] max-w-full sm:w-full'
-              error={!!errors.username}
-              type='text'
-              maxLength={32}
-              {...register('username')}
-            />
-            <span className='caption'>{errors.username?.message}</span>
-          </label>
-          <AlertDialogFooter className='sm:grid sm:grid-cols-2'>
-            <AlertDialogCancel onClick={logout} type='button'>
-              Log out
-            </AlertDialogCancel>
-            <AlertDialogAction type='submit' disabled={!!errors.username || isPending}>
-              Submit
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </form>
-      </AlertDialogContent>
+      <AlertDialogPortal>
+        <AlertDialogOverlay />
+        <AlertDialogContent asChild>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <AlertDialogTitle className='mb-4'>Greetings, Speed Cuber</AlertDialogTitle>
+              <p className='text-center text-grey-20'>Just a quick nickname needed to personalize your experience.</p>
+            </div>
+            <label className='flex w-min max-w-full flex-col gap-1 sm:w-full'>
+              <Input
+                placeholder='Enter your nickname'
+                className='block w-[20rem] max-w-full sm:w-full'
+                error={!!errors.username}
+                type='text'
+                maxLength={32}
+                {...register('username')}
+              />
+              <span className='caption'>{errors.username?.message}</span>
+            </label>
+            <AlertDialogFooter className='sm:grid sm:grid-cols-2'>
+              <AlertDialogCancel onClick={logout} type='button'>
+                Log out
+              </AlertDialogCancel>
+              <AlertDialogAction type='submit' disabled={!!errors.username || isPending}>
+                Submit
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </AlertDialogContent>
+      </AlertDialogPortal>
     </AlertDialog>
   )
 }

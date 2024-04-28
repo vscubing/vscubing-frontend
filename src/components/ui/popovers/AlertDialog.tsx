@@ -30,10 +30,7 @@ const AlertDialogContent = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Content>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPortal>
-    <AlertDialogOverlay />
-    <AlertDialogPrimitive.Content ref={ref} className={cn(baseDialogContent, className)} {...props} />
-  </AlertDialogPortal>
+  <AlertDialogPrimitive.Content ref={ref} className={cn(baseDialogContent, className)} {...props} />
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 

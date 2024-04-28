@@ -32,6 +32,7 @@ import {
   StopIcon,
   CubeIcon,
   CubeBadge,
+  AlertDialogPortal,
 } from '@/components/ui'
 import {
   toast,
@@ -42,6 +43,7 @@ import {
   AlertDialogFooter,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertDialogOverlay,
 } from '@/components/ui'
 
 export function UiKit() {
@@ -145,15 +147,18 @@ export function UiKit() {
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <PrimaryButton>Modal</PrimaryButton>
+            <PrimaryButton>AlertDialog</PrimaryButton>
           </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
+          <AlertDialogPortal>
+            <AlertDialogOverlay />
+            <AlertDialogContent>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogPortal>
         </AlertDialog>
       </div>
     </div>
