@@ -1,4 +1,12 @@
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from '@/components/ui'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+} from '@/components/ui'
 
 export function AbortPrompt({
   isVisible,
@@ -11,17 +19,20 @@ export function AbortPrompt({
 }) {
   return (
     <Dialog open={isVisible}>
-      <DialogContent overlayProps={{ onClick: onCancel }} onEscapeKeyDown={onCancel}>
-        <DialogTitle>If you quit now your result will be DFNed</DialogTitle>
-        <DialogFooter>
-          <DialogClose version='secondary' onClick={onConfirm}>
-            Quit
-          </DialogClose>
-          <DialogClose version='primary' onClick={onCancel}>
-            Resume
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
+      <DialogPortal>
+        <DialogOverlay onClick={onCancel} />
+        <DialogContent onEscapeKeyDown={onCancel}>
+          <DialogTitle>If you quit now your result will be DFNed</DialogTitle>
+          <DialogFooter>
+            <DialogClose version='secondary' onClick={onConfirm}>
+              Quit
+            </DialogClose>
+            <DialogClose version='primary' onClick={onCancel}>
+              Resume
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   )
 }

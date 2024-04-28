@@ -31,14 +31,9 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
 const DialogContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    overlayProps?: ComponentPropsWithoutRef<typeof DialogOverlay>
-  }
->(({ className, overlayProps, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay {...overlayProps} />
-    <DialogPrimitive.Content ref={ref} className={cn(baseDialogContent, className)} {...props} />
-  </DialogPortal>
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Content ref={ref} className={cn(baseDialogContent, className)} {...props} />
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
