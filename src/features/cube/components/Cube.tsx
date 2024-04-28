@@ -26,7 +26,7 @@ export function Cube({
   const [isLoaded, setIsLoaded] = useState(false)
   return (
     <div className={cn('h-full', className)}>
-      <div className={cn('h-full', { 'invisible absolute': isLoaded })}>{fallback}</div>
+      {!isLoaded && <div className='h-full'>{fallback}</div>}
       <CubeIframe
         className={cn({ 'invisible absolute': !isLoaded })}
         isLoaded={isLoaded}
