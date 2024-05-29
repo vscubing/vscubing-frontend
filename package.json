@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview --port 3000"
+    "preview": "vite preview --port 3000",
+    "gen:api": "openapi-ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -37,6 +38,7 @@
     "zod": "^3.22.5"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.46.3",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/eslint-plugin-query": "^5.28.11",
     "@tanstack/react-query-devtools": "^5.29.2",
