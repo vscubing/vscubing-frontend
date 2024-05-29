@@ -104,7 +104,7 @@ function getLinks(
       children: (
         <>
           <AllContestsIcon />
-          <span>All contests</span>
+          <span>Past contests</span>
         </>
       ),
       to: '/contests/',
