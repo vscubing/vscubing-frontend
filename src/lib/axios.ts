@@ -3,24 +3,25 @@ import { refreshAccessToken } from '@/features/auth/api/refreshAccessToken'
 import { createAuthorizedRequestInterceptor, getAuthTokens } from '@/utils'
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
-import applyCaseMiddleware from 'axios-case-converter'
 
-const axiosParams: AxiosRequestConfig = {
+const axiosParams = {
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
   timeout: 15000,
-}
-const _axiosClient = axios.create(axiosParams)
+} satisfies AxiosRequestConfig
 
-applyCaseMiddleware(_axiosClient)
-createAuthorizedRequestInterceptor(_axiosClient)
-createAuthRefreshInterceptor(_axiosClient, () => refreshAccessToken(axiosParams), {
+axios.defaults.headers.Accept = axiosParams.headers.Accept
+axios.defaults.headers['Content-Type'] = axiosParams.headers['Content-Type']
+axios.defaults.timeout = axiosParams.timeout
+
+createAuthorizedRequestInterceptor(axios)
+createAuthRefreshInterceptor(axios, () => refreshAccessToken(axiosParams), {
   shouldRefresh: (err) => err.response?.status === 401 && !!getAuthTokens(),
 })
 
-_axiosClient.interceptors.response.use(undefined, (err: unknown) => {
+axios.interceptors.response.use(undefined, (err: unknown) => {
   if (!(err instanceof AxiosError)) {
     throw err
   }
@@ -38,4 +39,4 @@ _axiosClient.interceptors.response.use(undefined, (err: unknown) => {
   throw err
 })
 
-export const axiosClient = _axiosClient
+export const axiosClient = axios // I'm intending to use global axios instance, this is a workaround for gradual migration
