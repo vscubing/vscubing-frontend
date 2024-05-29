@@ -4,7 +4,6 @@ import { USER_QUERY_KEY } from './userQueryKey'
 import { deleteAuthTokens, setAuthTokens } from '@/utils'
 import { useState } from 'react'
 import { toast } from '@/components/ui'
-import { accountsGoogleLoginCreate } from '@/api'
 
 export * from './api'
 export * from './userQueryKey'
@@ -36,11 +35,11 @@ export function useLogin() {
 }
 
 async function login(googleCode: string) {
-  const response = await accountsGoogleLoginCreate({ code: googleCode })
-  const { refresh, access } = response as { refresh: string; access: string }
-  // TODO: remove this type assertion when the API scheme is fixed
+  // const response = await postLogin(googleCode)
+  // const { refresh, access } = response.data
 
-  setAuthTokens({ refresh, access })
+  // setAuthTokens({ refresh, access })
+  // TODO: fix when codegen is done
   await queryClient.resetQueries({ queryKey: [USER_QUERY_KEY] })
 }
 

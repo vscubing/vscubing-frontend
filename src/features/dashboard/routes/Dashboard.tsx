@@ -3,17 +3,11 @@ import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
 import { type ContestListDTO } from '@/shared/contests'
-import { useContestsContestsRetrieve } from '@/api'
 import { useUser } from '@/features/auth'
 
 export function Dashboard() {
   const { data: user } = useUser()
-  const { data: latestContests } = useContestsContestsRetrieve<ContestListDTO>({
-    // TODO: remove this generic type when backend swagger is updated
-    limit: 5,
-    offset: 0,
-    orderBy: '-created_at',
-  })
+  const latestContests = undefined // TODO: fix when codegen from OpenAPI is ready
 
   const title = user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'
   return (
