@@ -16,20 +16,18 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query'
 import type {
+  ContestsContestListOutput,
+  ContestsContestsLeaderboardRetrieveParams,
   ContestsContestsRetrieveParams,
-  ContestsOngoingContestCurrentSolveRetrieveParams,
-  ContestsOngoingContestSubmittedSolvesRetrieveParams,
   ContestsRoundSessionWithSolvesListOutput,
-  ContestsRoundSessionsWithSolvesRetrieveParams,
-  ContestsSolveCreateOutput,
-  ContestsSolvesBestOfEveryUserRetrieveParams,
-  ContestsSolvesCreateCreateBodyOne,
-  ContestsSolvesCreateCreateBodyThree,
-  ContestsSolvesCreateCreateBodyTwo,
-  ContestsSolvesCreateCreateParams,
-  Output,
+  ContestsSingleResultLeaderboardOutput,
+  ContestsSolveRetrieveOutput,
+  ContestsSolvesSingleResultLeaderboardRetrieveParams,
+  Input,
+  OngoingContestRetrieve,
   SocialLogin,
   TokenRefresh,
+  User,
 } from './vscubingApi.schemas'
 import { axiosInstance } from '../lib/orval.axiosInstance'
 import type { ErrorType } from '../lib/orval.axiosInstance'
@@ -60,20 +58,44 @@ type NonReadonly<T> = T extends Exclude<isBuiltin, Error>
                     ? unknown
                     : T
 
-export const accountsChangeUsernameUpdate = () => {
-  return axiosInstance<void>({ url: `/api/accounts/change-username/`, method: 'PUT' })
+export const accountsChangeUsernameUpdate = (input: NonReadonly<Input>) => {
+  const formUrlEncoded = new URLSearchParams()
+  formUrlEncoded.append('id', input.id.toString())
+  formUrlEncoded.append('username', input.username)
+
+  return axiosInstance<User>({
+    url: `/api/accounts/change-username/`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    data: formUrlEncoded,
+  })
 }
 
 export const getAccountsChangeUsernameUpdateMutationOptions = <
   TError = ErrorType<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>, TError, void, TContext>
-}): UseMutationOptions<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>, TError, void, TContext> => {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>,
+    TError,
+    { data: NonReadonly<Input> },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>,
+  TError,
+  { data: NonReadonly<Input> },
+  TContext
+> => {
   const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>, void> = () => {
-    return accountsChangeUsernameUpdate()
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>,
+    { data: NonReadonly<Input> }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return accountsChangeUsernameUpdate(data)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -82,12 +104,22 @@ export const getAccountsChangeUsernameUpdateMutationOptions = <
 export type AccountsChangeUsernameUpdateMutationResult = NonNullable<
   Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>
 >
-
+export type AccountsChangeUsernameUpdateMutationBody = NonReadonly<Input>
 export type AccountsChangeUsernameUpdateMutationError = ErrorType<unknown>
 
 export const useAccountsChangeUsernameUpdate = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>, TError, void, TContext>
-}): UseMutationResult<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>, TError, void, TContext> => {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>,
+    TError,
+    { data: NonReadonly<Input> },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>,
+  TError,
+  { data: NonReadonly<Input> },
+  TContext
+> => {
   const mutationOptions = getAccountsChangeUsernameUpdateMutationOptions(options)
 
   return useMutation(mutationOptions)
@@ -315,7 +347,7 @@ export const useAccountsTokenRefreshCreate = <TError = ErrorType<unknown>, TCont
 }
 
 export const contestsContestsRetrieve = (params?: ContestsContestsRetrieveParams, signal?: AbortSignal) => {
-  return axiosInstance<Output>({ url: `/api/contests/contests/`, method: 'GET', params, signal })
+  return axiosInstance<ContestsContestListOutput>({ url: `/api/contests/contests/`, method: 'GET', params, signal })
 }
 
 export const getContestsContestsRetrieveQueryKey = (params?: ContestsContestsRetrieveParams) => {
@@ -374,40 +406,47 @@ export const useContestsContestsRetrieve = <
   return query
 }
 
-export const contestsOngoingContestCurrentSolveRetrieve = (
-  params: ContestsOngoingContestCurrentSolveRetrieveParams,
+export const contestsContestsLeaderboardRetrieve = (
+  contestSlug: string,
+  params: ContestsContestsLeaderboardRetrieveParams,
   signal?: AbortSignal,
 ) => {
-  return axiosInstance<Output>({ url: `/api/contests/ongoing-contest/current-solve/`, method: 'GET', params, signal })
+  return axiosInstance<ContestsRoundSessionWithSolvesListOutput>({
+    url: `/api/contests/contests/${contestSlug}/leaderboard/`,
+    method: 'GET',
+    params,
+    signal,
+  })
 }
 
-export const getContestsOngoingContestCurrentSolveRetrieveQueryKey = (
-  params: ContestsOngoingContestCurrentSolveRetrieveParams,
+export const getContestsContestsLeaderboardRetrieveQueryKey = (
+  contestSlug: string,
+  params: ContestsContestsLeaderboardRetrieveParams,
 ) => {
-  return [`/api/contests/ongoing-contest/current-solve/`, ...(params ? [params] : [])] as const
+  return [`/api/contests/contests/${contestSlug}/leaderboard/`, ...(params ? [params] : [])] as const
 }
 
-export const getContestsOngoingContestCurrentSolveRetrieveQueryOptions = <
-  TData = Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>,
+export const getContestsContestsLeaderboardRetrieveQueryOptions = <
+  TData = Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>,
   TError = ErrorType<unknown>,
 >(
-  params: ContestsOngoingContestCurrentSolveRetrieveParams,
+  contestSlug: string,
+  params: ContestsContestsLeaderboardRetrieveParams,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>, TError, TData>>
   },
 ) => {
   const { query: queryOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getContestsOngoingContestCurrentSolveRetrieveQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? getContestsContestsLeaderboardRetrieveQueryKey(contestSlug, params)
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>> = ({ signal }) =>
-    contestsOngoingContestCurrentSolveRetrieve(params, signal)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>> = ({ signal }) =>
+    contestsContestsLeaderboardRetrieve(contestSlug, params, signal)
 
   return {
     queryKey,
     queryFn,
+    enabled: !!contestSlug,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     staleTime: Infinity,
@@ -421,28 +460,27 @@ export const getContestsOngoingContestCurrentSolveRetrieveQueryOptions = <
       )
     },
     ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>, TError, TData> & {
+  } as UseQueryOptions<Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>, TError, TData> & {
     queryKey: QueryKey
   }
 }
 
-export type ContestsOngoingContestCurrentSolveRetrieveQueryResult = NonNullable<
-  Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>
+export type ContestsContestsLeaderboardRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>
 >
-export type ContestsOngoingContestCurrentSolveRetrieveQueryError = ErrorType<unknown>
+export type ContestsContestsLeaderboardRetrieveQueryError = ErrorType<unknown>
 
-export const useContestsOngoingContestCurrentSolveRetrieve = <
-  TData = Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>,
+export const useContestsContestsLeaderboardRetrieve = <
+  TData = Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>,
   TError = ErrorType<unknown>,
 >(
-  params: ContestsOngoingContestCurrentSolveRetrieveParams,
+  contestSlug: string,
+  params: ContestsContestsLeaderboardRetrieveParams,
   options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>, TError, TData>
-    >
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>, TError, TData>>
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getContestsOngoingContestCurrentSolveRetrieveQueryOptions(params, options)
+  const queryOptions = getContestsContestsLeaderboardRetrieveQueryOptions(contestSlug, params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
@@ -452,7 +490,11 @@ export const useContestsOngoingContestCurrentSolveRetrieve = <
 }
 
 export const contestsOngoingContestRetrieveRetrieve = (signal?: AbortSignal) => {
-  return axiosInstance<void>({ url: `/api/contests/ongoing-contest/retrieve/`, method: 'GET', signal })
+  return axiosInstance<OngoingContestRetrieve>({
+    url: `/api/contests/ongoing-contest/retrieve/`,
+    method: 'GET',
+    signal,
+  })
 }
 
 export const getContestsOngoingContestRetrieveRetrieveQueryKey = () => {
@@ -513,169 +555,12 @@ export const useContestsOngoingContestRetrieveRetrieve = <
   return query
 }
 
-export const contestsOngoingContestSubmittedSolvesRetrieve = (
-  params: ContestsOngoingContestSubmittedSolvesRetrieveParams,
-  signal?: AbortSignal,
-) => {
-  return axiosInstance<Output>({
-    url: `/api/contests/ongoing-contest/submitted-solves/`,
-    method: 'GET',
-    params,
-    signal,
-  })
-}
-
-export const getContestsOngoingContestSubmittedSolvesRetrieveQueryKey = (
-  params: ContestsOngoingContestSubmittedSolvesRetrieveParams,
-) => {
-  return [`/api/contests/ongoing-contest/submitted-solves/`, ...(params ? [params] : [])] as const
-}
-
-export const getContestsOngoingContestSubmittedSolvesRetrieveQueryOptions = <
-  TData = Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>,
-  TError = ErrorType<unknown>,
->(
-  params: ContestsOngoingContestSubmittedSolvesRetrieveParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>, TError, TData>
-    >
-  },
-) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getContestsOngoingContestSubmittedSolvesRetrieveQueryKey(params)
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>> = ({
-    signal,
-  }) => contestsOngoingContestSubmittedSolvesRetrieve(params, signal)
-
-  return {
-    queryKey,
-    queryFn,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    staleTime: Infinity,
-    retry: (_, err) => {
-      var _a, _b, _c, _d
-      return (
-        ((_a = err == null ? void 0 : err.response) == null ? void 0 : _a.status) !== 403 &&
-        ((_b = err == null ? void 0 : err.response) == null ? void 0 : _b.status) !== 401 &&
-        ((_c = err == null ? void 0 : err.response) == null ? void 0 : _c.status) !== 404 &&
-        ((_d = err == null ? void 0 : err.response) == null ? void 0 : _d.status) !== 400
-      )
-    },
-    ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>, TError, TData> & {
-    queryKey: QueryKey
-  }
-}
-
-export type ContestsOngoingContestSubmittedSolvesRetrieveQueryResult = NonNullable<
-  Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>
->
-export type ContestsOngoingContestSubmittedSolvesRetrieveQueryError = ErrorType<unknown>
-
-export const useContestsOngoingContestSubmittedSolvesRetrieve = <
-  TData = Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>,
-  TError = ErrorType<unknown>,
->(
-  params: ContestsOngoingContestSubmittedSolvesRetrieveParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getContestsOngoingContestSubmittedSolvesRetrieveQueryOptions(params, options)
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-  query.queryKey = queryOptions.queryKey
-
-  return query
-}
-
-export const contestsRoundSessionsWithSolvesRetrieve = (
-  params: ContestsRoundSessionsWithSolvesRetrieveParams,
-  signal?: AbortSignal,
-) => {
-  return axiosInstance<ContestsRoundSessionWithSolvesListOutput>({
-    url: `/api/contests/round-sessions/with-solves/`,
-    method: 'GET',
-    params,
-    signal,
-  })
-}
-
-export const getContestsRoundSessionsWithSolvesRetrieveQueryKey = (
-  params: ContestsRoundSessionsWithSolvesRetrieveParams,
-) => {
-  return [`/api/contests/round-sessions/with-solves/`, ...(params ? [params] : [])] as const
-}
-
-export const getContestsRoundSessionsWithSolvesRetrieveQueryOptions = <
-  TData = Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>,
-  TError = ErrorType<unknown>,
->(
-  params: ContestsRoundSessionsWithSolvesRetrieveParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>, TError, TData>>
-  },
-) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getContestsRoundSessionsWithSolvesRetrieveQueryKey(params)
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>> = ({ signal }) =>
-    contestsRoundSessionsWithSolvesRetrieve(params, signal)
-
-  return {
-    queryKey,
-    queryFn,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    staleTime: Infinity,
-    retry: (_, err) => {
-      var _a, _b, _c, _d
-      return (
-        ((_a = err == null ? void 0 : err.response) == null ? void 0 : _a.status) !== 403 &&
-        ((_b = err == null ? void 0 : err.response) == null ? void 0 : _b.status) !== 401 &&
-        ((_c = err == null ? void 0 : err.response) == null ? void 0 : _c.status) !== 404 &&
-        ((_d = err == null ? void 0 : err.response) == null ? void 0 : _d.status) !== 400
-      )
-    },
-    ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>, TError, TData> & {
-    queryKey: QueryKey
-  }
-}
-
-export type ContestsRoundSessionsWithSolvesRetrieveQueryResult = NonNullable<
-  Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>
->
-export type ContestsRoundSessionsWithSolvesRetrieveQueryError = ErrorType<unknown>
-
-export const useContestsRoundSessionsWithSolvesRetrieve = <
-  TData = Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>,
-  TError = ErrorType<unknown>,
->(
-  params: ContestsRoundSessionsWithSolvesRetrieveParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof contestsRoundSessionsWithSolvesRetrieve>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getContestsRoundSessionsWithSolvesRetrieveQueryOptions(params, options)
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-  query.queryKey = queryOptions.queryKey
-
-  return query
-}
-
 export const contestsSolvesRetrieveRetrieve = (id: number, signal?: AbortSignal) => {
-  return axiosInstance<Output>({ url: `/api/contests/solves/${id}/retrieve/`, method: 'GET', signal })
+  return axiosInstance<ContestsSolveRetrieveOutput>({
+    url: `/api/contests/solves/${id}/retrieve/`,
+    method: 'GET',
+    signal,
+  })
 }
 
 export const getContestsSolvesRetrieveRetrieveQueryKey = (id: number) => {
@@ -743,286 +628,85 @@ export const useContestsSolvesRetrieveRetrieve = <
   return query
 }
 
-export const contestsSolvesBestInEveryDisciplineRetrieve = (signal?: AbortSignal) => {
-  return axiosInstance<Output>({ url: `/api/contests/solves/best-in-every-discipline/`, method: 'GET', signal })
-}
-
-export const getContestsSolvesBestInEveryDisciplineRetrieveQueryKey = () => {
-  return [`/api/contests/solves/best-in-every-discipline/`] as const
-}
-
-export const getContestsSolvesBestInEveryDisciplineRetrieveQueryOptions = <
-  TData = Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>,
-  TError = ErrorType<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>, TError, TData>
-  >
-}) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getContestsSolvesBestInEveryDisciplineRetrieveQueryKey()
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>> = ({
-    signal,
-  }) => contestsSolvesBestInEveryDisciplineRetrieve(signal)
-
-  return {
-    queryKey,
-    queryFn,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    staleTime: Infinity,
-    retry: (_, err) => {
-      var _a, _b, _c, _d
-      return (
-        ((_a = err == null ? void 0 : err.response) == null ? void 0 : _a.status) !== 403 &&
-        ((_b = err == null ? void 0 : err.response) == null ? void 0 : _b.status) !== 401 &&
-        ((_c = err == null ? void 0 : err.response) == null ? void 0 : _c.status) !== 404 &&
-        ((_d = err == null ? void 0 : err.response) == null ? void 0 : _d.status) !== 400
-      )
-    },
-    ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>, TError, TData> & {
-    queryKey: QueryKey
-  }
-}
-
-export type ContestsSolvesBestInEveryDisciplineRetrieveQueryResult = NonNullable<
-  Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>
->
-export type ContestsSolvesBestInEveryDisciplineRetrieveQueryError = ErrorType<unknown>
-
-export const useContestsSolvesBestInEveryDisciplineRetrieve = <
-  TData = Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>,
-  TError = ErrorType<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>, TError, TData>
-  >
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getContestsSolvesBestInEveryDisciplineRetrieveQueryOptions(options)
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-  query.queryKey = queryOptions.queryKey
-
-  return query
-}
-
-export const contestsSolvesBestOfEveryUserRetrieve = (
-  params: ContestsSolvesBestOfEveryUserRetrieveParams,
+export const contestsSolvesSingleResultLeaderboardRetrieve = (
+  params?: ContestsSolvesSingleResultLeaderboardRetrieveParams,
   signal?: AbortSignal,
 ) => {
-  return axiosInstance<Output>({ url: `/api/contests/solves/best-of-every-user/`, method: 'GET', params, signal })
-}
-
-export const getContestsSolvesBestOfEveryUserRetrieveQueryKey = (
-  params: ContestsSolvesBestOfEveryUserRetrieveParams,
-) => {
-  return [`/api/contests/solves/best-of-every-user/`, ...(params ? [params] : [])] as const
-}
-
-export const getContestsSolvesBestOfEveryUserRetrieveQueryOptions = <
-  TData = Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>,
-  TError = ErrorType<unknown>,
->(
-  params: ContestsSolvesBestOfEveryUserRetrieveParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>, TError, TData>>
-  },
-) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getContestsSolvesBestOfEveryUserRetrieveQueryKey(params)
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>> = ({ signal }) =>
-    contestsSolvesBestOfEveryUserRetrieve(params, signal)
-
-  return {
-    queryKey,
-    queryFn,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    staleTime: Infinity,
-    retry: (_, err) => {
-      var _a, _b, _c, _d
-      return (
-        ((_a = err == null ? void 0 : err.response) == null ? void 0 : _a.status) !== 403 &&
-        ((_b = err == null ? void 0 : err.response) == null ? void 0 : _b.status) !== 401 &&
-        ((_c = err == null ? void 0 : err.response) == null ? void 0 : _c.status) !== 404 &&
-        ((_d = err == null ? void 0 : err.response) == null ? void 0 : _d.status) !== 400
-      )
-    },
-    ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>, TError, TData> & {
-    queryKey: QueryKey
-  }
-}
-
-export type ContestsSolvesBestOfEveryUserRetrieveQueryResult = NonNullable<
-  Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>
->
-export type ContestsSolvesBestOfEveryUserRetrieveQueryError = ErrorType<unknown>
-
-export const useContestsSolvesBestOfEveryUserRetrieve = <
-  TData = Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>,
-  TError = ErrorType<unknown>,
->(
-  params: ContestsSolvesBestOfEveryUserRetrieveParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesBestOfEveryUserRetrieve>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getContestsSolvesBestOfEveryUserRetrieveQueryOptions(params, options)
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-  query.queryKey = queryOptions.queryKey
-
-  return query
-}
-
-export const contestsSolvesCreateCreate = (
-  contestsSolvesCreateCreateBody:
-    | ContestsSolvesCreateCreateBodyOne
-    | ContestsSolvesCreateCreateBodyTwo
-    | ContestsSolvesCreateCreateBodyThree,
-  params: ContestsSolvesCreateCreateParams,
-) => {
-  return axiosInstance<ContestsSolveCreateOutput>({
-    url: `/api/contests/solves/create/`,
-    method: 'POST',
-    data: contestsSolvesCreateCreateBody,
+  return axiosInstance<ContestsSingleResultLeaderboardOutput>({
+    url: `/api/contests/solves/single-result-leaderboard`,
+    method: 'GET',
     params,
+    signal,
   })
 }
 
-export const getContestsSolvesCreateCreateMutationOptions = <
+export const getContestsSolvesSingleResultLeaderboardRetrieveQueryKey = (
+  params?: ContestsSolvesSingleResultLeaderboardRetrieveParams,
+) => {
+  return [`/api/contests/solves/single-result-leaderboard`, ...(params ? [params] : [])] as const
+}
+
+export const getContestsSolvesSingleResultLeaderboardRetrieveQueryOptions = <
+  TData = Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>,
   TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof contestsSolvesCreateCreate>>,
-    TError,
-    {
-      data: ContestsSolvesCreateCreateBodyOne | ContestsSolvesCreateCreateBodyTwo | ContestsSolvesCreateCreateBodyThree
-      params: ContestsSolvesCreateCreateParams
-    },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof contestsSolvesCreateCreate>>,
-  TError,
-  {
-    data: ContestsSolvesCreateCreateBodyOne | ContestsSolvesCreateCreateBodyTwo | ContestsSolvesCreateCreateBodyThree
-    params: ContestsSolvesCreateCreateParams
+>(
+  params?: ContestsSolvesSingleResultLeaderboardRetrieveParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>, TError, TData>
+    >
   },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
+) => {
+  const { query: queryOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof contestsSolvesCreateCreate>>,
-    {
-      data: ContestsSolvesCreateCreateBodyOne | ContestsSolvesCreateCreateBodyTwo | ContestsSolvesCreateCreateBodyThree
-      params: ContestsSolvesCreateCreateParams
-    }
-  > = (props) => {
-    const { data, params } = props ?? {}
+  const queryKey = queryOptions?.queryKey ?? getContestsSolvesSingleResultLeaderboardRetrieveQueryKey(params)
 
-    return contestsSolvesCreateCreate(data, params)
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>> = ({
+    signal,
+  }) => contestsSolvesSingleResultLeaderboardRetrieve(params, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+    retry: (_, err) => {
+      var _a, _b, _c, _d
+      return (
+        ((_a = err == null ? void 0 : err.response) == null ? void 0 : _a.status) !== 403 &&
+        ((_b = err == null ? void 0 : err.response) == null ? void 0 : _b.status) !== 401 &&
+        ((_c = err == null ? void 0 : err.response) == null ? void 0 : _c.status) !== 404 &&
+        ((_d = err == null ? void 0 : err.response) == null ? void 0 : _d.status) !== 400
+      )
+    },
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>, TError, TData> & {
+    queryKey: QueryKey
   }
-
-  return { mutationFn, ...mutationOptions }
 }
 
-export type ContestsSolvesCreateCreateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof contestsSolvesCreateCreate>>
+export type ContestsSolvesSingleResultLeaderboardRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>
 >
-export type ContestsSolvesCreateCreateMutationBody =
-  | ContestsSolvesCreateCreateBodyOne
-  | ContestsSolvesCreateCreateBodyTwo
-  | ContestsSolvesCreateCreateBodyThree
-export type ContestsSolvesCreateCreateMutationError = ErrorType<unknown>
+export type ContestsSolvesSingleResultLeaderboardRetrieveQueryError = ErrorType<unknown>
 
-export const useContestsSolvesCreateCreate = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof contestsSolvesCreateCreate>>,
-    TError,
-    {
-      data: ContestsSolvesCreateCreateBodyOne | ContestsSolvesCreateCreateBodyTwo | ContestsSolvesCreateCreateBodyThree
-      params: ContestsSolvesCreateCreateParams
-    },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof contestsSolvesCreateCreate>>,
-  TError,
-  {
-    data: ContestsSolvesCreateCreateBodyOne | ContestsSolvesCreateCreateBodyTwo | ContestsSolvesCreateCreateBodyThree
-    params: ContestsSolvesCreateCreateParams
-  },
-  TContext
-> => {
-  const mutationOptions = getContestsSolvesCreateCreateMutationOptions(options)
-
-  return useMutation(mutationOptions)
-}
-
-export const contestsSolvesSubmitPartialUpdate = (id: number) => {
-  return axiosInstance<unknown>({ url: `/api/contests/solves/submit/${id}/`, method: 'PATCH' })
-}
-
-export const getContestsSolvesSubmitPartialUpdateMutationOptions = <
+export const useContestsSolvesSingleResultLeaderboardRetrieve = <
+  TData = Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>,
   TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof contestsSolvesSubmitPartialUpdate>>,
-    TError,
-    { id: number },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof contestsSolvesSubmitPartialUpdate>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
+>(
+  params?: ContestsSolvesSingleResultLeaderboardRetrieveParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>, TError, TData>
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getContestsSolvesSingleResultLeaderboardRetrieveQueryOptions(params, options)
 
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof contestsSolvesSubmitPartialUpdate>>, { id: number }> = (
-    props,
-  ) => {
-    const { id } = props ?? {}
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-    return contestsSolvesSubmitPartialUpdate(id)
-  }
+  query.queryKey = queryOptions.queryKey
 
-  return { mutationFn, ...mutationOptions }
-}
-
-export type ContestsSolvesSubmitPartialUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof contestsSolvesSubmitPartialUpdate>>
->
-
-export type ContestsSolvesSubmitPartialUpdateMutationError = ErrorType<unknown>
-
-export const useContestsSolvesSubmitPartialUpdate = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof contestsSolvesSubmitPartialUpdate>>,
-    TError,
-    { id: number },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof contestsSolvesSubmitPartialUpdate>>,
-  TError,
-  { id: number },
-  TContext
-> => {
-  const mutationOptions = getContestsSolvesSubmitPartialUpdateMutationOptions(options)
-
-  return useMutation(mutationOptions)
+  return query
 }

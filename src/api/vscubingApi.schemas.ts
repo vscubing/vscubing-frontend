@@ -5,87 +5,35 @@
  * vscubing Api
  * OpenAPI spec version: 0.0.0
  */
-/**
- * Unspecified request body
- */
-export type ContestsSolvesCreateCreateBodyThree = { [key: string]: unknown }
-
-/**
- * Unspecified request body
- */
-export type ContestsSolvesCreateCreateBodyTwo = { [key: string]: unknown }
-
-/**
- * Unspecified request body
- */
-export type ContestsSolvesCreateCreateBodyOne = { [key: string]: unknown }
-
-export type ContestsSolvesCreateCreateParams = {
+export type ContestsSolvesSingleResultLeaderboardRetrieveParams = {
   /**
-   * contest id
+   * count of contest to be returned
    */
-  contestId: number
+  limit?: number
   /**
-   * discipline id
+   * offset
    */
-  disciplineId: number
-  /**
-   * scramble id
-   */
-  scrambleId: number
+  offset?: number
 }
 
-export type ContestsSolvesBestOfEveryUserRetrieveParams = {
-  /**
-   * discipline_slug
-   */
-  discipline: string
-}
-
-export type ContestsRoundSessionsWithSolvesRetrieveOrderBy =
-  (typeof ContestsRoundSessionsWithSolvesRetrieveOrderBy)[keyof typeof ContestsRoundSessionsWithSolvesRetrieveOrderBy]
+export type ContestsContestsLeaderboardRetrieveOrderBy =
+  (typeof ContestsContestsLeaderboardRetrieveOrderBy)[keyof typeof ContestsContestsLeaderboardRetrieveOrderBy]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ContestsRoundSessionsWithSolvesRetrieveOrderBy = {
+export const ContestsContestsLeaderboardRetrieveOrderBy = {
   '-avg_ms': '-avg_ms',
   avg_ms: 'avg_ms',
 } as const
 
-export type ContestsRoundSessionsWithSolvesRetrieveParams = {
+export type ContestsContestsLeaderboardRetrieveParams = {
   /**
-   * contest id
+   * discipline slug
    */
-  contestId: number
-  /**
-   * discipline id
-   */
-  disciplineId: number
+  disciplineSlug: string
   /**
    * order by something
    */
-  orderBy?: ContestsRoundSessionsWithSolvesRetrieveOrderBy
-}
-
-export type ContestsOngoingContestSubmittedSolvesRetrieveParams = {
-  /**
-   * contest slug
-   */
-  contestSlug?: string
-  /**
-   * discipline slug
-   */
-  disciplineSlug: string
-}
-
-export type ContestsOngoingContestCurrentSolveRetrieveParams = {
-  /**
-   * contest slug
-   */
-  contestSlug: string
-  /**
-   * discipline slug
-   */
-  disciplineSlug: string
+  orderBy?: ContestsContestsLeaderboardRetrieveOrderBy
 }
 
 export type ContestsContestsRetrieveOrderBy =
@@ -112,28 +60,154 @@ export type ContestsContestsRetrieveParams = {
   orderBy?: ContestsContestsRetrieveOrderBy
 }
 
-export interface InlineSerializer {
+export interface ContestsSolveRetrieveUser {
+  id: number
+}
+
+export interface ContestsSolveRetrieveScramble {
+  id: number
+}
+
+export interface ContestsSolveRetrieveRoundSession {
+  id: number
+}
+
+export interface ContestsSolveRetrieveDiscipline {
+  id: number
+}
+
+export interface ContestsSolveRetrieveContest {
+  id: number
+}
+
+export interface ContestsSolveRetrieveOutput {
+  contest: ContestsSolveRetrieveContest
+  discipline: ContestsSolveRetrieveDiscipline
+  id: number
+  isDnf: boolean
+  reconstruction: string
+  roundSession: ContestsSolveRetrieveRoundSession
+  scramble: ContestsSolveRetrieveScramble
+  submissionState: string
+  timeMs: number
+  user: ContestsSolveRetrieveUser
+}
+
+export interface ContestsSingleResultLeaderboardResultsUserOutput {
   id: number
   username: string
 }
 
-export interface ContestsSolveCreateOutput {
-  createdAt: string
+export interface ContestsSingleResultLeaderboardResultsScrambleOutput {
   id: number
-  scramble: InlineSerializer
-  timeMs: number
 }
 
-export interface ContestsRoundSessionWithSolvesListOutput {
+export interface ContestsSingleResultLeaderboardResultsRoundSessionOutput {
+  id: number
+}
+
+export interface ContestsSingleResultLeaderboardResultsOutput {
+  solve: InlineSerializer
+}
+
+export interface ContestsSingleResultLeaderboardResultsDisciplineOutput {
+  id: number
+  slug: string
+}
+
+export interface ContestsSingleResultLeaderboardResultsContestOutput {
+  id: number
+}
+
+export interface InlineSerializer {
+  contest: ContestsSingleResultLeaderboardResultsContestOutput
+  discipline: ContestsSingleResultLeaderboardResultsDisciplineOutput
+  id: number
+  isDnf: boolean
+  reconstruction: string
+  roundSession: ContestsSingleResultLeaderboardResultsRoundSessionOutput
+  scramble: ContestsSingleResultLeaderboardResultsScrambleOutput
+  submissionState: string
+  timeMs: number
+  user: ContestsSingleResultLeaderboardResultsUserOutput
+}
+
+export interface ContestsSingleResultLeaderboardOutput {
+  count: number
+  limit: number
+  next: string
+  offset: number
+  previous: string
+  results: ContestsSingleResultLeaderboardResultsOutput[]
+}
+
+export interface ContestsRoundSessionWithSolvesListUserOutput {
+  id: number
+  username: string
+}
+
+export interface ContestsRoundSessionWithSolvesListSolveSetOutput {
+  extraId: number
+  id: number
+  isDnf: boolean
+  submissionState: string
+}
+
+export interface ContestsRoundSessionWithSolvesListResultOutput {
   avgMs: number
-  contest: InlineSerializer
+  contest: ContestsRoundSessionWithSolvesListContestOutput
   createdAt: string
+  discipline: ContestsRoundSessionWithSolvesListDisciplineOutput
   id: number
   isDnf: boolean
   isFinished: boolean
-  solveSet: InlineSerializer[]
+  solveSet: ContestsRoundSessionWithSolvesListSolveSetOutput[]
   updatedAt: string
-  user: InlineSerializer
+  user: ContestsRoundSessionWithSolvesListUserOutput
+}
+
+export interface ContestsRoundSessionWithSolvesListOutput {
+  count: number
+  limit: number
+  next: string
+  offset: number
+  previous: string
+  results: ContestsRoundSessionWithSolvesListResultOutput[]
+}
+
+export interface ContestsRoundSessionWithSolvesListDisciplineOutput {
+  id: number
+}
+
+export interface ContestsRoundSessionWithSolvesListContestOutput {
+  id: number
+}
+
+export interface ContestsContestListResultsOutput {
+  endDate: string
+  id: number
+  name: string
+  slug: string
+  startDate: string
+}
+
+export interface ContestsContestListOutput {
+  count: number
+  limit: number
+  next: string
+  offset: number
+  previous: string
+  results: ContestsContestListResultsOutput[]
+}
+
+export interface User {
+  readonly id: number
+  /**
+   * @minLength 3
+   * @maxLength 20
+   * @pattern ^[a-zA-Z0-9_]*$
+   */
+  username: string
 }
 
 export interface TokenRefresh {
@@ -147,10 +221,17 @@ export interface SocialLogin {
   idToken?: string
 }
 
-export interface Output {
-  endDate: string
+export interface OngoingContestRetrieve {
   id: number
-  name: string
   slug: string
-  startDate: string
+}
+
+export interface Input {
+  readonly id: number
+  /**
+   * @minLength 3
+   * @maxLength 20
+   * @pattern ^[a-zA-Z0-9_]*$
+   */
+  username: string
 }
