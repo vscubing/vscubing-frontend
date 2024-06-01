@@ -16,7 +16,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
 import { Input } from '@/components/ui'
-import { useAccountsChangeUsernameUpdate } from '@/api'
+import { useGetUser } from '@/api'
 
 const formSchema = z.object({
   username: z
@@ -33,9 +33,9 @@ type UsernameForm = z.infer<typeof formSchema>
 
 export function PickUsernameDialog() {
   const [isPending, setIsPending] = useState(false)
-  const { data: userData } = useUser()
+  const { data: user } = useUser()
 
-  const isVisible = userData?.authCompleted === false
+  const isVisible = user?.authCompleted === false
 
   const {
     register,

@@ -88,7 +88,7 @@ function LogoutButton({ className }: { className?: string }) {
   const { data: user } = useUser()
   const setMobileMenuOpen = useSetAtom(mobileMenuOpenAtom)
 
-  if (user === undefined || user.isAuthed === false) {
+  if (!user) {
     return null
   }
 

@@ -12,13 +12,9 @@ export function UsernameOrSignInButton({
 }) {
   const { data: user } = useUser()
 
-  if (!user) {
-    return
-  }
-
   return (
     <span className={cn('flex items-center justify-end', { 'flex-1': usernameEllipsis }, className)}>
-      {user.isAuthed ? (
+      {user ? (
         <>
           <span
             className={cn('vertical-alignment-fix text-large whitespace-nowrap text-right', {
