@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview --port 3000",
-    "gen:api": "orval --config src/lib/orval.config.ts "
+    "gen:api": "orval --config src/api/orval.config.ts "
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

@@ -1,2 +1,2 @@
-export * from './vscubingApi'
-export * from './vscubingApi.schemas'
+export * from './gen/vscubingApi.ts'
+export type * from './gen/vscubingApi.schemas.ts'
