@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview --port 3000",
-    "gen:api": "openapi-ts"
+    "gen:api": "orval --config src/lib/orval.config.ts "
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -20,6 +20,8 @@
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-router": "1.28.9",
     "@vscubing/cubing": "0.46.1-vscubing.0",
+    "@zodios/core": "^10.9.6",
+    "@zodios/react": "^10.4.5",
     "axios": "^1.6.8",
     "axios-auth-refresh": "^3.3.6",
     "axios-case-converter": "^1.1.0",
@@ -38,7 +40,7 @@
     "zod": "^3.22.5"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.46.3",
+    "@apidevtools/swagger-parser": "^10.1.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/eslint-plugin-query": "^5.28.11",
     "@tanstack/react-query-devtools": "^5.29.2",
@@ -55,6 +57,8 @@
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "openapi-zod-client": "^1.18.1",
+    "orval": "^6.27.1",
     "postcss": "^8.4.32",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.10",
