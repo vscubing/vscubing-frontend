@@ -9,11 +9,6 @@ export default defineConfig({
       prettier: true,
       override: {
         mutator: 'axiosInstance.ts',
-        operations: {
-          accountsCurrentUserRetrieve: {
-            operationName: (_operation, _route, verb) => `${verb}User`,
-          },
-        },
       },
     },
   },

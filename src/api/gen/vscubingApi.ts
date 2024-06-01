@@ -23,7 +23,7 @@ import type {
   User,
 } from './vscubingApi.schemas'
 import accountsChangeUsernameUpdateMutator from '../axiosInstance'
-import getUserMutator from '../axiosInstance'
+import accountsCurrentUserRetrieveMutator from '../axiosInstance'
 import accountsGoogleLoginCreateMutator from '../axiosInstance'
 import accountsTokenRefreshCreateMutator from '../axiosInstance'
 import contestsContestsRetrieveMutator from '../axiosInstance'
@@ -72,8 +72,8 @@ export const accountsChangeUsernameUpdate = (accountsChangeUsernameInput: NonRea
   })
 }
 
-export const getUser = () => {
-  return getUserMutator<User>({ url: `/api/accounts/current-user/`, method: 'GET' })
+export const accountsCurrentUserRetrieve = () => {
+  return accountsCurrentUserRetrieveMutator<User>({ url: `/api/accounts/current-user/`, method: 'GET' })
 }
 
 /**
@@ -187,7 +187,7 @@ export const contestsSolvesSingleResultLeaderboardRetrieve = (
 }
 
 export type AccountsChangeUsernameUpdateResult = NonNullable<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>>
-export type GetUserResult = NonNullable<Awaited<ReturnType<typeof getUser>>>
+export type AccountsCurrentUserRetrieveResult = NonNullable<Awaited<ReturnType<typeof accountsCurrentUserRetrieve>>>
 export type AccountsGoogleLoginCreateResult = NonNullable<Awaited<ReturnType<typeof accountsGoogleLoginCreate>>>
 export type AccountsTokenRefreshCreateResult = NonNullable<Awaited<ReturnType<typeof accountsTokenRefreshCreate>>>
 export type ContestsContestsRetrieveResult = NonNullable<Awaited<ReturnType<typeof contestsContestsRetrieve>>>

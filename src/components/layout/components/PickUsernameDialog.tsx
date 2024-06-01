@@ -1,4 +1,4 @@
-import { putChangeUsername, USER_QUERY_KEY, logout, useUser } from '@/features/auth'
+import { USER_QUERY_KEY, logout, useUser } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { useState } from 'react'
 import {
@@ -16,7 +16,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
 import { Input } from '@/components/ui'
-import { useGetUser } from '@/api'
+import { accountsChangeUsernameUpdate } from '@/api'
 
 const formSchema = z.object({
   username: z
@@ -48,7 +48,7 @@ export function PickUsernameDialog() {
   async function onSubmit({ username }: UsernameForm) {
     setIsPending(true)
     try {
-      await putChangeUsername(username)
+      await accountsChangeUsernameUpdate({ username, id: 0 })
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 400 /* TODO: change to 409 on backend */) {
         setError('username', {
