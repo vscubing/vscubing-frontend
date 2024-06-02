@@ -48,7 +48,7 @@ export function PickUsernameDialog() {
   async function onSubmit({ username }: UsernameForm) {
     setIsPending(true)
     try {
-      await accountsChangeUsernameUpdate({ username, id: 0 })
+      await accountsChangeUsernameUpdate({ username })
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 400 /* TODO: change to 409 on backend */) {
         setError('username', {

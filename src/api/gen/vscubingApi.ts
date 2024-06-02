@@ -7,20 +7,22 @@
  */
 import type {
   AccountsChangeUsernameInput,
+  AccountsCurrentUserOutput,
   AccountsGoogleLoginCreateParams,
   AccountsGoogleLoginOutput,
   ContestsContestListOutput,
   ContestsContestsLeaderboardRetrieveParams,
   ContestsContestsRetrieveParams,
+  ContestsOngoingContestCurrentSolveRetrieveParams,
   ContestsRoundSessionWithSolvesListOutput,
   ContestsSingleResultLeaderboardOutput,
   ContestsSolveListBestInEveryDiscipline,
   ContestsSolveRetrieveOutput,
   ContestsSolvesSingleResultLeaderboardRetrieveParams,
   OngoingContestRetrieve,
+  Output,
   SocialLogin,
   TokenRefresh,
-  User,
 } from './vscubingApi.schemas'
 import accountsChangeUsernameUpdateMutator from '../axiosInstance'
 import accountsCurrentUserRetrieveMutator from '../axiosInstance'
@@ -28,6 +30,7 @@ import accountsGoogleLoginCreateMutator from '../axiosInstance'
 import accountsTokenRefreshCreateMutator from '../axiosInstance'
 import contestsContestsRetrieveMutator from '../axiosInstance'
 import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
+import contestsOngoingContestCurrentSolveRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestRetrieveRetrieveMutator from '../axiosInstance'
 import contestsSolvesRetrieveRetrieveMutator from '../axiosInstance'
 import contestsSolvesBestInEveryDisciplineRetrieveMutator from '../axiosInstance'
@@ -59,12 +62,11 @@ type NonReadonly<T> = T extends Exclude<isBuiltin, Error>
                     ? unknown
                     : T
 
-export const accountsChangeUsernameUpdate = (accountsChangeUsernameInput: NonReadonly<AccountsChangeUsernameInput>) => {
+export const accountsChangeUsernameUpdate = (accountsChangeUsernameInput: AccountsChangeUsernameInput) => {
   const formUrlEncoded = new URLSearchParams()
-  formUrlEncoded.append('id', accountsChangeUsernameInput.id.toString())
   formUrlEncoded.append('username', accountsChangeUsernameInput.username)
 
-  return accountsChangeUsernameUpdateMutator<User>({
+  return accountsChangeUsernameUpdateMutator<void>({
     url: `/api/accounts/change-username/`,
     method: 'PUT',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -73,7 +75,10 @@ export const accountsChangeUsernameUpdate = (accountsChangeUsernameInput: NonRea
 }
 
 export const accountsCurrentUserRetrieve = () => {
-  return accountsCurrentUserRetrieveMutator<User>({ url: `/api/accounts/current-user/`, method: 'GET' })
+  return accountsCurrentUserRetrieveMutator<AccountsCurrentUserOutput>({
+    url: `/api/accounts/current-user/`,
+    method: 'GET',
+  })
 }
 
 /**
@@ -155,6 +160,16 @@ export const contestsContestsLeaderboardRetrieve = (
   })
 }
 
+export const contestsOngoingContestCurrentSolveRetrieve = (
+  params: ContestsOngoingContestCurrentSolveRetrieveParams,
+) => {
+  return contestsOngoingContestCurrentSolveRetrieveMutator<Output>({
+    url: `/api/contests/ongoing-contest/current-solve/`,
+    method: 'GET',
+    params,
+  })
+}
+
 export const contestsOngoingContestRetrieveRetrieve = () => {
   return contestsOngoingContestRetrieveRetrieveMutator<OngoingContestRetrieve>({
     url: `/api/contests/ongoing-contest/retrieve/`,
@@ -193,6 +208,9 @@ export type AccountsTokenRefreshCreateResult = NonNullable<Awaited<ReturnType<ty
 export type ContestsContestsRetrieveResult = NonNullable<Awaited<ReturnType<typeof contestsContestsRetrieve>>>
 export type ContestsContestsLeaderboardRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>
+>
+export type ContestsOngoingContestCurrentSolveRetrieveResult = NonNullable<
+  Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>
 >
 export type ContestsOngoingContestRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsOngoingContestRetrieveRetrieve>>

@@ -16,6 +16,17 @@ export type ContestsSolvesSingleResultLeaderboardRetrieveParams = {
   offset?: number
 }
 
+export type ContestsOngoingContestCurrentSolveRetrieveParams = {
+  /**
+   * contest slug
+   */
+  contestSlug: string
+  /**
+   * discipline slug
+   */
+  disciplineSlug: string
+}
+
 export type ContestsContestsLeaderboardRetrieveOrderBy =
   (typeof ContestsContestsLeaderboardRetrieveOrderBy)[keyof typeof ContestsContestsLeaderboardRetrieveOrderBy]
 
@@ -65,6 +76,13 @@ export type AccountsGoogleLoginCreateParams = {
    * code
    */
   code: string
+}
+
+export interface InlineSerializer {
+  id: number
+  isExtra: boolean
+  moves: string
+  position: string
 }
 
 export interface ContestsSolveRetrieveUser {
@@ -132,43 +150,8 @@ export interface ContestsSolveListBestInEveryDiscipline {
   user: ContestsSolveListBestInEveryDisciplineUser
 }
 
-export interface ContestsSingleResultLeaderboardResultsUserOutput {
-  id: number
-  username: string
-}
-
-export interface ContestsSingleResultLeaderboardResultsScrambleOutput {
-  id: number
-}
-
-export interface ContestsSingleResultLeaderboardResultsRoundSessionOutput {
-  id: number
-}
-
 export interface ContestsSingleResultLeaderboardResultsOutput {
   solve: InlineSerializer
-}
-
-export interface ContestsSingleResultLeaderboardResultsDisciplineOutput {
-  id: number
-  slug: string
-}
-
-export interface ContestsSingleResultLeaderboardResultsContestOutput {
-  id: number
-}
-
-export interface InlineSerializer {
-  contest: ContestsSingleResultLeaderboardResultsContestOutput
-  discipline: ContestsSingleResultLeaderboardResultsDisciplineOutput
-  id: number
-  isDnf: boolean
-  reconstruction: string
-  roundSession: ContestsSingleResultLeaderboardResultsRoundSessionOutput
-  scramble: ContestsSingleResultLeaderboardResultsScrambleOutput
-  submissionState: string
-  timeMs: number
-  user: ContestsSingleResultLeaderboardResultsUserOutput
 }
 
 export interface ContestsSingleResultLeaderboardOutput {
@@ -250,18 +233,12 @@ export interface AccountsGoogleLoginOutput {
   user: AccountsGoogleLoginUser
 }
 
-export interface AccountsChangeUsernameInput {
-  readonly id: number
-  /**
-   * @minLength 3
-   * @maxLength 20
-   * @pattern ^[a-zA-Z0-9_]*$
-   */
+export interface AccountsCurrentUserOutput {
+  authCompleted: boolean
   username: string
 }
 
-export interface User {
-  readonly id: number
+export interface AccountsChangeUsernameInput {
   /**
    * @minLength 3
    * @maxLength 20
@@ -279,6 +256,12 @@ export interface SocialLogin {
   accessToken?: string
   code?: string
   idToken?: string
+}
+
+export interface Output {
+  currentScramble: InlineSerializer
+  currentSolve: InlineSerializer
+  info: InlineSerializer
 }
 
 export interface OngoingContestRetrieve {

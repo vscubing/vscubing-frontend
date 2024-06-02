@@ -36,9 +36,9 @@ export function useLogin() {
 }
 
 async function login(googleCode: string) {
+  // @ts-expect-error TODO: remove this type assertion when the API scheme is fixed
   const response = await accountsGoogleLoginCreate({ code: googleCode })
   const { refresh, access } = response as { refresh: string; access: string }
-  // TODO: remove this type assertion when the API scheme is fixed
 
   setAuthTokens({ refresh, access })
   await queryClient.resetQueries({ queryKey: [USER_QUERY_KEY] })
