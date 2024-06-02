@@ -2,18 +2,13 @@ import { Header } from '@/components/layout'
 import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
-import { type ContestListDTO } from '@/shared/contests'
+import { useContestList } from '@/shared/contests'
 import { useUser } from '@/features/auth'
+import { useQuery } from '@tanstack/react-query'
+import { type ContestsSolveListBestInEveryDiscipline, contestsSolvesBestInEveryDisciplineRetrieve } from '@/api'
 
 export function Dashboard() {
   const { data: user } = useUser()
-  // const { data: latestContests } = useContestsContestsRetrieve<ContestListDTO>({
-  //   // TODO: remove this generic type when backend swagger is updated
-  //   limit: 5,
-  //   offset: 0,
-  //   orderBy: '-created_at',
-  // })
-  const latestContests = undefined // TODO: remove this line when backend swagger is updated
 
   const title = user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'
   return (
@@ -27,20 +22,24 @@ export function Dashboard() {
         <span className='title-h1 sm:title-lg hidden lg:inline'>{title}</span>
       </h1>
       <OngoingContestBanner />
-      <Lists className='flex-1' latestContests={latestContests} bestSolves={undefined} />
+      <Lists className='flex-1' />
     </div>
   )
 }
 
-function Lists({
-  className,
-  latestContests,
-  bestSolves,
-}: {
-  className?: string
-  latestContests?: ContestListDTO
-  bestSolves?: unknown[] // TODO:
-}) {
+function Lists({ className }: { className?: string }) {
+  const { data: latestContests } = useContestList({
+    limit: 5,
+    offset: 0,
+    orderBy: '-created_at',
+  })
+  const { data: bestSolves } = useQuery({
+    queryKey: ['bestSolves'],
+    queryFn: contestsSolvesBestInEveryDisciplineRetrieve as unknown as () => Promise<
+      ContestsSolveListBestInEveryDiscipline[] // TODO: fix after api scheme is updated
+    >,
+  })
+
   if (latestContests?.results.length === 0 && bestSolves?.length === 0) {
     return (
       <div className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 pb-4 pt-10', className)}>
@@ -62,7 +61,7 @@ function Lists({
       />
       <BestSolves
         className='min-h-[calc(50%-0.75rem/2)] min-w-[35rem] flex-grow-[1] basis-[calc(60%-0.75rem/2)] sm:min-h-0 sm:min-w-0 sm:flex-1 sm:basis-auto'
-        solves={undefined}
+        solves={bestSolves}
       />
     </div>
   )

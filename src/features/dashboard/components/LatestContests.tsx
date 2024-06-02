@@ -1,9 +1,9 @@
 import { cn, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { UnderlineButton } from '@/components/ui'
-import { ContestSkeleton, Contest, type ContestDTO } from '@/shared/contests'
+import { ContestSkeleton, Contest } from '@/shared/contests'
 import { AutofillHeight } from '@/features/autofillHeight'
-import { DEFAULT_DISCIPLINE } from '@/types'
+import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 
 const MOBILE_MAX_OVERFLOWING_ITEMS = 3
 export function LatestContests({ className, contests }: { className: string; contests?: ContestDTO[] }) {

@@ -1,8 +1,7 @@
 import { formatDate } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { SecondaryButton, ArrowRightIcon } from '@/components/ui'
-import { type ContestDTO } from './getContests'
-import { DEFAULT_DISCIPLINE } from '@/types'
+import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 
 type ContestProps = { contest: ContestDTO }
 export function Contest({ contest: { slug, startDate, endDate } }: ContestProps) {

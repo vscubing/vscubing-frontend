@@ -3,11 +3,12 @@ import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { Link } from '@tanstack/react-router'
 import { cn, matchesQuery } from '@/utils'
 import { AutofillHeight } from '@/features/autofillHeight'
-import { type SolveListItem } from '@/shared/solves'
+import { type ContestsSolveListBestInEveryDiscipline } from '@/api'
+import { type Discipline } from '@/types'
 
-type BestSolvesProps = { className: string; solves?: SolveListItem[] }
+type BestSolvesProps = { className: string; solves?: ContestsSolveListBestInEveryDiscipline[] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() }))
+  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() })) // uncomment to test with many rows
 
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
@@ -64,12 +65,12 @@ function SolveSkeleton() {
   return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
 }
 
-type SolveProps = { solve: SolveListItem; isFirstOnPage: boolean }
+type SolveProps = { solve: ContestsSolveListBestInEveryDiscipline; isFirstOnPage: boolean }
 function Solve({ solve, isFirstOnPage }: SolveProps) {
   return (
     <div className='flex min-h-15 items-center rounded-xl bg-grey-100 pl-3'>
       <span className='relative mr-3 flex flex-1 items-center pr-2 after:absolute after:right-0 after:top-1/2 after:block after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 sm:mr-0 sm:flex-col sm:items-start'>
-        <CubeIcon className='mr-3' cube={solve.discipline.slug} />
+        <CubeIcon className='mr-3' cube={solve.discipline.slug as Discipline} />
         <span className='flex w-full'>
           <Ellipsis className='flex-1'>{solve.user.username}</Ellipsis>
         </span>
@@ -79,7 +80,7 @@ function Solve({ solve, isFirstOnPage }: SolveProps) {
           canShowHint={isFirstOnPage}
           timeMs={solve.timeMs}
           solveId={solve.id}
-          discipline={solve.discipline.slug}
+          discipline={solve.discipline.slug as Discipline}
           contestSlug={solve.contest.slug}
         />
       </span>
