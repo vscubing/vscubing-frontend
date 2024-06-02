@@ -1,8 +1,7 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
-import { ongoingSlugQuery } from '@/shared/contests'
+import { useOngoingSlug } from '@/shared/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
-import { useQuery } from '@tanstack/react-query'
 import { Link, useMatchRoute, type LinkProps } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
@@ -60,7 +59,7 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
 }
 
 function useNavbar() {
-  const { data: ongoingSlug } = useQuery(ongoingSlugQuery)
+  const { data: ongoingSlug } = useOngoingSlug()
   const matchRoute = useMatchRoute()
 
   const isOnContests = !!matchRoute({

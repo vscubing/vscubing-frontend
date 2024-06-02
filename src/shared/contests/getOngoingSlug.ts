@@ -1,12 +1,16 @@
-import { axiosClient } from '@/lib/axios'
-import { queryOptions } from '@tanstack/react-query'
+import { contestsOngoingContestRetrieveRetrieve } from '@/api'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 
 async function getOngoingSlug() {
-  const res = await axiosClient.get<{ id: number }>('/contests/ongoing-contest/retrieve/')
-  return String(res.data.id)
+  const res = await contestsOngoingContestRetrieveRetrieve()
+  return res.slug
 }
 
 export const ongoingSlugQuery = queryOptions({
   queryKey: ['ongoing-contest-slug'],
   queryFn: getOngoingSlug,
 })
+
+export function useOngoingSlug() {
+  return useQuery(ongoingSlugQuery)
+}

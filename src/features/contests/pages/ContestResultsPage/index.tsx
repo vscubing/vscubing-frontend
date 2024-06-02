@@ -19,7 +19,7 @@ import {
 } from '@/features/autofillHeight'
 import { matchesQuery } from '@/utils'
 import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
-import { ongoingSlugQuery as ongoingSlugQuery } from '@/shared/contests'
+import { useOngoingSlug } from '@/shared/contests'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestSlug/results')
@@ -96,7 +96,7 @@ function View({ totalPages, children, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
   const { discipline, page } = route.useSearch()
 
-  const { data: ongoingSlug } = useQuery(ongoingSlugQuery)
+  const { data: ongoingSlug } = useOngoingSlug()
   const isOngoing = contestSlug === ongoingSlug // TODO: get from backend
 
   let title = ''
