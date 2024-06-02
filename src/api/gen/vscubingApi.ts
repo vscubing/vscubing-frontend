@@ -8,7 +8,7 @@
 import type {
   AccountsChangeUsernameInput,
   AccountsCurrentUserOutput,
-  AccountsGoogleLoginCreateParams,
+  AccountsGoogleLoginInput,
   AccountsGoogleLoginOutput,
   ContestsContestListOutput,
   ContestsContestsLeaderboardRetrieveParams,
@@ -21,7 +21,6 @@ import type {
   ContestsSolvesSingleResultLeaderboardRetrieveParams,
   OngoingContestRetrieve,
   Output,
-  SocialLogin,
   TokenRefresh,
 } from './vscubingApi.schemas'
 import accountsChangeUsernameUpdateMutator from '../axiosInstance'
@@ -33,7 +32,7 @@ import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestCurrentSolveRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestRetrieveRetrieveMutator from '../axiosInstance'
 import contestsSolvesRetrieveRetrieveMutator from '../axiosInstance'
-import contestsSolvesBestInEveryDisciplineRetrieveMutator from '../axiosInstance'
+import contestsSolvesBestInEveryDisciplineListMutator from '../axiosInstance'
 import contestsSolvesSingleResultLeaderboardRetrieveMutator from '../axiosInstance'
 
 type IsAny<T> = 0 extends 1 & T ? true : false
@@ -103,24 +102,15 @@ class FacebookLogin(SocialLoginView):
     callback_url = 'localhost:8000'
 -------------
  */
-export const accountsGoogleLoginCreate = (socialLogin: SocialLogin, params: AccountsGoogleLoginCreateParams) => {
+export const accountsGoogleLoginCreate = (accountsGoogleLoginInput: AccountsGoogleLoginInput) => {
   const formUrlEncoded = new URLSearchParams()
-  if (socialLogin.accessToken !== undefined) {
-    formUrlEncoded.append('accessToken', socialLogin.accessToken)
-  }
-  if (socialLogin.code !== undefined) {
-    formUrlEncoded.append('code', socialLogin.code)
-  }
-  if (socialLogin.idToken !== undefined) {
-    formUrlEncoded.append('idToken', socialLogin.idToken)
-  }
+  formUrlEncoded.append('code', accountsGoogleLoginInput.code)
 
   return accountsGoogleLoginCreateMutator<AccountsGoogleLoginOutput>({
     url: `/api/accounts/google/login/`,
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     data: formUrlEncoded,
-    params,
   })
 }
 
@@ -184,8 +174,8 @@ export const contestsSolvesRetrieveRetrieve = (id: number) => {
   })
 }
 
-export const contestsSolvesBestInEveryDisciplineRetrieve = () => {
-  return contestsSolvesBestInEveryDisciplineRetrieveMutator<ContestsSolveListBestInEveryDiscipline>({
+export const contestsSolvesBestInEveryDisciplineList = () => {
+  return contestsSolvesBestInEveryDisciplineListMutator<ContestsSolveListBestInEveryDiscipline[]>({
     url: `/api/contests/solves/best-in-every-discipline/`,
     method: 'GET',
   })
@@ -218,8 +208,8 @@ export type ContestsOngoingContestRetrieveRetrieveResult = NonNullable<
 export type ContestsSolvesRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsSolvesRetrieveRetrieve>>
 >
-export type ContestsSolvesBestInEveryDisciplineRetrieveResult = NonNullable<
-  Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineRetrieve>>
+export type ContestsSolvesBestInEveryDisciplineListResult = NonNullable<
+  Awaited<ReturnType<typeof contestsSolvesBestInEveryDisciplineList>>
 >
 export type ContestsSolvesSingleResultLeaderboardRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsSolvesSingleResultLeaderboardRetrieve>>

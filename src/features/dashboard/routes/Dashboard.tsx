@@ -5,7 +5,7 @@ import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
 import { useContestList } from '@/shared/contests'
 import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
-import { type ContestsSolveListBestInEveryDiscipline, contestsSolvesBestInEveryDisciplineRetrieve } from '@/api'
+import { contestsSolvesBestInEveryDisciplineList, type ContestsSolveListBestInEveryDiscipline } from '@/api'
 
 export function Dashboard() {
   const { data: user } = useUser()
@@ -35,9 +35,7 @@ function Lists({ className }: { className?: string }) {
   })
   const { data: bestSolves } = useQuery({
     queryKey: ['bestSolves'],
-    queryFn: contestsSolvesBestInEveryDisciplineRetrieve as unknown as () => Promise<
-      ContestsSolveListBestInEveryDiscipline[] // TODO: fix after api scheme is updated
-    >,
+    queryFn: contestsSolvesBestInEveryDisciplineList,
   })
 
   if (latestContests?.results.length === 0 && bestSolves?.length === 0) {

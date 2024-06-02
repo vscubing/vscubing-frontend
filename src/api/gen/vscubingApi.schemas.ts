@@ -71,13 +71,6 @@ export type ContestsContestsRetrieveParams = {
   orderBy?: ContestsContestsRetrieveOrderBy
 }
 
-export type AccountsGoogleLoginCreateParams = {
-  /**
-   * code
-   */
-  code: string
-}
-
 export interface InlineSerializer {
   id: number
   isExtra: boolean
@@ -233,6 +226,10 @@ export interface AccountsGoogleLoginOutput {
   user: AccountsGoogleLoginUser
 }
 
+export interface AccountsGoogleLoginInput {
+  code: string
+}
+
 export interface AccountsCurrentUserOutput {
   authCompleted: boolean
   username: string
@@ -250,12 +247,6 @@ export interface AccountsChangeUsernameInput {
 export interface TokenRefresh {
   readonly access: string
   refresh: string
-}
-
-export interface SocialLogin {
-  accessToken?: string
-  code?: string
-  idToken?: string
 }
 
 export interface Output {
