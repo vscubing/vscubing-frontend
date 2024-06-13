@@ -5,7 +5,7 @@ import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
 import { useContestList } from '@/shared/contests'
 import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
-import { contestsSolvesBestInEveryDisciplineList, type ContestsSolveListBestInEveryDiscipline } from '@/api'
+import { contestsSolvesBestInEveryDisciplineList } from '@/api'
 
 export function Dashboard() {
   const { data: user } = useUser()
