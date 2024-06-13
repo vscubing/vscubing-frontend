@@ -14,6 +14,7 @@ import type {
   ContestsContestsLeaderboardRetrieveParams,
   ContestsContestsRetrieveParams,
   ContestsOngoingContestCurrentSolveRetrieveParams,
+  ContestsOngoingContestSubmittedSolvesRetrieveParams,
   ContestsRoundSessionWithSolvesListOutput,
   ContestsSingleResultLeaderboardOutput,
   ContestsSolveListBestInEveryDiscipline,
@@ -31,6 +32,7 @@ import contestsContestsRetrieveMutator from '../axiosInstance'
 import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestCurrentSolveRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestRetrieveRetrieveMutator from '../axiosInstance'
+import contestsOngoingContestSubmittedSolvesRetrieveMutator from '../axiosInstance'
 import contestsSolvesRetrieveRetrieveMutator from '../axiosInstance'
 import contestsSolvesBestInEveryDisciplineListMutator from '../axiosInstance'
 import contestsSolvesSingleResultLeaderboardRetrieveMutator from '../axiosInstance'
@@ -139,12 +141,9 @@ export const contestsContestsRetrieve = (params?: ContestsContestsRetrieveParams
   })
 }
 
-export const contestsContestsLeaderboardRetrieve = (
-  contestSlug: string,
-  params: ContestsContestsLeaderboardRetrieveParams,
-) => {
+export const contestsContestsLeaderboardRetrieve = (params: ContestsContestsLeaderboardRetrieveParams) => {
   return contestsContestsLeaderboardRetrieveMutator<ContestsRoundSessionWithSolvesListOutput>({
-    url: `/api/contests/contests/${contestSlug}/leaderboard/`,
+    url: `/api/contests/contests/leaderboard/`,
     method: 'GET',
     params,
   })
@@ -164,6 +163,16 @@ export const contestsOngoingContestRetrieveRetrieve = () => {
   return contestsOngoingContestRetrieveRetrieveMutator<OngoingContestRetrieve>({
     url: `/api/contests/ongoing-contest/retrieve/`,
     method: 'GET',
+  })
+}
+
+export const contestsOngoingContestSubmittedSolvesRetrieve = (
+  params: ContestsOngoingContestSubmittedSolvesRetrieveParams,
+) => {
+  return contestsOngoingContestSubmittedSolvesRetrieveMutator<Output>({
+    url: `/api/contests/ongoing-contest/submitted-solves/`,
+    method: 'GET',
+    params,
   })
 }
 
@@ -204,6 +213,9 @@ export type ContestsOngoingContestCurrentSolveRetrieveResult = NonNullable<
 >
 export type ContestsOngoingContestRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsOngoingContestRetrieveRetrieve>>
+>
+export type ContestsOngoingContestSubmittedSolvesRetrieveResult = NonNullable<
+  Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>
 >
 export type ContestsSolvesRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsSolvesRetrieveRetrieve>>

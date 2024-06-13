@@ -7,13 +7,24 @@
  */
 export type ContestsSolvesSingleResultLeaderboardRetrieveParams = {
   /**
-   * count of contest to be returned
+   * how many solves will be on the page
    */
   limit?: number
   /**
-   * offset
+   * page number
    */
-  offset?: number
+  page?: number
+}
+
+export type ContestsOngoingContestSubmittedSolvesRetrieveParams = {
+  /**
+   * contest slug
+   */
+  contestSlug?: string
+  /**
+   * discipline slug
+   */
+  disciplineSlug: string
 }
 
 export type ContestsOngoingContestCurrentSolveRetrieveParams = {
@@ -38,13 +49,25 @@ export const ContestsContestsLeaderboardRetrieveOrderBy = {
 
 export type ContestsContestsLeaderboardRetrieveParams = {
   /**
+   * contest slug
+   */
+  contestSlug: string
+  /**
    * discipline slug
    */
   disciplineSlug: string
   /**
+   * offset
+   */
+  limit?: number
+  /**
    * order by something
    */
   orderBy?: ContestsContestsLeaderboardRetrieveOrderBy
+  /**
+   * count of contest to be returned
+   */
+  page?: number
 }
 
 export type ContestsContestsRetrieveOrderBy =
@@ -58,172 +81,69 @@ export const ContestsContestsRetrieveOrderBy = {
 
 export type ContestsContestsRetrieveParams = {
   /**
-   * count of contest to be returned
-   */
-  limit?: number
-  /**
    * offset
    */
-  offset?: number
+  limit?: number
   /**
    * order by something
    */
   orderBy?: ContestsContestsRetrieveOrderBy
-}
-
-export interface InlineSerializer {
-  id: number
-  isExtra: boolean
-  moves: string
-  position: string
-}
-
-export interface ContestsSolveRetrieveUser {
-  id: number
-}
-
-export interface ContestsSolveRetrieveScramble {
-  id: number
-}
-
-export interface ContestsSolveRetrieveRoundSession {
-  id: number
-}
-
-export interface ContestsSolveRetrieveDiscipline {
-  id: number
-}
-
-export interface ContestsSolveRetrieveContest {
-  id: number
+  /**
+   * count of contest to be returned
+   */
+  page?: number
 }
 
 export interface ContestsSolveRetrieveOutput {
-  contest: ContestsSolveRetrieveContest
-  discipline: ContestsSolveRetrieveDiscipline
+  contest: S01j096njdsvqbyg0rx0rfxje0v
+  discipline: S01j096njdsn0cpbjza1yg8xgye
   id: number
   isDnf: boolean
   reconstruction: string
-  roundSession: ContestsSolveRetrieveRoundSession
-  scramble: ContestsSolveRetrieveScramble
+  roundSession: S01j096njds3fr4c5pp3vdanvpr
+  scramble: S01j096njdsg80w7s3md4xqqzeh
   submissionState: string
   timeMs: number
-  user: ContestsSolveRetrieveUser
-}
-
-export interface ContestsSolveListBestInEveryDisciplineUser {
-  id: number
-  username: string
-}
-
-export interface ContestsSolveListBestInEveryDisciplineScramble {
-  id: number
-  moves: string
-}
-
-export interface ContestsSolveListBestInEveryDisciplineDiscipline {
-  id: number
-  name: string
-  slug: string
-}
-
-export interface ContestsSolveListBestInEveryDisciplineContest {
-  id: number
-  name: string
-  slug: string
+  user: S01j096njdsny8pvemyh3e022y4
 }
 
 export interface ContestsSolveListBestInEveryDiscipline {
-  contest: ContestsSolveListBestInEveryDisciplineContest
+  contest: S01j096njdtd4qyb4gw4t2fsekg
   createdAt: string
-  discipline: ContestsSolveListBestInEveryDisciplineDiscipline
+  discipline: S01j096njdt0ecxg7m8n6egsx3n
   id: number
-  scramble: ContestsSolveListBestInEveryDisciplineScramble
+  scramble: S01j096njds7q29811qz4gfj9hg
   timeMs: number
-  user: ContestsSolveListBestInEveryDisciplineUser
-}
-
-export interface ContestsSingleResultLeaderboardResultsOutput {
-  solve: InlineSerializer
+  user: S01j096njds78ph9tkh6xehy9py
 }
 
 export interface ContestsSingleResultLeaderboardOutput {
-  count: number
   limit: number
-  next: string
-  offset: number
-  previous: string
-  results: ContestsSingleResultLeaderboardResultsOutput[]
-}
-
-export interface ContestsRoundSessionWithSolvesListUserOutput {
-  id: number
-  username: string
-}
-
-export interface ContestsRoundSessionWithSolvesListSolveSetOutput {
-  extraId: number
-  id: number
-  isDnf: boolean
-  submissionState: string
-}
-
-export interface ContestsRoundSessionWithSolvesListResultOutput {
-  avgMs: number
-  contest: ContestsRoundSessionWithSolvesListContestOutput
-  createdAt: string
-  discipline: ContestsRoundSessionWithSolvesListDisciplineOutput
-  id: number
-  isDnf: boolean
-  isFinished: boolean
-  solveSet: ContestsRoundSessionWithSolvesListSolveSetOutput[]
-  updatedAt: string
-  user: ContestsRoundSessionWithSolvesListUserOutput
+  page: number
+  pages: number
+  results: S01j096nje18wqvqpy73xrwq7x8
 }
 
 export interface ContestsRoundSessionWithSolvesListOutput {
-  count: number
   limit: number
-  next: string
-  offset: number
-  previous: string
-  results: ContestsRoundSessionWithSolvesListResultOutput[]
-}
-
-export interface ContestsRoundSessionWithSolvesListDisciplineOutput {
-  id: number
-}
-
-export interface ContestsRoundSessionWithSolvesListContestOutput {
-  id: number
-}
-
-export interface ContestsContestListResultsOutput {
-  endDate: string
-  id: number
-  name: string
-  slug: string
-  startDate: string
+  page: number
+  pages: number
+  results: S01j096njdxc7hepk1em7aexgms
 }
 
 export interface ContestsContestListOutput {
   count: number
   limit: number
   next: string
-  offset: number
+  page: number
   previous: string
-  results: ContestsContestListResultsOutput[]
-}
-
-export interface AccountsGoogleLoginUser {
-  email: string
-  pk: number
+  results: S01j096njdyygddww4s8jde8y47[]
 }
 
 export interface AccountsGoogleLoginOutput {
   access: string
   refresh: string
-  user: AccountsGoogleLoginUser
+  user: S01j096njd86073qzap2arsmscr
 }
 
 export interface AccountsGoogleLoginInput {
@@ -249,10 +169,219 @@ export interface TokenRefresh {
   refresh: string
 }
 
+export interface S01j096nje1bt7pshcy3gw00kcr {
+  id: number
+  username: string
+}
+
+export interface S01j096nje155pdxngy6r4fvb0x {
+  id: number
+}
+
+export interface S01j096nje15d3wvhz3tyf2mwzf {
+  contest: S01j096nje155pdxngy6r4fvb0x
+  id: number
+  isDnf: boolean
+  reconstruction: string
+  scramble: S01j096nje06c1vntbnbrwsr616
+  submissionState: string
+  timeMs: number
+  user: S01j096nje1bt7pshcy3gw00kcr
+}
+
+export interface S01j096nje10pwrcs3a5hsggjdx {
+  place?: number
+  solve: S01j096nje15d3wvhz3tyf2mwzf
+}
+
+export interface S01j096nje0g6bs0p3tvh7t3m1g {
+  isDisplayedSeparately?: boolean
+  page?: number
+  place?: number
+  solve?: S01j096nje0rtkbxm5ksy7vmn9h
+}
+
+export interface S01j096nje18wqvqpy73xrwq7x8 {
+  ownSolve: S01j096nje0g6bs0p3tvh7t3m1g
+  solveSet: S01j096nje10pwrcs3a5hsggjdx[]
+}
+
+export interface S01j096nje0edpere8vxvpr6rt0 {
+  id: number
+}
+
+export interface S01j096nje0rtkbxm5ksy7vmn9h {
+  contest: S01j096nje0edpere8vxvpr6rt0
+  id: number
+  isDnf: boolean
+  reconstruction: string
+  submissionState: string
+  timeMs: number
+}
+
+export interface S01j096nje06c1vntbnbrwsr616 {
+  id: number
+}
+
+export interface S01j096njdzw8q22gzgkndvfhas {
+  id: number
+  isExtra: boolean
+  moves: string
+  position: string
+}
+
+export interface S01j096njdzgx7543678qqqh80j {
+  canChangeToExtra: boolean
+}
+
+export interface S01j096njdz4axcyxm9cce232j1 {
+  id: number
+  isDnf: boolean
+  timeMs: number
+}
+
+export interface S01j096njdyygddww4s8jde8y47 {
+  endDate: string
+  id: number
+  name: string
+  slug: string
+  startDate: string
+}
+
+export interface S01j096njdxdkhkpwxbpbaafd1h {
+  place?: number
+  roundSession: S01j096njdxm0d668ayzvpsj59c
+}
+
+export interface S01j096njdxc7hepk1em7aexgms {
+  ownRoundSession: S01j096njdwrzhdjana7gjfwf3s
+  roundSessionSet: S01j096njdxdkhkpwxbpbaafd1h[]
+}
+
+export interface S01j096njdxapmytvgm8m3ncjt5 {
+  extraId: number
+  id: number
+  isDnf: boolean
+  submissionState: string
+}
+
+export interface S01j096njdwvxf0dpbz4rvfaf9c {
+  id: number
+  username: string
+}
+
+export interface S01j096njdwrgx7exthpy5ad6nn {
+  avgMs: number
+  contest: S01j096njdw81tx9315m4ba5j9b
+  createdAt: string
+  discipline: S01j096njdwcbpsjyav6zsbrz0y
+  id: number
+  isDnf: boolean
+  isFinished: boolean
+  solveSet: S01j096njdw2pk0xnpmgx16k5y0[]
+  updatedAt: string
+  user: S01j096njdwvxf0dpbz4rvfaf9c
+}
+
+export interface S01j096njdwrzhdjana7gjfwf3s {
+  isDisplayedSeparately?: boolean
+  page?: number
+  place?: number
+  roundSession?: S01j096njdwrgx7exthpy5ad6nn
+}
+
+export interface S01j096njdwn17aahvqwk8byetb {
+  id: number
+}
+
+export interface S01j096njdwknbsg9pvbqjvjf7k {
+  id: number
+  username: string
+}
+
+export interface S01j096njdwcbpsjyav6zsbrz0y {
+  id: number
+}
+
+export interface S01j096njdw8hn0ddg9c4q12va6 {
+  id: number
+}
+
+export interface S01j096njdxm0d668ayzvpsj59c {
+  avgMs: number
+  contest: S01j096njdwn17aahvqwk8byetb
+  createdAt: string
+  discipline: S01j096njdw8hn0ddg9c4q12va6
+  id: number
+  isDnf: boolean
+  isFinished: boolean
+  solveSet: S01j096njdxapmytvgm8m3ncjt5[]
+  updatedAt: string
+  user: S01j096njdwknbsg9pvbqjvjf7k
+}
+
+export interface S01j096njdw81tx9315m4ba5j9b {
+  id: number
+}
+
+export interface S01j096njdw2pk0xnpmgx16k5y0 {
+  extraId: number
+  id: number
+  isDnf: boolean
+  submissionState: string
+}
+
+export interface S01j096njdtd4qyb4gw4t2fsekg {
+  id: number
+  name: string
+  slug: string
+}
+
+export interface S01j096njdt0ecxg7m8n6egsx3n {
+  id: number
+  name: string
+  slug: string
+}
+
+export interface S01j096njdsvqbyg0rx0rfxje0v {
+  id: number
+}
+
+export interface S01j096njdsny8pvemyh3e022y4 {
+  id: number
+}
+
+export interface S01j096njdsn0cpbjza1yg8xgye {
+  id: number
+}
+
+export interface S01j096njdsg80w7s3md4xqqzeh {
+  id: number
+}
+
+export interface S01j096njds7q29811qz4gfj9hg {
+  id: number
+  moves: string
+}
+
+export interface S01j096njds78ph9tkh6xehy9py {
+  id: number
+  username: string
+}
+
+export interface S01j096njds3fr4c5pp3vdanvpr {
+  id: number
+}
+
+export interface S01j096njd86073qzap2arsmscr {
+  email: string
+  pk: number
+}
+
 export interface Output {
-  currentScramble: InlineSerializer
-  currentSolve: InlineSerializer
-  info: InlineSerializer
+  currentScramble: S01j096njdzw8q22gzgkndvfhas
+  currentSolve: S01j096njdz4axcyxm9cce232j1
+  info: S01j096njdzgx7543678qqqh80j
 }
 
 export interface OngoingContestRetrieve {
