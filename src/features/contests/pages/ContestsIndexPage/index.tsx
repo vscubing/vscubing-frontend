@@ -80,7 +80,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link search={(prev) => ({ ...prev, discipline: '3by3' })}>
+        <Link search={{ page: 1, discipline: '3by3' }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         {withPagination && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}
