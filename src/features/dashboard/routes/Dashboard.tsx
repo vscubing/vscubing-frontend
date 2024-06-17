@@ -30,7 +30,7 @@ export function Dashboard() {
 function Lists({ className }: { className?: string }) {
   const { data: latestContests } = useContestList({
     limit: 5,
-    offset: 0,
+    page: 1,
     orderBy: '-created_at',
   })
   const { data: bestSolves } = useQuery({
