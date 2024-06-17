@@ -35,6 +35,7 @@ function ControllerWithPagination() {
   const { data, error, isFetching } = useQuery(query)
 
   if (error?.response?.status === 400) {
+    // NOTE: this might have been changed to 404
     void navigate({ search: { page: 1 }, params: { discipline } })
   }
 

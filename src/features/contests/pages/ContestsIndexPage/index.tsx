@@ -53,7 +53,7 @@ function ControllerWithPagination() {
     enabled: limit !== undefined,
   })
 
-  if (error?.response?.status === 400) {
+  if (error?.response?.status === 404) {
     return <Navigate search={(prev) => ({ ...prev, page: 1 })} />
   }
 
