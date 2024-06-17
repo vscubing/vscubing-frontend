@@ -1,6 +1,24 @@
 import { type ContestsContestsRetrieveParams, contestsContestsRetrieve } from '@/api'
-import { useQuery } from '@tanstack/react-query'
+import { type Discipline } from '@/types'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 
-export function useContestList(params: ContestsContestsRetrieveParams) {
-  return useQuery({ queryKey: ['contest-list', params], queryFn: () => contestsContestsRetrieve(params) })
+type ContestQueryParams = {
+  enabled?: boolean
+  discipline: Discipline
+  pagination: ContestsContestsRetrieveParams
+}
+
+export function getContestsQuery({ discipline, enabled = true, pagination }: ContestQueryParams) {
+  if (pagination.orderBy === undefined) {
+    pagination.orderBy = '-created_at'
+  }
+  return queryOptions({
+    queryKey: ['contest-list', discipline, pagination],
+    queryFn: () => contestsContestsRetrieve(pagination),
+    enabled,
+  })
+}
+
+export function useContests(params: ContestQueryParams) {
+  return useQuery(getContestsQuery(params))
 }

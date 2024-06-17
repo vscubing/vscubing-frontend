@@ -2,7 +2,7 @@ import { Header } from '@/components/layout'
 import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
 import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
-import { useContestList } from '@/shared/contests'
+import { useContests } from '@/shared/contests'
 import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { contestsSolvesBestInEveryDisciplineList } from '@/api'
@@ -28,10 +28,12 @@ export function Dashboard() {
 }
 
 function Lists({ className }: { className?: string }) {
-  const { data: latestContests } = useContestList({
-    limit: 5,
-    page: 1,
-    orderBy: '-created_at',
+  const { data: latestContests } = useContests({
+    discipline: '3by3',
+    pagination: {
+      page: 1,
+      limit: 5,
+    },
   })
   const { data: bestSolves } = useQuery({
     queryKey: ['bestSolves'],

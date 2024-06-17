@@ -1,17 +1,16 @@
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
 import { matchesQuery } from '@/utils'
-import type { Discipline } from '@/types'
-import { type ContestListItemDTO, getContestsQuery, getInfiniteContestsQuery } from '../../api'
+import type { ContestDTO, Discipline } from '@/types'
+import { getInfiniteContestsQuery } from '../../api'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
 import { HintSection, NavigateBackButton, PageTitleMobile, Pagination } from '@/components/shared'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
-import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile } from '@/shared/contests'
+import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile, useContests } from '@/shared/contests'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
@@ -44,27 +43,24 @@ function ControllerWithInfiniteScroll() {
 function ControllerWithPagination() {
   const { discipline, page } = route.useSearch()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = getContestsQuery({
+  const { fittingCount: limit, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const { data, error } = useContests({
     discipline,
-    page,
-    pageSize: pageSize ?? 0,
-    enabled: pageSize !== undefined,
+    pagination: {
+      page,
+      limit: limit ?? 0,
+    },
+    enabled: limit !== undefined,
   })
-  const { data, error } = useQuery(query)
 
   if (error?.response?.status === 400) {
     return <Navigate from={route.id} search={(prev) => ({ ...prev, page: 1 })} />
   }
 
+  const totalPages = data?.count && limit && Math.ceil(data?.count / limit) // TODO: fix after api is updated
   return (
-    <View withPagination totalPages={data?.totalPages} page={page} discipline={discipline}>
-      <ContestsList
-        list={data?.contests}
-        pageSize={pageSize}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-      />
+    <View withPagination totalPages={totalPages} page={page} discipline={discipline}>
+      <ContestsList list={data?.results} pageSize={limit} containerRef={containerRef} fakeElementRef={fakeElementRef} />
     </View>
   )
 }
@@ -95,7 +91,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
 }
 
 type ContestsListProps = Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
-  Pick<ListProps<ContestListItemDTO>, 'pageSize' | 'lastElementRef' | 'list'>
+  Pick<ListProps<ContestDTO>, 'pageSize' | 'lastElementRef' | 'list'>
 function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElementRef }: ContestsListProps) {
   const { discipline } = route.useSearch()
   if (list?.length === 0) {
@@ -122,10 +118,7 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           pageSize={pageSize}
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
-          renderItem={({ id, contestSlug, startDate, endDate }) => (
-            // @ts-expect-error will be fixed during integration with new backend
-            <Contest discipline={discipline} contest={{ id, contestSlug, startDate, endDate }} />
-          )}
+          renderItem={(contest) => <Contest discipline={discipline} contest={contest} />}
         />
       </AutofillHeight.ListWrapper>
     </div>

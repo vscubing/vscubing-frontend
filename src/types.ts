@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { type ContestsContestListOutput, type ContestsContestListResultsOutput } from './api'
+import { type ContestsContestListOutput } from './api'
 
 export type Scramble = { scramble: string; position: string; extra: boolean; id: number }
 export type Discipline = (typeof DISCIPLINES)[number]
@@ -9,7 +9,7 @@ export type Discipline = (typeof DISCIPLINES)[number]
  */
 export type ContestInfo = { id: number; contestSlug: string; start: string; end: string }
 
-export type ContestDTO = ContestsContestListResultsOutput
+export type ContestDTO = ContestsContestListOutput['results'][number]
 export type ContestList = ContestsContestListOutput
 
 export const DEFAULT_DISCIPLINE: Discipline = '3by3'
