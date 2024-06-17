@@ -20,7 +20,6 @@ export function Pagination({
     <nav role='navigation' aria-label='pagination' className={className} {...props}>
       <ul className='flex'>
         <PaginationLink
-          params={{}}
           className={cn({ invisible: currentPage === 1 })}
           search={(prev) => ({ ...prev, page: currentPage - 1 })}
         >
@@ -36,7 +35,6 @@ export function Pagination({
           </PaginationLink>
         ))}
         <PaginationLink
-          params={{}}
           className={cn({ invisible: currentPage === totalPages })}
           search={(prev) => ({ ...prev, page: currentPage + 1 })}
         >
@@ -47,10 +45,8 @@ export function Pagination({
   )
 }
 
-type PaginationLinkProps = Omit<ComponentProps<LinkComponent<'a'>>, 'search'> & {
-  search: (prev: Record<string, any>) => Record<string, any>
-}
-function PaginationLink({ children, className, search, ...props }: PaginationLinkProps) {
+type PaginationLinkProps = ComponentProps<LinkComponent<'a'>>
+function PaginationLink({ children, className, ...props }: PaginationLinkProps) {
   return (
     <li>
       <Link
