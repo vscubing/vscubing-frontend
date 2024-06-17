@@ -3,14 +3,18 @@ import { CubeSwitcher } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { matchesQuery } from '@/utils'
 import type { ContestDTO, Discipline } from '@/types'
-import { getInfiniteContestsQuery } from '../../api'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
 import { HintSection, NavigateBackButton, PageTitleMobile, Pagination } from '@/components/shared'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
-import { Contest as ContestMobile, ContestSkeleton as ContestSkeletonMobile, useContests } from '@/shared/contests'
+import {
+  Contest as ContestMobile,
+  ContestSkeleton as ContestSkeletonMobile,
+  getInfiniteContestsQuery,
+  useContests,
+} from '@/shared/contests'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
@@ -23,8 +27,8 @@ export function ContestsIndexPage() {
 function ControllerWithInfiniteScroll() {
   const { discipline } = route.useSearch()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = getInfiniteContestsQuery({ discipline, pageSize })
+  const { fittingCount: limit, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const query = getInfiniteContestsQuery({ discipline, enabled: limit !== undefined, pagination: { limit } })
   const { data, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (

@@ -1,6 +1,6 @@
 import { type ContestsContestsRetrieveParams, contestsContestsRetrieve } from '@/api'
 import { type Discipline } from '@/types'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { infiniteQueryOptions, queryOptions, useQuery } from '@tanstack/react-query'
 
 type ContestQueryParams = {
   enabled?: boolean
@@ -15,6 +15,25 @@ export function getContestsQuery({ discipline, enabled = true, pagination }: Con
   return queryOptions({
     queryKey: ['contest-list', discipline, pagination],
     queryFn: () => contestsContestsRetrieve(pagination),
+    placeholderData: (prev) => prev && { ...prev, limit: prev.limit }, // TODO: change to totalPages when it's available
+    enabled,
+  })
+}
+
+export function getInfiniteContestsQuery({
+  discipline,
+  enabled = true,
+  pagination,
+}: {
+  discipline: Discipline
+  enabled: boolean
+  pagination: Omit<ContestsContestsRetrieveParams, 'page'>
+}) {
+  return infiniteQueryOptions({
+    queryKey: ['contests-list', discipline, pagination],
+    queryFn: ({ pageParam: page }) => contestsContestsRetrieve({ ...pagination, page }),
+    getNextPageParam: (_, pages) => pages.length + 1,
+    initialPageParam: 1,
     enabled,
   })
 }
