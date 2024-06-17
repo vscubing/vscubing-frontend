@@ -13,15 +13,14 @@ import type {
   ContestsContestListOutput,
   ContestsContestsLeaderboardRetrieveParams,
   ContestsContestsRetrieveParams,
+  ContestsCurrentSolveOutput,
   ContestsOngoingContestCurrentSolveRetrieveParams,
-  ContestsOngoingContestSubmittedSolvesRetrieveParams,
   ContestsRoundSessionWithSolvesListOutput,
   ContestsSingleResultLeaderboardOutput,
   ContestsSolveListBestInEveryDiscipline,
   ContestsSolveRetrieveOutput,
   ContestsSolvesSingleResultLeaderboardRetrieveParams,
   OngoingContestRetrieve,
-  Output,
   TokenRefresh,
 } from './vscubingApi.schemas'
 import accountsChangeUsernameUpdateMutator from '../axiosInstance'
@@ -32,7 +31,6 @@ import contestsContestsRetrieveMutator from '../axiosInstance'
 import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestCurrentSolveRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestRetrieveRetrieveMutator from '../axiosInstance'
-import contestsOngoingContestSubmittedSolvesRetrieveMutator from '../axiosInstance'
 import contestsSolvesRetrieveRetrieveMutator from '../axiosInstance'
 import contestsSolvesBestInEveryDisciplineListMutator from '../axiosInstance'
 import contestsSolvesSingleResultLeaderboardRetrieveMutator from '../axiosInstance'
@@ -152,7 +150,7 @@ export const contestsContestsLeaderboardRetrieve = (params: ContestsContestsLead
 export const contestsOngoingContestCurrentSolveRetrieve = (
   params: ContestsOngoingContestCurrentSolveRetrieveParams,
 ) => {
-  return contestsOngoingContestCurrentSolveRetrieveMutator<Output>({
+  return contestsOngoingContestCurrentSolveRetrieveMutator<ContestsCurrentSolveOutput>({
     url: `/api/contests/ongoing-contest/current-solve/`,
     method: 'GET',
     params,
@@ -163,16 +161,6 @@ export const contestsOngoingContestRetrieveRetrieve = () => {
   return contestsOngoingContestRetrieveRetrieveMutator<OngoingContestRetrieve>({
     url: `/api/contests/ongoing-contest/retrieve/`,
     method: 'GET',
-  })
-}
-
-export const contestsOngoingContestSubmittedSolvesRetrieve = (
-  params: ContestsOngoingContestSubmittedSolvesRetrieveParams,
-) => {
-  return contestsOngoingContestSubmittedSolvesRetrieveMutator<Output>({
-    url: `/api/contests/ongoing-contest/submitted-solves/`,
-    method: 'GET',
-    params,
   })
 }
 
@@ -213,9 +201,6 @@ export type ContestsOngoingContestCurrentSolveRetrieveResult = NonNullable<
 >
 export type ContestsOngoingContestRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsOngoingContestRetrieveRetrieve>>
->
-export type ContestsOngoingContestSubmittedSolvesRetrieveResult = NonNullable<
-  Awaited<ReturnType<typeof contestsOngoingContestSubmittedSolvesRetrieve>>
 >
 export type ContestsSolvesRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsSolvesRetrieveRetrieve>>
