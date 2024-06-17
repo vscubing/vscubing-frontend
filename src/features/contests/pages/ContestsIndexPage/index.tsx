@@ -54,7 +54,7 @@ function ControllerWithPagination() {
   })
 
   if (error?.response?.status === 400) {
-    return <Navigate from={route.id} search={(prev) => ({ ...prev, page: 1 })} />
+    return <Navigate search={(prev) => ({ ...prev, page: 1 })} />
   }
 
   const totalPages = data?.count && limit && Math.ceil(data?.count / limit) // TODO: fix after api is updated
@@ -80,7 +80,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link from={route.id} search={(prev) => ({ ...prev, discipline: '3by3' })}>
+        <Link search={(prev) => ({ ...prev, discipline: '3by3' })}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         {withPagination && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}

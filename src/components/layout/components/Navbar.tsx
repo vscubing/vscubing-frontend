@@ -63,7 +63,7 @@ function useNavbar() {
   const matchRoute = useMatchRoute()
 
   const isOnContests = !!matchRoute({
-    to: '/contests/',
+    to: '/contests',
     fuzzy: true,
   })
   const isOnOngoingContest = !!matchRoute({
