@@ -27,14 +27,18 @@ export function ContestsIndexPage() {
 function ControllerWithInfiniteScroll() {
   const { discipline } = route.useSearch()
 
-  const { fittingCount: limit, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = getInfiniteContestsQuery({ discipline, enabled: limit !== undefined, pagination: { limit } })
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const query = getInfiniteContestsQuery({
+    discipline,
+    enabled: pageSize !== undefined,
+    pagination: { limit: pageSize },
+  })
   const { data, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
     <View discipline={discipline}>
       <ContestsList
-        list={data?.pages.flatMap((page) => page.contests!)}
+        list={data?.pages.flatMap((page) => page.results)}
         pageSize={pageSize}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
@@ -61,9 +65,8 @@ function ControllerWithPagination() {
     return <Navigate search={(prev) => ({ ...prev, page: 1 })} />
   }
 
-  const totalPages = data?.count && limit && Math.ceil(data?.count / limit) // TODO: fix after api is updated
   return (
-    <View withPagination totalPages={totalPages} page={page} discipline={discipline}>
+    <View withPagination totalPages={data?.totalPages} page={page} discipline={discipline}>
       <ContestsList list={data?.results} pageSize={limit} containerRef={containerRef} fakeElementRef={fakeElementRef} />
     </View>
   )

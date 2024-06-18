@@ -46,6 +46,7 @@ function List<T extends ListItemData>({
     return null
   }
   if (list === undefined) {
+    // TODO: change the condition to isFetching
     return Array.from({ length: pageSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
   }
 

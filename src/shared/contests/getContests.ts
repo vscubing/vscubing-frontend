@@ -1,6 +1,21 @@
-import { type ContestsContestsRetrieveParams, contestsContestsRetrieve } from '@/api'
+import { type ContestsContestsRetrieveParams, contestsContestsRetrieve, type ContestsContestListOutput } from '@/api'
 import { type Discipline } from '@/types'
 import { infiniteQueryOptions, queryOptions, useQuery } from '@tanstack/react-query'
+
+async function contestsRetreiveWithFixedTotalPages(
+  params?: ContestsContestsRetrieveParams,
+): Promise<ContestsContestListOutput & { totalPages: number }> {
+  // TODO: remove this wrapper function after api is updated
+
+  const res = await contestsContestsRetrieve(params)
+  const count = res?.count
+  const limit = params?.limit
+  if (count === undefined || limit === undefined) {
+    throw new Error('count and limit are required')
+  }
+  const totalPages = Math.ceil(count / limit)
+  return { ...res, totalPages }
+}
 
 type ContestQueryParams = {
   enabled?: boolean
@@ -14,8 +29,8 @@ export function getContestsQuery({ discipline, enabled = true, pagination }: Con
   }
   return queryOptions({
     queryKey: ['contest-list', discipline, pagination],
-    queryFn: () => contestsContestsRetrieve(pagination),
-    placeholderData: (prev) => prev && { ...prev, limit: prev.limit }, // TODO: change to totalPages when it's available
+    queryFn: () => contestsRetreiveWithFixedTotalPages(pagination),
+    placeholderData: (prev) => prev,
     enabled,
   })
 }
@@ -29,9 +44,13 @@ export function getInfiniteContestsQuery({
   enabled: boolean
   pagination: Omit<ContestsContestsRetrieveParams, 'page'>
 }) {
+  if (pagination.limit !== undefined) {
+    pagination.limit *= 2
+  }
+
   return infiniteQueryOptions({
     queryKey: ['contests-list', discipline, pagination],
-    queryFn: ({ pageParam: page }) => contestsContestsRetrieve({ ...pagination, page }),
+    queryFn: ({ pageParam: page }) => contestsRetreiveWithFixedTotalPages({ ...pagination, page }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,
