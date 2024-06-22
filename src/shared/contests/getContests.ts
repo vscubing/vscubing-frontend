@@ -44,6 +44,7 @@ export function getInfiniteContestsQuery({
   enabled: boolean
   pagination: Omit<ContestsContestsRetrieveParams, 'page'>
 }) {
+  // TODO: figure out why this fetches more pages than needed
   if (pagination.limit !== undefined) {
     pagination.limit *= 2
   }
