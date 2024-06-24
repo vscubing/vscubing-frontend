@@ -13,7 +13,7 @@ export function ContestRow({ contest, discipline }: ContestProps) {
         Contest {contest.name}
       </span>
       <span className='vertical-alignment-fix mr-10 w-44'>
-        {formatDate(contest.startDate)} - {formatDate(contest.endDate) /* TODO: remove type assertion */}
+        {formatDate(contest.startDate)} - {formatDate(contest.endDate)}
       </span>
       <SecondaryButton asChild>
         <Link

@@ -30,7 +30,7 @@ export const usePostSolveResult = (contestSlug: string, discipline: Discipline) 
       if (res.status === 200) {
         solve = { id: res.data.solveId, ...result }
       } else if (res.status === 400) {
-        // TODO: make sure that this is synched with the backend
+        // TODO: make sure that this is synced with the backend
         solve = { id: res.data.solveId, timeMs: null, dnf: true }
         toast(SOLVE_REJECTED_TOAST)
       } else if (res.status !== 500) {

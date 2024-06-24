@@ -32,7 +32,7 @@ function BannerContent({ className }: { className?: string }) {
           <div className='flex w-full items-end justify-between'>
             <div>
               <p className='title-h3 mb-2'>Duration</p>
-              <p className='text-large' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+              <p className='text-large'>10 Dec 2023-17 Dec 2023</p> {/* TODO: get from backend  */}
             </div>
             <PrimaryButton asChild>
               <Link search={{ discipline: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
