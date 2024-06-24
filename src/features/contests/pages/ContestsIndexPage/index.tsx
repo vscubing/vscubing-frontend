@@ -31,7 +31,7 @@ function ControllerWithInfiniteScroll() {
   const query = getInfiniteContestsQuery({
     discipline,
     enabled: pageSize !== undefined,
-    pagination: { limit: pageSize },
+    pageSize,
   })
   const { data, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
@@ -51,14 +51,12 @@ function ControllerWithInfiniteScroll() {
 function ControllerWithPagination() {
   const { discipline, page } = route.useSearch()
 
-  const { fittingCount: limit, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const { data, error } = useContests({
     discipline,
-    pagination: {
-      page,
-      limit: limit ?? 0,
-    },
-    enabled: limit !== undefined,
+    page,
+    pageSize: pageSize ?? 0,
+    enabled: pageSize !== undefined,
   })
 
   if (error?.response?.status === 404) {
@@ -66,20 +64,25 @@ function ControllerWithPagination() {
   }
 
   return (
-    <View withPagination totalPages={data?.totalPages} page={page} discipline={discipline}>
-      <ContestsList list={data?.results} pageSize={limit} containerRef={containerRef} fakeElementRef={fakeElementRef} />
+    <View withPagination pages={data?.pages} page={page} discipline={discipline}>
+      <ContestsList
+        list={data?.results}
+        pageSize={pageSize}
+        containerRef={containerRef}
+        fakeElementRef={fakeElementRef}
+      />
     </View>
   )
 }
 
 type ViewProps = {
   page?: number
-  totalPages?: number
+  pages?: number
   withPagination?: boolean
   discipline: Discipline
   children: ReactNode
 }
-function View({ withPagination = false, page, discipline, totalPages, children }: ViewProps) {
+function View({ withPagination = false, page, discipline, pages, children }: ViewProps) {
   const title = 'Explore contests'
   return (
     <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
@@ -90,7 +93,7 @@ function View({ withPagination = false, page, discipline, totalPages, children }
         <Link search={{ page: 1, discipline: '3by3' }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        {withPagination && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}
+        {withPagination && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
       </SectionHeader>
       {children}
     </section>

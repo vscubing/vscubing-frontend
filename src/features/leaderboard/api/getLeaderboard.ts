@@ -6,7 +6,7 @@ import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
 export type LeaderboardDTO = {
-  totalPages: number
+  pages: number
   results: LeaderboardResult[] | null
   ownResult: {
     result: LeaderboardResult
@@ -42,7 +42,7 @@ export const getLeaderboardQuery = ({
     queryFn: () => fetchMockLeaderboard(page, pageSize),
     placeholderData: (prev) =>
       prev && {
-        totalPages: prev.totalPages,
+        pages: prev.pages,
         ownResult: prev.ownResult,
         results: null,
       },
@@ -75,8 +75,8 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
     pageSize--
   }
 
-  const totalPages = Math.floor(resultsWithoutOwn.filter((result) => result.id !== ownResult?.id).length / pageSize + 1)
-  if (page > totalPages) {
+  const pages = Math.floor(resultsWithoutOwn.filter((result) => result.id !== ownResult?.id).length / pageSize + 1)
+  if (page > pages) {
     throw new AxiosError('Page number is too big for this pageSize', undefined, undefined, undefined, {
       status: 400,
     } as AxiosResponse)
@@ -120,7 +120,7 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
   await timeout(500)
   return {
     results: pageResults,
-    totalPages,
+    pages,
     ownResult: ownResultData,
   }
 }

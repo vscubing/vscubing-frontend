@@ -43,7 +43,7 @@ function ControllerWithPagination() {
   const { data, error, isFetching } = useQuery(query)
 
   return (
-    <View totalPages={data?.totalPages} behavior='pagination' errorCode={error?.response?.status}>
+    <View pages={data?.pages} behavior='pagination' errorCode={error?.response?.status}>
       <SessionsList
         behavior='pagination'
         list={data?.sessions ?? undefined}
@@ -88,11 +88,11 @@ function ControllerWithInfiniteScroll() {
 
 type ViewProps = {
   behavior: Behavior
-  totalPages?: number
+  pages?: number
   children: ReactNode
   errorCode?: number
 }
-function View({ totalPages, children, behavior, errorCode }: ViewProps) {
+function View({ pages, children, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
   const { discipline, page } = route.useSearch()
 
@@ -124,9 +124,7 @@ function View({ totalPages, children, behavior, errorCode }: ViewProps) {
               <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
               <p className='text-large text-grey-40'>{contestDuration}</p>
             </div>
-            {behavior === 'pagination' && (
-              <Pagination currentPage={page} totalPages={totalPages} className='ml-auto sm:hidden' />
-            )}
+            {behavior === 'pagination' && <Pagination currentPage={page} pages={pages} className='ml-auto sm:hidden' />}
           </SectionHeader>
           {children}
         </ErrorHandler>

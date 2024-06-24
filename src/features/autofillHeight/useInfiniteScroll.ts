@@ -3,7 +3,7 @@ import { type AxiosError } from 'axios'
 import { useEffect } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 
-export function useInfiniteScroll<T extends { totalPages?: number }>(
+export function useInfiniteScroll<T extends { pages?: number }>(
   query: UseInfiniteQueryOptions<
     T,
     AxiosError<unknown, unknown>,
@@ -18,8 +18,8 @@ export function useInfiniteScroll<T extends { totalPages?: number }>(
   const queryResult = useInfiniteQuery(query)
   const { data, isFetching, fetchNextPage } = queryResult
 
-  const totalPages = data?.pages?.[0].totalPages
-  const allPagesLoaded = !!totalPages && data?.pages?.length === totalPages
+  const pages = data?.pages?.[0].pages
+  const allPagesLoaded = !!pages && data?.pages?.length === pages
 
   const { isIntersecting, ref: lastElementRef } = useIntersectionObserver({ rootMargin: '10%' })
   useEffect(() => {

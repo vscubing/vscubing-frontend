@@ -40,7 +40,7 @@ function ControllerWithPagination() {
   }
 
   return (
-    <View totalPages={data?.totalPages} behavior='pagination'>
+    <View pages={data?.pages} behavior='pagination'>
       <ResultsList
         behavior='pagination'
         list={data?.results ?? undefined}
@@ -83,10 +83,10 @@ function ControllerWithInfiniteScroll() {
 
 type ViewProps = {
   behavior: Behavior
-  totalPages?: number
+  pages?: number
   children: ReactNode
 }
-function View({ totalPages, children, behavior }: ViewProps) {
+function View({ pages, children, behavior }: ViewProps) {
   const { discipline, page } = route.useLoaderData()
   const { data: user } = useUser()
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
@@ -100,7 +100,7 @@ function View({ totalPages, children, behavior }: ViewProps) {
         <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
-        {behavior === 'pagination' && <Pagination currentPage={page} totalPages={totalPages} className='ml-auto' />}
+        {behavior === 'pagination' && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
       </SectionHeader>
       {children}
     </section>

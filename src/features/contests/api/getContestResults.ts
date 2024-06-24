@@ -8,7 +8,7 @@ import { axiosClient } from '@/lib/axios'
 import { ongoingSlugQuery } from '@/shared/contests'
 
 export type ContestResultsDTO = {
-  totalPages: number
+  pages: number
   sessions: ContestSessionDTO[] | null
   ownSession: {
     session: ContestSessionDTO
@@ -66,7 +66,7 @@ export function getContestResultsQuery({
     },
     placeholderData: (prev) =>
       prev && {
-        totalPages: prev.totalPages,
+        pages: prev.pages,
         sessions: null,
         ownSession: prev.ownSession,
       },
@@ -105,8 +105,8 @@ async function getMockContestResults({
 }): Promise<ContestResultsDTO> {
   const { allSessions, ownSession } = await getMockSessionsWithOwn()
 
-  const totalPages = getTotalPages(!!ownSession, allSessions.length, pageSize)
-  if (page > totalPages) {
+  const pages = getTotalPages(!!ownSession, allSessions.length, pageSize)
+  if (page > pages) {
     throw new AxiosError('Page number is too big for this pageSize', undefined, undefined, undefined, {
       status: 400,
     } as AxiosResponse)
@@ -129,7 +129,7 @@ async function getMockContestResults({
   await timeout(500)
   return {
     sessions,
-    totalPages,
+    pages,
     ownSession: ownSessionData,
   }
 }

@@ -30,10 +30,8 @@ export function Dashboard() {
 function Lists({ className }: { className?: string }) {
   const { data: latestContests } = useContests({
     discipline: '3by3',
-    pagination: {
-      page: 1,
-      limit: 5,
-    },
+    page: 1,
+    pageSize: 5,
   })
   const { data: bestSolves } = useQuery({
     queryKey: ['bestSolves'],

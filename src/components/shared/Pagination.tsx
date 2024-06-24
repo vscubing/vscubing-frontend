@@ -6,13 +6,13 @@ import { ChevronLeftIcon, EllipsisIcon, ChevronRightIcon } from '../ui'
 export function Pagination({
   className,
   currentPage,
-  totalPages,
+  pages,
   ...props
 }: Omit<ComponentProps<'nav'>, 'children'> & {
   currentPage: number | undefined
-  totalPages: number | undefined
+  pages: number | undefined
 }) {
-  if (totalPages === undefined || totalPages === 0 || currentPage === undefined) {
+  if (pages === undefined || pages === 0 || currentPage === undefined) {
     return null
   }
 
@@ -25,7 +25,7 @@ export function Pagination({
         >
           <ChevronLeftIcon />
         </PaginationLink>
-        {getLinks(currentPage, totalPages).map((link) => (
+        {getLinks(currentPage, pages).map((link) => (
           <PaginationLink params={{}} key={link.page} search={(prev) => ({ ...prev, page: link.page })}>
             {link.type === 'ellipsis' ? (
               <EllipsisIcon className='mt-[0.375rem]' />
@@ -35,7 +35,7 @@ export function Pagination({
           </PaginationLink>
         ))}
         <PaginationLink
-          className={cn({ invisible: currentPage === totalPages })}
+          className={cn({ invisible: currentPage === pages })}
           search={(prev) => ({ ...prev, page: currentPage + 1 })}
         >
           <ChevronRightIcon />
@@ -62,10 +62,10 @@ function PaginationLink({ children, className, ...props }: PaginationLinkProps) 
   )
 }
 
-function getLinks(currentPage: number, totalPages: number) {
+function getLinks(currentPage: number, pages: number) {
   const TOTAL_LINKS = 7
   const reach = Math.floor(TOTAL_LINKS / 2)
-  let pages: number[] = []
+  let links: number[] = []
 
   let diffLeft = 0
   let diffRight = 0
@@ -74,35 +74,35 @@ function getLinks(currentPage: number, totalPages: number) {
       diffLeft++
       continue
     }
-    if (i > totalPages) {
+    if (i > pages) {
       diffRight++
       continue
     }
-    pages.push(i)
+    links.push(i)
   }
   for (let i = 0; i < diffLeft; i++) {
-    pages.push(pages.at(-1)! + 1)
+    links.push(links.at(-1)! + 1)
   }
   for (let i = 0; i < diffRight; i++) {
-    pages.unshift(pages.at(0)! - 1)
+    links.unshift(links.at(0)! - 1)
   }
-  if (pages[0] > 1) {
-    pages[0] = 1
+  if (links[0] > 1) {
+    links[0] = 1
   }
-  if (pages[pages.length - 1] < totalPages) {
-    pages[pages.length - 1] = totalPages
+  if (links[links.length - 1] < pages) {
+    links[links.length - 1] = pages
   }
 
-  pages = pages.filter((page) => page >= 1 && page <= totalPages)
+  links = links.filter((page) => page >= 1 && page <= pages)
 
-  const canHaveEllipsis = totalPages > TOTAL_LINKS
+  const canHaveEllipsis = pages > TOTAL_LINKS
   if (!canHaveEllipsis) {
-    return pages.map((page) => ({ page, type: 'number' }))
+    return links.map((page) => ({ page, type: 'number' }))
   }
 
-  return pages.map((page, index) => {
-    const isLeftEllipsis = index === 1 && page - 1 !== pages[index - 1]
-    const isRightEllipsis = index === pages.length - 2 && page + 1 !== pages[index + 1]
+  return links.map((page, index) => {
+    const isLeftEllipsis = index === 1 && page - 1 !== links[index - 1]
+    const isRightEllipsis = index === links.length - 2 && page + 1 !== links[index + 1]
     return { page, type: isLeftEllipsis || isRightEllipsis ? 'ellipsis' : 'number' }
   })
 }

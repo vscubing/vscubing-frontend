@@ -4,7 +4,7 @@ import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
 export type ContestsListDTO = {
-  totalPages: number
+  pages: number
   contests?: ContestListItemDTO[]
 }
 
@@ -30,7 +30,7 @@ export function getContestsQuery({
   return queryOptions({
     queryKey: ['contests-list', discipline, page, pageSize],
     queryFn: () => getMockContests({ page, pageSize }),
-    placeholderData: (prev) => prev && { totalPages: prev.totalPages, contests: undefined },
+    placeholderData: (prev) => prev && { pages: prev.pages, contests: undefined },
     enabled,
   })
 }
@@ -53,15 +53,15 @@ export function getInfiniteContestsQuery({ discipline, pageSize }: { discipline:
 }
 
 async function getMockContests({ page, pageSize }: { page: number; pageSize: number }): Promise<ContestsListDTO> {
-  const totalPages = Math.ceil(MOCK_CONTESTS.length / pageSize)
-  if (page > totalPages) {
+  const pages = Math.ceil(MOCK_CONTESTS.length / pageSize)
+  if (page > pages) {
     throw new AxiosError('Too big page number for this pageSize', undefined, undefined, undefined, {
       status: 400,
     } as AxiosResponse)
   }
   const firstIndex = (page - 1) * pageSize
   await timeout(500)
-  return { totalPages, contests: MOCK_CONTESTS.slice(firstIndex, firstIndex + pageSize) }
+  return { pages, contests: MOCK_CONTESTS.slice(firstIndex, firstIndex + pageSize) }
 }
 
 const MOCK_CONTESTS: ContestListItemDTO[] = Array.from({ length: randomInteger(0, 50) }, (_, i) =>
