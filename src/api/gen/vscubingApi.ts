@@ -13,8 +13,13 @@ import type {
   ContestsContestListOutput,
   ContestsContestsLeaderboardRetrieveParams,
   ContestsContestsRetrieveParams,
+  ContestsCreateSolveInput,
+  ContestsCreateSolveOutput,
   ContestsCurrentSolveOutput,
-  ContestsOngoingContestCurrentSolveRetrieveParams,
+  ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
+  ContestsOngoingContestSolveCreateCreateParams,
+  ContestsOngoingContestSubmitCreate200,
+  ContestsOngoingContestSubmitCreateParams,
   ContestsRoundSessionWithSolvesListOutput,
   ContestsSingleResultLeaderboardOutput,
   ContestsSolveListBestInEveryDiscipline,
@@ -29,8 +34,10 @@ import accountsGoogleLoginCreateMutator from '../axiosInstance'
 import accountsTokenRefreshCreateMutator from '../axiosInstance'
 import contestsContestsRetrieveMutator from '../axiosInstance'
 import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
-import contestsOngoingContestCurrentSolveRetrieveMutator from '../axiosInstance'
+import contestsOngoingContestSubmitCreateMutator from '../axiosInstance'
+import contestsOngoingContestCurrentRoundSessionProgressRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestRetrieveRetrieveMutator from '../axiosInstance'
+import contestsOngoingContestSolveCreateCreateMutator from '../axiosInstance'
 import contestsSolvesRetrieveRetrieveMutator from '../axiosInstance'
 import contestsSolvesBestInEveryDisciplineListMutator from '../axiosInstance'
 import contestsSolvesSingleResultLeaderboardRetrieveMutator from '../axiosInstance'
@@ -147,11 +154,19 @@ export const contestsContestsLeaderboardRetrieve = (params: ContestsContestsLead
   })
 }
 
-export const contestsOngoingContestCurrentSolveRetrieve = (
-  params: ContestsOngoingContestCurrentSolveRetrieveParams,
+export const contestsOngoingContestSubmitCreate = (id: number, params: ContestsOngoingContestSubmitCreateParams) => {
+  return contestsOngoingContestSubmitCreateMutator<ContestsOngoingContestSubmitCreate200>({
+    url: `/api/contests/ongoing-contest/${id}/submit/`,
+    method: 'POST',
+    params,
+  })
+}
+
+export const contestsOngoingContestCurrentRoundSessionProgressRetrieve = (
+  params: ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
 ) => {
-  return contestsOngoingContestCurrentSolveRetrieveMutator<ContestsCurrentSolveOutput>({
-    url: `/api/contests/ongoing-contest/current-solve/`,
+  return contestsOngoingContestCurrentRoundSessionProgressRetrieveMutator<ContestsCurrentSolveOutput>({
+    url: `/api/contests/ongoing-contest/current-round-session-progress/`,
     method: 'GET',
     params,
   })
@@ -161,6 +176,24 @@ export const contestsOngoingContestRetrieveRetrieve = () => {
   return contestsOngoingContestRetrieveRetrieveMutator<OngoingContestRetrieve>({
     url: `/api/contests/ongoing-contest/retrieve/`,
     method: 'GET',
+  })
+}
+
+export const contestsOngoingContestSolveCreateCreate = (
+  contestsCreateSolveInput: ContestsCreateSolveInput,
+  params: ContestsOngoingContestSolveCreateCreateParams,
+) => {
+  const formUrlEncoded = new URLSearchParams()
+  formUrlEncoded.append('reconstruction', contestsCreateSolveInput.reconstruction)
+  formUrlEncoded.append('isDnf', contestsCreateSolveInput.isDnf.toString())
+  formUrlEncoded.append('timeMs', contestsCreateSolveInput.timeMs.toString())
+
+  return contestsOngoingContestSolveCreateCreateMutator<ContestsCreateSolveOutput>({
+    url: `/api/contests/ongoing-contest/solve/create/`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    data: formUrlEncoded,
+    params,
   })
 }
 
@@ -196,11 +229,17 @@ export type ContestsContestsRetrieveResult = NonNullable<Awaited<ReturnType<type
 export type ContestsContestsLeaderboardRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>
 >
-export type ContestsOngoingContestCurrentSolveRetrieveResult = NonNullable<
-  Awaited<ReturnType<typeof contestsOngoingContestCurrentSolveRetrieve>>
+export type ContestsOngoingContestSubmitCreateResult = NonNullable<
+  Awaited<ReturnType<typeof contestsOngoingContestSubmitCreate>>
+>
+export type ContestsOngoingContestCurrentRoundSessionProgressRetrieveResult = NonNullable<
+  Awaited<ReturnType<typeof contestsOngoingContestCurrentRoundSessionProgressRetrieve>>
 >
 export type ContestsOngoingContestRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsOngoingContestRetrieveRetrieve>>
+>
+export type ContestsOngoingContestSolveCreateCreateResult = NonNullable<
+  Awaited<ReturnType<typeof contestsOngoingContestSolveCreateCreate>>
 >
 export type ContestsSolvesRetrieveRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsSolvesRetrieveRetrieve>>
