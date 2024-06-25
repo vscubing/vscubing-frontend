@@ -43,7 +43,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
               canShowHint={isFirstOnPage}
               timeMs={result.solve.timeMs}
               solveId={result.solve.id}
-              contestSlug={String(result.solve.contest.id)} // TODO: change to contestSlug once backend is ready
+              contestSlug={result.solve.contest.slug}
               discipline={disciplineSlug}
             />
           </span>
@@ -56,12 +56,11 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
           <span className='flex items-center md:items-start md:border-t md:border-grey-60 md:pt-4 sm:grid sm:grid-cols-2 sm:gap-4'>
             <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none md:pt-0 sm:ml-auto sm:w-24'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:mb-0'>Solve date</span>
-              {formatDate('S01j17436tzk7mj1f93stdtby4c')} {/* TODO: change to real data once backend is ready */}
+              {formatDate(result.solve.createdAt)}
             </span>
             <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center md:pt-0 sm:order-first sm:mr-0 sm:w-auto sm:text-left'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:hidden'>Contest name</span>
-              Contest {result.solve.contest.id}
-              {/* TODO: change to contestSlug once backend is ready */}
+              Contest {result.solve.contest.slug}
             </span>
             <SecondaryButton
               asChild
@@ -70,7 +69,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
             >
               <Link
                 to='/contests/$contestSlug'
-                params={{ contestSlug: String(result.solve.contest.id) }} // TODO: change to contestSlug once backend is ready //
+                params={{ contestSlug: result.solve.contest.slug }}
                 search={{ discipline: disciplineSlug }}
               >
                 <span className='sm:uppercase'>v</span>iew contest
