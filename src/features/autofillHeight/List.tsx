@@ -27,21 +27,15 @@ function ListWrapper({
   )
 }
 
-type ListItemData = { id: React.Key }
-type ListProps<T extends ListItemData> = {
+type ListProps<T> = {
   list: T[] | undefined
   pageSize: number | undefined
+  getItemKey: (item: T) => React.Key
   renderItem: (item: T, isFirst: boolean) => ReactNode
   renderSkeleton: () => ReactElement
   lastElementRef?: (node?: Element | null) => void
 }
-function List<T extends ListItemData>({
-  list,
-  pageSize,
-  lastElementRef,
-  renderItem,
-  renderSkeleton,
-}: Pick<ListProps<T>, 'list' | 'pageSize' | 'lastElementRef' | 'renderItem' | 'renderSkeleton'>) {
+function List<T>({ list, pageSize, getItemKey, lastElementRef, renderItem, renderSkeleton }: ListProps<T>) {
   if (pageSize === undefined) {
     return null
   }
@@ -50,24 +44,25 @@ function List<T extends ListItemData>({
     return Array.from({ length: pageSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
   }
 
-  return list.map((data, index) => (
-    <li key={data.id} ref={index === list.length - 1 ? lastElementRef : undefined}>
-      {renderItem(data, index === 0)}
+  return list.map((item, index) => (
+    <li key={getItemKey(item)} ref={index === list.length - 1 ? lastElementRef : undefined}>
+      {renderItem(item, index === 0)}
     </li>
   ))
 }
 
-type ListWithPinnedItemProps<T extends ListItemData> = ListProps<T> & {
+type ListWithPinnedItemProps<T> = ListProps<T> & {
   isFetching: boolean
   renderPinnedItem: (isFirstOnPage: boolean, linkToPage?: number) => ReactNode
   pinnedItem?: { isDisplayedSeparately: boolean; page: number }
   isHighlighted: (item: T) => boolean
   behavior: Behavior
 }
-function ListWithPinnedItem<T extends ListItemData>({
+function ListWithPinnedItem<T>({
   list,
   pageSize,
   isFetching,
+  getItemKey,
   pinnedItem,
   isHighlighted,
   renderPinnedItem,
@@ -105,7 +100,7 @@ function ListWithPinnedItem<T extends ListItemData>({
       {isSkeletonVisible
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)
         : list?.map((item, index) => (
-            <li ref={index === list.length - 1 ? lastElementRef : undefined} key={item.id}>
+            <li ref={index === list.length - 1 ? lastElementRef : undefined} key={getItemKey(item)}>
               <div ref={isHighlighted?.(item) ? highlightedRef : undefined}>
                 {renderItem(item, index === 0 && !shouldPin)}
               </div>
@@ -115,5 +110,5 @@ function ListWithPinnedItem<T extends ListItemData>({
   )
 }
 
-export type { ListItemData, ListWrapperProps, ListProps, ListWithPinnedItemProps }
+export type { ListWrapperProps, ListProps, ListWithPinnedItemProps }
 export { ListWrapper, List, ListWithPinnedItem }

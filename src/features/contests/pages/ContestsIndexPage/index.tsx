@@ -29,7 +29,6 @@ function ControllerWithInfiniteScroll() {
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getInfiniteContestsQuery({
-    discipline,
     enabled: pageSize !== undefined,
     pageSize,
   })
@@ -53,7 +52,6 @@ function ControllerWithPagination() {
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const { data, error } = useContests({
-    discipline,
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -129,6 +127,7 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
           renderItem={(contest) => <Contest discipline={discipline} contest={contest} />}
+          getItemKey={(contest) => contest.id}
         />
       </AutofillHeight.ListWrapper>
     </div>
