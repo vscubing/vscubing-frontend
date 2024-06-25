@@ -35,7 +35,7 @@ export function PickUsernameDialog() {
   const [isPending, setIsPending] = useState(false)
   const { data: user } = useUser()
 
-  const isVisible = user?.authCompleted === false
+  const isVisible = user?.isVerified === false
 
   const {
     register,

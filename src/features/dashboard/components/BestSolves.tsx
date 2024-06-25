@@ -50,6 +50,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           renderFakeElement={SolveSkeleton}
         >
           <AutofillHeight.List
+            getItemKey={(solve) => solve.id}
             pageSize={countToDisplay}
             renderItem={(solve, isFirstOnPage) => <Solve isFirstOnPage={isFirstOnPage} solve={solve} />}
             renderSkeleton={SolveSkeleton}

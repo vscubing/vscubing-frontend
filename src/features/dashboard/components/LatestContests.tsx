@@ -42,6 +42,7 @@ export function LatestContests({ className, contests }: { className: string; con
           renderItem={(contest) => <Contest contest={contest} />}
           renderSkeleton={() => <ContestSkeleton />}
           pageSize={countToDisplay}
+          getItemKey={(contest) => contest.id}
           list={contests?.slice(0, countToDisplay)}
         />
       </AutofillHeight.ListWrapper>

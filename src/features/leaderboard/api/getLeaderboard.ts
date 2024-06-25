@@ -1,3 +1,8 @@
+import {
+  type ContestsSingleResultLeaderboardOutput,
+  type ContestsSolvesSingleResultLeaderboardRetrieveParams,
+  contestsSolvesSingleResultLeaderboardRetrieve,
+} from '@/api'
 import { USER_QUERY_KEY, userQuery } from '@/features/auth'
 import { queryClient } from '@/lib/reactQuery'
 import { type Discipline, type Scramble } from '@/types'
@@ -5,17 +10,17 @@ import { timeout } from '@/utils'
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
 
-export type LeaderboardDTO = {
+export type _LeaderboardDTO = {
   pages: number
-  results: LeaderboardResult[] | null
+  results: _LeaderboardResult[] | null
   ownResult: {
-    result: LeaderboardResult
+    result: _LeaderboardResult
     page: number
     isDisplayedSeparately: boolean
   } | null
 }
 
-export type LeaderboardResult = {
+export type _LeaderboardResult = {
   id: number
   timeMs: number
   created: string
@@ -26,7 +31,23 @@ export type LeaderboardResult = {
   place: number
 }
 
-export const getLeaderboardQuery = ({
+export type LeaderboardDTO = ContestsSingleResultLeaderboardOutput['results']
+export type LeaderboardResult = LeaderboardDTO['solveSet'][0]
+
+type LeaderboardQueryParams = {
+  enabled?: boolean
+} & ContestsSolvesSingleResultLeaderboardRetrieveParams
+
+export function getLeaderboardQuery({ enabled = true, disciplineSlug, page, pageSize }: LeaderboardQueryParams) {
+  return queryOptions({
+    queryKey: [USER_QUERY_KEY, 'leaderboard', disciplineSlug, { page, pageSize }],
+    queryFn: () => contestsSolvesSingleResultLeaderboardRetrieve({ disciplineSlug, page, pageSize }),
+    placeholderData: (prev) => prev,
+    enabled,
+  })
+}
+
+export const _getLeaderboardQuery = ({
   discipline,
   page,
   pageSize,
@@ -49,7 +70,7 @@ export const getLeaderboardQuery = ({
     enabled,
   })
 
-export const getLeaderboardInfiniteQuery = ({
+export const _getLeaderboardInfiniteQuery = ({
   discipline,
   pageSize,
   enabled = true,
@@ -69,7 +90,7 @@ export const getLeaderboardInfiniteQuery = ({
   })
 }
 
-async function fetchMockLeaderboard(page: number, pageSize: number): Promise<LeaderboardDTO> {
+async function fetchMockLeaderboard(page: number, pageSize: number): Promise<_LeaderboardDTO> {
   const { resultsWithoutOwn, ownResult, ownResultIndex } = await getMockResultsWithoutOwn()
   if (ownResult) {
     pageSize--
@@ -91,7 +112,7 @@ async function fetchMockLeaderboard(page: number, pageSize: number): Promise<Lea
       }
     })
 
-  let ownResultData: LeaderboardDTO['ownResult'] | null = null
+  let ownResultData: _LeaderboardDTO['ownResult'] | null = null
   if (ownResult) {
     const ownResultPage = Math.floor(ownResultIndex / pageSize + 1)
     let ownResultIndexOnPage: number | undefined = undefined
@@ -142,10 +163,10 @@ async function getMockResultsWithoutOwn() {
   }
 }
 
-const MOCK_LEADERBOARD_RESULTS: LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, getMockResult)
+const MOCK_LEADERBOARD_RESULTS: _LeaderboardResult[] = Array.from({ length: randomInteger(0, 50) }, getMockResult)
 const MOCK_OWN_RESULT_INDEX = randomInteger(0, MOCK_LEADERBOARD_RESULTS.length - 1)
 
-function getMockResult(): LeaderboardResult {
+function getMockResult(): _LeaderboardResult {
   return {
     place: 0,
     id: Math.random(),

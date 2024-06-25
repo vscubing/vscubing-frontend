@@ -5,7 +5,7 @@ import { NavigateBackButton, HintSection, PageTitleMobile, Pagination } from '@/
 import { CubeSwitcher } from '@/components/ui'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
-import { type LeaderboardDTO, getLeaderboardQuery, type LeaderboardResult, getLeaderboardInfiniteQuery } from '../api'
+import { _getLeaderboardInfiniteQuery, getLeaderboardQuery, type LeaderboardDTO } from '../api'
 import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
@@ -23,11 +23,11 @@ export function Leaderboard() {
 function ControllerWithPagination() {
   const navigate = useNavigate({ from: route.id })
 
-  const { discipline, page } = route.useLoaderData()
+  const { discipline: disciplineSlug, page } = route.useLoaderData()
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
-    discipline,
+    disciplineSlug,
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -36,15 +36,15 @@ function ControllerWithPagination() {
 
   if (error?.response?.status === 400) {
     // NOTE: this might have been changed to 404
-    void navigate({ search: { page: 1 }, params: { discipline } })
+    void navigate({ search: { page: 1 }, params: { discipline: disciplineSlug } })
   }
 
   return (
     <View pages={data?.pages} behavior='pagination'>
       <ResultsList
         behavior='pagination'
-        list={data?.results ?? undefined}
-        ownResult={data?.ownResult ?? null}
+        list={data?.results.solveSet ?? undefined}
+        ownResult={data?.results.ownResult}
         pageSize={pageSize}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
@@ -58,7 +58,7 @@ function ControllerWithInfiniteScroll() {
   const { discipline } = route.useLoaderData()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = getLeaderboardInfiniteQuery({
+  const query = _getLeaderboardInfiniteQuery({
     discipline,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -107,11 +107,14 @@ function View({ pages, children, behavior }: ViewProps) {
   )
 }
 
-type ResultsListProps = { ownResult: LeaderboardDTO['ownResult'] } & Pick<
+type ResultsListProps = { ownResult?: LeaderboardDTO['ownResult'] } & Pick<
   ListWrapperProps,
   'containerRef' | 'fakeElementRef'
 > &
-  Pick<ListWithPinnedItemProps<LeaderboardResult>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
+  Pick<
+    ListWithPinnedItemProps<LeaderboardDTO['solveSet'][0]>,
+    'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'
+  >
 function ResultsList({
   list,
   ownResult,
@@ -122,6 +125,8 @@ function ResultsList({
   fakeElementRef,
   isFetching,
 }: ResultsListProps) {
+  const { data: currentUser } = useUser()
+  const { discipline: disciplineSlug } = route.useLoaderData()
   if (list?.length === 0) {
     return (
       <HintSection>
@@ -141,18 +146,38 @@ function ResultsList({
         fakeElementRef={fakeElementRef}
       >
         <AutofillHeight.ListWithPinnedItem
+          getItemKey={(item) => item.solve.id}
           behavior={behavior}
           pinnedItem={ownResult ?? undefined}
-          isHighlighted={(item) => item.id === ownResult?.result.id}
+          isHighlighted={(item) => item.solve.id === ownResult?.solve.id}
           renderPinnedItem={(isFirst, linkToPage) =>
             ownResult ? (
               <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
-                <Result isOwn isFirstOnPage={isFirst} linkToPage={linkToPage} result={ownResult.result} />
+                <Result
+                  isOwn
+                  isFirstOnPage={isFirst}
+                  linkToPage={linkToPage}
+                  disciplineSlug={disciplineSlug}
+                  result={{
+                    place: ownResult.place,
+                    solve: {
+                      // TODO: remove the workaround once backend is ready
+                      scramble: { id: 123 },
+                      user: { username: currentUser!.username, id: 123 },
+                      ...ownResult.solve,
+                    },
+                  }}
+                />
               </div>
             ) : null
           }
           renderItem={(result, isFirst) => (
-            <Result isFirstOnPage={isFirst} isOwn={result.id === ownResult?.result.id} result={result} />
+            <Result
+              disciplineSlug={disciplineSlug}
+              isFirstOnPage={isFirst}
+              isOwn={result.solve.id === ownResult?.solve.id}
+              result={result}
+            />
           )}
           renderSkeleton={() => <ResultSkeleton />}
           pageSize={pageSize}

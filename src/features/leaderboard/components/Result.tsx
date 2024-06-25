@@ -5,10 +5,17 @@ import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
 import { PlaceLabel } from '@/components/shared'
 import * as Accordion from '@radix-ui/react-accordion'
+import { type Discipline } from '@/types'
 
-type ResultProps = { result: LeaderboardResult; linkToPage?: number; isOwn?: boolean; isFirstOnPage: boolean }
-export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps) {
-  let username = result.user.username
+type ResultProps = {
+  result: LeaderboardResult
+  linkToPage?: number
+  disciplineSlug: Discipline
+  isOwn?: boolean
+  isFirstOnPage: boolean
+}
+export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPage }: ResultProps) {
+  let username = result.solve.user.username
   if (isOwn) {
     username = username + ' (you)'
   }
@@ -26,7 +33,7 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
           <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
             {result.place}
           </PlaceLabel>
-          <CubeIcon className='mr-3 sm:mr-0' cube={result.discipline.name} />
+          <CubeIcon className='mr-3 sm:mr-0' cube={disciplineSlug} />
           <Ellipsis className='vertical-alignment-fix flex-1 sm:col-span-2 sm:w-auto'>{username}</Ellipsis>
           <span className='mr-6 md:mr-10 sm:mr-0 sm:flex sm:items-center'>
             <span className='sm:vertical-alignment-fix mb-1 hidden text-center text-grey-40 md:block sm:mb-0'>
@@ -34,10 +41,10 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
             </span>
             <SolveTimeLinkOrDnf
               canShowHint={isFirstOnPage}
-              timeMs={result.timeMs}
-              solveId={result.id}
-              contestSlug={result.contest.contestSlug}
-              discipline={result.discipline.name}
+              timeMs={result.solve.timeMs}
+              solveId={result.solve.id}
+              contestSlug={String(result.solve.contest.id)} // TODO: change to contestSlug once backend is ready
+              discipline={disciplineSlug}
             />
           </span>
           <Accordion.Trigger className='outline-ring group hidden md:block sm:py-2'>
@@ -49,11 +56,12 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
           <span className='flex items-center md:items-start md:border-t md:border-grey-60 md:pt-4 sm:grid sm:grid-cols-2 sm:gap-4'>
             <span className='vertical-alignment-fix w-36 border-l border-grey-60 text-center md:w-auto md:min-w-24 md:border-none md:pt-0 sm:ml-auto sm:w-24'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:mb-0'>Solve date</span>
-              {formatDate(result.created)}
+              {formatDate('S01j17436tzk7mj1f93stdtby4c')} {/* TODO: change to real data once backend is ready */}
             </span>
             <span className='vertical-alignment-fix mr-10 w-[9.375rem] text-center md:pt-0 sm:order-first sm:mr-0 sm:w-auto sm:text-left'>
               <span className='mb-2 hidden text-center text-grey-40 md:block sm:hidden'>Contest name</span>
-              Contest {result.contest.contestSlug}
+              Contest {result.solve.contest.id}
+              {/* TODO: change to contestSlug once backend is ready */}
             </span>
             <SecondaryButton
               asChild
@@ -62,8 +70,8 @@ export function Result({ result, isOwn, linkToPage, isFirstOnPage }: ResultProps
             >
               <Link
                 to='/contests/$contestSlug'
-                params={{ contestSlug: String(result.contest.contestSlug) }}
-                search={{ discipline: result.discipline.name }}
+                params={{ contestSlug: String(result.solve.contest.id) }} // TODO: change to contestSlug once backend is ready //
+                search={{ discipline: disciplineSlug }}
               >
                 <span className='sm:uppercase'>v</span>iew contest
               </Link>

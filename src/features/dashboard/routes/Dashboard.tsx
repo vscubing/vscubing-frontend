@@ -29,7 +29,6 @@ export function Dashboard() {
 
 function Lists({ className }: { className?: string }) {
   const { data: latestContests } = useContests({
-    discipline: '3by3',
     page: 1,
     pageSize: 5,
   })
