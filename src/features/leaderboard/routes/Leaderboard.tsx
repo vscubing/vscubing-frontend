@@ -5,7 +5,7 @@ import { NavigateBackButton, HintSection, PageTitleMobile, Pagination } from '@/
 import { CubeSwitcher } from '@/components/ui'
 import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
-import { _getLeaderboardInfiniteQuery, getLeaderboardQuery, type LeaderboardDTO } from '../api'
+import { getLeaderboardInfiniteQuery, getLeaderboardQuery, type LeaderboardDTO } from '../api'
 import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
@@ -55,12 +55,12 @@ function ControllerWithPagination() {
 }
 
 function ControllerWithInfiniteScroll() {
-  const { discipline } = route.useLoaderData()
+  const { discipline: disciplineSlug } = route.useLoaderData()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = _getLeaderboardInfiniteQuery({
-    discipline,
-    pageSize: pageSize ?? 0,
+  const query = getLeaderboardInfiniteQuery({
+    disciplineSlug,
+    pageSize,
     enabled: pageSize !== undefined,
   })
   const { data, isFetching, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
@@ -69,8 +69,8 @@ function ControllerWithInfiniteScroll() {
     <View behavior='infinite-scroll'>
       <ResultsList
         behavior='infinite-scroll'
-        list={data?.pages.flatMap((page) => page.results!)}
-        ownResult={data?.pages.at(0)?.ownResult ?? null}
+        list={data?.pages.flatMap((page) => page.results.solveSet)}
+        ownResult={data?.pages.at(0)?.results.ownResult}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         lastElementRef={lastElementRef}
