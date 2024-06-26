@@ -24,7 +24,6 @@ export function useInfiniteScroll<T extends { pages?: number }>(
   const { isIntersecting, ref: lastElementRef } = useIntersectionObserver({ rootMargin: '10%' })
   useEffect(() => {
     if (isIntersecting && !isFetching && !allPagesLoaded) {
-      console.log('useInfiniteScroll', { isIntersecting, isFetching, allPagesLoaded, fetchNextPage })
       void fetchNextPage()
     }
   }, [isFetching, isIntersecting, allPagesLoaded, fetchNextPage])
