@@ -2,12 +2,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
-import {
-  type ContestSessionDTO,
-  getContestResultsQuery,
-  type ContestResultsDTO,
-  getContestResultsInfiniteQuery,
-} from '../../api'
+import { type _ContestSessionDTO, getContestResultsQuery, type _ContestResultsDTO } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 import { type ReactNode } from 'react'
@@ -29,12 +24,12 @@ export function ContestResultsPage() {
 
 function ControllerWithPagination() {
   const { contestSlug } = route.useParams()
-  const { discipline, page } = route.useSearch()
+  const { discipline: disciplineSlug, page } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
     contestSlug,
-    discipline,
+    disciplineSlug,
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -175,9 +170,9 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
 }
 
 type SessionsListProps = {
-  ownSession: ContestResultsDTO['ownSession']
+  ownSession: _ContestResultsDTO['ownSession']
 } & Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
-  Pick<ListWithPinnedItemProps<ContestSessionDTO>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
+  Pick<ListWithPinnedItemProps<_ContestSessionDTO>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
 function SessionsList({
   isFetching,
   lastElementRef,

@@ -2,7 +2,7 @@ import { CubeIcon, Ellipsis, PlusIcon, MinusIcon } from '@/components/ui'
 import { SolveTimeLinkOrDnf, SolveTimeLabel } from '@/components/shared'
 import { cn, matchesQuery } from '@/utils'
 import { useMemo } from 'react'
-import { type ContestSessionDTO } from '../../api'
+import { type _ContestSessionDTO } from '../../api'
 import * as Accordion from '@radix-ui/react-accordion'
 import { PlaceLabel, ExtraLabel } from '@/components/shared'
 import { type Discipline } from '@/types'
@@ -15,7 +15,7 @@ export function Session({
   discipline,
   isFirstOnPage,
 }: {
-  session: ContestSessionDTO
+  session: _ContestSessionDTO
   contestSlug: string
   discipline: Discipline
   linkToPage?: number
@@ -86,7 +86,7 @@ export function SessionSkeleton() {
   return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.5rem] sm:h-28'></div>
 }
 
-function getBestAndWorstIds(solves: ContestSessionDTO['solves']) {
+function getBestAndWorstIds(solves: _ContestSessionDTO['solves']) {
   const dnfSolve = solves.find(({ dnf }) => dnf)
   const successful = solves
     .filter(({ timeMs, dnf }) => typeof timeMs === 'number' && !dnf)

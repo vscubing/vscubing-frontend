@@ -6,9 +6,10 @@ import {
 import { USER_QUERY_KEY } from '@/features/auth'
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 
+// TODO: remove type hacks after API is fixed (ownResult should be nullable and all the fieds of ownResult should be required)
+
 export type LeaderboardDTO = Omit<ContestsSingleResultLeaderboardOutput['results'], 'ownResult'> & {
   ownResult: {
-    // TODO: remove type hacks after API is fixed (ownResult should be nullable and all the fieds of ownResult should be required)
     isDisplayedSeparately: boolean
     page: number
     place: number
@@ -17,11 +18,10 @@ export type LeaderboardDTO = Omit<ContestsSingleResultLeaderboardOutput['results
 }
 export type LeaderboardResult = LeaderboardDTO['solveSet'][0]
 
-type LeaderboardQueryParams = {
+type LeaderboardParams = {
   enabled?: boolean
 } & ContestsSolvesSingleResultLeaderboardRetrieveParams
 
-// TODO: remove type hacks after API is fixed (ownResult should be nullable and all the fieds of ownResult should be required)
 type LeaderboardResponsePatched = Omit<ContestsSingleResultLeaderboardOutput, 'results'> & { results: LeaderboardDTO }
 async function getSingleResultLeaderboardPatched(
   params: ContestsSolvesSingleResultLeaderboardRetrieveParams,
@@ -37,7 +37,7 @@ async function getSingleResultLeaderboardPatched(
   }
 }
 
-export function getLeaderboardQuery({ enabled = true, disciplineSlug, page, pageSize }: LeaderboardQueryParams) {
+export function getLeaderboardQuery({ enabled = true, disciplineSlug, page, pageSize }: LeaderboardParams) {
   return queryOptions({
     queryKey: [USER_QUERY_KEY, 'leaderboard', disciplineSlug, { page, pageSize }],
     queryFn: () => getSingleResultLeaderboardPatched({ disciplineSlug, page, pageSize }),
@@ -50,7 +50,7 @@ export function getLeaderboardInfiniteQuery({
   enabled = true,
   disciplineSlug,
   pageSize,
-}: Omit<LeaderboardQueryParams, 'page'>) {
+}: Omit<LeaderboardParams, 'page'>) {
   if (pageSize !== undefined) {
     pageSize = Math.floor(pageSize * 2)
   }

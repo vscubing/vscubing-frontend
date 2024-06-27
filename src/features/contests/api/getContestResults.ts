@@ -6,18 +6,25 @@ import { AxiosError, type AxiosResponse } from 'axios'
 import { queryClient } from '@/lib/reactQuery'
 import { axiosClient } from '@/lib/axios'
 import { ongoingSlugQuery } from '@/shared/contests'
+import {
+  type ContestsContestsLeaderboardRetrieveParams,
+  contestsContestsLeaderboardRetrieve,
+  type ContestsRoundSessionWithSolvesListOutput,
+} from '@/api'
 
-export type ContestResultsDTO = {
+// TODO: remove type hacks after API is fixed (ownResult should be nullable and all the fieds of ownResult should be required)
+
+export type _ContestResultsDTO = {
   pages: number
-  sessions: ContestSessionDTO[] | null
+  sessions: _ContestSessionDTO[] | null
   ownSession: {
-    session: ContestSessionDTO
+    session: _ContestSessionDTO
     page: number
     isDisplayedSeparately: boolean
   } | null
 }
 
-export type ContestSessionDTO = {
+export type _ContestSessionDTO = {
   id: number
   avgMs: number | null
   discipline: { name: Discipline }
@@ -32,11 +39,48 @@ export type ContestSessionDTO = {
   }>
 }
 
-export function getContestQueryKey({ contestSlug, discipline }: { contestSlug: string; discipline: Discipline }) {
-  return [USER_QUERY_KEY, 'contest-results', contestSlug, discipline]
+export function getContestQueryKey({ contestSlug, disciplineSlug }: { contestSlug: string; disciplineSlug: string }) {
+  return [USER_QUERY_KEY, 'contest-results', contestSlug, disciplineSlug]
 }
 
-export function getContestResultsQuery({
+export type ContestResultsDTO = Omit<ContestsRoundSessionWithSolvesListOutput['results'], 'ownResult'> & {
+  ownResult: {
+    isDisplayedSeparately: boolean
+    page: number
+    place: number
+    roundSession: NonNullable<ContestsRoundSessionWithSolvesListOutput['results']['ownResult']['roundSession']>
+  } | null
+}
+export type ContestSession = ContestResultsDTO['roundSessionSet'][0]
+
+type ContestResultsPatched = Omit<ContestsRoundSessionWithSolvesListOutput, 'results'> & { results: ContestResultsDTO }
+async function getContestResultsPatched(
+  params: ContestsContestsLeaderboardRetrieveParams,
+): Promise<ContestResultsPatched> {
+  const res = await contestsContestsLeaderboardRetrieve(params)
+
+  return {
+    ...res,
+    results: {
+      ownResult: res.results.ownResult.roundSession ? res.results.ownResult : null,
+      roundSessionSet: res.results.roundSessionSet,
+    } as ContestResultsDTO,
+  }
+}
+
+type ContestResultsParams = ContestsContestsLeaderboardRetrieveParams & {
+  enabled?: boolean
+}
+export function getContestResultsQuery({ contestSlug, disciplineSlug, page, pageSize, enabled }: ContestResultsParams) {
+  return queryOptions({
+    queryKey: [...getContestQueryKey({ contestSlug, disciplineSlug }), { page, pageSize }],
+    queryFn: () => contestsContestsLeaderboardRetrieve({ contestSlug, disciplineSlug, page, pageSize }),
+    placeholderData: (prev) => prev,
+    enabled,
+  })
+}
+
+export function _getContestResultsQuery({
   contestSlug,
   discipline,
   page,
@@ -50,7 +94,7 @@ export function getContestResultsQuery({
   enabled: boolean
 }) {
   return queryOptions({
-    queryKey: [...getContestQueryKey({ contestSlug, discipline }), page, pageSize],
+    queryKey: [...getContestQueryKey({ contestSlug, disciplineSlug: discipline }), page, pageSize],
     queryFn: async () => {
       const ongoing = await queryClient.fetchQuery(ongoingSlugQuery)
       if (contestSlug === ongoing) {
@@ -74,7 +118,7 @@ export function getContestResultsQuery({
   })
 }
 
-export function getContestResultsInfiniteQuery({
+export function _getContestResultsInfiniteQuery({
   contestSlug,
   discipline,
   pageSize,
@@ -88,7 +132,7 @@ export function getContestResultsInfiniteQuery({
   pageSize = Math.floor(pageSize * 2)
 
   return infiniteQueryOptions({
-    queryKey: [...getContestQueryKey({ contestSlug, discipline }), pageSize],
+    queryKey: [...getContestQueryKey({ contestSlug, disciplineSlug: discipline }), pageSize],
     queryFn: ({ pageParam: page }) => getMockContestResults({ page, pageSize }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
@@ -102,7 +146,7 @@ async function getMockContestResults({
 }: {
   page: number
   pageSize: number
-}): Promise<ContestResultsDTO> {
+}): Promise<_ContestResultsDTO> {
   const { allSessions, ownSession } = await getMockSessionsWithOwn()
 
   const pages = getTotalPages(!!ownSession, allSessions.length, pageSize)
@@ -152,7 +196,7 @@ const MOCK_SESSIONS = Array.from({ length: 100 }, () => getMockSession())
   .map((session, i) => ({ ...session, place: i + 1 }))
 const MOCK_OWN_INDEX = randomInteger(0, MOCK_SESSIONS.length - 1)
 
-function getMockSession(): Omit<ContestSessionDTO, 'place'> {
+function getMockSession(): Omit<_ContestSessionDTO, 'place'> {
   const solves = getMockSolves()
   return {
     id: Math.random(),
@@ -167,7 +211,7 @@ function getMockSession(): Omit<ContestSessionDTO, 'place'> {
   }
 }
 
-function getAverage(solves: ContestSessionDTO['solves']): number | null {
+function getAverage(solves: _ContestSessionDTO['solves']): number | null {
   const countingSolves = [...solves]
     .sort((a, b) => {
       if (a.timeMs === null) return Infinity
@@ -179,7 +223,7 @@ function getAverage(solves: ContestSessionDTO['solves']): number | null {
   return countingSolves.reduce((acc, { timeMs }) => acc + timeMs!, 0) / countingSolves.length
 }
 
-function getMockSolves(): ContestSessionDTO['solves'] {
+function getMockSolves(): _ContestSessionDTO['solves'] {
   let firstExtraIndex = Math.floor(Math.random() * 10)
   let secondExtraIndex = Math.floor(Math.random() * 10)
   if (firstExtraIndex > secondExtraIndex) {
@@ -195,7 +239,7 @@ function getMockSolves(): ContestSessionDTO['solves'] {
   return positions.map((position) => getMockSolve(position))
 }
 
-function getMockSolve(position: string): ContestSessionDTO['solves'][number] {
+function getMockSolve(position: string): _ContestSessionDTO['solves'][number] {
   const dnf = Math.random() > 0.9
   return {
     id: Math.random(),
