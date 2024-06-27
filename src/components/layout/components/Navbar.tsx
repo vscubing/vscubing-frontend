@@ -106,8 +106,11 @@ function getLinks(
           <span>Past contests</span>
         </>
       ),
-      to: '/contests/',
+      to: '/contests',
       search: { discipline: DEFAULT_DISCIPLINE, page: 1 },
+      activeOptions: {
+        includeSearch: false,
+      },
       activeCondition: shouldHighlightAllContests,
     },
     {
