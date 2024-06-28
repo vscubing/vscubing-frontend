@@ -74,7 +74,7 @@ type ContestResultsParams = ContestsContestsLeaderboardRetrieveParams & {
 export function getContestResultsQuery({ contestSlug, disciplineSlug, page, pageSize, enabled }: ContestResultsParams) {
   return queryOptions({
     queryKey: [...getContestQueryKey({ contestSlug, disciplineSlug }), { page, pageSize }],
-    queryFn: () => contestsContestsLeaderboardRetrieve({ contestSlug, disciplineSlug, page, pageSize }),
+    queryFn: () => getContestResultsPatched({ contestSlug, disciplineSlug, page, pageSize }),
     placeholderData: (prev) => prev,
     enabled,
   })

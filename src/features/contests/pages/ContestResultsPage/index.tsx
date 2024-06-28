@@ -2,7 +2,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
-import { type _ContestSessionDTO, getContestResultsQuery, type _ContestResultsDTO } from '../../api'
+import { getContestResultsQuery, type ContestResultsDTO, type ContestSession } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 import { type ReactNode } from 'react'
@@ -41,8 +41,8 @@ function ControllerWithPagination() {
     <View pages={data?.pages} behavior='pagination' errorCode={error?.response?.status}>
       <SessionsList
         behavior='pagination'
-        list={data?.sessions ?? undefined}
-        ownSession={data?.ownSession ?? null}
+        list={data?.results.roundSessionSet}
+        ownSession={data?.results.ownResult ?? null}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         isFetching={isFetching}
@@ -170,9 +170,9 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
 }
 
 type SessionsListProps = {
-  ownSession: _ContestResultsDTO['ownSession']
+  ownSession: ContestResultsDTO['ownResult']
 } & Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
-  Pick<ListWithPinnedItemProps<_ContestSessionDTO>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
+  Pick<ListWithPinnedItemProps<ContestSession>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
 function SessionsList({
   isFetching,
   lastElementRef,
@@ -198,8 +198,9 @@ function SessionsList({
           <AutofillHeight.ListWithPinnedItem
             lastElementRef={lastElementRef}
             pinnedItem={ownSession ?? undefined}
+            getItemKey={(session) => session.roundSession.id}
             behavior={behavior}
-            isHighlighted={(session) => session.id === ownSession?.session.id}
+            isHighlighted={(session) => session.roundSession.id === ownSession?.roundSession.id}
             renderPinnedItem={(isFirstOnPage, linkToPage) =>
               ownSession ? (
                 <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
@@ -209,7 +210,7 @@ function SessionsList({
                     contestSlug={contestSlug}
                     linkToPage={linkToPage}
                     isOwn
-                    session={ownSession.session}
+                    session={ownSession}
                   />
                 </div>
               ) : null
@@ -217,7 +218,7 @@ function SessionsList({
             pageSize={pageSize}
             renderItem={(session, isFirstOnPage) => (
               <Session
-                isOwn={session.id === ownSession?.session.id}
+                isOwn={session.roundSession.id === ownSession?.roundSession.id}
                 isFirstOnPage={isFirstOnPage}
                 contestSlug={contestSlug}
                 discipline={discipline}
