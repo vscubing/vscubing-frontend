@@ -2,7 +2,12 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
-import { getContestResultsQuery, type ContestResultsDTO, type ContestSession } from '../../api'
+import {
+  getContestResultsInfiniteQuery,
+  getContestResultsQuery,
+  type ContestResultsDTO,
+  type ContestSession,
+} from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 import { type ReactNode } from 'react'
@@ -54,12 +59,12 @@ function ControllerWithPagination() {
 
 function ControllerWithInfiniteScroll() {
   const { contestSlug } = route.useParams()
-  const { discipline } = route.useSearch()
+  const { discipline: disciplineSlug } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsInfiniteQuery({
     contestSlug,
-    discipline,
+    disciplineSlug,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
   })
@@ -69,8 +74,8 @@ function ControllerWithInfiniteScroll() {
     <View behavior='infinite-scroll' errorCode={error?.response?.status}>
       <SessionsList
         behavior='infinite-scroll'
-        list={data?.pages.flatMap((page) => page.sessions!)}
-        ownSession={data?.pages.at(0)?.ownSession ?? null}
+        list={data?.pages.flatMap((page) => page.results.roundSessionSet)}
+        ownSession={data?.pages.at(0)?.results.ownResult ?? null}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         lastElementRef={lastElementRef}
