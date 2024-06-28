@@ -67,7 +67,7 @@ function useNavbar() {
     fuzzy: true,
   })
   const isOnOngoingContest = !!matchRoute({
-    to: '/contests/$contestSlug/results',
+    to: '/contests/$contestSlug',
     fuzzy: true,
     params: { contestSlug: ongoingSlug },
   })
