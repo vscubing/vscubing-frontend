@@ -2,7 +2,7 @@ import { queryClient } from '@/lib/reactQuery'
 import { axiosClient } from '@/lib/axios'
 import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
-import { solveContestStateQuery } from './getSolveContestState'
+import { getSolveContestStateQuery } from './getSolveContestState'
 import { getApiRoute } from './apiRoute'
 import { type FinishedSolve } from '../types'
 import { TOASTS_PRESETS, toast } from '@/components/ui'
@@ -37,7 +37,7 @@ export const usePostSolveResult = (contestSlug: string, discipline: Discipline) 
         toast(TOASTS_PRESETS.internalError)
       }
 
-      const query = solveContestStateQuery(contestSlug, discipline)
+      const query = getSolveContestStateQuery(contestSlug, discipline)
       const previousState = await queryClient.fetchQuery(query)
       queryClient.setQueryData(query.queryKey, {
         ...previousState,

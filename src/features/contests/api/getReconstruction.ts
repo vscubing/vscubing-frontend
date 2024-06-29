@@ -1,11 +1,11 @@
 import { axiosClient } from '@/lib/axios'
-import { type Discipline, type Scramble } from '@/types'
+import { type Discipline, type ScrambleDTO } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
 
 export type ReconstructionDTO = {
   id: string
   reconstruction: string
-  scramble: Pick<Scramble, 'position' | 'scramble'>
+  scramble: Pick<ScrambleDTO, 'position' | 'scramble'>
   contestSlug: string
   discipline: { name: Discipline }
   user: { username: string }

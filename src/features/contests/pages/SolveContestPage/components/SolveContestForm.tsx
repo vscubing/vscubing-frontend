@@ -2,7 +2,7 @@ import { type Discipline } from '@/types'
 import { usePostSolveResult, useSubmitSolve, useChangeToExtra } from '../api'
 import { type CubeSolveResult, useCube } from '@/features/cube'
 import { useNavigate } from '@tanstack/react-router'
-import { type SolveContestStateDTO } from '../types'
+import { SolveContestStateDTO, type _SolveContestStateDTO } from '../types'
 import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
@@ -17,7 +17,7 @@ export function SolveContestForm({ state, contestSlug, discipline }: SolveContes
   const navigate = useNavigate()
   const [isPending, setIsPending] = useState(false)
 
-  const { currentSolve, submittedSolves } = state
+  const { currentSolve, submittedSolveSet } = state
 
   function handleInitSolve() {
     const onSolveFinish = async (result: CubeSolveResult) => {
@@ -26,7 +26,7 @@ export function SolveContestForm({ state, contestSlug, discipline }: SolveContes
     }
     const onEarlyAbort = () => setIsPending(false)
 
-    initSolve(currentSolve.scramble.scramble, (result) => void onSolveFinish(result), onEarlyAbort)
+    initSolve(currentSolve.scramble.moves, (result) => void onSolveFinish(result), onEarlyAbort)
     setIsPending(true)
   }
 
@@ -51,7 +51,8 @@ export function SolveContestForm({ state, contestSlug, discipline }: SolveContes
     })
   }
 
-  const currentSolveNumber = submittedSolves.length + 1
+  // TODO: remove submittedSolveSet nonnullable type assertion once backend is updated
+  const currentSolveNumber = submittedSolveSet!.length + 1
   return (
     <div className='flex flex-1 justify-center pl-16 pr-12'>
       <div className='flex max-w-[64rem] flex-1 flex-col'>
@@ -63,7 +64,8 @@ export function SolveContestForm({ state, contestSlug, discipline }: SolveContes
         <div className='scrollbar flex flex-1 basis-0 items-start justify-center gap-12 overflow-y-auto pr-4 xl-short:gap-6'>
           <Progress className='gap-12 xl-short:gap-6' currentSolveNumber={currentSolveNumber} />
           <div className='flex w-full flex-1 flex-col gap-12 xl-short:gap-6'>
-            {submittedSolves.map((solve, index) => (
+            {/* TODO: remove submittedSolveSet nonnullable type assertion once backend is updated */}
+            {submittedSolveSet!.map(({ solve }, index) => (
               <SolvePanel
                 number={index + 1}
                 timeMs={solve.timeMs ?? undefined}

@@ -9,9 +9,8 @@ import {
   PrimaryButton,
 } from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
-import { useQuery } from '@tanstack/react-query'
 import { Header, SectionHeader } from '@/components/layout'
-import { solveContestStateQuery } from './api'
+import { useSolveContestState } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
 import {
@@ -43,18 +42,18 @@ export function SolveContestPage() {
 
 export function SolvePageContent() {
   const { contestSlug } = route.useParams()
-  const { discipline } = route.useSearch()
+  const { discipline: disciplineSlug } = route.useSearch()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
-  const { data: state, error } = useQuery(solveContestStateQuery(contestSlug, discipline))
+  const { data: state, error } = useSolveContestState({ contestSlug, disciplineSlug })
   const errorStatus = error?.response?.status
 
   if (errorStatus === 403) {
     return (
       <Navigate
         to='/contests/$contestSlug/results'
-        params={{ contestSlug: String(contestSlug) }}
-        search={{ discipline, page: 1 }}
+        params={{ contestSlug: contestSlug }}
+        search={{ discipline: disciplineSlug, page: 1 }}
         replace
       />
     )
@@ -87,7 +86,8 @@ export function SolvePageContent() {
     )
   }
 
-  if (state.submittedSolves.length === 0 && !hasSeenOngoingHint) {
+  // TODO: remove submittedSolveSet nonnullable type assertion once backend is updated
+  if (state.submittedSolveSet!.length === 0 && !hasSeenOngoingHint) {
     return (
       <HintSection>
         <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
@@ -101,7 +101,7 @@ export function SolvePageContent() {
       <SectionHeader>
         <div>
           <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
-            <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+            <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
           </Link>
         </div>
         <div className='ml-10 flex flex-1 items-center gap-4'>
@@ -120,7 +120,7 @@ export function SolvePageContent() {
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContestForm contestSlug={contestSlug} discipline={discipline} state={state} />
+        <SolveContestForm contestSlug={contestSlug} discipline={disciplineSlug} state={state} />
       </div>
     </>
   )

@@ -1,5 +1,5 @@
 import { PrimaryButton, SecondaryButton } from '@/components/ui'
-import { type SolveContestStateDTO } from '../types'
+import { SolveContestStateDTO, type _SolveContestStateDTO } from '../types'
 import { SolvePanel } from './SolvePanel'
 
 export function CurrentSolve({
@@ -20,7 +20,7 @@ export function CurrentSolve({
   return (
     <SolvePanel
       number={number}
-      scramble={currentSolve.scramble}
+      scramble={currentSolve.scramble.moves}
       isInited={currentSolve.solve !== null}
       id={currentSolve.solve?.id}
       timeMs={currentSolve.solve?.timeMs ?? undefined}

@@ -1,13 +1,15 @@
-import { type Scramble } from '@/types'
+import { ContestsCurrentSolveOutput } from '@/api'
+import { type ScrambleDTO } from '@/types'
 
-export type SolveContestStateDTO = {
+export type _SolveContestStateDTO = {
   currentSolve: {
     canChangeToExtra: boolean
-    scramble: Scramble
+    scramble: ScrambleDTO
     solve: SolveNotInited | FinishedSolve
   }
-  submittedSolves: Array<(SolveSuccessful | SolveDnf) & { scramble: Scramble }>
+  submittedSolves: Array<(SolveSuccessful | SolveDnf) & { scramble: ScrambleDTO }>
 }
+export type SolveContestStateDTO = ContestsCurrentSolveOutput
 export type FinishedSolve = SolveSuccessful | SolveDnf
 
 type SolveNotInited = null

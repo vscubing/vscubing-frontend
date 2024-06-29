@@ -1,15 +1,23 @@
-import { axiosClient } from '@/lib/axios'
-import { type Discipline } from '@/types'
-import { queryOptions } from '@tanstack/react-query'
-import { type SolveContestStateDTO } from '../types'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { USER_QUERY_KEY } from '@/features/auth'
-import { getApiRoute } from './apiRoute'
+import {
+  ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
+  contestsOngoingContestCurrentRoundSessionProgressRetrieve,
+} from '@/api'
 
-export const solveContestStateQuery = (contestSlug: string, discipline: Discipline) =>
-  queryOptions({
-    queryKey: [USER_QUERY_KEY, 'solve-contest-state', { contestSlug, discipline }],
-    queryFn: async () => {
-      const res = await axiosClient.get<SolveContestStateDTO>(getApiRoute(contestSlug, discipline))
-      return res.data
-    },
+export function getSolveContestStateQuery({
+  contestSlug,
+  disciplineSlug,
+}: ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams) {
+  return queryOptions({
+    queryKey: [USER_QUERY_KEY, 'solve-contest-state', contestSlug, disciplineSlug],
+    queryFn: () => contestsOngoingContestCurrentRoundSessionProgressRetrieve({ contestSlug, disciplineSlug }),
   })
+}
+
+export function useSolveContestState({
+  contestSlug,
+  disciplineSlug,
+}: ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams) {
+  return useQuery(getSolveContestStateQuery({ contestSlug, disciplineSlug }))
+}
