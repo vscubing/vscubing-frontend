@@ -18,13 +18,13 @@ import type {
   ContestsCurrentSolveOutput,
   ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
   ContestsOngoingContestSolveCreateCreateParams,
-  ContestsOngoingContestSubmitCreate200,
   ContestsOngoingContestSubmitCreateParams,
   ContestsRoundSessionWithSolvesListOutput,
   ContestsSingleResultLeaderboardOutput,
   ContestsSolveListBestInEveryDiscipline,
   ContestsSolveRetrieveOutput,
   ContestsSolvesSingleResultLeaderboardRetrieveParams,
+  Input,
   OngoingContestRetrieve,
   TokenRefresh,
 } from './vscubingApi.schemas'
@@ -46,27 +46,28 @@ type IsAny<T> = 0 extends 1 & T ? true : false
 type IsUnknown<T> = IsAny<T> extends true ? false : unknown extends T ? true : false
 type Primitive = string | number | boolean | bigint | symbol | undefined | null
 type isBuiltin = Primitive | Function | Date | Error | RegExp
-type NonReadonly<T> = T extends Exclude<isBuiltin, Error>
-  ? T
-  : T extends Map<infer Key, infer Value>
-    ? Map<NonReadonly<Key>, NonReadonly<Value>>
-    : T extends ReadonlyMap<infer Key, infer Value>
+type NonReadonly<T> =
+  T extends Exclude<isBuiltin, Error>
+    ? T
+    : T extends Map<infer Key, infer Value>
       ? Map<NonReadonly<Key>, NonReadonly<Value>>
-      : T extends WeakMap<infer Key, infer Value>
-        ? WeakMap<NonReadonly<Key>, NonReadonly<Value>>
-        : T extends Set<infer Values>
-          ? Set<NonReadonly<Values>>
-          : T extends ReadonlySet<infer Values>
+      : T extends ReadonlyMap<infer Key, infer Value>
+        ? Map<NonReadonly<Key>, NonReadonly<Value>>
+        : T extends WeakMap<infer Key, infer Value>
+          ? WeakMap<NonReadonly<Key>, NonReadonly<Value>>
+          : T extends Set<infer Values>
             ? Set<NonReadonly<Values>>
-            : T extends WeakSet<infer Values>
-              ? WeakSet<NonReadonly<Values>>
-              : T extends Promise<infer Value>
-                ? Promise<NonReadonly<Value>>
-                : T extends {}
-                  ? { -readonly [Key in keyof T]: NonReadonly<T[Key]> }
-                  : IsUnknown<T> extends true
-                    ? unknown
-                    : T
+            : T extends ReadonlySet<infer Values>
+              ? Set<NonReadonly<Values>>
+              : T extends WeakSet<infer Values>
+                ? WeakSet<NonReadonly<Values>>
+                : T extends Promise<infer Value>
+                  ? Promise<NonReadonly<Value>>
+                  : T extends {}
+                    ? { -readonly [Key in keyof T]: NonReadonly<T[Key]> }
+                    : IsUnknown<T> extends true
+                      ? unknown
+                      : T
 
 export const accountsChangeUsernameUpdate = (accountsChangeUsernameInput: AccountsChangeUsernameInput) => {
   const formUrlEncoded = new URLSearchParams()
@@ -154,10 +155,19 @@ export const contestsContestsLeaderboardRetrieve = (params: ContestsContestsLead
   })
 }
 
-export const contestsOngoingContestSubmitCreate = (id: number, params: ContestsOngoingContestSubmitCreateParams) => {
-  return contestsOngoingContestSubmitCreateMutator<ContestsOngoingContestSubmitCreate200>({
-    url: `/api/contests/ongoing-contest/${id}/submit/`,
+export const contestsOngoingContestSubmitCreate = (
+  solveId: number,
+  input: Input,
+  params: ContestsOngoingContestSubmitCreateParams,
+) => {
+  const formUrlEncoded = new URLSearchParams()
+  formUrlEncoded.append('idDnf', input.idDnf.toString())
+
+  return contestsOngoingContestSubmitCreateMutator<void>({
+    url: `/api/contests/ongoing-contest/${solveId}/submit/`,
     method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    data: formUrlEncoded,
     params,
   })
 }
