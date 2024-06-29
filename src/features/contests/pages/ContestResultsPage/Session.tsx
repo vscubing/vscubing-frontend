@@ -68,12 +68,12 @@ export function Session({
                     contestSlug={contestSlug}
                     discipline={discipline}
                     solveId={solve.id}
-                    timeMs={10000} // TODO: remove the hack after backend fix
+                    timeMs={solve.timeMs}
                     variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
                   />
 
                   <ExtraLabel
-                    scramblePosition={'1'} /* TODO: remove the hack after backend fix */
+                    scramblePosition={solve.scramble.position}
                     className='absolute -top-2 right-[1.1rem] sm:-top-1'
                   />
                 </span>
@@ -91,10 +91,8 @@ export function SessionSkeleton() {
 }
 
 function getBestAndWorstIds(solves: ContestSession['roundSession']['solveSet']) {
-  const solvesPatched = solves.map((solve) => ({ ...solve, timeMs: 10000 })) // TODO: remove the hack after backend fix
-
-  const dnfSolve = solvesPatched.find(({ isDnf }) => isDnf)
-  const successful = solvesPatched
+  const dnfSolve = solves.find(({ isDnf }) => isDnf)
+  const successful = solves
     .filter(({ timeMs, isDnf }) => typeof timeMs === 'number' && !isDnf)
     .sort((a, b) => a.timeMs - b.timeMs)
   const bestId = successful.at(0)?.id
