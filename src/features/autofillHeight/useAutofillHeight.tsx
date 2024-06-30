@@ -3,13 +3,13 @@ import { useRef, useState, useEffect } from 'react'
 export function useFittingCount<
   TContainer extends HTMLElement = HTMLUListElement,
   TFake extends HTMLElement = HTMLLIElement,
->(min = 1, enabled = true) {
+>() {
   const containerRef = useRef<TContainer>(null)
   const fakeElementRef = useRef<TFake>(null)
   const [fittingCount, setFittingCount] = useState<number>()
 
   useEffect(() => {
-    if (!enabled || !containerRef.current || !fakeElementRef.current) {
+    if (!containerRef.current || !fakeElementRef.current) {
       return
     }
 
@@ -18,9 +18,8 @@ export function useFittingCount<
 
     const gap = parseInt(getComputedStyle(containerRef.current).gap)
     let count = Math.floor((containerHeight + gap - 1) / (fakeElementHeight + gap))
-    count = Math.max(count, min)
 
     setFittingCount(count)
-  }, [containerRef, fakeElementRef, min, enabled])
+  }, [containerRef, fakeElementRef])
   return { fittingCount, containerRef, fakeElementRef }
 }
