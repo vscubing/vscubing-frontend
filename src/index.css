@@ -14,7 +14,7 @@
     }
   }
   body {
-    @apply font-hind leading-[1.5] text-white-100 sm:text-[0.875rem];
+    @apply font-hind text-[0.875rem] leading-[1.5] text-white-100;
     @apply !bg-black-100; /* !important for vaul's shouldScaleBackground */
     @apply !pointer-events-auto; /* to make toasts accessible with opened Radix Dialog (and Vaul) */
   }
@@ -25,31 +25,31 @@
 
 @layer components {
   .title-lg {
-    @apply font-kanit text-[3.75rem] leading-[1.2] tracking-[0.02em] sm:text-[1.625rem] sm:leading-[1.5] sm:tracking-normal;
+    @apply font-kanit text-[3rem] leading-[1.2] tracking-[0.02em] sm:text-[1.625rem] sm:leading-[1.5] sm:tracking-normal;
   }
   .title-h1 {
-    @apply font-kanit text-[2.25rem] sm:text-[1.375rem];
+    @apply font-kanit text-[2rem] sm:text-[1.375rem];
   }
   .title-h2 {
-    @apply font-kanit text-[1.75rem] sm:text-[1.25rem];
+    @apply font-kanit text-[1.625rem] sm:text-[1.25rem];
   }
   .title-h3 {
-    @apply font-kanit text-[1.375rem] sm:text-[1.125rem];
+    @apply font-kanit text-[1.25rem] sm:text-[1.125rem];
   }
   .btn-lg {
-    @apply font-kanit text-[1.25rem] font-medium sm:text-[1rem];
+    @apply font-kanit text-[1.125rem] font-medium sm:text-[1rem];
   }
   .btn-sm {
-    @apply font-kanit text-[1rem] font-medium sm:text-[0.875rem];
+    @apply font-kanit text-[0.875rem] font-medium;
   }
   .text-large {
-    @apply text-[1.125rem] sm:text-[0.9375rem];
+    @apply text-[1rem] sm:text-[0.9375rem];
   }
   .caption {
-    @apply text-[0.875rem] tracking-[0.01em] sm:text-[0.75rem];
+    @apply text-[0.75rem] tracking-[0.01em] sm:text-[0.75rem];
   }
   .caption-sm {
-    @apply text-[0.75rem] sm:text-[0.625rem] sm:tracking-[0.01em];
+    @apply text-[0.625rem] sm:tracking-[0.01em];
   }
 
   .bg-card-gradient {

@@ -15,7 +15,7 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
 
   if (variant === 'vertical') {
     return (
-      <nav className='flex flex-col gap-4 xl-short:gap-1 sm:gap-0'>
+      <nav className='flex flex-col gap-4 sm:gap-0'>
         {navbarLinks.map(({ children, activeCondition = true, ...props }) => (
           <Link
             {...props}
@@ -26,7 +26,7 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
               }),
             }}
             onClick={onItemSelect}
-            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 p-4 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 sm:gap-3 sm:p-3'
+            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 px-4 py-2 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 sm:gap-3 sm:p-3'
           >
             {children}
           </Link>

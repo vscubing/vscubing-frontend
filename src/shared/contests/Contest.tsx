@@ -6,7 +6,7 @@ import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 type ContestProps = { contest: ContestDTO }
 export function Contest({ contest: { slug, startDate, endDate } }: ContestProps) {
   return (
-    <div className='flex min-h-20 items-center justify-between gap-8 rounded-xl bg-grey-100 pl-4 sm:min-h-16'>
+    <div className='flex min-h-16 items-center justify-between gap-8 rounded-xl bg-grey-100 pl-4'>
       <div className='sm:space-y-2'>
         <p className='title-h3'>Contest {slug}</p>
         <p className='text-grey-40'>
