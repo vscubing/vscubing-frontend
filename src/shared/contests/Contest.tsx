@@ -23,5 +23,5 @@ export function Contest({ contest: { slug, startDate, endDate } }: ContestProps)
 }
 
 export function ContestSkeleton() {
-  return <div className='h-20 animate-pulse rounded-xl bg-grey-100 sm:h-16'></div>
+  return <div className='h-16 animate-pulse rounded-xl bg-grey-100'></div>
 }
