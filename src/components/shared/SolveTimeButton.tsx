@@ -95,7 +95,9 @@ export const SolveTimeLabel = forwardRef<HTMLSpanElement, SolveTimeLabelProps>(
   },
 )
 
-const hintCaption = matchesQuery('sm') ? 'Tap on time to watch a solve' : 'Click on time to watch a solve'
+const hintCaption = matchesQuery('sm')
+  ? 'Tap on a time result to watch the solution'
+  : 'Click on a time result to watch the solution'
 type WatchSolveHintPopoverProps = {
   children: ReactNode
   className?: string
