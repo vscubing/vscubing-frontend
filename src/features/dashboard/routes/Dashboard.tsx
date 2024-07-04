@@ -10,7 +10,7 @@ import { contestsSolvesBestInEveryDisciplineList } from '@/api'
 export function Dashboard() {
   const { data: user } = useUser()
 
-  const title = user?.username ? `Greetings, ${user.username}` : 'Greetings, SpeedCubers'
+  const title = user?.username ? `Greetings, ${user.username}` : 'Greetings, speedcubers'
   return (
     <div className='flex flex-1 flex-col gap-3 sm:gap-2'>
       <Header title={title} />

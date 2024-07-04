@@ -72,7 +72,7 @@ export function PickUsernameDialog() {
         <AlertDialogContent asChild>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <AlertDialogTitle className='mb-4'>Greetings, Speed Cuber</AlertDialogTitle>
+              <AlertDialogTitle className='mb-4'>Greetings, Speedcuber</AlertDialogTitle>
               <p className='text-center text-grey-20'>Just a quick nickname needed to personalize your experience.</p>
             </div>
             <label className='flex w-min max-w-full flex-col gap-1 sm:w-full'>

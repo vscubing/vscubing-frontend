@@ -55,13 +55,10 @@ function Sidebar({ className }: { className?: string }) {
             </button>
           </div>
           <Navbar variant='vertical' onItemSelect={() => setOpenOnMobile(false)} />
-          <div className='mt-auto'>
-            <div className='flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1 sm:gap-2'>
-              <SocialLinks />
-              {/* TODO: animate the social links to slide up after login before the log out button appears */}
-              <LogoutButton />
-            </div>
-            <p className='text-caption mt-6 text-center text-white-100'>© Virtual Speedcubing, 2024</p>
+          <div className='mt-auto flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1 sm:gap-2'>
+            <SocialLinks />
+            {/* TODO: animate the social links to slide up after login before the log out button appears */}
+            <LogoutButton />
           </div>
         </div>
       </aside>
