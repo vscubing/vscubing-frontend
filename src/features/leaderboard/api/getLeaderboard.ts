@@ -37,27 +37,23 @@ async function getSingleResultLeaderboardPatched(
   }
 }
 
-export function getLeaderboardQuery({ enabled = true, disciplineSlug, page, pageSize }: LeaderboardParams) {
+export function getLeaderboardQuery({ enabled = true, page, pageSize }: LeaderboardParams) {
   return queryOptions({
-    queryKey: [USER_QUERY_KEY, 'leaderboard', disciplineSlug, { page, pageSize }],
-    queryFn: () => getSingleResultLeaderboardPatched({ disciplineSlug, page, pageSize }),
+    queryKey: [USER_QUERY_KEY, 'leaderboard', { page, pageSize }],
+    queryFn: () => getSingleResultLeaderboardPatched({ page, pageSize }),
     placeholderData: (prev) => prev,
     enabled,
   })
 }
 
-export function getLeaderboardInfiniteQuery({
-  enabled = true,
-  disciplineSlug,
-  pageSize,
-}: Omit<LeaderboardParams, 'page'>) {
+export function getLeaderboardInfiniteQuery({ enabled = true, pageSize }: Omit<LeaderboardParams, 'page'>) {
   if (pageSize !== undefined) {
     pageSize = Math.floor(pageSize * 2)
   }
 
   return infiniteQueryOptions({
-    queryKey: [USER_QUERY_KEY, 'leaderboard', disciplineSlug, pageSize],
-    queryFn: ({ pageParam: page }) => getSingleResultLeaderboardPatched({ disciplineSlug, page, pageSize }),
+    queryKey: [USER_QUERY_KEY, 'leaderboard', pageSize],
+    queryFn: ({ pageParam: page }) => getSingleResultLeaderboardPatched({ page, pageSize }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,

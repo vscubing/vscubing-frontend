@@ -7,7 +7,7 @@ import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 
 const MOBILE_MAX_OVERFLOWING_ITEMS = 3
 export function LatestContests({ className, contests }: { className: string; contests?: ContestDTO[] }) {
-  const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount(undefined)
+  const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
   if (fittingCount && matchesQuery('sm')) {
     countToDisplay = Math.max(fittingCount, MOBILE_MAX_OVERFLOWING_ITEMS)

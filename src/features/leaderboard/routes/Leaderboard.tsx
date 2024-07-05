@@ -27,7 +27,6 @@ function ControllerWithPagination() {
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
-    disciplineSlug,
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -55,11 +54,8 @@ function ControllerWithPagination() {
 }
 
 function ControllerWithInfiniteScroll() {
-  const { discipline: disciplineSlug } = route.useLoaderData()
-
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getLeaderboardInfiniteQuery({
-    disciplineSlug,
     pageSize,
     enabled: pageSize !== undefined,
   })
