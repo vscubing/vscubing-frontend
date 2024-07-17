@@ -1,17 +1,18 @@
-import { axiosClient } from '@/lib/axios'
 import { queryClient } from '@/lib/reactQuery'
 import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
-import { type _SolveContestStateDTO } from '../types'
+import { SolveContestStateDTO, type _SolveContestStateDTO } from '../types'
 import { getSolveContestStateQuery } from './getSolveContestState'
-import { getApiRoute } from './apiRoute'
+import { contestsOngoingContestSubmitCreate } from '@/api'
 
-export const useChangeToExtra = (contestSlug: string, disciplineSlug: Discipline) =>
+export const useChangeToExtra = ({ solveId, disciplineSlug }: { solveId: number; disciplineSlug: Discipline }) =>
   useMutation({
     mutationFn: async () => {
-      const { data: newSolvesState } = await axiosClient.put<_SolveContestStateDTO>(
-        getApiRoute(contestSlug, disciplineSlug, '?action=change_to_extra'),
-      )
+      const newSolvesState = (await contestsOngoingContestSubmitCreate(
+        solveId,
+        { idDnf: false },
+        { action: 'change_to_extra', disciplineSlug },
+      )) as unknown as SolveContestStateDTO // TODO: fix after backend is fixed
 
       const query = getSolveContestStateQuery({ disciplineSlug })
       queryClient.setQueryData(query.queryKey, newSolvesState)

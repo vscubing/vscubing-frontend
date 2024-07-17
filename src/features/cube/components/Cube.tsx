@@ -2,8 +2,8 @@ import { cn } from '@/utils'
 import { type RefObject, useEffect, useState, type ReactNode } from 'react'
 
 export type CubeSolveResult =
-  | { reconstruction: string; timeMs: number; dnf: false }
-  | { reconstruction: null; timeMs: null; dnf: true }
+  | { reconstruction: string; timeMs: number; isDnf: false }
+  | { reconstruction: null; timeMs: null; isDnf: true }
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 
@@ -114,7 +114,7 @@ function useInitSolve(
 
       if (event.data.event === 'solveFinish') {
         const { reconstruction, timeMs }: { reconstruction: string; timeMs: number } = event.data.payload
-        onSolveFinish({ reconstruction, timeMs, dnf: false })
+        onSolveFinish({ reconstruction, timeMs, isDnf: false })
       }
     }
 

@@ -53,7 +53,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   const shouldDNFOnPageLeave = !!solveState && solveState.wasTimeStarted
   useConditionalBeforeUnload(shouldDNFOnPageLeave, () =>
-    handleSolveFinish({ dnf: true, timeMs: null, reconstruction: null }),
+    handleSolveFinish({ isDnf: true, timeMs: null, reconstruction: null }),
   )
 
   const abortOrShowPrompt = useCallback(() => {
@@ -68,7 +68,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   const confirmAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
-    handleSolveFinish({ timeMs: null, dnf: true, reconstruction: null })
+    handleSolveFinish({ timeMs: null, isDnf: true, reconstruction: null })
   }, [handleSolveFinish])
 
   const cancelAbort = useCallback(() => {

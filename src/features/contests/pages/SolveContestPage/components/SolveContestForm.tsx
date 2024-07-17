@@ -8,19 +8,30 @@ import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
 import { useState } from 'react'
 
-type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; discipline: Discipline }
-export function SolveContestForm({ state, contestSlug, discipline }: SolveContestProps) {
-  const { mutateAsync: postSolveResult } = usePostSolveResult(contestSlug, discipline)
-  const { mutateAsync: submitSolve } = useSubmitSolve(contestSlug, discipline, handleSessionFinish)
-  const { mutateAsync: changeToExtra } = useChangeToExtra(contestSlug, discipline)
+type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; disciplineSlug: Discipline }
+export function SolveContestForm({
+  state: { currentSolve, submittedSolveSet },
+  contestSlug,
+  disciplineSlug,
+}: SolveContestProps) {
+  const { mutateAsync: postSolveResult } = usePostSolveResult(disciplineSlug)
+  const { mutateAsync: submitSolve } = useSubmitSolve({
+    solveId: currentSolve.solve?.id,
+    contestSlug,
+    disciplineSlug,
+    onSessionFinish: handleSessionFinish,
+  })
+  const { mutateAsync: changeToExtra } = useChangeToExtra({
+    solveId: currentSolve.solve?.id,
+    disciplineSlug,
+  })
   const { initSolve } = useCube()
   const navigate = useNavigate()
   const [isPending, setIsPending] = useState(false)
 
-  const { currentSolve, submittedSolveSet } = state
-
   function handleInitSolve() {
     const onSolveFinish = async (result: CubeSolveResult) => {
+      // @ts-expect-error fix once backend is updated so that reconstruction is nullable
       await postSolveResult({ scrambleId: currentSolve.scramble.id, result })
       setIsPending(false)
     }
@@ -46,7 +57,7 @@ export function SolveContestForm({ state, contestSlug, discipline }: SolveContes
     void navigate({
       to: '/contests/$contestSlug/results',
       params: { contestSlug: contestSlug },
-      search: { discipline, page: 1 },
+      search: { discipline: disciplineSlug, page: 1 },
       replace: true,
     })
   }
