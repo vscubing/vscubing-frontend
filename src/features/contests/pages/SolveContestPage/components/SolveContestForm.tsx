@@ -64,12 +64,11 @@ export function SolveContestForm({ state, contestSlug, discipline }: SolveContes
         <div className='scrollbar flex flex-1 basis-0 items-start justify-center gap-12 overflow-y-auto pr-4 xl-short:gap-6'>
           <Progress className='gap-12 xl-short:gap-6' currentSolveNumber={currentSolveNumber} />
           <div className='flex w-full flex-1 flex-col gap-12 xl-short:gap-6'>
-            {/* TODO: remove submittedSolveSet nonnullable type assertion once backend is updated */}
-            {submittedSolveSet!.map(({ solve }, index) => (
+            {submittedSolveSet?.map(({ solve }, index) => (
               <SolvePanel
                 number={index + 1}
                 timeMs={solve.timeMs ?? undefined}
-                scramble={solve.scramble}
+                scramble={solve.scramble.moves}
                 id={solve.id}
                 key={solve.id}
               />

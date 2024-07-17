@@ -45,7 +45,7 @@ export function SolvePageContent() {
   const { discipline: disciplineSlug } = route.useSearch()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
-  const { data: state, error } = useSolveContestState({ contestSlug, disciplineSlug })
+  const { data: state, error } = useSolveContestState({ disciplineSlug })
   const errorStatus = error?.response?.status
 
   if (errorStatus === 403) {
