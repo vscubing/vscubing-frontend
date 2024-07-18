@@ -120,7 +120,7 @@ export function SolvePageContent() {
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContestForm contestSlug={contestSlug} discipline={disciplineSlug} state={state} />
+        <SolveContestForm contestSlug={contestSlug} disciplineSlug={disciplineSlug} state={state} />
       </div>
     </>
   )
