@@ -1,24 +1,34 @@
 import { NavigateBackButton } from '@/components/shared'
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeBadge, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
-import { getRouteApi } from '@tanstack/react-router'
+import { Navigate, getRouteApi } from '@tanstack/react-router'
 import { copyToClipboard, formatSolveTime } from '@/utils'
 import { z } from 'zod'
 import { useReconstruction } from '../../api'
 import { Suspense, lazy } from 'react'
 import { toast } from '@/components/ui'
+import { Discipline } from '@/types'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
 const route = getRouteApi('/contests/$contestSlug/watch/$solveId')
 export function WatchSolvePage() {
-  const { contestSlug, solveId } = route.useParams()
+  const params = route.useParams()
+  const search = route.useSearch()
 
-  const { data: reconstruction } = useReconstruction(Number(solveId))
+  const { data: res } = useReconstruction(Number(params.solveId))
 
-  let scramble = `F U2 L2 B2 F' U L2 U R2 D2 L' B L2 B' R2 U2` // TODO: fix after backend is updated
-  let solution = reconstruction?.reconstruction.replace(/\/\*\d+?\*\//g, '')
+  if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.discipline)) {
+    return (
+      <Navigate
+        from={route.id}
+        to={route.id}
+        params={{ contestSlug: res.contest.slug, solveId: params.solveId }}
+        search={{ discipline: res.discipline.slug as Discipline }}
+      />
+    )
+  }
 
-  // TODO: add redirect to correct contestSlug and disciplineName once backend is updated
+  // TODO: add 404
 
   function copyWatchSolveLink() {
     copyToClipboard(window.location.href).then(
@@ -40,20 +50,15 @@ export function WatchSolvePage() {
         <SectionHeader className='gap-8'>
           <CubeBadge cube='3by3' />
           <div>
-            <p className='title-h2 mb-1 text-secondary-20'>Contest {contestSlug}</p>
-            <p className='text-large'>
-              Scramble {formatScramblePosition('E1')}
-              {/* TODO: remove mock */}
-            </p>
+            <p className='title-h2 mb-1 text-secondary-20'>Contest {res?.contest.slug}</p>
+            <p className='text-large'>Scramble {formatScramblePosition('E1')}</p>
+            {/* TODO: replace mock scramble position */}
           </div>
         </SectionHeader>
         <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
           <div className='sm:min-h-14'>
-            <p className='title-h3 mb-1'>Yusheng Du {/* TODO: remove mock */}</p>
-            <p className='text-large text-grey-20'>
-              {reconstruction ? formatSolveTime(reconstruction.timeMs) : null}
-              {/* TODO: remove mock */}
-            </p>
+            <p className='title-h3 mb-1'>{res?.user.username}</p>
+            <p className='text-large text-grey-20'>{res ? formatSolveTime(res.timeMs) : null}</p>
           </div>
           <SecondaryButton size='iconSm' onClick={copyWatchSolveLink}>
             <ShareIcon />
@@ -67,7 +72,7 @@ export function WatchSolvePage() {
             </div>
           }
         >
-          <TwistySection scramble={scramble} solution={solution} />
+          <TwistySection scramble={res?.scramble.moves} solution={res?.reconstruction.replace(/\/\*\d+?\*\//g, '')} />
         </Suspense>
       </div>
     </section>
