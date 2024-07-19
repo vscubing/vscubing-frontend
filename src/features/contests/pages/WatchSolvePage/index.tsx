@@ -51,7 +51,7 @@ export function WatchSolvePage() {
           <CubeBadge cube='3by3' />
           <div>
             <p className='title-h2 mb-1 text-secondary-20'>Contest {res?.contest.slug}</p>
-            <p className='text-large'>Scramble {formatScramblePosition('E1')}</p>
+            <p className='text-large'>Scramble {expandScramblePosition('E1')}</p>
             {/* TODO: replace mock scramble position */}
           </div>
         </SectionHeader>
@@ -79,7 +79,7 @@ export function WatchSolvePage() {
   )
 }
 
-function formatScramblePosition(position?: string): string {
+function expandScramblePosition(position?: string): string {
   if (!position) {
     return ''
   }
