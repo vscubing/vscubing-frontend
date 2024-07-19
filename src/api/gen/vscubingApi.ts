@@ -194,9 +194,13 @@ export const contestsOngoingContestSolveCreateCreate = (
   params: ContestsOngoingContestSolveCreateCreateParams,
 ) => {
   const formUrlEncoded = new URLSearchParams()
-  formUrlEncoded.append('reconstruction', contestsCreateSolveInput.reconstruction)
+  if (contestsCreateSolveInput.reconstruction !== undefined) {
+    formUrlEncoded.append('reconstruction', contestsCreateSolveInput.reconstruction)
+  }
   formUrlEncoded.append('isDnf', contestsCreateSolveInput.isDnf.toString())
-  formUrlEncoded.append('timeMs', contestsCreateSolveInput.timeMs.toString())
+  if (contestsCreateSolveInput.timeMs !== undefined) {
+    formUrlEncoded.append('timeMs', contestsCreateSolveInput.timeMs.toString())
+  }
 
   return contestsOngoingContestSolveCreateCreateMutator<ContestsCreateSolveOutput>({
     url: `/api/contests/ongoing-contest/solve/create/`,
