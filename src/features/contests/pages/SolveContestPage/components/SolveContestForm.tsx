@@ -1,7 +1,6 @@
 import { type Discipline } from '@/types'
-import { usePostSolveResult, useSubmitSolve, useChangeToExtra } from '../api'
+import { usePostSolveResult, useSolveAction } from '../api'
 import { type CubeSolveResult, useCube } from '@/features/cube'
-import { useNavigate } from '@tanstack/react-router'
 import { SolveContestStateDTO, type _SolveContestStateDTO } from '../types'
 import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
@@ -9,29 +8,17 @@ import { SolvePanel } from './SolvePanel'
 import { useState } from 'react'
 
 type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; disciplineSlug: Discipline }
-export function SolveContestForm({
-  state: { currentSolve, submittedSolveSet },
-  contestSlug,
-  disciplineSlug,
-}: SolveContestProps) {
+export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, disciplineSlug }: SolveContestProps) {
   const { mutateAsync: postSolveResult } = usePostSolveResult(disciplineSlug)
-  const { mutateAsync: submitSolve } = useSubmitSolve({
-    solveId: currentSolve.solve?.id,
-    contestSlug,
-    disciplineSlug,
-    onSessionFinish: handleSessionFinish,
-  })
-  const { mutateAsync: changeToExtra } = useChangeToExtra({
+  const { mutateAsync: solveAction } = useSolveAction({
     solveId: currentSolve.solve?.id,
     disciplineSlug,
   })
   const { initSolve } = useCube()
-  const navigate = useNavigate()
   const [isPending, setIsPending] = useState(false)
 
   function handleInitSolve() {
     const onSolveFinish = async (result: CubeSolveResult) => {
-      // @ts-expect-error fix once backend is updated so that reconstruction is nullable
       await postSolveResult({ scrambleId: currentSolve.scramble.id, result })
       setIsPending(false)
     }
@@ -41,25 +28,10 @@ export function SolveContestForm({
     setIsPending(true)
   }
 
-  async function handleSubmitSolve() {
+  async function handleSolveAction(action: 'change_to_extra' | 'submit') {
     setIsPending(true)
-    await submitSolve()
+    await solveAction(action)
     setIsPending(false)
-  }
-
-  async function handleChangeToExtra() {
-    setIsPending(true)
-    await changeToExtra()
-    setIsPending(false)
-  }
-
-  function handleSessionFinish() {
-    void navigate({
-      to: '/contests/$contestSlug/results',
-      params: { contestSlug: contestSlug },
-      search: { discipline: disciplineSlug, page: 1 },
-      replace: true,
-    })
   }
 
   // TODO: remove submittedSolveSet nonnullable type assertion once backend is updated
@@ -88,9 +60,9 @@ export function SolveContestForm({
             <CurrentSolve
               areActionsDisabled={isPending}
               currentSolve={currentSolve}
-              onChangeToExtra={handleChangeToExtra}
+              onChangeToExtra={() => handleSolveAction('change_to_extra')}
               onSolveInit={handleInitSolve}
-              onSolveSubmit={handleSubmitSolve}
+              onSolveSubmit={() => handleSolveAction('submit')}
               number={currentSolveNumber}
             />
           </div>

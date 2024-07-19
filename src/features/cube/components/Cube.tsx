@@ -3,7 +3,7 @@ import { type RefObject, useEffect, useState, type ReactNode } from 'react'
 
 export type CubeSolveResult =
   | { reconstruction: string; timeMs: number; isDnf: false }
-  | { reconstruction: null; timeMs: null; isDnf: true }
+  | { reconstruction?: undefined; timeMs?: undefined; isDnf: true }
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 
