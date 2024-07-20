@@ -1,7 +1,6 @@
-import { PopoverCloseButton } from '@/components/ui'
+import { Popover, PopoverAnchor, PopoverCloseButton, PopoverContent } from '@/components/ui'
 import { Discipline } from '@/types'
 import { cn, formatSolveTime, matchesQuery } from '@/utils'
-import { Popover, PopoverContent, PopoverAnchor } from '@radix-ui/react-popover'
 import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { type ReactNode, forwardRef, type ComponentProps } from 'react'
