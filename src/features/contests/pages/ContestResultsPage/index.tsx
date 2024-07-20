@@ -19,7 +19,7 @@ import {
 } from '@/features/autofillHeight'
 import { matchesQuery } from '@/utils'
 import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
-import { useOngoingSlug } from '@/shared/contests'
+import { useOngoingContest } from '@/shared/contests'
 import { NotFoundRedirect } from '@/features/NotFoundPage'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
@@ -97,8 +97,8 @@ function View({ pages, children, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
   const { discipline, page } = route.useSearch()
 
-  const { data: ongoingSlug } = useOngoingSlug()
-  const isOngoing = contestSlug === ongoingSlug // TODO: get from backend
+  const { data: ongoing } = useOngoingContest()
+  const isOngoing = contestSlug === ongoing?.slug
 
   let title = ''
   if (!isOngoing) {

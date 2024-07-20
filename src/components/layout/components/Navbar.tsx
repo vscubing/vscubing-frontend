@@ -1,5 +1,5 @@
 import { DashboardIcon, LeaderboardIcon, AllContestsIcon, OngoingContestIcon } from '@/components/ui'
-import { useOngoingSlug } from '@/shared/contests'
+import { useOngoingContest } from '@/shared/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { Link, useMatchRoute, type LinkProps } from '@tanstack/react-router'
@@ -59,7 +59,7 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
 }
 
 function useNavbar() {
-  const { data: ongoingSlug } = useOngoingSlug()
+  const { data: ongoing } = useOngoingContest()
   const matchRoute = useMatchRoute()
 
   const isOnContests = !!matchRoute({
@@ -69,11 +69,11 @@ function useNavbar() {
   const isOnOngoingContest = !!matchRoute({
     to: '/contests/$contestSlug',
     fuzzy: true,
-    params: { contestSlug: ongoingSlug },
+    params: { contestSlug: ongoing?.slug },
   })
 
   const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
-  return getLinks(ongoingSlug, shouldHighlightAllContests)
+  return getLinks(ongoing?.slug, shouldHighlightAllContests)
 }
 
 function getLinks(

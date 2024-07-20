@@ -7,7 +7,7 @@ import { ContestResultsPage } from './pages/ContestResultsPage'
 import { ContestsIndexPage } from './pages/ContestsIndexPage'
 import { SolveContestPage } from './pages/SolveContestPage'
 import { WatchSolvePage } from './pages/WatchSolvePage'
-import { ongoingSlugQuery } from '@/shared/contests'
+import { ongoingContestQuery } from '@/shared/contests'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).catch(1),
@@ -32,10 +32,10 @@ const ongoingContestRedirectRoute = createRoute({
   path: 'ongoing',
   validateSearch: disciplineSchema,
   beforeLoad: async ({ search: { discipline } }) => {
-    const ongoing = await queryClient.fetchQuery(ongoingSlugQuery)
+    const ongoing = await queryClient.fetchQuery(ongoingContestQuery)
     void redirect({
       to: contestRoute.id,
-      params: { contestSlug: ongoing },
+      params: { contestSlug: ongoing.slug },
       search: { discipline },
       replace: true,
       throw: true,

@@ -1,5 +1,6 @@
 import { CubeBadge, ExclamationCircleIcon, PrimaryButton } from '@/components/ui'
 import { Popover, PopoverCloseButton, PopoverContent, PopoverTrigger } from '@/components/ui'
+import { useOngoingContestDuration } from '@/shared/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
@@ -14,6 +15,8 @@ export function OngoingContestBanner() {
 }
 
 function BannerContent({ className }: { className?: string }) {
+  const duration = useOngoingContestDuration()
+
   return (
     <div className={cn('flex', className)}>
       <div className='relative mr-32'>
@@ -32,7 +35,7 @@ function BannerContent({ className }: { className?: string }) {
           <div className='flex w-full items-end justify-between'>
             <div>
               <p className='title-h3 mb-2'>Duration</p>
-              <p className='text-large'>10 Dec 2023-17 Dec 2023</p> {/* TODO: get from backend  */}
+              <p className='text-large'>{duration}</p>
             </div>
             <PrimaryButton asChild>
               <Link search={{ discipline: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
@@ -51,6 +54,8 @@ function BannerContent({ className }: { className?: string }) {
 }
 
 function BannerContentMobile({ className }: { className?: string }) {
+  const duration = useOngoingContestDuration()
+
   return (
     <div className={cn('flex sm:flex-col sm:px-3 sm:py-4', className)}>
       <div className='relative z-10 py-4 pl-4 sm:flex sm:items-center sm:gap-4 sm:p-0'>
@@ -76,7 +81,7 @@ function BannerContentMobile({ className }: { className?: string }) {
       <div className='flex flex-col items-end gap-6 py-4 pr-4 text-right sm:flex-row-reverse sm:items-center sm:justify-end sm:gap-2 sm:p-0 sm:text-left'>
         <div className='space-y-3 sm:space-y-1'>
           <p className='title-h3'>Duration</p>
-          <p className='text-large' /* TODO: get from backend */>10 Dec 2023-17 Dec 2023</p>
+          <p className='text-large'>{duration}</p>
         </div>
         <Disciplines />
       </div>

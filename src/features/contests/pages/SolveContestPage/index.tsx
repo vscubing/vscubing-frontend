@@ -21,18 +21,16 @@ import {
   HintSignInSection,
 } from '@/components/shared'
 import { NotFoundRedirect } from '@/features/NotFoundPage'
+import { useOngoingContestDuration } from '@/shared/contests'
 
 const route = getRouteApi('/contests/$contestSlug/solve')
 export function SolveContestPage() {
-  const title = (
-    <>
-      Ongoing contest <span className='whitespace-nowrap'>(17 Dec 2023 - 23 Dec 2023)</span>
-    </>
-  )
+  const duration = useOngoingContestDuration()
+  const title = <>Ongoing contest {duration && <span className='whitespace-nowrap'>({duration})</span>}</>
 
   return (
     <section className='flex flex-1 flex-col gap-3'>
-      <Header title={title} /* TODO: add start/end date once backend is updated */ />
+      <Header title={title} />
       <h1 className='title-h2 hidden text-secondary-20 lg:block'>{title}</h1>
 
       <NavigateBackButton className='self-start' />

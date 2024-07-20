@@ -1,3 +1,3 @@
 export * from './getContests'
-export * from './getOngoingSlug'
+export * from './getOngoingContest'
 export * from './Contest'
