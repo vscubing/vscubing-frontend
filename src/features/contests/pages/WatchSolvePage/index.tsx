@@ -15,7 +15,11 @@ export function WatchSolvePage() {
   const params = route.useParams()
   const search = route.useSearch()
 
-  const { data: res } = useReconstruction(Number(params.solveId))
+  const { data: res, error } = useReconstruction(Number(params.solveId))
+
+  if (error?.response?.status === 404) {
+    return <Navigate to='/404' replace />
+  }
 
   if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.discipline)) {
     return (
@@ -27,8 +31,6 @@ export function WatchSolvePage() {
       />
     )
   }
-
-  // TODO: add 404
 
   function copyWatchSolveLink() {
     copyToClipboard(window.location.href).then(
