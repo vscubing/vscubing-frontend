@@ -1,4 +1,4 @@
-import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
   CubeSwitcher,
   Dialog,
@@ -20,6 +20,7 @@ import {
   HintSection,
   HintSignInSection,
 } from '@/components/shared'
+import { NotFoundRedirect } from '@/features/NotFoundPage'
 
 const route = getRouteApi('/contests/$contestSlug/solve')
 export function SolveContestPage() {
@@ -60,7 +61,7 @@ export function SolvePageContent() {
   }
 
   if (errorStatus === 404) {
-    throw notFound()
+    return <NotFoundRedirect />
   }
 
   if (isTouchDevice) {

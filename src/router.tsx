@@ -6,7 +6,7 @@ import { dashboardRoute } from './features/dashboard'
 import { devRoute } from './features/dev'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { NotFoundPage } from './features/NotFoundPage'
+import { NotFoundPage, notFoundRoute } from './features/NotFoundPage'
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -24,7 +24,7 @@ export const rootRoute = createRootRoute({
 
 const indexRoute = dashboardRoute
 
-const routeTree = rootRoute.addChildren([indexRoute, leaderboardRoute, contestsRoute, devRoute])
+const routeTree = rootRoute.addChildren([indexRoute, leaderboardRoute, contestsRoute, devRoute, notFoundRoute])
 export const router = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFoundPage,

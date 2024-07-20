@@ -1,7 +1,7 @@
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
-import { Link, Navigate, getRouteApi, notFound } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
   getContestResultsInfiniteQuery,
   getContestResultsQuery,
@@ -20,6 +20,7 @@ import {
 import { matchesQuery } from '@/utils'
 import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
 import { useOngoingSlug } from '@/shared/contests'
+import { NotFoundRedirect } from '@/features/NotFoundPage'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestSlug/results')
@@ -168,7 +169,7 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
   }
 
   if (errorCode === 404) {
-    throw notFound()
+    return <NotFoundRedirect />
   }
 
   return children

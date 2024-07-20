@@ -4,6 +4,8 @@ import { Suspense, lazy, type ReactNode } from 'react'
 import { matchesQuery } from '@/utils'
 import { Header } from '@/components/layout'
 
+export { notFoundRoute, NotFoundRedirect } from './route'
+
 const ParallaxCubesWrapper = lazy(() => import('./ParallaxCubes.lazy'))
 
 export function NotFoundPage() {
