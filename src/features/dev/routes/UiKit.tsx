@@ -33,6 +33,7 @@ import {
   CubeIcon,
   CubeBadge,
   AlertDialogPortal,
+  TOASTS_PRESETS,
 } from '@/components/ui'
 import {
   toast,
@@ -143,6 +144,14 @@ export function UiKit() {
           }}
         >
           Toast!
+        </SecondaryButton>
+
+        <SecondaryButton
+          onClick={() => {
+            toast(TOASTS_PRESETS.internalError)
+          }}
+        >
+          Internal error toast
         </SecondaryButton>
 
         <AlertDialog>
