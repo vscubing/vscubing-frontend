@@ -3,14 +3,15 @@ import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
 import { getSolveContestStateQuery } from './getSolveContestState'
 import { ContestsCreateSolveInput, contestsOngoingContestSolveCreateCreate } from '@/api'
-import { TOASTS_PRESETS, toast } from '@/components/ui'
+import { TOASTS_PRESETS, Toast, toast } from '@/components/ui'
 import { AxiosError } from 'axios'
 
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
   description: "Under normal circumstances this shouldn't happen.",
-  autoClose: false,
-}
+  duration: Infinity,
+} satisfies Toast
+
 export const usePostSolveResult = (disciplineSlug: Discipline) =>
   useMutation({
     mutationFn: async ({ scrambleId, result }: { scrambleId: number; result: ContestsCreateSolveInput }) => {

@@ -36,8 +36,8 @@ export const TOASTS_PRESETS = {
 const titlesToDebounce = [TOASTS_PRESETS.noConnection.title, TOASTS_PRESETS.internalError.title]
 const debounceMap = new Map(titlesToDebounce.map((title) => [title, { lastShown: 0 }]))
 
-type Toast = { title: string; description: string; contactUsButton?: boolean; autoClose?: boolean; duration?: number }
-export function toast({ title, description, contactUsButton = false, autoClose = true, duration = 10_000 }: Toast) {
+export type Toast = { title: string; description: string; contactUsButton?: boolean; duration?: number }
+export function toast({ title, description, contactUsButton = false, duration = 10_000 }: Toast) {
   const debounceData = debounceMap.get(title)
   if (debounceData) {
     const { lastShown } = debounceData
@@ -52,6 +52,6 @@ export function toast({ title, description, contactUsButton = false, autoClose =
     description,
     action: contactUsButton ? { label: 'Contact us', onClick: () => alert('clicked on toast') } : undefined,
     //  TODO: add contact link (discord?)
-    duration: autoClose ? duration : Infinity,
+    duration,
   })
 }
