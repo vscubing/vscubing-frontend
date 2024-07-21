@@ -1,9 +1,7 @@
 import { cn } from '@/utils'
 import { type RefObject, useEffect, useState, type ReactNode } from 'react'
 
-export type CubeSolveResult =
-  | { reconstruction: string; timeMs: number; isDnf: false }
-  | { reconstruction?: undefined; timeMs?: undefined; isDnf: true }
+export type CubeSolveResult = { isDnf: false; reconstruction: string; timeMs: number } | { isDnf: true }
 export type CubeSolveFinishCallback = (result: CubeSolveResult) => void
 export type CubeTimeStartCallback = () => void
 

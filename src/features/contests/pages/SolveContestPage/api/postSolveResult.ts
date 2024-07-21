@@ -17,11 +17,11 @@ export const usePostSolveResult = (disciplineSlug: Discipline) =>
       try {
         await contestsOngoingContestSolveCreateCreate(result, { disciplineSlug, scrambleId })
       } catch (err) {
-        if (!(err instanceof AxiosError) || err.status !== 400) {
+        if (err instanceof AxiosError && err.status === 400) {
+          toast(SOLVE_REJECTED_TOAST)
+        } else {
           toast(TOASTS_PRESETS.internalError)
-          return
         }
-        toast(SOLVE_REJECTED_TOAST)
       }
 
       queryClient.invalidateQueries(getSolveContestStateQuery({ disciplineSlug }))
