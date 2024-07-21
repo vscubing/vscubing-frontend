@@ -48,7 +48,7 @@ function ControllerWithPagination() {
       <SessionsList
         behavior='pagination'
         list={data?.results.roundSessionSet}
-        ownSession={data?.results.ownResult ?? null}
+        ownSession={data?.results.ownResult}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         isFetching={isFetching}
@@ -76,7 +76,7 @@ function ControllerWithInfiniteScroll() {
       <SessionsList
         behavior='infinite-scroll'
         list={data?.pages.flatMap((page) => page.results.roundSessionSet)}
-        ownSession={data?.pages.at(0)?.results.ownResult ?? null}
+        ownSession={data?.pages.at(0)?.results.ownResult}
         containerRef={containerRef}
         fakeElementRef={fakeElementRef}
         lastElementRef={lastElementRef}
