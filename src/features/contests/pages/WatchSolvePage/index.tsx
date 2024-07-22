@@ -1,7 +1,7 @@
 import { NavigateBackButton } from '@/components/shared'
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeBadge, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
-import { Navigate, getRouteApi } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { copyToClipboard, formatSolveTime } from '@/utils'
 import { z } from 'zod'
 import { useReconstruction } from '../../api'
@@ -52,7 +52,14 @@ export function WatchSolvePage() {
         <SectionHeader className='gap-8'>
           <CubeBadge cube='3by3' />
           <div>
-            <p className='title-h2 mb-1 text-secondary-20'>Contest {res?.contest.slug}</p>
+            <Link
+              to='/contests/$contestSlug'
+              // @ts-expect-error this error will disappear once we remove the unnecessary type safety on discipline param here
+              search={{ discipline: res?.discipline?.slug! }}
+              className='title-h2 mb-1 text-secondary-20'
+            >
+              Contest {res?.contest.slug}
+            </Link>
             <p className='text-large'>Scramble {expandScramblePosition('E1')}</p>
             {/* TODO: replace mock scramble position */}
           </div>
