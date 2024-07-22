@@ -25,7 +25,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
       <Accordion.Item
         value='result'
         className={cn(
-          'flex min-h-15 items-center whitespace-nowrap rounded-xl pl-2 md:min-h-[4.75rem] md:flex-wrap md:px-4 md:py-2 sm:min-h-28 sm:p-4',
+          'flex min-h-15 items-center rounded-xl pl-2 md:min-h-[4.75rem] md:flex-wrap md:px-4 md:py-2 sm:min-h-28 sm:p-4',
           isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         )}
       >
