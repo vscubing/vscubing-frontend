@@ -159,8 +159,7 @@ function ResultsList({
                   result={{
                     place: ownResult.place,
                     solve: {
-                      // TODO: remove the workaround once backend is ready
-                      user: { username: currentUser!.username, id: 123 },
+                      user: currentUser!,
                       ...ownResult.solve,
                     },
                   }}
