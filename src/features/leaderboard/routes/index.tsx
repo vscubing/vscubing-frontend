@@ -1,39 +1,43 @@
 import { rootRoute } from '@/router'
-import { DEFAULT_DISCIPLINE, isDiscipline } from '@/types'
-import { Route } from '@tanstack/react-router'
-import { LeaderboardDiscipline } from '../components'
-import { DisciplinesTabsLayout } from '@/components'
-import { leaderboardQuery } from '../api'
+import { DEFAULT_DISCIPLINE, isDiscipline, type Discipline, castDiscipline } from '@/types'
+import { Navigate, type SearchSchemaInput, redirect, createRoute } from '@tanstack/react-router'
+import { Leaderboard } from './Leaderboard'
+import { z } from 'zod'
 
-const route = new Route({
+const parentRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/leaderboard',
 })
-const indexRoute = new Route({
-  getParentRoute: () => route,
+
+const indexRoute = createRoute({
+  getParentRoute: () => parentRoute,
   path: '/',
-  beforeLoad: ({ navigate }) => {
-    void navigate({ to: '$discipline', params: { discipline: DEFAULT_DISCIPLINE }, replace: true })
-  },
+  component: () => <Navigate to={disciplineRoute.id} params={{ discipline: DEFAULT_DISCIPLINE }} replace />,
 })
-export const disciplineRoute = new Route({
-  getParentRoute: () => route,
+
+const paginationSchema = z.object({
+  page: z.number().int().gte(1).optional().catch(undefined),
+})
+
+export const disciplineRoute = createRoute({
+  getParentRoute: () => parentRoute,
   path: '$discipline',
-  pendingComponent: () => <div>Loading...</div>,
-  loader: ({ params: { discipline }, navigate, context: { queryClient } }) => {
-    if (!isDiscipline(discipline)) {
-      throw navigate({ to: '../', replace: true })
+  validateSearch: (search: { page?: number } & SearchSchemaInput) => paginationSchema.parse(search),
+  beforeLoad: ({ params: { discipline }, search: { page } }) => {
+    if (!isDiscipline(discipline) || page === undefined) {
+      throw redirect({
+        to: disciplineRoute.id,
+        params: { discipline: castDiscipline(discipline) },
+        search: { page: page ?? 1 },
+        replace: true,
+      })
     }
-
-    const query = leaderboardQuery(discipline)
-    void queryClient.ensureQueryData(query)
-    return query
   },
-  component: () => (
-    <DisciplinesTabsLayout>
-      <LeaderboardDiscipline />
-    </DisciplinesTabsLayout>
-  ),
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ params: { discipline }, deps: { page } }) => {
+    return { discipline: discipline as Discipline, page: page! }
+  },
+  component: Leaderboard,
 })
 
-export const leaderboardRoute = route.addChildren([indexRoute, disciplineRoute])
+export const leaderboardRoute = parentRoute.addChildren([indexRoute, disciplineRoute])

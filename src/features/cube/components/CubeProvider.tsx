@@ -1,13 +1,13 @@
 import { createContext, useCallback, useMemo, useRef, useState } from 'react'
-import { cn, isTouchDevice, useConditionalBeforeUnload } from '@/utils'
-import { useLocalStorage } from 'usehooks-ts'
-import { type CubeSolveResult } from '..'
-import { type CubeSolveFinishCallback, Cube } from './Cube'
+import { cn, useConditionalBeforeUnload } from '@/utils'
+import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
-import { DeviceWarningModal } from './DeviceWarningModal'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
+import { KeyMapDialogContent, KeyMapDialogTrigger } from '@/components/shared'
 
 type CubeContextValue = {
-  initSolve: (scramble: string, solveFinishCallback: CubeSolveFinishCallback) => void
+  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback, onEarlyAbort: () => void) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({
@@ -21,100 +21,122 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
     scramble: string
     solveCallback: CubeSolveFinishCallback
+    earlyAbortCallback: () => void
     wasTimeStarted: boolean
   } | null>(null)
-  const [deviceWarningCallback, setDeviceWarningCallback] = useState<(() => void) | null>(null)
-  const [isIgnoreDeviceWarning, setIsIgnoreDeviceWarning] = useLocalStorage('ignore-device-warning', false)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  const focusCube = useCallback(() => {
+    iframeRef.current?.contentWindow?.focus()
+  }, [])
+
+  const initSolve = useCallback(
+    (scramble: string, solveCallback: CubeSolveFinishCallback, earlyAbortCallback: () => void) => {
+      setSolveState({ scramble, solveCallback, wasTimeStarted: false, earlyAbortCallback })
+    },
+    [],
+  )
 
   const handleTimeStart = useCallback(() => {
     setSolveState((prev) => prev && { ...prev, wasTimeStarted: true })
   }, [])
 
-  const solveStateCallback = solveState?.solveCallback
+  const solveCallback = solveState?.solveCallback
   const handleSolveFinish = useCallback(
     (result: CubeSolveResult) => {
-      if (!solveStateCallback) throw Error('no saved solve callback')
-      solveStateCallback(result)
+      solveCallback!(result)
       setSolveState(null)
     },
-    [solveStateCallback],
+    [solveCallback],
   )
 
-  useConditionalBeforeUnload(solveState ? solveState.wasTimeStarted : false, () =>
-    handleSolveFinish({ dnf: true, timeMs: null, reconstruction: null }),
-  )
+  const shouldDNFOnPageLeave = !!solveState && solveState.wasTimeStarted
+  useConditionalBeforeUnload(shouldDNFOnPageLeave, () => handleSolveFinish({ isDnf: true }))
 
-  const handleOverlayClick = (event: React.MouseEvent) => {
-    if (event.target !== event.currentTarget || !solveState) {
-      return
-    }
-
-    if (!solveState.wasTimeStarted) {
+  const abortOrShowPrompt = useCallback(() => {
+    if (solveState!.wasTimeStarted === false) {
       setSolveState(null)
+      solveState!.earlyAbortCallback()
       return
     }
 
     setIsAbortPromptVisible(true)
-  }
+  }, [solveState])
 
-  const handleAbortConfirm = useCallback(() => {
+  const confirmAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
-    handleSolveFinish({ timeMs: null, dnf: true, reconstruction: null })
+    handleSolveFinish({ isDnf: true })
   }, [handleSolveFinish])
 
-  const handleAbortCancel = useCallback(() => {
+  const cancelAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
-    iframeRef.current?.contentWindow?.focus()
-  }, [])
+    focusCube()
+  }, [focusCube])
 
   const contextValue = useMemo(
     () => ({
-      initSolve: (scramble: string, solveCallback: CubeSolveFinishCallback) => {
-        const initSolve = () => setSolveState({ scramble, solveCallback, wasTimeStarted: false })
-        if (!isTouchDevice || isIgnoreDeviceWarning) {
-          initSolve()
-          return
-        }
-
-        setDeviceWarningCallback(() => initSolve)
-      },
+      initSolve,
     }),
-    [isIgnoreDeviceWarning],
+    [initSolve],
   )
 
+  const isModalOpen = !!solveState
   return (
     <CubeContext.Provider value={contextValue}>
-      {deviceWarningCallback && (
-        <DeviceWarningModal
-          onCancel={() => {
-            setDeviceWarningCallback(null)
-          }}
-          onConfirm={(isIgnoreChecked) => {
-            deviceWarningCallback?.()
-            setDeviceWarningCallback(null)
-            if (isIgnoreChecked) setIsIgnoreDeviceWarning(isIgnoreChecked)
-          }}
-        />
-      )}
-      <div
-        onClick={handleOverlayClick}
-        className={cn(
-          { invisible: !solveState?.scramble },
-          'wrapper fixed inset-0 z-20 bg-black bg-opacity-40 px-10 pb-5 pt-[50px] md:py-[max(5%,55px)]',
-        )}
-      >
-        <div className='relative h-full'>
-          {isAbortPromptVisible && <AbortPrompt onConfirm={handleAbortConfirm} onCancel={handleAbortCancel} />}
-          <Cube
-            scramble={solveState?.scramble}
-            onSolveFinish={handleSolveFinish}
-            onTimeStart={handleTimeStart}
-            iframeRef={iframeRef}
-          />
-        </div>
-      </div>
+      <DialogPrimitive.Root open={isModalOpen}>
+        <DialogPrimitive.Portal forceMount>
+          <div
+            style={{ pointerEvents: undefined }}
+            className={cn('fixed inset-0 z-50 bg-black-100', { 'pointer-events-none opacity-0': !isModalOpen })}
+            onClick={abortOrShowPrompt}
+          ></div>
+
+          <DialogPrimitive.Content
+            style={{ pointerEvents: undefined }}
+            className={cn('fixed inset-[1.625rem] z-50 rounded-2xl bg-black-80 duration-200', {
+              'pointer-events-none opacity-0': !isModalOpen,
+            })}
+          >
+            <div className='relative h-full rounded-2xl bg-black-1000/25'>
+              <div
+                className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40', {
+                  hidden: !isModalOpen, // for lazy-loading of bg-cubes
+                })}
+              ></div>
+              <Cube
+                fallback={
+                  <div className='flex h-full items-center justify-center'>
+                    <LoadingSpinner />
+                  </div>
+                }
+                className='relative'
+                scramble={solveState?.scramble}
+                onSolveFinish={handleSolveFinish}
+                onTimeStart={handleTimeStart}
+                iframeRef={iframeRef}
+              />
+              <div className='absolute left-6 right-6 top-6 flex items-start justify-between'>
+                <Dialog>
+                  <KeyMapDialogTrigger />
+                  <DialogPortal>
+                    <DialogOverlay className='bg-black-1000/25' withCubes={false} />
+                    <KeyMapDialogContent
+                      onCloseAutoFocus={(e) => {
+                        e.preventDefault()
+                        focusCube()
+                      }}
+                    />
+                  </DialogPortal>
+                </Dialog>
+                <DialogCloseCross onClick={abortOrShowPrompt} />
+              </div>
+
+              <AbortPrompt isVisible={isAbortPromptVisible} onConfirm={confirmAbort} onCancel={cancelAbort} />
+            </div>
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
       {children}
     </CubeContext.Provider>
   )

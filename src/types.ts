@@ -1,11 +1,18 @@
-export type Scramble = { scramble: string; position: string; extra: boolean; id: number }
+import { z } from 'zod'
+import { type ContestsContestListOutput } from './api'
+import { SolveContestStateDTO } from './features/contests/pages/SolveContestPage/types'
+
+export type ScrambleDTO = SolveContestStateDTO['currentSolve']['scramble']
 export type Discipline = (typeof DISCIPLINES)[number]
 
+export type ContestDTO = ContestsContestListOutput['results'][number]
+export type ContestList = ContestsContestListOutput
+
 export const DEFAULT_DISCIPLINE: Discipline = '3by3'
-const DISCIPLINES = ['3by3'] as const
+export const DISCIPLINES = ['3by3'] as const
 export function isDiscipline(str: string): str is Discipline {
-  return DISCIPLINES.includes(str as Discipline)
+  return z.enum(DISCIPLINES).safeParse(str).success
 }
-export function castDiscipline(str: string): Discipline {
-  return isDiscipline(str) ? str : DEFAULT_DISCIPLINE
+export function castDiscipline(str?: string): Discipline {
+  return z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE).parse(str)
 }

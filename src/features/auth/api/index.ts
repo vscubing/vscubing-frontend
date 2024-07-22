@@ -1,4 +1,2 @@
-export * from './getUser'
-export * from './postLogin'
+export * from './useUser'
 export * from './refreshAccessToken'
-export * from './putChangeUsername'

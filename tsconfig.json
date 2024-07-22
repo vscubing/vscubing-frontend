@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "types": ["vite/client", "vite-plugin-svgr/client"],
@@ -24,6 +24,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "*.js", "*.ts", "*.cjs", ".prettierrc.js"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

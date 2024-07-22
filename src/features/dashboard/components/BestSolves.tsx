@@ -1,39 +1,116 @@
-import { ReconstructTimeButton } from '@/components'
-import CubeIcon from '@/assets/3by3.svg?react'
+import { CubeIcon, Ellipsis, SecondaryButton, UnderlineButton, ArrowRightIcon } from '@/components/ui'
+import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { Link } from '@tanstack/react-router'
-import { type DashboardDTO } from '../api/getDashboard'
-import { useReconstructor } from '@/features/reconstructor'
+import { cn, matchesQuery } from '@/utils'
+import { AutofillHeight } from '@/features/autofillHeight'
+import { type ContestsSolveListBestInEveryDiscipline } from '@/api'
+import { type Discipline } from '@/types'
 
-type BestSolvesProps = { bestSolves?: DashboardDTO['bestSolves'] }
-export function BestSolves({ bestSolves }: BestSolvesProps) {
-  const { showReconstruction } = useReconstructor()
+type BestSolvesProps = { className: string; solves?: ContestsSolveListBestInEveryDiscipline[] }
+export function BestSolves({ className, solves }: BestSolvesProps) {
+  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() })) // uncomment to test with many rows
+
+  const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  let countToDisplay = fittingCount
+  if (solves && matchesQuery('sm')) {
+    countToDisplay = solves?.length
+  }
+
+  let allDisplayed = undefined
+  if (!!countToDisplay && solves?.length) {
+    allDisplayed = solves.length <= countToDisplay
+  }
 
   return (
-    <div>
-      {bestSolves
-        ? bestSolves.map(({ id, user: { username }, timeMs, discipline }) => (
-            <div
-              key={id}
-              className='flex items-center rounded-md bg-panels py-2 pl-4 pr-2 text-sm md:py-3 md:pl-4 md:pr-6'
-            >
-              <CubeIcon className='mr-3 w-[23px] text-[#35424B]' />
-              <span
-                className='mr-3 w-[140px] overflow-x-hidden text-ellipsis border-r-[1px] border-[#A0A0A0]/50 pr-3'
-                title={username}
-              >
-                {username}
-              </span>
-              <ReconstructTimeButton className='mr-3' timeMs={timeMs} onClick={() => showReconstruction(id)} />
-              <Link
-                className='btn-action ml-auto'
-                to={'/leaderboard/$discipline'}
-                params={{ discipline: discipline.name }}
-              >
-                leaderboard
-              </Link>
-            </div>
-          ))
-        : 'loading...'}
+    <section className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 py-4 sm:gap-4 sm:p-3', className)}>
+      <div className='flex items-center justify-between'>
+        <h2 className='title-h3'>Best solves ever</h2>
+        <UnderlineButton
+          asChild
+          className={cn('whitespace-nowrap', { invisible: allDisplayed })}
+          aria-hidden={allDisplayed}
+        >
+          <Link to='/leaderboard'>View all</Link>
+        </UnderlineButton>
+      </div>
+      <div className='flex flex-1 flex-col gap-1'>
+        <div className='flex pl-1 text-grey-40'>
+          <span className='mr-3 sm:hidden'>Type</span>
+          <span className='flex-1 sm:hidden'>Nickname</span>
+          <span className='hidden flex-1 sm:block'>Type/Nickname</span>
+          <span className='mr-4 w-24 text-center sm:mr-0'>Single time</span>
+          <div aria-hidden className='invisible h-0'>
+            <OpenLeaderboardButton discipline='3x3' />
+          </div>
+        </div>
+        <AutofillHeight.ListWrapper
+          className='gap-3'
+          fakeElementRef={fakeElementRef}
+          containerRef={containerRef}
+          renderFakeElement={SolveSkeleton}
+        >
+          <AutofillHeight.List
+            getItemKey={(solve) => solve.id}
+            pageSize={countToDisplay}
+            renderItem={(solve, isFirstOnPage) => <Solve isFirstOnPage={isFirstOnPage} solve={solve} />}
+            renderSkeleton={SolveSkeleton}
+            list={solves?.slice(0, countToDisplay)}
+          />
+        </AutofillHeight.ListWrapper>
+      </div>
+    </section>
+  )
+}
+
+function SolveSkeleton() {
+  return <div className='h-15 animate-pulse rounded-xl bg-grey-100'></div>
+}
+
+type SolveProps = { solve: ContestsSolveListBestInEveryDiscipline; isFirstOnPage: boolean }
+function Solve({ solve, isFirstOnPage }: SolveProps) {
+  return (
+    <div className='flex min-h-15 items-center rounded-xl bg-grey-100 pl-3'>
+      <span className='relative mr-3 flex flex-1 items-center pr-2 after:absolute after:right-0 after:top-1/2 after:block after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 sm:mr-0 sm:flex-col sm:items-start'>
+        <CubeIcon className='mr-3' cube={solve.discipline.slug as Discipline} />
+        <span className='flex w-full'>
+          <Ellipsis className='flex-1'>{solve.user.username}</Ellipsis>
+        </span>
+      </span>
+      <span className='mr-4 sm:mr-0'>
+        <SolveTimeLinkOrDnf
+          canShowHint={isFirstOnPage}
+          timeMs={solve.timeMs}
+          solveId={solve.id}
+          discipline={solve.discipline.slug as Discipline}
+          contestSlug={solve.contest.slug}
+        />
+      </span>
+      <OpenLeaderboardButton discipline={solve.discipline.name} />
     </div>
+  )
+}
+
+function OpenLeaderboardButton({ discipline }: { discipline: string }) {
+  const ariaLabel = `leaderboard`
+  const ariaDescription = `Open leaderboard for ${discipline}`
+  return (
+    <>
+      <SecondaryButton asChild className='sm:hidden' aria-label={ariaLabel} aria-description={ariaDescription}>
+        <Link to='/leaderboard/$discipline' params={{ discipline }}>
+          leaderboard
+        </Link>
+      </SecondaryButton>
+      <SecondaryButton
+        size='iconLg'
+        asChild
+        className='hidden w-16 sm:flex sm:h-16'
+        aria-label={ariaLabel}
+        aria-description={ariaDescription}
+      >
+        <Link to='/leaderboard/$discipline' params={{ discipline }}>
+          <ArrowRightIcon />
+        </Link>
+      </SecondaryButton>
+    </>
   )
 }

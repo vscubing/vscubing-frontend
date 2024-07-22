@@ -1,21 +1,38 @@
-export function AbortPrompt({ onCancel, onConfirm }: { onConfirm: () => void; onCancel: () => void }) {
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+} from '@/components/ui'
+
+export function AbortPrompt({
+  isVisible,
+  onCancel,
+  onConfirm,
+}: {
+  isVisible: boolean
+  onConfirm: () => void
+  onCancel: () => void
+}) {
   return (
-    <div className='absolute flex h-full w-full flex-col items-center justify-center rounded-[5px] bg-[#11191F] text-white'>
-      <div className='rounded-[5px] bg-panels px-[40px] py-[25px]'>
-        <p className='mb-[25px] text-center text-[24px]'>
-          If you quit now,
-          <br />
-          your result will be DNFed
-        </p>
-        <div className='flex justify-center gap-[17px]'>
-          <button onClick={onConfirm} className='w-[82px] rounded-[5px] bg-[#9B2527] py-[8px]'>
-            quit
-          </button>
-          <button onClick={onCancel} className='w-[82px] rounded-[5px] bg-primary py-[8px]'>
-            resume
-          </button>
-        </div>
-      </div>
-    </div>
+    <Dialog open={isVisible}>
+      <DialogPortal>
+        <DialogOverlay onClick={onCancel} />
+        <DialogContent onEscapeKeyDown={onCancel}>
+          <DialogTitle>If you quit now your result will be DFNed</DialogTitle>
+          <DialogFooter>
+            <DialogClose version='secondary' onClick={onConfirm}>
+              Quit
+            </DialogClose>
+            <DialogClose version='primary' onClick={onCancel}>
+              Resume
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </DialogPortal>
+    </Dialog>
   )
 }
