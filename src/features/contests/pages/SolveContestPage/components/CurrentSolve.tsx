@@ -1,5 +1,5 @@
 import { PrimaryButton, SecondaryButton } from '@/components/ui'
-import { SolveContestStateDTO, type _SolveContestStateDTO } from '../types'
+import { SolveContestStateDTO } from '../types'
 import { SolvePanel } from './SolvePanel'
 
 export function CurrentSolve({

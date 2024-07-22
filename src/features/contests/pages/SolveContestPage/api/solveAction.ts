@@ -1,6 +1,5 @@
 import { queryClient } from '@/lib/reactQuery'
 import { useMutation } from '@tanstack/react-query'
-import { type _SolveContestStateDTO } from '../types'
 import { getSolveContestStateQuery } from './getSolveContestState'
 import { contestsOngoingContestSubmitCreate } from '@/api'
 import { Discipline } from '@/types'
