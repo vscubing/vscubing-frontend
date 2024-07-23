@@ -25,11 +25,11 @@ export function Layout({ children }: LayoutProps) {
       <PopupMenu />
       <div
         vaul-drawer-wrapper='vaul-drawer-wrapper'
-        className='flex min-h-lvh gap-3 p-[1.625rem] sm:flex-col sm:px-3 sm:pb-0 sm:pt-0'
+        className='flex h-svh gap-3 p-[1.625rem] sm:flex-col sm:gap-0 sm:px-3 sm:py-0'
       >
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
-        <main className='contents'>{children ?? <Outlet />}</main>
-        <StickyNavbar className='hidden sm:block' />
+        <main className='flex flex-1 flex-col overflow-y-scroll'>{children ?? <Outlet />}</main>
+        <BottomNavbar className='hidden sm:block' />
       </div>
     </>
   )
@@ -118,9 +118,9 @@ function LogoutButton({ className }: { className?: string }) {
   )
 }
 
-function StickyNavbar({ className }: { className: string }) {
+function BottomNavbar({ className }: { className: string }) {
   return (
-    <div className={cn('sticky bottom-0 z-50 bg-black-100 pb-3 pt-2', className)}>
+    <div className={cn('bg-black-100 pb-3 pt-2', className)}>
       <div className='rounded-b-xl border-b border-grey-20'>
         <Navbar variant='horizontal' />
       </div>

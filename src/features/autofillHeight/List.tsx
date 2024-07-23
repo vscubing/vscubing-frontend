@@ -72,7 +72,7 @@ function ListWithPinnedItem<T>({
   behavior,
 }: ListWithPinnedItemProps<T>) {
   const { isIntersecting: isHighlightedIntersecting, ref: highlightedRef } = useIntersectionObserver({
-    rootMargin: '-200px 0px -80px', // accound for sticky header, pinned element's height and sticky navbar
+    rootMargin: '-200px 0px -80px', // account for sticky header, pinned element's height and sticky navbar
   })
 
   if (!pageSize) {

@@ -11,7 +11,7 @@ export function Header({ title, className }: HeaderProps) {
   const setMobileMenuOpen = useSetAtom(mobileMenuOpenAtom)
 
   return (
-    <header className={cn('z-40 bg-black-100 sm:sticky sm:top-0 sm:pb-2 sm:pt-3', className)}>
+    <header className={cn('z-40 bg-black-100 sm:pb-2 sm:pt-3', className)}>
       <div className='flex h-[var(--header-height)] gap-3 sm:gap-2'>
         <Logo className='hidden lg:flex sm:flex-1' />
         <div className='flex flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end sm:min-h-0 sm:flex-grow-0 sm:p-[0.375rem]'>
