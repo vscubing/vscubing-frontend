@@ -5,12 +5,12 @@ import { ContestSkeleton, Contest } from '@/shared/contests'
 import { AutofillHeight } from '@/features/autofillHeight'
 import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 
-const MOBILE_MAX_OVERFLOWING_ITEMS = 3
+const MOBILE_MIN_ITEMS_IF_OVERFLOW = 3
 export function LatestContests({ className, contests }: { className: string; contests?: ContestDTO[] }) {
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
   if (fittingCount && matchesQuery('sm')) {
-    countToDisplay = Math.max(fittingCount, MOBILE_MAX_OVERFLOWING_ITEMS)
+    countToDisplay = Math.max(fittingCount, MOBILE_MIN_ITEMS_IF_OVERFLOW)
   }
 
   let allDisplayed = undefined
