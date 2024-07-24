@@ -5,7 +5,7 @@ import { ContestSkeleton, Contest } from '@/shared/contests'
 import { AutofillHeight } from '@/features/autofillHeight'
 import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 
-const MOBILE_MIN_ITEMS_IF_OVERFLOW = 3
+const MOBILE_MIN_ITEMS_IF_OVERFLOW = 2
 export function LatestContests({ className, contests }: { className: string; contests?: ContestDTO[] }) {
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
