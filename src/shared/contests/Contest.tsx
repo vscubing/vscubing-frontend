@@ -14,7 +14,11 @@ export function Contest({ contest: { slug, startDate, endDate } }: ContestProps)
         </p>
       </div>
       <SecondaryButton size='iconLg' asChild className='sm:h-16 sm:w-16'>
-        <Link to='/contests/$contestSlug' params={{ contestSlug: slug }} search={{ discipline: DEFAULT_DISCIPLINE }}>
+        <Link
+          to='/contests/$contestSlug'
+          params={{ contestSlug: slug }}
+          search={{ disciplineSlug: DEFAULT_DISCIPLINE }}
+        >
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>

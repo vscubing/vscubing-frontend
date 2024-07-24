@@ -107,7 +107,7 @@ function getLinks(
         </>
       ),
       to: '/contests',
-      search: { discipline: DEFAULT_DISCIPLINE, page: 1 },
+      search: { disciplineSlug: DEFAULT_DISCIPLINE, page: 1 },
       activeOptions: {
         includeSearch: false,
       },
@@ -122,7 +122,7 @@ function getLinks(
       ),
       to: `/contests/$contestSlug`,
       params: {
-        discipline: DEFAULT_DISCIPLINE,
+        disciplineSlug: DEFAULT_DISCIPLINE,
         contestSlug: ongoingContest === undefined ? undefined : ongoingContest,
       },
     },

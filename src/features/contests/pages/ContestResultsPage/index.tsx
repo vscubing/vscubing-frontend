@@ -30,7 +30,7 @@ export function ContestResultsPage() {
 
 function ControllerWithPagination() {
   const { contestSlug } = route.useParams()
-  const { discipline: disciplineSlug, page } = route.useSearch()
+  const { disciplineSlug, page } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
@@ -60,7 +60,7 @@ function ControllerWithPagination() {
 
 function ControllerWithInfiniteScroll() {
   const { contestSlug } = route.useParams()
-  const { discipline: disciplineSlug } = route.useSearch()
+  const { disciplineSlug } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsInfiniteQuery({
@@ -95,7 +95,7 @@ type ViewProps = {
 }
 function View({ pages, children, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
-  const { discipline, page } = route.useSearch()
+  const { disciplineSlug, page } = route.useSearch()
 
   const { data: ongoing } = useOngoingContest()
   const isOngoing = contestSlug === ongoing?.slug
@@ -118,8 +118,8 @@ function View({ pages, children, behavior, errorCode }: ViewProps) {
         <NavigateBackButton className='self-start' />
         <ErrorHandler errorCode={errorCode}>
           <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
-            <Link from={route.id} search={{ discipline: '3by3', page: 1 }} params={{ contestSlug }}>
-              <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+            <Link from={route.id} search={{ disciplineSlug: '3by3', page: 1 }} params={{ contestSlug }}>
+              <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
             </Link>
             <div>
               <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
@@ -190,7 +190,7 @@ function SessionsList({
   fakeElementRef,
 }: SessionsListProps) {
   const { contestSlug } = route.useParams()
-  const { discipline } = route.useSearch()
+  const { disciplineSlug } = route.useSearch()
 
   return (
     <>
@@ -212,7 +212,7 @@ function SessionsList({
                 <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
                   <Session
                     isFirstOnPage={isFirstOnPage}
-                    discipline={discipline}
+                    discipline={disciplineSlug}
                     contestSlug={contestSlug}
                     linkToPage={linkToPage}
                     isOwn
@@ -227,7 +227,7 @@ function SessionsList({
                 isOwn={session.roundSession.id === ownSession?.roundSession.id}
                 isFirstOnPage={isFirstOnPage}
                 contestSlug={contestSlug}
-                discipline={discipline}
+                discipline={disciplineSlug}
                 session={session}
               />
             )}

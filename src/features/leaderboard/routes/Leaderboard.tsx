@@ -15,7 +15,7 @@ import {
 import { matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
 
-const route = getRouteApi('/leaderboard/$discipline')
+const route = getRouteApi('/leaderboard/$disciplineSlug')
 export function Leaderboard() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
 }
@@ -23,7 +23,7 @@ export function Leaderboard() {
 function ControllerWithPagination() {
   const navigate = useNavigate({ from: route.id })
 
-  const { discipline: disciplineSlug, page } = route.useLoaderData()
+  const { disciplineSlug, page } = route.useLoaderData()
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
@@ -37,7 +37,7 @@ function ControllerWithPagination() {
 
   if (error?.response?.status === 400) {
     // NOTE: this might have been changed to 404
-    void navigate({ search: { page: 1 }, params: { discipline: disciplineSlug } })
+    void navigate({ search: { page: 1 }, params: { disciplineSlug } })
   }
 
   return (
@@ -85,7 +85,8 @@ type ViewProps = {
   children: ReactNode
 }
 function View({ pages, children, behavior }: ViewProps) {
-  const { discipline, page } = route.useLoaderData()
+  const { disciplineSlug } = route.useParams()
+  const { page } = route.useSearch()
   const { data: user } = useUser()
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
 
@@ -95,8 +96,8 @@ function View({ pages, children, behavior }: ViewProps) {
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
-          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
+        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ disciplineSlug: '3by3' }}>
+          <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
         </Link>
         {behavior === 'pagination' && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
       </SectionHeader>
@@ -124,7 +125,7 @@ function ResultsList({
   isFetching,
 }: ResultsListProps) {
   const { data: currentUser } = useUser()
-  const { discipline: disciplineSlug } = route.useLoaderData()
+  const { disciplineSlug } = route.useLoaderData()
   if (list?.length === 0) {
     return (
       <HintSection>

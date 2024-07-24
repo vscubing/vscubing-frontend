@@ -27,7 +27,7 @@ export function LatestContests({ className, contests }: { className: string; con
           className={cn('whitespace-nowrap', { invisible: allDisplayed })}
           aria-hidden={allDisplayed}
         >
-          <Link search={{ discipline: DEFAULT_DISCIPLINE, page: 1 }} to='/contests'>
+          <Link search={{ disciplineSlug: DEFAULT_DISCIPLINE, page: 1 }} to='/contests'>
             View all
           </Link>
         </UnderlineButton>

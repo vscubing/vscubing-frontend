@@ -44,7 +44,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
               timeMs={result.solve.timeMs}
               solveId={result.solve.id}
               contestSlug={result.solve.contest.slug}
-              discipline={disciplineSlug}
+              disciplineSlug={disciplineSlug}
             />
           </span>
           <Accordion.Trigger className='outline-ring group hidden md:block sm:py-2'>
@@ -70,7 +70,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
               <Link
                 to='/contests/$contestSlug'
                 params={{ contestSlug: result.solve.contest.slug }}
-                search={{ discipline: disciplineSlug }}
+                search={{ disciplineSlug }}
               >
                 <span className='sm:uppercase'>v</span>iew contest
               </Link>

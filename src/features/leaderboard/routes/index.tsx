@@ -12,30 +12,30 @@ const parentRoute = createRoute({
 const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
-  component: () => <Navigate to={disciplineRoute.id} params={{ discipline: DEFAULT_DISCIPLINE }} replace />,
+  component: () => <Navigate to={disciplineRoute.id} params={{ disciplineSlug: DEFAULT_DISCIPLINE }} replace />,
 })
 
 const paginationSchema = z.object({
-  page: z.number().int().gte(1).optional().catch(undefined),
+  page: z.number().int().gte(1).catch(1),
 })
 
 export const disciplineRoute = createRoute({
   getParentRoute: () => parentRoute,
-  path: '$discipline',
+  path: '$disciplineSlug',
   validateSearch: (search: { page?: number } & SearchSchemaInput) => paginationSchema.parse(search),
-  beforeLoad: ({ params: { discipline }, search: { page } }) => {
-    if (!isDiscipline(discipline) || page === undefined) {
+  beforeLoad: ({ params: { disciplineSlug }, search: { page } }) => {
+    if (!isDiscipline(disciplineSlug) || page === undefined) {
       throw redirect({
         to: disciplineRoute.id,
-        params: { discipline: castDiscipline(discipline) },
+        params: { disciplineSlug: castDiscipline(disciplineSlug) },
         search: { page: page ?? 1 },
         replace: true,
       })
     }
   },
   loaderDeps: ({ search: { page } }) => ({ page }),
-  loader: ({ params: { discipline }, deps: { page } }) => {
-    return { discipline: discipline as Discipline, page: page! }
+  loader: ({ params: { disciplineSlug }, deps: { page } }) => {
+    return { disciplineSlug: disciplineSlug as Discipline, page: page! }
   },
   component: Leaderboard,
 })

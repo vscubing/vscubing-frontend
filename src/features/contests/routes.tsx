@@ -13,7 +13,7 @@ const paginationSchema = z.object({
   page: z.number().int().gte(1).catch(1),
 })
 
-const disciplineSchema = z.object({ discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE) })
+const disciplineSchema = z.object({ disciplineSlug: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE) })
 
 const parentRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -31,12 +31,12 @@ const ongoingContestRedirectRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: 'ongoing',
   validateSearch: disciplineSchema,
-  beforeLoad: async ({ search: { discipline } }) => {
+  beforeLoad: async ({ search: { disciplineSlug } }) => {
     const ongoing = await queryClient.fetchQuery(ongoingContestQuery)
     void redirect({
       to: contestRoute.id,
       params: { contestSlug: ongoing.slug },
-      search: { discipline },
+      search: { disciplineSlug },
       replace: true,
       throw: true,
     })
@@ -56,7 +56,7 @@ const contestIndexRoute = createRoute({
     const { contestSlug } = contestRoute.useParams()
     return (
       <Navigate
-        search={{ discipline: DEFAULT_DISCIPLINE, page: 1 }}
+        search={{ disciplineSlug: DEFAULT_DISCIPLINE, page: 1 }}
         params={{ contestSlug }}
         to='/contests/$contestSlug/results'
         replace

@@ -25,7 +25,7 @@ const solveTimeButtonVariants = cva(
 type SolveTimeLinkOrDnfProps<TTimeMs extends number | null> = VariantProps<typeof solveTimeButtonVariants> & {
   timeMs: TTimeMs
   contestSlug: string
-  discipline: Discipline
+  disciplineSlug: Discipline
   solveId: number
   canShowHint: boolean
   className?: string
@@ -36,7 +36,7 @@ export function SolveTimeLinkOrDnf<TTimeMs extends number | null>({
   variant,
   className,
   contestSlug,
-  discipline,
+  disciplineSlug,
   solveId,
   canShowHint,
 }: SolveTimeLinkOrDnfProps<TTimeMs>) {
@@ -48,7 +48,7 @@ export function SolveTimeLinkOrDnf<TTimeMs extends number | null>({
       <Link
         to='/contests/$contestSlug/watch/$solveId'
         params={{ contestSlug, solveId: String(solveId) }}
-        search={{ discipline }}
+        search={{ disciplineSlug }}
         className={cn(solveTimeButtonVariants({ variant, className }))}
       >
         {formatSolveTime(timeMs)}

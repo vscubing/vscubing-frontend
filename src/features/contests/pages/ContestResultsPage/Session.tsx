@@ -66,7 +66,7 @@ export function Session({
                   <SolveTimeLinkOrDnf
                     canShowHint={isFirstOnPage && index === 0}
                     contestSlug={contestSlug}
-                    discipline={discipline}
+                    disciplineSlug={discipline}
                     solveId={solve.id}
                     timeMs={solve.timeMs}
                     variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}

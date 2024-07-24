@@ -8,7 +8,7 @@ import { type Discipline } from '@/types'
 
 type BestSolvesProps = { className: string; solves?: ContestsSolveListBestInEveryDiscipline[] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() })) // uncomment to test with many rows
+  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() })) // TODO: (remove later) uncomment to test with many rows
 
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
@@ -40,7 +40,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           <span className='hidden flex-1 sm:block'>Type/Nickname</span>
           <span className='mr-4 w-24 text-center sm:mr-0'>Single time</span>
           <div aria-hidden className='invisible h-0'>
-            <OpenLeaderboardButton discipline='3x3' />
+            <OpenLeaderboardButton disciplineSlug='3x3' />
           </div>
         </div>
         <AutofillHeight.ListWrapper
@@ -81,22 +81,22 @@ function Solve({ solve, isFirstOnPage }: SolveProps) {
           canShowHint={isFirstOnPage}
           timeMs={solve.timeMs}
           solveId={solve.id}
-          discipline={solve.discipline.slug as Discipline}
+          disciplineSlug={solve.discipline.slug as Discipline}
           contestSlug={solve.contest.slug}
         />
       </span>
-      <OpenLeaderboardButton discipline={solve.discipline.name} />
+      <OpenLeaderboardButton disciplineSlug={solve.discipline.slug} />
     </div>
   )
 }
 
-function OpenLeaderboardButton({ discipline }: { discipline: string }) {
+function OpenLeaderboardButton({ disciplineSlug }: { disciplineSlug: string }) {
   const ariaLabel = `leaderboard`
-  const ariaDescription = `Open leaderboard for ${discipline}`
+  const ariaDescription = `Open leaderboard for ${disciplineSlug}`
   return (
     <>
       <SecondaryButton asChild className='sm:hidden' aria-label={ariaLabel} aria-description={ariaDescription}>
-        <Link to='/leaderboard/$discipline' params={{ discipline }}>
+        <Link to='/leaderboard/$disciplineSlug' search={{ page: 1 }} params={{ disciplineSlug }}>
           leaderboard
         </Link>
       </SecondaryButton>
@@ -107,7 +107,7 @@ function OpenLeaderboardButton({ discipline }: { discipline: string }) {
         aria-label={ariaLabel}
         aria-description={ariaDescription}
       >
-        <Link to='/leaderboard/$discipline' params={{ discipline }}>
+        <Link to='/leaderboard/$disciplineSlug' params={{ disciplineSlug }} search={{ page: 1 }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>

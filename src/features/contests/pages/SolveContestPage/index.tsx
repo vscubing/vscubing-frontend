@@ -41,7 +41,7 @@ export function SolveContestPage() {
 
 export function SolvePageContent() {
   const { contestSlug } = route.useParams()
-  const { discipline: disciplineSlug } = route.useSearch()
+  const { disciplineSlug } = route.useSearch()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
   const { data: state, error } = useSolveContestState({ disciplineSlug })
@@ -52,7 +52,7 @@ export function SolvePageContent() {
       <Navigate
         to='/contests/$contestSlug/results'
         params={{ contestSlug: contestSlug }}
-        search={{ discipline: disciplineSlug, page: 1 }}
+        search={{ disciplineSlug, page: 1 }}
         replace
       />
     )
@@ -85,8 +85,7 @@ export function SolvePageContent() {
     )
   }
 
-  // TODO: remove submittedSolveSet nonnullable type assertion once backend is updated
-  if (state.submittedSolveSet!.length === 0 && !hasSeenOngoingHint) {
+  if ((!state.submittedSolveSet || state.submittedSolveSet.length === 0) && !hasSeenOngoingHint) {
     return (
       <HintSection>
         <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
@@ -99,7 +98,7 @@ export function SolvePageContent() {
     <>
       <SectionHeader>
         <div>
-          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
+          <Link from={route.id} search={{ disciplineSlug: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
             <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
           </Link>
         </div>

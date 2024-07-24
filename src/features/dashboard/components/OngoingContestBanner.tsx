@@ -38,7 +38,7 @@ function BannerContent({ className }: { className?: string }) {
               <p className='text-large'>{duration}</p>
             </div>
             <PrimaryButton asChild>
-              <Link search={{ discipline: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
+              <Link search={{ disciplineSlug: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
                 Solve now
               </Link>
             </PrimaryButton>
@@ -92,7 +92,11 @@ function BannerContentMobile({ className }: { className?: string }) {
 function Disciplines({ className }: { className?: string }) {
   return (
     <div className={cn('flex', className)}>
-      <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='outline-ring group flex flex-col gap-2'>
+      <Link
+        to='/contests/ongoing'
+        search={{ disciplineSlug: '3by3' }}
+        className='outline-ring group flex flex-col gap-2'
+      >
         {/* TODO: get from backend */}
         <CubeBadge
           cube='3by3'

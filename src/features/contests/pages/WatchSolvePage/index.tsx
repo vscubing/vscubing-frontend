@@ -21,13 +21,13 @@ export function WatchSolvePage() {
     return <Navigate to='/404' replace />
   }
 
-  if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.discipline)) {
+  if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.disciplineSlug)) {
     return (
       <Navigate
         from={route.id}
         to={route.id}
         params={{ contestSlug: res.contest.slug, solveId: params.solveId }}
-        search={{ discipline: res.discipline.slug as Discipline }}
+        search={{ disciplineSlug: res.discipline.slug as Discipline }}
       />
     )
   }
