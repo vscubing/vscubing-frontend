@@ -12,8 +12,8 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
 
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
-  if (solves && matchesQuery('sm')) {
-    countToDisplay = solves?.length
+  if (solves && matchesQuery('md')) {
+    countToDisplay = solves.length
   }
 
   let allDisplayed = undefined

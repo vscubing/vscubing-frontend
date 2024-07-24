@@ -7,7 +7,7 @@ export default {
   theme: {
     screens: {
       'xl-short': { raw: '(min-width: 1280px) and (max-height: 850px)' },
-      lg: { max: '1279px' },
+      lg: { max: '1280px' },
       md: { max: '1023px' },
       sm: { max: '767px' },
     },

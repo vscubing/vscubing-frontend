@@ -1,6 +1,5 @@
 import { Header } from '@/components/layout'
 import { BestSolves, LatestContests, OngoingContestBanner } from '../components'
-import { cn } from '@/utils'
 import dashboardEmptyImg from '@/assets/images/dashboard-empty.svg'
 import { useContests } from '@/shared/contests'
 import { useUser } from '@/features/auth'
@@ -22,12 +21,12 @@ export function Dashboard() {
         <span className='title-h1 sm:title-lg hidden lg:inline'>{title}</span>
       </h1>
       <OngoingContestBanner />
-      <Lists className='flex-1' />
+      <Lists />
     </div>
   )
 }
 
-function Lists({ className }: { className?: string }) {
+function Lists() {
   const { data: latestContests } = useContests({
     page: 1,
     pageSize: 5,
@@ -39,7 +38,7 @@ function Lists({ className }: { className?: string }) {
 
   if (latestContests?.results.length === 0 && bestSolves?.length === 0) {
     return (
-      <div className={cn('flex flex-col gap-6 rounded-2xl bg-black-80 px-6 pb-4 pt-10', className)}>
+      <div className='flex flex-1 flex-col gap-6 rounded-2xl bg-black-80 px-6 pb-4 pt-10'>
         <h2 className='title-h3 text-center'>
           Invite friends to participate in a contest, compare your results and share solves
         </h2>
@@ -51,15 +50,9 @@ function Lists({ className }: { className?: string }) {
   }
 
   return (
-    <div className={cn('flex flex-wrap gap-3 sm:flex-col sm:flex-nowrap sm:gap-2', className)}>
-      <LatestContests
-        className='min-h-[calc(50%-0.75rem/2)] flex-grow-[1] basis-[calc(40%-0.75rem/2)] sm:min-h-0 sm:basis-auto'
-        contests={latestContests?.results}
-      />
-      <BestSolves
-        className='min-h-[calc(50%-0.75rem/2)] min-w-[35rem] flex-grow-[1] basis-[calc(60%-0.75rem/2)] sm:min-h-0 sm:min-w-0 sm:flex-1 sm:basis-auto'
-        solves={bestSolves}
-      />
+    <div className='flex flex-grow gap-3 md:flex-grow-0 md:flex-col sm:gap-2'>
+      <LatestContests className='h-full basis-[calc(40%-0.75rem/2)]' contests={latestContests?.results} />
+      <BestSolves className='h-full basis-[calc(60%-0.75rem/2)]' solves={bestSolves} />
     </div>
   )
 }

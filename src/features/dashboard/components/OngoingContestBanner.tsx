@@ -35,7 +35,7 @@ function BannerContent({ className }: { className?: string }) {
           <div className='flex w-full items-end justify-between'>
             <div>
               <p className='title-h3 mb-2'>Duration</p>
-              <p className='text-large'>{duration}</p>
+              <Duration duration={duration} />
             </div>
             <PrimaryButton asChild>
               <Link search={{ disciplineSlug: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
@@ -81,7 +81,7 @@ function BannerContentMobile({ className }: { className?: string }) {
       <div className='flex flex-col items-end gap-6 py-4 pr-4 text-right sm:flex-row-reverse sm:items-center sm:justify-end sm:gap-2 sm:p-0 sm:text-left'>
         <div className='space-y-3 sm:space-y-1'>
           <p className='title-h3'>Duration</p>
-          <p className='text-large'>{duration}</p>
+          <Duration duration={duration} />
         </div>
         <Disciplines />
       </div>
@@ -89,9 +89,17 @@ function BannerContentMobile({ className }: { className?: string }) {
   )
 }
 
-function Disciplines({ className }: { className?: string }) {
+function Duration({ duration }: { duration: string | null }) {
+  return duration ? (
+    <p className='text-large'>{duration}</p>
+  ) : (
+    <p className='text-large w-36 animate-pulse bg-grey-100 text-grey-100'>Loading...</p>
+  )
+}
+
+function Disciplines() {
   return (
-    <div className={cn('flex', className)}>
+    <div className='flex'>
       <Link
         to='/contests/ongoing'
         search={{ disciplineSlug: '3by3' }}
