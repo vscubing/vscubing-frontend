@@ -12,7 +12,9 @@ const parentRoute = createRoute({
 const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
-  component: () => <Navigate to={disciplineRoute.id} params={{ disciplineSlug: DEFAULT_DISCIPLINE }} replace />,
+  component: () => (
+    <Navigate to={disciplineRoute.id} search={{ page: 1 }} params={{ disciplineSlug: DEFAULT_DISCIPLINE }} replace />
+  ),
 })
 
 const paginationSchema = z.object({
