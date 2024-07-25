@@ -22,19 +22,18 @@ export function Toaster() {
 
 export const TOASTS_PRESETS = {
   noConnection: {
+    dedupId: 'noConnection',
     title: 'Uh-oh! No Internet connection',
     description: 'Check your connection and get back to the fun. Need help?',
     contactUsButton: true,
   },
   internalError: {
+    dedupId: 'internalError',
     title: 'Uh-oh! Something went wrong',
     description: 'Give it a moment, or reach out to our support team',
     contactUsButton: true,
   },
 } satisfies Record<string, Toast>
-
-const titlesToDebounce = [TOASTS_PRESETS.noConnection.title, TOASTS_PRESETS.internalError.title]
-const debounceMap = new Map(titlesToDebounce.map((title) => [title, { lastShown: 0 }]))
 
 const durations = {
   short: 3_000,
@@ -43,26 +42,19 @@ const durations = {
 } as const
 
 export type Toast = {
+  dedupId: string
   title: string
   description: string
   contactUsButton?: boolean
   duration?: keyof typeof durations
 }
-export function toast({ title, description, contactUsButton = false, duration = 'normal' }: Toast) {
-  const debounceData = debounceMap.get(title)
-  if (debounceData) {
-    const { lastShown } = debounceData
-    const now = Date.now()
-    if (now - lastShown < durations[duration]) return
-
-    debounceMap.set(title, { lastShown: now })
-  }
-
+export function toast({ title, description, contactUsButton = false, duration = 'normal', dedupId }: Toast) {
   Sonner.toast(title, {
     closeButton: true,
     description,
     action: contactUsButton ? { label: 'Contact us', onClick: () => alert('clicked on toast') } : undefined,
     //  TODO: add contact link (discord?)
     duration: durations[duration],
+    id: dedupId,
   })
 }
