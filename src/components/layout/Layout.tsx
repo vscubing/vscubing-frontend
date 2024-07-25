@@ -28,7 +28,7 @@ export function Layout({ children }: LayoutProps) {
         className='flex h-svh gap-3 p-[1.625rem] sm:flex-col sm:gap-0 sm:px-3 sm:py-0'
       >
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
-        <main className='flex flex-1 flex-col overflow-y-scroll'>{children ?? <Outlet />}</main>
+        <main className='flex flex-1 flex-col overflow-y-auto'>{children ?? <Outlet />}</main>
         <BottomNavbar className='hidden sm:block' />
       </div>
     </>
