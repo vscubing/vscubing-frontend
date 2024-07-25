@@ -9,7 +9,7 @@ import { AxiosError } from 'axios'
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
   description: "Under normal circumstances this shouldn't happen.",
-  duration: Infinity,
+  duration: 'infinite',
 } satisfies Toast
 
 export const usePostSolveResult = (disciplineSlug: Discipline) =>

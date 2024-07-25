@@ -34,7 +34,12 @@ export function WatchSolvePage() {
 
   function copyWatchSolveLink() {
     copyToClipboard(window.location.href).then(
-      () => toast({ title: 'Link copied', description: 'You can now share the link with your friends.' }),
+      () =>
+        toast({
+          title: 'Link copied',
+          description: 'You can now share the link with your friends.',
+          duration: 'short',
+        }),
       () =>
         toast({
           title: 'Uh-oh! An error occured while copying the link',
