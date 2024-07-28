@@ -42,7 +42,7 @@ const durations = {
 } as const
 
 export type Toast = {
-  dedupId: string
+  dedupId?: string
   title: string
   description: string
   contactUsButton?: boolean
