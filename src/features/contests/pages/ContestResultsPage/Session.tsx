@@ -59,27 +59,29 @@ export function Session({
         </Accordion.Header>
         <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:w-full md:overflow-y-clip'>
           <ul className='grid grid-cols-[repeat(5,min-content)] gap-x-2 md:grid-flow-col md:grid-rows-2 md:justify-end md:border-t md:border-grey-60 md:pt-4 sm:grid-flow-row sm:grid-cols-2 sm:grid-rows-none sm:items-center sm:pl-2 sm:pt-3'>
-            {session.roundSession.solveSet.map((solve, index) => (
-              <li key={solve.id} className='contents'>
-                <span className='hidden text-center text-grey-40 md:block sm:text-left'>Attempt {index + 1}</span>
-                <span className='relative sm:ml-auto sm:text-right'>
-                  <SolveTimeLinkOrDnf
-                    canShowHint={isFirstOnPage && index === 0}
-                    contestSlug={contestSlug}
-                    disciplineSlug={discipline}
-                    solveId={solve.id}
-                    timeMs={solve.timeMs}
-                    isDnf={solve.isDnf}
-                    variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
-                  />
+            {session.roundSession.solveSet
+              .filter((solve) => solve.submissionState === 'submitted')
+              .map((solve, index) => (
+                <li key={solve.id} className='contents'>
+                  <span className='hidden text-center text-grey-40 md:block sm:text-left'>Attempt {index + 1}</span>
+                  <span className='relative sm:ml-auto sm:text-right'>
+                    <SolveTimeLinkOrDnf
+                      canShowHint={isFirstOnPage && index === 0}
+                      contestSlug={contestSlug}
+                      disciplineSlug={discipline}
+                      solveId={solve.id}
+                      timeMs={solve.timeMs}
+                      isDnf={solve.isDnf}
+                      variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
+                    />
 
-                  <ExtraLabel
-                    scramblePosition={solve.scramble.position}
-                    className='absolute -top-2 right-[1.1rem] sm:-top-1'
-                  />
-                </span>
-              </li>
-            ))}
+                    <ExtraLabel
+                      scramblePosition={solve.scramble.position}
+                      className='absolute -top-2 right-[1.1rem] sm:-top-1'
+                    />
+                  </span>
+                </li>
+              ))}
           </ul>
         </Accordion.Content>
       </Accordion.Item>
