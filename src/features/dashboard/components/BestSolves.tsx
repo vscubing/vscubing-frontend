@@ -80,6 +80,7 @@ function Solve({ solve, isFirstOnPage }: SolveProps) {
         <SolveTimeLinkOrDnf
           canShowHint={isFirstOnPage}
           timeMs={solve.timeMs}
+          isDnf={false}
           solveId={solve.id}
           disciplineSlug={solve.discipline.slug as Discipline}
           contestSlug={solve.contest.slug}

@@ -7,6 +7,7 @@ import { type ReactNode } from 'react'
 export function SolvePanel({
   number,
   timeMs,
+  isDnf,
   scramble,
   id,
   isInited = true,
@@ -14,6 +15,7 @@ export function SolvePanel({
 }: {
   number: number
   timeMs?: number
+  isDnf?: boolean
   scramble: string
   id?: number
   isInited?: boolean
@@ -26,7 +28,7 @@ export function SolvePanel({
         <ExtraLabel scramblePosition={'1'} className='absolute right-0 top-0' />{' '}
         {/* TODO: fix scramblePosition once backend is updated */}
       </span>
-      <TimeSection timeMs={timeMs} id={id} isInited={isInited} />
+      <TimeSection timeMs={timeMs} isDnf={isDnf} id={id} isInited={isInited} />
       {isInited ? (
         <Ellipsis className='vertical-alignment-fix flex-1'>{scramble}</Ellipsis>
       ) : (
@@ -41,19 +43,22 @@ export function SolvePanel({
 
 const route = getRouteApi('/contests/$contestSlug/solve')
 
-type TimeSectionProps = { timeMs?: number; id?: number; isInited: boolean }
-function TimeSection({ timeMs, id, isInited }: TimeSectionProps) {
+type TimeSectionProps = { timeMs?: number; isDnf?: boolean; id?: number; isInited: boolean }
+function TimeSection({ timeMs, isDnf, id, isInited }: TimeSectionProps) {
   const { contestSlug } = route.useParams()
   const { disciplineSlug } = route.useSearch()
 
   if (!isInited) {
     return <SolveTimeLabel isPlaceholder />
   }
-  if (timeMs === undefined) {
-    return <SolveTimeLabel timeMs={timeMs} />
+  if (isDnf) {
+    return <SolveTimeLabel isDnf />
   }
   if (id === undefined) {
     throw Error('solve id is undefined')
+  }
+  if (timeMs === undefined) {
+    throw Error('solve time is undefined')
   }
   return (
     <SolveTimeLinkOrDnf
@@ -62,6 +67,7 @@ function TimeSection({ timeMs, id, isInited }: TimeSectionProps) {
       disciplineSlug={disciplineSlug}
       solveId={id}
       timeMs={timeMs}
+      isDnf={false}
     />
   )
 }

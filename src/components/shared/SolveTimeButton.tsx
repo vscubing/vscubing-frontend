@@ -22,8 +22,9 @@ const solveTimeButtonVariants = cva(
   },
 )
 
-type SolveTimeLinkOrDnfProps<TTimeMs extends number | null> = VariantProps<typeof solveTimeButtonVariants> & {
-  timeMs: TTimeMs
+type SolveTimeLinkOrDnfProps = VariantProps<typeof solveTimeButtonVariants> & {
+  timeMs: number
+  isDnf: boolean
   contestSlug: string
   disciplineSlug: Discipline
   solveId: number
@@ -31,17 +32,18 @@ type SolveTimeLinkOrDnfProps<TTimeMs extends number | null> = VariantProps<typeo
   className?: string
 }
 
-export function SolveTimeLinkOrDnf<TTimeMs extends number | null>({
+export function SolveTimeLinkOrDnf({
   timeMs,
+  isDnf,
   variant,
   className,
   contestSlug,
   disciplineSlug,
   solveId,
   canShowHint,
-}: SolveTimeLinkOrDnfProps<TTimeMs>) {
-  if (timeMs === null) {
-    return <SolveTimeLabel className={className} />
+}: SolveTimeLinkOrDnfProps) {
+  if (isDnf) {
+    return <SolveTimeLabel isDnf className={className} />
   }
   return (
     <WatchSolveHintPopover disabled={!canShowHint}>
@@ -64,26 +66,27 @@ const solveTimeLabelVariants = cva('vertical-alignment-fix inline-flex h-8 min-w
 })
 type SolveTimeLabelProps = {
   timeMs?: number
+  isDnf?: boolean
   isPlaceholder?: boolean
   isAverage?: boolean
 } & Omit<ComponentProps<'span'>, 'children'>
 export const SolveTimeLabel = forwardRef<HTMLSpanElement, SolveTimeLabelProps>(
-  ({ timeMs, isPlaceholder, isAverage, className, ...props }, ref) => {
+  ({ timeMs, isDnf = false, isPlaceholder = false, isAverage, className, ...props }, ref) => {
     let variant: 'average' | 'dnf' | undefined
-    if (isAverage) {
-      variant = 'average'
-    }
-    if (timeMs === undefined && !isPlaceholder) {
+
+    if (isDnf) {
       variant = 'dnf'
+    } else if (isAverage) {
+      variant = 'average'
     }
 
     let content = ''
     if (isPlaceholder) {
       content = '00:00.000'
-    } else if (timeMs !== undefined) {
-      content = formatSolveTime(timeMs)
-    } else {
+    } else if (isDnf) {
       content = 'DNF'
+    } else {
+      content = formatSolveTime(timeMs!)
     }
 
     return (

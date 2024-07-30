@@ -50,7 +50,8 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, d
             {submittedSolveSet?.map(({ solve }, index) => (
               <SolvePanel
                 number={index + 1}
-                timeMs={solve.timeMs ?? undefined}
+                timeMs={solve.timeMs}
+                isDnf={solve.isDnf}
                 scramble={solve.scramble.moves}
                 id={solve.id}
                 key={solve.id}

@@ -69,6 +69,7 @@ export function Session({
                     disciplineSlug={discipline}
                     solveId={solve.id}
                     timeMs={solve.timeMs}
+                    isDnf={solve.isDnf}
                     variant={solve.id === bestId ? 'best' : solve.id === worstId ? 'worst' : undefined}
                   />
 

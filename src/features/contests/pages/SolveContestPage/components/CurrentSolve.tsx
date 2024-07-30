@@ -23,7 +23,8 @@ export function CurrentSolve({
       scramble={currentSolve.scramble.moves}
       isInited={currentSolve.solve !== null}
       id={currentSolve.solve?.id}
-      timeMs={currentSolve.solve?.timeMs ?? undefined}
+      timeMs={currentSolve.solve?.timeMs}
+      isDnf={currentSolve.solve?.isDnf}
       ActionComponent={
         currentSolve.solve === null ? (
           <PrimaryButton size='sm' onClick={onSolveInit} disabled={areActionsDisabled}>

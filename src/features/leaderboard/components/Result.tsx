@@ -42,6 +42,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
             <SolveTimeLinkOrDnf
               canShowHint={isFirstOnPage}
               timeMs={result.solve.timeMs}
+              isDnf={result.solve.isDnf}
               solveId={result.solve.id}
               contestSlug={result.solve.contest.slug}
               disciplineSlug={disciplineSlug}
