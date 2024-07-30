@@ -60,7 +60,7 @@ export function WatchSolvePage() {
             <Link
               to='/contests/$contestSlug'
               // @ts-expect-error this error will disappear once we remove the unnecessary type safety on discipline param here
-              search={{ discipline: res?.discipline?.slug! }}
+              search={{ disciplineSlug: res?.discipline?.slug! }}
               className='title-h2 mb-1 text-secondary-20'
             >
               Contest {res?.contest.slug}
