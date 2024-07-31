@@ -65,8 +65,7 @@ export function WatchSolvePage() {
             >
               Contest {res?.contest.slug}
             </Link>
-            <p className='text-large'>Scramble {expandScramblePosition('E1')}</p>
-            {/* TODO: replace mock scramble position */}
+            <p className='text-large'>Scramble {expandScramblePosition(res?.scramble.position)}</p>
           </div>
         </SectionHeader>
         <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
