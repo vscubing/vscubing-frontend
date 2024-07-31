@@ -54,7 +54,7 @@ export function WatchSolvePage() {
 
       <NavigateBackButton className='self-start' />
       <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2 sm:grid-cols-1 sm:grid-rows-[min-content,min-content,1fr]'>
-        <SectionHeader className='gap-8'>
+        <SectionHeader className='gap-4'>
           <CubeBadge cube='3by3' />
           <div>
             <Link
