@@ -3,7 +3,7 @@ import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
 import { NavigateBackButton, HintSection, PageTitleMobile, Pagination } from '@/components/shared'
 import { CubeSwitcher } from '@/components/ui'
-import { Link, getRouteApi, useNavigate } from '@tanstack/react-router'
+import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { getLeaderboardInfiniteQuery, getLeaderboardQuery, type LeaderboardDTO } from '../api'
 import {
@@ -12,8 +12,9 @@ import {
   AutofillHeight,
   type Behavior,
 } from '@/features/autofillHeight'
-import { matchesQuery } from '@/utils'
+import { isInvalidPageError, matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
+import { NotFoundRedirect } from '@/features/NotFoundPage'
 
 const route = getRouteApi('/leaderboard/$disciplineSlug')
 export function Leaderboard() {
@@ -21,9 +22,7 @@ export function Leaderboard() {
 }
 
 function ControllerWithPagination() {
-  const navigate = useNavigate({ from: route.id })
-
-  const { disciplineSlug, page } = route.useLoaderData()
+  const { page } = route.useLoaderData()
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
@@ -33,11 +32,12 @@ function ControllerWithPagination() {
   })
   const { data, error, isFetching } = useQuery(query)
 
-  // TODO: add <NotFoundRedirect /> on 404
+  if (isInvalidPageError(error)) {
+    return <Navigate from={route.id} to={route.id} search={(prev) => ({ ...prev, page: 1 })} replace />
+  }
 
-  if (error?.response?.status === 400) {
-    // NOTE: this might have been changed to 404
-    void navigate({ search: { page: 1 }, params: { disciplineSlug } })
+  if (error?.response?.status === 404) {
+    return <NotFoundRedirect />
   }
 
   return (

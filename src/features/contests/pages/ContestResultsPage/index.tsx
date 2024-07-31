@@ -1,5 +1,5 @@
 import { Header, SectionHeader } from '@/components/layout'
-import { CubeSwitcher } from '@/components/ui'
+import { CubeSwitcher, TOASTS_PRESETS, toast } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
@@ -17,10 +17,11 @@ import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
 } from '@/features/autofillHeight'
-import { matchesQuery } from '@/utils'
+import { isInvalidPageError, matchesQuery } from '@/utils'
 import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
 import { useOngoingContest } from '@/shared/contests'
 import { NotFoundRedirect } from '@/features/NotFoundPage'
+import { AxiosError } from 'axios'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestSlug/results')
@@ -44,7 +45,7 @@ function ControllerWithPagination() {
   const { data, error, isFetching } = useQuery(query)
 
   return (
-    <View pages={data?.pages} behavior='pagination' errorCode={error?.response?.status}>
+    <View pages={data?.pages} error={error} behavior='pagination'>
       <SessionsList
         behavior='pagination'
         list={data?.results.roundSessionSet}
@@ -72,7 +73,7 @@ function ControllerWithInfiniteScroll() {
   const { data, isFetching, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
-    <View behavior='infinite-scroll' errorCode={error?.response?.status}>
+    <View behavior='infinite-scroll' errorCode={error?.response?.status} error={error}>
       <SessionsList
         behavior='infinite-scroll'
         list={data?.pages.flatMap((page) => page.results.roundSessionSet)}
@@ -90,10 +91,11 @@ function ControllerWithInfiniteScroll() {
 type ViewProps = {
   behavior: Behavior
   pages?: number
+  error: AxiosError | null
   children: ReactNode
   errorCode?: number
 }
-function View({ pages, children, behavior, errorCode }: ViewProps) {
+function View({ pages, children, error, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
   const { disciplineSlug, page } = route.useSearch()
 
@@ -116,7 +118,7 @@ function View({ pages, children, behavior, errorCode }: ViewProps) {
         <PageTitleMobile>{title}</PageTitleMobile>
 
         <NavigateBackButton className='self-start' />
-        <ErrorHandler errorCode={errorCode}>
+        <ErrorHandler error={error}>
           <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
             <Link from={route.id} search={{ disciplineSlug: '3by3', page: 1 }} params={{ contestSlug }}>
               <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
@@ -135,12 +137,17 @@ function View({ pages, children, behavior, errorCode }: ViewProps) {
 }
 
 type ErrorHandlerProps = {
-  errorCode?: number
+  error: AxiosError | null
   children: ReactNode
 }
-function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
+function ErrorHandler({ error, children }: ErrorHandlerProps) {
   const { contestSlug } = route.useParams()
-  if (errorCode === 400) {
+
+  if (!error?.response) {
+    return children
+  }
+
+  if (isInvalidPageError(error)) {
     return (
       <Navigate
         from={route.id}
@@ -152,7 +159,11 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
     )
   }
 
-  if (errorCode === 403) {
+  if (error.response.status === 404) {
+    return <NotFoundRedirect />
+  }
+
+  if (error.response.status === 403) {
     return (
       <Navigate
         from={route.id}
@@ -164,15 +175,11 @@ function ErrorHandler({ errorCode, children }: ErrorHandlerProps) {
     )
   }
 
-  if (errorCode === 401) {
+  if (error.response.status === 401) {
     return <HintSignInSection description='You need to be signed in to view ongoing contest results' />
   }
 
-  if (errorCode === 404) {
-    return <NotFoundRedirect />
-  }
-
-  return children
+  toast(TOASTS_PRESETS.internalError)
 }
 
 type SessionsListProps = {

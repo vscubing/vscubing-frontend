@@ -1,7 +1,7 @@
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
-import { matchesQuery } from '@/utils'
+import { isInvalidPageError, matchesQuery } from '@/utils'
 import type { ContestDTO, Discipline } from '@/types'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
@@ -15,6 +15,8 @@ import {
   getInfiniteContestsQuery,
   useContests,
 } from '@/shared/contests'
+import { NotFoundRedirect } from '@/features/NotFoundPage'
+import { AxiosError } from 'axios'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
@@ -32,18 +34,20 @@ function ControllerWithInfiniteScroll() {
     enabled: pageSize !== undefined,
     pageSize,
   })
-  const { data, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const { data, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
-    <View discipline={disciplineSlug}>
-      <ContestsList
-        list={data?.pages.flatMap((page) => page.results)}
-        pageSize={pageSize}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        lastElementRef={lastElementRef}
-      />
-    </View>
+    <ErrorHandler error={error}>
+      <View discipline={disciplineSlug}>
+        <ContestsList
+          list={data?.pages.flatMap((page) => page.results)}
+          pageSize={pageSize}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+          lastElementRef={lastElementRef}
+        />
+      </View>
+    </ErrorHandler>
   )
 }
 
@@ -57,19 +61,17 @@ function ControllerWithPagination() {
     enabled: pageSize !== undefined,
   })
 
-  if (error?.response?.status === 404) {
-    return <Navigate search={(prev) => ({ ...prev, page: 1 })} />
-  }
-
   return (
-    <View withPagination pages={data?.pages} page={page} discipline={disciplineSlug}>
-      <ContestsList
-        list={data?.results}
-        pageSize={pageSize}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-      />
-    </View>
+    <ErrorHandler error={error}>
+      <View withPagination pages={data?.pages} page={page} discipline={disciplineSlug}>
+        <ContestsList
+          list={data?.results}
+          pageSize={pageSize}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+        />
+      </View>
+    </ErrorHandler>
   )
 }
 
@@ -132,4 +134,22 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
       </AutofillHeight.ListWrapper>
     </div>
   )
+}
+
+type ErrorHandlerProps = {
+  error: AxiosError | null
+  children: ReactNode
+}
+function ErrorHandler({ error, children }: ErrorHandlerProps) {
+  if (!error) {
+    return children
+  }
+
+  if (isInvalidPageError(error)) {
+    return <Navigate search={(prev) => ({ ...prev, page: 1 })} replace />
+  }
+
+  if (error?.response?.status === 404) {
+    return <NotFoundRedirect />
+  }
 }
