@@ -1,5 +1,5 @@
 import { contestsOngoingContestRetrieveRetrieve } from '@/api'
-import { formatDate } from '@/utils'
+import { formatContestDuration } from '@/utils'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 
 export const ongoingContestQuery = queryOptions({
@@ -17,5 +17,5 @@ export function useOngoingContestDuration() {
   if (!contest) {
     return null
   }
-  return `${formatDate(contest.startDate, 'long')} - ${formatDate(contest.endDate, 'long')}`
+  return formatContestDuration(contest)
 }

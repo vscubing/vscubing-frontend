@@ -17,7 +17,7 @@ import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
 } from '@/features/autofillHeight'
-import { matchesQuery } from '@/utils'
+import { formatContestDuration, matchesQuery } from '@/utils'
 import {
   PageTitleMobile,
   NavigateBackButton,
@@ -29,7 +29,6 @@ import {
 import { useOngoingContest } from '@/shared/contests'
 import { AxiosError } from 'axios'
 
-const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
 const route = getRouteApi('/contests/$contestSlug/results')
 export function ContestResultsPage() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
@@ -51,7 +50,7 @@ function ControllerWithPagination() {
   const { data, error, isFetching } = useQuery(query)
 
   return (
-    <View pages={data?.pages} error={error} behavior='pagination'>
+    <View contest={data?.results.contest} pages={data?.pages} error={error} behavior='pagination'>
       <SessionsList
         behavior='pagination'
         list={data?.results.roundSessionSet}
@@ -79,7 +78,12 @@ function ControllerWithInfiniteScroll() {
   const { data, isFetching, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
-    <View behavior='infinite-scroll' errorCode={error?.response?.status} error={error}>
+    <View
+      contest={data?.pages?.at(0)?.results.contest}
+      behavior='infinite-scroll'
+      errorCode={error?.response?.status}
+      error={error}
+    >
       <SessionsList
         behavior='infinite-scroll'
         list={data?.pages.flatMap((page) => page.results.roundSessionSet)}
@@ -96,17 +100,20 @@ function ControllerWithInfiniteScroll() {
 
 type ViewProps = {
   behavior: Behavior
+  contest?: ContestResultsDTO['contest']
   pages?: number
   error: AxiosError | null
   children: ReactNode
   errorCode?: number
 }
-function View({ pages, children, error, behavior, errorCode }: ViewProps) {
+function View({ pages, contest, children, error, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
   const { disciplineSlug, page } = route.useSearch()
 
   const { data: ongoing } = useOngoingContest()
   const isOngoing = contestSlug === ongoing?.slug
+
+  let contestDuration = contest ? formatContestDuration(contest) : ''
 
   let title = ''
   if (!isOngoing) {
