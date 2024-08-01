@@ -6,7 +6,14 @@ import type { ContestDTO, Discipline } from '@/types'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
-import { HintSection, NavigateBackButton, PageTitleMobile, Pagination } from '@/components/shared'
+import {
+  HintSection,
+  NavigateBackButton,
+  NotFoundHandler,
+  PageTitleMobile,
+  Pagination,
+  PaginationInvalidPageHandler,
+} from '@/components/shared'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import {
@@ -37,17 +44,19 @@ function ControllerWithInfiniteScroll() {
   const { data, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
-    <ErrorHandler error={error}>
-      <View discipline={disciplineSlug}>
-        <ContestsList
-          list={data?.pages.flatMap((page) => page.results)}
-          pageSize={pageSize}
-          containerRef={containerRef}
-          fakeElementRef={fakeElementRef}
-          lastElementRef={lastElementRef}
-        />
-      </View>
-    </ErrorHandler>
+    <PaginationInvalidPageHandler error={error}>
+      <NotFoundHandler error={error}>
+        <View discipline={disciplineSlug}>
+          <ContestsList
+            list={data?.pages.flatMap((page) => page.results)}
+            pageSize={pageSize}
+            containerRef={containerRef}
+            fakeElementRef={fakeElementRef}
+            lastElementRef={lastElementRef}
+          />
+        </View>
+      </NotFoundHandler>
+    </PaginationInvalidPageHandler>
   )
 }
 
@@ -62,7 +71,7 @@ function ControllerWithPagination() {
   })
 
   return (
-    <ErrorHandler error={error}>
+    <NotFoundHandler error={error}>
       <View withPagination pages={data?.pages} page={page} discipline={disciplineSlug}>
         <ContestsList
           list={data?.results}
@@ -71,7 +80,7 @@ function ControllerWithPagination() {
           fakeElementRef={fakeElementRef}
         />
       </View>
-    </ErrorHandler>
+    </NotFoundHandler>
   )
 }
 
@@ -134,22 +143,4 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
       </AutofillHeight.ListWrapper>
     </div>
   )
-}
-
-type ErrorHandlerProps = {
-  error: AxiosError | null
-  children: ReactNode
-}
-function ErrorHandler({ error, children }: ErrorHandlerProps) {
-  if (!error) {
-    return children
-  }
-
-  if (isInvalidPageError(error)) {
-    return <Navigate search={(prev) => ({ ...prev, page: 1 })} replace />
-  }
-
-  if (error?.response?.status === 404) {
-    return <NotFoundRedirect />
-  }
 }

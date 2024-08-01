@@ -1,5 +1,5 @@
 import { Header, SectionHeader } from '@/components/layout'
-import { CubeSwitcher, TOASTS_PRESETS, toast } from '@/components/ui'
+import { CubeSwitcher } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
@@ -17,10 +17,16 @@ import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
 } from '@/features/autofillHeight'
-import { isInvalidPageError, matchesQuery } from '@/utils'
-import { PageTitleMobile, NavigateBackButton, Pagination, HintSignInSection } from '@/components/shared'
+import { matchesQuery } from '@/utils'
+import {
+  PageTitleMobile,
+  NavigateBackButton,
+  Pagination,
+  HintSignInSection,
+  NotFoundHandler,
+  PaginationInvalidPageHandler,
+} from '@/components/shared'
 import { useOngoingContest } from '@/shared/contests'
-import { NotFoundRedirect } from '@/features/NotFoundPage'
 import { AxiosError } from 'axios'
 
 const contestDuration = '17 Dec 2023 - 23 Dec 2023' // TODO: get from backend
@@ -136,52 +142,6 @@ function View({ pages, children, error, behavior, errorCode }: ViewProps) {
   )
 }
 
-type ErrorHandlerProps = {
-  error: AxiosError | null
-  children: ReactNode
-}
-function ErrorHandler({ error, children }: ErrorHandlerProps) {
-  const { contestSlug } = route.useParams()
-
-  if (!error?.response) {
-    return children
-  }
-
-  if (isInvalidPageError(error)) {
-    return (
-      <Navigate
-        from={route.id}
-        to={route.id}
-        params={{ contestSlug }}
-        search={(prev) => ({ ...prev, page: 1 })}
-        replace
-      />
-    )
-  }
-
-  if (error.response.status === 404) {
-    return <NotFoundRedirect />
-  }
-
-  if (error.response.status === 403) {
-    return (
-      <Navigate
-        from={route.id}
-        to='/contests/$contestSlug/solve'
-        search={(prev) => prev}
-        params={{ contestSlug }}
-        replace
-      />
-    )
-  }
-
-  if (error.response.status === 401) {
-    return <HintSignInSection description='You need to be signed in to view ongoing contest results' />
-  }
-
-  toast(TOASTS_PRESETS.internalError)
-}
-
 type SessionsListProps = {
   ownSession: ContestResultsDTO['ownResult']
 } & Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
@@ -244,6 +204,38 @@ function SessionsList({
           />
         </AutofillHeight.ListWrapper>
       </div>
+    </>
+  )
+}
+
+type ErrorHandlerProps = {
+  error: AxiosError | null
+  children: ReactNode
+}
+function ErrorHandler({ error, children }: ErrorHandlerProps) {
+  const { contestSlug } = route.useParams()
+
+  if (error?.response?.status === 403) {
+    return (
+      <Navigate
+        from={route.id}
+        to='/contests/$contestSlug/solve'
+        search={(prev) => prev}
+        params={{ contestSlug }}
+        replace
+      />
+    )
+  }
+
+  if (error?.response?.status === 401) {
+    return <HintSignInSection description='You need to be signed in to view ongoing contest results' />
+  }
+
+  return (
+    <>
+      <PaginationInvalidPageHandler error={error}>
+        <NotFoundHandler error={error}>{children}</NotFoundHandler>
+      </PaginationInvalidPageHandler>
     </>
   )
 }

@@ -1,9 +1,16 @@
 import { Header, SectionHeader } from '@/components/layout'
 import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
-import { NavigateBackButton, HintSection, PageTitleMobile, Pagination } from '@/components/shared'
+import {
+  NavigateBackButton,
+  HintSection,
+  PageTitleMobile,
+  Pagination,
+  PaginationInvalidPageHandler,
+  NotFoundHandler,
+} from '@/components/shared'
 import { CubeSwitcher } from '@/components/ui'
-import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
+import { Link, getRouteApi } from '@tanstack/react-router'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { getLeaderboardInfiniteQuery, getLeaderboardQuery, type LeaderboardDTO } from '../api'
 import {
@@ -12,9 +19,8 @@ import {
   AutofillHeight,
   type Behavior,
 } from '@/features/autofillHeight'
-import { isInvalidPageError, matchesQuery } from '@/utils'
+import { matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
-import { NotFoundRedirect } from '@/features/NotFoundPage'
 
 const route = getRouteApi('/leaderboard/$disciplineSlug')
 export function Leaderboard() {
@@ -32,26 +38,22 @@ function ControllerWithPagination() {
   })
   const { data, error, isFetching } = useQuery(query)
 
-  if (isInvalidPageError(error)) {
-    return <Navigate from={route.id} to={route.id} search={(prev) => ({ ...prev, page: 1 })} replace />
-  }
-
-  if (error?.response?.status === 404) {
-    return <NotFoundRedirect />
-  }
-
   return (
-    <View pages={data?.pages} behavior='pagination'>
-      <ResultsList
-        behavior='pagination'
-        list={data?.results.solveSet ?? undefined}
-        ownResult={data?.results.ownResult}
-        pageSize={pageSize}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        isFetching={isFetching}
-      />
-    </View>
+    <PaginationInvalidPageHandler error={error}>
+      <NotFoundHandler error={error}>
+        <View pages={data?.pages} behavior='pagination'>
+          <ResultsList
+            behavior='pagination'
+            list={data?.results.solveSet ?? undefined}
+            ownResult={data?.results.ownResult}
+            pageSize={pageSize}
+            containerRef={containerRef}
+            fakeElementRef={fakeElementRef}
+            isFetching={isFetching}
+          />
+        </View>
+      </NotFoundHandler>
+    </PaginationInvalidPageHandler>
   )
 }
 
@@ -61,21 +63,23 @@ function ControllerWithInfiniteScroll() {
     pageSize,
     enabled: pageSize !== undefined,
   })
-  const { data, isFetching, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const { data, error, isFetching, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
 
   return (
-    <View behavior='infinite-scroll'>
-      <ResultsList
-        behavior='infinite-scroll'
-        list={data?.pages.flatMap((page) => page.results.solveSet)}
-        ownResult={data?.pages.at(0)?.results.ownResult}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        lastElementRef={lastElementRef}
-        isFetching={isFetching}
-        pageSize={pageSize}
-      />
-    </View>
+    <NotFoundHandler error={error}>
+      <View behavior='infinite-scroll'>
+        <ResultsList
+          behavior='infinite-scroll'
+          list={data?.pages.flatMap((page) => page.results.solveSet)}
+          ownResult={data?.pages.at(0)?.results.ownResult}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+          lastElementRef={lastElementRef}
+          isFetching={isFetching}
+          pageSize={pageSize}
+        />
+      </View>
+    </NotFoundHandler>
   )
 }
 
