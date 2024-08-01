@@ -93,11 +93,13 @@ export function CubeProvider({ children }: CubeProviderProps) {
           ></div>
 
           <DialogPrimitive.Content
+            aria-describedby={undefined}
             style={{ pointerEvents: undefined }}
             className={cn('fixed inset-[1.625rem] z-50 rounded-2xl bg-black-80 duration-200', {
               'pointer-events-none opacity-0': !isModalOpen,
             })}
           >
+            <DialogPrimitive.Title className='sr-only'>Virtual cube simulator</DialogPrimitive.Title>
             <div className='relative h-full rounded-2xl bg-black-1000/25'>
               <div
                 className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40', {

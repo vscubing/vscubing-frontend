@@ -1,4 +1,5 @@
 import { DialogCloseCross, DialogContent, DialogTrigger, UnderlineButton } from '@/components/ui'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/utils'
 import { type ElementRef, forwardRef, type ComponentPropsWithoutRef } from 'react'
 
@@ -17,12 +18,12 @@ export const KeyMapDialogContent = forwardRef<
   ElementRef<typeof DialogContent>,
   ComponentPropsWithoutRef<typeof DialogContent>
 >(({ className, ...props }, ref) => (
-  <DialogContent className={cn('max-w-none p-10', className)} {...props} ref={ref}>
+  <DialogContent className={cn('max-w-none p-10', className)} {...props} ref={ref} aria-describedby={undefined}>
     <div className='grid grid-cols-[repeat(10,auto)] gap-1'>
-      <header className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
-        <h1 className='title-h2 text-secondary-20'>Virtual Cube Key Map</h1>
+      <div className='col-span-full flex items-center justify-between rounded-xl bg-black-80 p-4'>
+        <DialogPrimitive.Title className='title-h2 text-secondary-20'>Virtual Cube Key Map</DialogPrimitive.Title>
         <DialogCloseCross />
-      </header>
+      </div>
 
       <ul className='contents'>
         {keyMap.map(({ keyName, cubeMovement }) => (
