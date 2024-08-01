@@ -9,7 +9,7 @@ import {
   PaginationInvalidPageHandler,
   NotFoundHandler,
 } from '@/components/shared'
-import { CubeSwitcher } from '@/components/ui'
+import { CubeSwitcher, OverlaySpinner } from '@/components/ui'
 import { Link, getRouteApi } from '@tanstack/react-router'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
 import { getLeaderboardInfiniteQuery, getLeaderboardQuery, type LeaderboardDTO } from '../api'
@@ -63,10 +63,12 @@ function ControllerWithInfiniteScroll() {
     pageSize,
     enabled: pageSize !== undefined,
   })
-  const { data, error, isFetching, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const { data, error, isFetching, isLoading, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const isFetchingNotFirstPage = isFetching && !isLoading
 
   return (
     <NotFoundHandler error={error}>
+      <OverlaySpinner isVisible={isFetchingNotFirstPage} />
       <View behavior='infinite-scroll'>
         <ResultsList
           behavior='infinite-scroll'

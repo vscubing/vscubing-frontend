@@ -1,7 +1,7 @@
 import { Header, SectionHeader } from '@/components/layout'
-import { CubeSwitcher } from '@/components/ui'
-import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
-import { isInvalidPageError, matchesQuery } from '@/utils'
+import { CubeSwitcher, OverlaySpinner } from '@/components/ui'
+import { Link, getRouteApi } from '@tanstack/react-router'
+import { matchesQuery } from '@/utils'
 import type { ContestDTO, Discipline } from '@/types'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
@@ -22,8 +22,6 @@ import {
   getInfiniteContestsQuery,
   useContests,
 } from '@/shared/contests'
-import { NotFoundRedirect } from '@/features/NotFoundPage'
-import { AxiosError } from 'axios'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
@@ -31,33 +29,6 @@ const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkel
 const route = getRouteApi('/contests/')
 export function ContestsIndexPage() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
-}
-
-function ControllerWithInfiniteScroll() {
-  const { disciplineSlug } = route.useSearch()
-
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
-  const query = getInfiniteContestsQuery({
-    enabled: pageSize !== undefined,
-    pageSize,
-  })
-  const { data, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
-
-  return (
-    <PaginationInvalidPageHandler error={error}>
-      <NotFoundHandler error={error}>
-        <View discipline={disciplineSlug}>
-          <ContestsList
-            list={data?.pages.flatMap((page) => page.results)}
-            pageSize={pageSize}
-            containerRef={containerRef}
-            fakeElementRef={fakeElementRef}
-            lastElementRef={lastElementRef}
-          />
-        </View>
-      </NotFoundHandler>
-    </PaginationInvalidPageHandler>
-  )
 }
 
 function ControllerWithPagination() {
@@ -81,6 +52,35 @@ function ControllerWithPagination() {
         />
       </View>
     </NotFoundHandler>
+  )
+}
+
+function ControllerWithInfiniteScroll() {
+  const { disciplineSlug } = route.useSearch()
+
+  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const query = getInfiniteContestsQuery({
+    enabled: pageSize !== undefined,
+    pageSize,
+  })
+  const { data, isFetching, isLoading, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const isFetchingNotFirstPage = isFetching && !isLoading
+
+  return (
+    <PaginationInvalidPageHandler error={error}>
+      <NotFoundHandler error={error}>
+        <OverlaySpinner isVisible={isFetchingNotFirstPage} />
+        <View discipline={disciplineSlug}>
+          <ContestsList
+            list={data?.pages.flatMap((page) => page.results)}
+            pageSize={pageSize}
+            containerRef={containerRef}
+            fakeElementRef={fakeElementRef}
+            lastElementRef={lastElementRef}
+          />
+        </View>
+      </NotFoundHandler>
+    </PaginationInvalidPageHandler>
   )
 }
 

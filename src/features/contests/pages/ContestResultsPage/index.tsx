@@ -1,5 +1,5 @@
 import { Header, SectionHeader } from '@/components/layout'
-import { CubeSwitcher } from '@/components/ui'
+import { CubeSwitcher, OverlaySpinner } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
@@ -75,26 +75,30 @@ function ControllerWithInfiniteScroll() {
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
   })
-  const { data, isFetching, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const { data, isFetching, isLoading, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
+  const isFetchingNotFirstPage = isFetching && !isLoading
 
   return (
-    <View
-      contest={data?.pages?.at(0)?.results.contest}
-      behavior='infinite-scroll'
-      errorCode={error?.response?.status}
-      error={error}
-    >
-      <SessionsList
+    <>
+      <OverlaySpinner isVisible={isFetchingNotFirstPage} />
+      <View
+        contest={data?.pages?.at(0)?.results.contest}
         behavior='infinite-scroll'
-        list={data?.pages.flatMap((page) => page.results.roundSessionSet)}
-        ownSession={data?.pages.at(0)?.results.ownResult}
-        containerRef={containerRef}
-        fakeElementRef={fakeElementRef}
-        lastElementRef={lastElementRef}
-        isFetching={isFetching}
-        pageSize={pageSize}
-      />
-    </View>
+        errorCode={error?.response?.status}
+        error={error}
+      >
+        <SessionsList
+          behavior='infinite-scroll'
+          list={data?.pages.flatMap((page) => page.results.roundSessionSet)}
+          ownSession={data?.pages.at(0)?.results.ownResult}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+          lastElementRef={lastElementRef}
+          isFetching={isFetching}
+          pageSize={pageSize}
+        />
+      </View>
+    </>
   )
 }
 

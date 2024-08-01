@@ -120,7 +120,7 @@ function LogoutButton({ className }: { className?: string }) {
 
 function BottomNavbar({ className }: { className: string }) {
   return (
-    <div className={cn('bg-black-100 pb-3 pt-2', className)}>
+    <div className={cn('h-[var(--mobile-bottom-nav-height)] bg-black-100', className)}>
       <div className='rounded-b-xl border-b border-grey-20'>
         <Navbar variant='horizontal' />
       </div>

@@ -12,6 +12,7 @@
     @screen sm {
       --header-height: 3.5rem;
     }
+    --mobile-bottom-nav-height: 5rem;
   }
   body {
     @apply font-hind text-[0.875rem] leading-[1.5] text-white-100;
