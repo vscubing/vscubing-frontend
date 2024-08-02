@@ -174,7 +174,7 @@ function ResultsList({
               </div>
             ) : null
           }
-          renderItem={(result, isFirst) => (
+          renderItem={({ item: result, isFirst }) => (
             <Result
               disciplineSlug={disciplineSlug}
               isFirstOnPage={isFirst}

@@ -43,7 +43,7 @@ export function LatestContests({ className, contests }: { className: string; con
         fakeElementRef={fakeElementRef}
       >
         <AutofillHeight.List
-          renderItem={(contest) => <Contest contest={contest} />}
+          renderItem={({ item: contest }) => <Contest contest={contest} />}
           renderSkeleton={() => <ContestSkeleton />}
           pageSize={countToDisplay}
           getItemKey={(contest) => contest.id}

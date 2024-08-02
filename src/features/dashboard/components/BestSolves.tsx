@@ -52,7 +52,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           <AutofillHeight.List
             getItemKey={(solve) => solve.id}
             pageSize={countToDisplay}
-            renderItem={(solve, isFirstOnPage) => <Solve isFirstOnPage={isFirstOnPage} solve={solve} />}
+            renderItem={({ item: solve, isFirst }) => <Solve isFirstOnPage={isFirst} solve={solve} />}
             renderSkeleton={SolveSkeleton}
             list={solves?.slice(0, countToDisplay)}
           />

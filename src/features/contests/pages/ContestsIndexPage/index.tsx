@@ -137,7 +137,7 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           pageSize={pageSize}
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
-          renderItem={(contest) => <Contest disciplineSlug={disciplineSlug} contest={contest} />}
+          renderItem={({ item: contest }) => <Contest disciplineSlug={disciplineSlug} contest={contest} />}
           getItemKey={(contest) => contest.id}
         />
       </AutofillHeight.ListWrapper>

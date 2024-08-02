@@ -31,7 +31,7 @@ type ListProps<T> = {
   list: T[] | undefined
   pageSize: number | undefined
   getItemKey: (item: T) => React.Key
-  renderItem: (item: T, isFirst: boolean) => ReactNode
+  renderItem: (args: { item: T; isFirst: boolean }) => ReactNode
   renderSkeleton: () => ReactElement
   lastElementRef?: (node?: Element | null) => void
 }
@@ -46,7 +46,7 @@ function List<T>({ list, pageSize, getItemKey, lastElementRef, renderItem, rende
 
   return list.map((item, index) => (
     <li key={getItemKey(item)} ref={index === list.length - 1 ? lastElementRef : undefined}>
-      {renderItem(item, index === 0)}
+      {renderItem({ item, isFirst: index === 0 })}
     </li>
   ))
 }
@@ -99,7 +99,7 @@ function ListWithPinnedItem<T>({
         : list?.map((item, index) => (
             <li ref={index === list.length - 1 ? lastElementRef : undefined} key={getItemKey(item)}>
               <div ref={isHighlighted?.(item) ? highlightedRef : undefined}>
-                {renderItem(item, index === 0 && !shouldPin)}
+                {renderItem({ item, isFirst: index === 0 && !shouldPin })}
               </div>
             </li>
           ))}

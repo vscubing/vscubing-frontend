@@ -200,10 +200,10 @@ function SessionsList({
               ) : null
             }
             pageSize={pageSize}
-            renderItem={(session, isFirstOnPage) => (
+            renderItem={({ item: session, isFirst }) => (
               <Session
                 isOwn={session.roundSession.id === ownSession?.roundSession.id}
-                isFirstOnPage={isFirstOnPage}
+                isFirstOnPage={isFirst}
                 contestSlug={contestSlug}
                 discipline={disciplineSlug}
                 session={session}
