@@ -53,7 +53,7 @@ function List<T>({ list, pageSize, getItemKey, lastElementRef, renderItem, rende
 
 type ListWithPinnedItemProps<T> = ListProps<T> & {
   isFetching: boolean
-  renderPinnedItem: (isFirstOnPage: boolean, linkToPage?: number) => ReactNode
+  renderPinnedItem: (isFirstOnPage: boolean) => ReactNode
   pinnedItem?: { isDisplayedSeparately: boolean; page: number }
   isHighlighted: (item: T) => boolean
   behavior: Behavior
@@ -72,7 +72,7 @@ function ListWithPinnedItem<T>({
   behavior,
 }: ListWithPinnedItemProps<T>) {
   const { isIntersecting: isHighlightedIntersecting, ref: highlightedRef } = useIntersectionObserver({
-    rootMargin: '-120px 0px -80px', // account for sticky header, pinned element's height and sticky navbar
+    rootMargin: '-120px 0px -80px', // account for pinned element's height and sticky navbar
   })
 
   if (!pageSize) {
@@ -89,13 +89,10 @@ function ListWithPinnedItem<T>({
   const skeletonSize = shouldPin ? pageSize - 1 : pageSize
   const isSkeletonVisible = !list || (isFetching && behavior === 'pagination')
 
-  const linkToPinnedItemPage = behavior === 'pagination' ? pinnedItem?.page : undefined
   return (
     <>
       {shouldPin && (
-        <li className={cn({ 'sticky top-2 z-10': behavior === 'infinite-scroll' })}>
-          {renderPinnedItem(true, linkToPinnedItemPage)}
-        </li>
+        <li className={cn({ 'sticky top-2 z-10': behavior === 'infinite-scroll' })}>{renderPinnedItem(true)}</li>
       )}
       {isSkeletonVisible
         ? Array.from({ length: skeletonSize }, (_, index) => <li key={index}>{renderSkeleton()}</li>)

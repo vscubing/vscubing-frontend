@@ -155,13 +155,13 @@ function ResultsList({
           behavior={behavior}
           pinnedItem={ownResult ?? undefined}
           isHighlighted={(item) => item.solve.id === ownResult?.solve.id}
-          renderPinnedItem={(isFirst, linkToPage) =>
+          renderPinnedItem={(isFirst) =>
             ownResult ? (
               <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
                 <Result
                   isOwn
                   isFirstOnPage={isFirst}
-                  linkToPage={linkToPage}
+                  linkToPage={behavior === 'pagination' ? ownResult.page : undefined}
                   disciplineSlug={disciplineSlug}
                   result={{
                     place: ownResult.place,

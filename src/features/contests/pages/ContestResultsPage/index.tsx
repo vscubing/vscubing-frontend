@@ -185,14 +185,14 @@ function SessionsList({
             getItemKey={(session) => session.roundSession.id}
             behavior={behavior}
             isHighlighted={(session) => session.roundSession.id === ownSession?.roundSession.id}
-            renderPinnedItem={(isFirstOnPage, linkToPage) =>
+            renderPinnedItem={(isFirstOnPage) =>
               ownSession ? (
                 <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
                   <Session
                     isFirstOnPage={isFirstOnPage}
                     discipline={disciplineSlug}
                     contestSlug={contestSlug}
-                    linkToPage={linkToPage}
+                    linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
                     isOwn
                     session={ownSession}
                   />
