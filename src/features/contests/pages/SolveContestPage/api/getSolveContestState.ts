@@ -6,11 +6,11 @@ import {
 } from '@/api'
 
 export function getSolveContestStateQuery({
-  disciplineSlug,
+  disciplineSlug: discipline,
 }: ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams) {
   return queryOptions({
-    queryKey: [USER_QUERY_KEY, 'solve-contest-state', disciplineSlug],
-    queryFn: () => contestsOngoingContestCurrentRoundSessionProgressRetrieve({ disciplineSlug }),
+    queryKey: [USER_QUERY_KEY, 'solve-contest-state', discipline],
+    queryFn: () => contestsOngoingContestCurrentRoundSessionProgressRetrieve({ disciplineSlug: discipline }),
   })
 }
 

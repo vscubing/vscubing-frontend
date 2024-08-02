@@ -41,10 +41,10 @@ export function SolveContestPage() {
 
 export function SolvePageContent() {
   const { contestSlug } = route.useParams()
-  const { disciplineSlug } = route.useSearch()
+  const { discipline } = route.useSearch()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
-  const { data: state, error } = useSolveContestState({ disciplineSlug })
+  const { data: state, error } = useSolveContestState({ disciplineSlug: discipline })
   const errorStatus = error?.response?.status
 
   if (errorStatus === 403) {
@@ -52,7 +52,7 @@ export function SolvePageContent() {
       <Navigate
         to='/contests/$contestSlug/results'
         params={{ contestSlug: contestSlug }}
-        search={{ disciplineSlug, page: 1 }}
+        search={{ discipline, page: 1 }}
         replace
       />
     )
@@ -98,8 +98,8 @@ export function SolvePageContent() {
     <>
       <SectionHeader>
         <div>
-          <Link from={route.id} search={{ disciplineSlug: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
-            <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
+          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
+            <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
         </div>
         <div className='ml-10 flex flex-1 items-center gap-4'>
@@ -118,7 +118,7 @@ export function SolvePageContent() {
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContestForm contestSlug={contestSlug} disciplineSlug={disciplineSlug} state={state} />
+        <SolveContestForm contestSlug={contestSlug} discipline={discipline} state={state} />
       </div>
     </>
   )

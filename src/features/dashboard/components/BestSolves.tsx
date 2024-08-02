@@ -40,7 +40,7 @@ export function BestSolves({ className, solves }: BestSolvesProps) {
           <span className='hidden flex-1 sm:block'>Type/Nickname</span>
           <span className='mr-4 w-24 text-center sm:mr-0'>Single time</span>
           <div aria-hidden className='invisible h-0'>
-            <OpenLeaderboardButton disciplineSlug='3x3' />
+            <OpenLeaderboardButton discipline='3x3' />
           </div>
         </div>
         <AutofillHeight.ListWrapper
@@ -82,22 +82,22 @@ function Solve({ solve, isFirstOnPage }: SolveProps) {
           timeMs={solve.timeMs}
           isDnf={false}
           solveId={solve.id}
-          disciplineSlug={solve.discipline.slug as Discipline}
+          discipline={solve.discipline.slug as Discipline}
           contestSlug={solve.contest.slug}
         />
       </span>
-      <OpenLeaderboardButton disciplineSlug={solve.discipline.slug} />
+      <OpenLeaderboardButton discipline={solve.discipline.slug} />
     </div>
   )
 }
 
-function OpenLeaderboardButton({ disciplineSlug }: { disciplineSlug: string }) {
+function OpenLeaderboardButton({ discipline }: { discipline: string }) {
   const ariaLabel = `leaderboard`
-  const ariaDescription = `Open leaderboard for ${disciplineSlug}`
+  const ariaDescription = `Open leaderboard for ${discipline}`
   return (
     <>
       <SecondaryButton asChild className='sm:hidden' aria-label={ariaLabel} aria-description={ariaDescription}>
-        <Link to='/leaderboard/$disciplineSlug' search={{ page: 1 }} params={{ disciplineSlug }}>
+        <Link to='/leaderboard/$discipline' search={{ page: 1 }} params={{ discipline: discipline }}>
           leaderboard
         </Link>
       </SecondaryButton>
@@ -108,7 +108,7 @@ function OpenLeaderboardButton({ disciplineSlug }: { disciplineSlug: string }) {
         aria-label={ariaLabel}
         aria-description={ariaDescription}
       >
-        <Link to='/leaderboard/$disciplineSlug' params={{ disciplineSlug }} search={{ page: 1 }}>
+        <Link to='/leaderboard/$discipline' params={{ discipline: discipline }} search={{ page: 1 }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>

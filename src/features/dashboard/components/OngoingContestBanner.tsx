@@ -38,7 +38,7 @@ function BannerContent({ className }: { className?: string }) {
               <Duration duration={duration} />
             </div>
             <PrimaryButton asChild>
-              <Link search={{ disciplineSlug: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
+              <Link search={{ discipline: DEFAULT_DISCIPLINE }} to='/contests/ongoing'>
                 Solve now
               </Link>
             </PrimaryButton>
@@ -100,11 +100,7 @@ function Duration({ duration }: { duration: string | null }) {
 function Disciplines() {
   return (
     <div className='flex'>
-      <Link
-        to='/contests/ongoing'
-        search={{ disciplineSlug: '3by3' }}
-        className='outline-ring group flex flex-col gap-2'
-      >
+      <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='outline-ring group flex flex-col gap-2'>
         {/* TODO: get from backend */}
         <CubeBadge
           cube='3by3'

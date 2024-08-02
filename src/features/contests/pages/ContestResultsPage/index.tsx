@@ -36,12 +36,12 @@ export function ContestResultsPage() {
 
 function ControllerWithPagination() {
   const { contestSlug } = route.useParams()
-  const { disciplineSlug, page } = route.useSearch()
+  const { discipline, page } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
     contestSlug,
-    disciplineSlug,
+    disciplineSlug: discipline,
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
@@ -66,12 +66,12 @@ function ControllerWithPagination() {
 
 function ControllerWithInfiniteScroll() {
   const { contestSlug } = route.useParams()
-  const { disciplineSlug } = route.useSearch()
+  const { discipline } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getContestResultsInfiniteQuery({
     contestSlug,
-    disciplineSlug,
+    disciplineSlug: discipline,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
   })
@@ -112,7 +112,7 @@ type ViewProps = {
 }
 function View({ pages, contest, children, error, behavior, errorCode }: ViewProps) {
   const { contestSlug } = route.useParams()
-  const { disciplineSlug, page } = route.useSearch()
+  const { discipline, page } = route.useSearch()
 
   const { data: ongoing } = useOngoingContest()
   const isOngoing = contestSlug === ongoing?.slug
@@ -137,8 +137,8 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
         <NavigateBackButton className='self-start' />
         <ErrorHandler error={error}>
           <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
-            <Link from={route.id} search={{ disciplineSlug: '3by3', page: 1 }} params={{ contestSlug }}>
-              <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
+            <Link from={route.id} search={{ discipline: '3by3', page: 1 }} params={{ contestSlug }}>
+              <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
             </Link>
             <div>
               <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
@@ -168,7 +168,7 @@ function SessionsList({
   fakeElementRef,
 }: SessionsListProps) {
   const { contestSlug } = route.useParams()
-  const { disciplineSlug } = route.useSearch()
+  const { discipline } = route.useSearch()
 
   return (
     <>
@@ -190,7 +190,7 @@ function SessionsList({
                 <div className='sm:-mt-3 sm:rounded-b-xl sm:bg-black-80 sm:pt-3'>
                   <Session
                     isFirstOnPage={isFirstOnPage}
-                    discipline={disciplineSlug}
+                    discipline={discipline}
                     contestSlug={contestSlug}
                     linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
                     isOwn
@@ -205,7 +205,7 @@ function SessionsList({
                 isOwn={session.roundSession.id === ownSession?.roundSession.id}
                 isFirstOnPage={isFirst}
                 contestSlug={contestSlug}
-                discipline={disciplineSlug}
+                discipline={discipline}
                 session={session}
               />
             )}

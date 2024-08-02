@@ -12,11 +12,11 @@ const SOLVE_REJECTED_TOAST = {
   duration: 'infinite',
 } satisfies Toast
 
-export const usePostSolveResult = (disciplineSlug: Discipline) =>
+export const usePostSolveResult = (discipline: Discipline) =>
   useMutation({
     mutationFn: async ({ scrambleId, result }: { scrambleId: number; result: ContestsCreateSolveInput }) => {
       try {
-        await contestsOngoingContestSolveCreateCreate(result, { disciplineSlug, scrambleId })
+        await contestsOngoingContestSolveCreateCreate(result, { disciplineSlug: discipline, scrambleId })
       } catch (err) {
         if (err instanceof AxiosError && err.status === 400) {
           toast(SOLVE_REJECTED_TOAST)
@@ -25,6 +25,6 @@ export const usePostSolveResult = (disciplineSlug: Discipline) =>
         }
       }
 
-      queryClient.invalidateQueries(getSolveContestStateQuery({ disciplineSlug }))
+      queryClient.invalidateQueries(getSolveContestStateQuery({ disciplineSlug: discipline }))
     },
   })

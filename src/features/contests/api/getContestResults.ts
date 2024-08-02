@@ -6,8 +6,8 @@ import {
   type ContestsRoundSessionWithSolvesListOutput,
 } from '@/api'
 
-export function getContestQueryKey({ contestSlug, disciplineSlug }: { contestSlug: string; disciplineSlug: string }) {
-  return [USER_QUERY_KEY, 'contest-results', contestSlug, disciplineSlug]
+export function getContestQueryKey({ contestSlug, discipline }: { contestSlug: string; discipline: string }) {
+  return [USER_QUERY_KEY, 'contest-results', contestSlug, discipline]
 }
 
 export type ContestResultsDTO = ContestsRoundSessionWithSolvesListOutput['results']
@@ -16,10 +16,16 @@ export type ContestSession = ContestResultsDTO['roundSessionSet'][0]
 type ContestResultsParams = ContestsContestsLeaderboardRetrieveParams & {
   enabled?: boolean
 }
-export function getContestResultsQuery({ contestSlug, disciplineSlug, page, pageSize, enabled }: ContestResultsParams) {
+export function getContestResultsQuery({
+  contestSlug,
+  disciplineSlug: discipline,
+  page,
+  pageSize,
+  enabled,
+}: ContestResultsParams) {
   return queryOptions({
-    queryKey: [...getContestQueryKey({ contestSlug, disciplineSlug }), { page, pageSize }],
-    queryFn: () => contestsContestsLeaderboardRetrieve({ contestSlug, disciplineSlug, page, pageSize }),
+    queryKey: [...getContestQueryKey({ contestSlug, discipline }), { page, pageSize }],
+    queryFn: () => contestsContestsLeaderboardRetrieve({ contestSlug, disciplineSlug: discipline, page, pageSize }),
     placeholderData: (prev) => prev,
     enabled,
   })
@@ -27,7 +33,7 @@ export function getContestResultsQuery({ contestSlug, disciplineSlug, page, page
 
 export function getContestResultsInfiniteQuery({
   contestSlug,
-  disciplineSlug,
+  disciplineSlug: discipline,
   pageSize,
   enabled,
 }: Omit<ContestResultsParams, 'page'>) {
@@ -36,9 +42,9 @@ export function getContestResultsInfiniteQuery({
   }
 
   return infiniteQueryOptions({
-    queryKey: [...getContestQueryKey({ contestSlug, disciplineSlug }), pageSize],
+    queryKey: [...getContestQueryKey({ contestSlug, discipline }), pageSize],
     queryFn: ({ pageParam: page }) =>
-      contestsContestsLeaderboardRetrieve({ contestSlug, disciplineSlug, page, pageSize }),
+      contestsContestsLeaderboardRetrieve({ contestSlug, disciplineSlug: discipline, page, pageSize }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,

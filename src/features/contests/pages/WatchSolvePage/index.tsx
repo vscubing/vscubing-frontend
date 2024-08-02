@@ -21,13 +21,13 @@ export function WatchSolvePage() {
     return <Navigate to='/404' replace />
   }
 
-  if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.disciplineSlug)) {
+  if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.discipline)) {
     return (
       <Navigate
         from={route.id}
         to={route.id}
         params={{ contestSlug: res.contest.slug, solveId: params.solveId }}
-        search={{ disciplineSlug: res.discipline.slug as Discipline }}
+        search={{ discipline: res.discipline.slug as Discipline }}
       />
     )
   }
@@ -60,7 +60,7 @@ export function WatchSolvePage() {
             <Link
               to='/contests/$contestSlug'
               // @ts-expect-error this error will disappear once we remove the unnecessary type safety on discipline param here
-              search={{ disciplineSlug: res?.discipline?.slug! }}
+              search={{ discipline: res?.discipline?.slug! }}
               className='title-h2 mb-1 text-secondary-20'
             >
               Contest {res?.contest.slug}

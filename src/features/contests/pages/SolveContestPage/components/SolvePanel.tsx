@@ -46,7 +46,7 @@ const route = getRouteApi('/contests/$contestSlug/solve')
 type TimeSectionProps = { timeMs?: number; isDnf?: boolean; id?: number; isInited: boolean }
 function TimeSection({ timeMs, isDnf, id, isInited }: TimeSectionProps) {
   const { contestSlug } = route.useParams()
-  const { disciplineSlug } = route.useSearch()
+  const { discipline } = route.useSearch()
 
   if (!isInited) {
     return <SolveTimeLabel isPlaceholder />
@@ -64,7 +64,7 @@ function TimeSection({ timeMs, isDnf, id, isInited }: TimeSectionProps) {
     <SolveTimeLinkOrDnf
       canShowHint={false}
       contestSlug={contestSlug}
-      disciplineSlug={disciplineSlug}
+      discipline={discipline}
       solveId={id}
       timeMs={timeMs}
       isDnf={false}

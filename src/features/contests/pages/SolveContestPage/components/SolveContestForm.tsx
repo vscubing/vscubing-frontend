@@ -7,12 +7,12 @@ import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
 import { useState } from 'react'
 
-type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; disciplineSlug: Discipline }
-export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, disciplineSlug }: SolveContestProps) {
-  const { mutateAsync: postSolveResult } = usePostSolveResult(disciplineSlug)
+type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; discipline: Discipline }
+export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, discipline }: SolveContestProps) {
+  const { mutateAsync: postSolveResult } = usePostSolveResult(discipline)
   const { mutateAsync: solveAction } = useSolveAction({
     solveId: currentSolve.solve?.id,
-    disciplineSlug,
+    discipline,
   })
   const { initSolve } = useCube()
   const [isPending, setIsPending] = useState(false)

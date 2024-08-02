@@ -32,7 +32,7 @@ export function ContestsIndexPage() {
 }
 
 function ControllerWithPagination() {
-  const { disciplineSlug, page } = route.useSearch()
+  const { discipline, page } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const { data, error } = useContests({
@@ -43,7 +43,7 @@ function ControllerWithPagination() {
 
   return (
     <NotFoundHandler error={error}>
-      <View withPagination pages={data?.pages} page={page} discipline={disciplineSlug}>
+      <View withPagination pages={data?.pages} page={page} discipline={discipline}>
         <ContestsList
           list={data?.results}
           pageSize={pageSize}
@@ -56,7 +56,7 @@ function ControllerWithPagination() {
 }
 
 function ControllerWithInfiniteScroll() {
-  const { disciplineSlug } = route.useSearch()
+  const { discipline } = route.useSearch()
 
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   const query = getInfiniteContestsQuery({
@@ -70,7 +70,7 @@ function ControllerWithInfiniteScroll() {
     <PaginationInvalidPageHandler error={error}>
       <NotFoundHandler error={error}>
         <OverlaySpinner isVisible={isFetchingNotFirstPage} />
-        <View discipline={disciplineSlug}>
+        <View discipline={discipline}>
           <ContestsList
             list={data?.pages.flatMap((page) => page.results)}
             pageSize={pageSize}
@@ -99,7 +99,7 @@ function View({ withPagination = false, page, discipline, pages, children }: Vie
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link search={{ page: 1, disciplineSlug: '3by3' }}>
+        <Link search={{ page: 1, discipline: '3by3' }}>
           <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         {withPagination && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
@@ -112,7 +112,7 @@ function View({ withPagination = false, page, discipline, pages, children }: Vie
 type ContestsListProps = Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
   Pick<ListProps<ContestDTO>, 'pageSize' | 'lastElementRef' | 'list'>
 function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElementRef }: ContestsListProps) {
-  const { disciplineSlug } = route.useSearch()
+  const { discipline } = route.useSearch()
   if (list?.length === 0) {
     return (
       <HintSection>
@@ -137,7 +137,7 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           pageSize={pageSize}
           list={list}
           renderSkeleton={() => <ContestSkeleton />}
-          renderItem={({ item: contest }) => <Contest disciplineSlug={disciplineSlug} contest={contest} />}
+          renderItem={({ item: contest }) => <Contest discipline={discipline} contest={contest} />}
           getItemKey={(contest) => contest.id}
         />
       </AutofillHeight.ListWrapper>

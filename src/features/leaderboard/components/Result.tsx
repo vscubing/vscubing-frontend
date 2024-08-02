@@ -10,11 +10,11 @@ import { type Discipline } from '@/types'
 type ResultProps = {
   result: LeaderboardResult
   linkToPage?: number
-  disciplineSlug: Discipline
+  discipline: Discipline
   isOwn?: boolean
   isFirstOnPage: boolean
 }
-export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPage }: ResultProps) {
+export function Result({ result, isOwn, linkToPage, discipline, isFirstOnPage }: ResultProps) {
   let username = result.solve.user.username
   if (isOwn) {
     username = username + ' (you)'
@@ -33,7 +33,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
           <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
             {result.place}
           </PlaceLabel>
-          <CubeIcon className='mr-3 sm:mr-0' cube={disciplineSlug} />
+          <CubeIcon className='mr-3 sm:mr-0' cube={discipline} />
           <Ellipsis className='vertical-alignment-fix flex-1 sm:col-span-2 sm:w-auto'>{username}</Ellipsis>
           <span className='mr-6 md:mr-10 sm:mr-0 sm:flex sm:items-center'>
             <span className='sm:vertical-alignment-fix mb-1 hidden text-center text-grey-40 md:block sm:mb-0'>
@@ -45,7 +45,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
               isDnf={result.solve.isDnf}
               solveId={result.solve.id}
               contestSlug={result.solve.contest.slug}
-              disciplineSlug={disciplineSlug}
+              discipline={discipline}
             />
           </span>
           <Accordion.Trigger className='outline-ring group hidden md:block sm:py-2'>
@@ -71,7 +71,7 @@ export function Result({ result, isOwn, linkToPage, disciplineSlug, isFirstOnPag
               <Link
                 to='/contests/$contestSlug'
                 params={{ contestSlug: result.solve.contest.slug }}
-                search={{ disciplineSlug }}
+                search={{ discipline }}
               >
                 <span className='sm:uppercase'>v</span>iew contest
               </Link>

@@ -22,7 +22,7 @@ import {
 import { matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
 
-const route = getRouteApi('/leaderboard/$disciplineSlug')
+const route = getRouteApi('/leaderboard/$discipline')
 export function Leaderboard() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
 }
@@ -91,7 +91,7 @@ type ViewProps = {
   children: ReactNode
 }
 function View({ pages, children, behavior }: ViewProps) {
-  const { disciplineSlug } = route.useParams()
+  const { discipline: discipline } = route.useParams()
   const { page } = route.useSearch()
   const { data: user } = useUser()
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
@@ -102,8 +102,8 @@ function View({ pages, children, behavior }: ViewProps) {
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ disciplineSlug: '3by3' }}>
-          <CubeSwitcher asButton={false} cube='3by3' isActive={disciplineSlug === '3by3'} />
+        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
+          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
         </Link>
         {behavior === 'pagination' && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
       </SectionHeader>
@@ -131,7 +131,7 @@ function ResultsList({
   isFetching,
 }: ResultsListProps) {
   const { data: currentUser } = useUser()
-  const { disciplineSlug } = route.useLoaderData()
+  const { discipline } = route.useLoaderData()
   if (list?.length === 0) {
     return (
       <HintSection>
@@ -162,7 +162,7 @@ function ResultsList({
                   isOwn
                   isFirstOnPage={isFirst}
                   linkToPage={behavior === 'pagination' ? ownResult.page : undefined}
-                  disciplineSlug={disciplineSlug}
+                  discipline={discipline}
                   result={{
                     place: ownResult.place,
                     solve: {
@@ -176,7 +176,7 @@ function ResultsList({
           }
           renderItem={({ item: result, isFirst }) => (
             <Result
-              disciplineSlug={disciplineSlug}
+              discipline={discipline}
               isFirstOnPage={isFirst}
               isOwn={result.solve.id === ownResult?.solve.id}
               result={result}

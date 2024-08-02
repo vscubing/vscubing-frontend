@@ -4,8 +4,8 @@ import { formatContestDuration } from '@/utils'
 import { Link, getRouteApi } from '@tanstack/react-router'
 
 const route = getRouteApi('/contests/')
-type ContestProps = { contest: ContestDTO; disciplineSlug: Discipline }
-export function ContestRow({ contest, disciplineSlug }: ContestProps) {
+type ContestProps = { contest: ContestDTO; discipline: Discipline }
+export function ContestRow({ contest, discipline }: ContestProps) {
   return (
     <div className='text-large flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4'>
       <CubeIcon cube='3by3' className='mr-4' />
@@ -17,7 +17,7 @@ export function ContestRow({ contest, disciplineSlug }: ContestProps) {
         <Link
           from={route.id}
           to='/contests/$contestSlug/results'
-          search={{ disciplineSlug, page: 1 }}
+          search={{ discipline, page: 1 }}
           params={{ contestSlug: contest.slug }}
         >
           view contest

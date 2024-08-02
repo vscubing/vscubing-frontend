@@ -13,7 +13,7 @@ const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   component: () => (
-    <Navigate to={disciplineRoute.id} search={{ page: 1 }} params={{ disciplineSlug: DEFAULT_DISCIPLINE }} replace />
+    <Navigate to={disciplineRoute.id} search={{ page: 1 }} params={{ discipline: DEFAULT_DISCIPLINE }} replace />
   ),
 })
 
@@ -23,21 +23,21 @@ const paginationSchema = z.object({
 
 export const disciplineRoute = createRoute({
   getParentRoute: () => parentRoute,
-  path: '$disciplineSlug',
+  path: '$discipline',
   validateSearch: (search: { page?: number } & SearchSchemaInput) => paginationSchema.parse(search),
-  beforeLoad: ({ params: { disciplineSlug }, search: { page } }) => {
-    if (!isDiscipline(disciplineSlug) || page === undefined) {
+  beforeLoad: ({ params: { discipline }, search: { page } }) => {
+    if (!isDiscipline(discipline) || page === undefined) {
       throw redirect({
         to: disciplineRoute.id,
-        params: { disciplineSlug: castDiscipline(disciplineSlug) },
+        params: { discipline: castDiscipline(discipline) },
         search: { page: page ?? 1 },
         replace: true,
       })
     }
   },
   loaderDeps: ({ search: { page } }) => ({ page }),
-  loader: ({ params: { disciplineSlug }, deps: { page } }) => {
-    return { disciplineSlug: disciplineSlug as Discipline, page: page! }
+  loader: ({ params: { discipline }, deps: { page } }) => {
+    return { discipline: discipline as Discipline, page: page! }
   },
   component: Leaderboard,
 })

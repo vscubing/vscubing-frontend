@@ -12,11 +12,7 @@ export function Contest({ contest: { slug, startDate, endDate } }: ContestProps)
         <p className='text-grey-40'>{formatContestDuration({ startDate, endDate })}</p>
       </div>
       <SecondaryButton size='iconLg' asChild className='sm:h-16 sm:w-16'>
-        <Link
-          to='/contests/$contestSlug'
-          params={{ contestSlug: slug }}
-          search={{ disciplineSlug: DEFAULT_DISCIPLINE }}
-        >
+        <Link to='/contests/$contestSlug' params={{ contestSlug: slug }} search={{ discipline: DEFAULT_DISCIPLINE }}>
           <ArrowRightIcon />
         </Link>
       </SecondaryButton>
