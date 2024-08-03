@@ -1,6 +1,6 @@
 import { rootRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, castDiscipline, isDiscipline } from '@/types'
-import { Navigate, type SearchSchemaInput, redirect, createRoute } from '@tanstack/react-router'
+import { Navigate, redirect, createRoute } from '@tanstack/react-router'
 import { Leaderboard } from './Leaderboard'
 import { z } from 'zod'
 
@@ -24,14 +24,14 @@ const paginationSchema = z.object({
 export const disciplineRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '$discipline',
-  validateSearch: (search: { page?: number } & SearchSchemaInput) => paginationSchema.parse(search),
+  validateSearch: paginationSchema,
   beforeLoad: ({ params: { discipline }, search: { page } }) => {
-    // we can remove isDiscipline and castDiscipline once backend accepts disciplines
+    // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
     if (!isDiscipline(discipline) || page === undefined) {
       throw redirect({
         to: disciplineRoute.id,
         params: { discipline: castDiscipline(discipline) },
-        search: { page: page ?? 1 },
+        search: { page: page },
         replace: true,
       })
     }

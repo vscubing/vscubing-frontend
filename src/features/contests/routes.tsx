@@ -1,5 +1,5 @@
 import { rootRoute } from '@/router'
-import { DEFAULT_DISCIPLINE, DISCIPLINES } from '@/types'
+import { DEFAULT_DISCIPLINE, castDiscipline, isDiscipline } from '@/types'
 import { Navigate, createRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
 import { queryClient } from '@/lib/reactQuery'
@@ -13,8 +13,7 @@ const paginationSchema = z.object({
   page: z.number().int().gte(1).catch(1),
 })
 
-// we can remove discipline validation once backend accepts discipline as a query parameter
-const disciplineSchema = z.object({ discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE) })
+const disciplineSchema = z.object({ discipline: z.string().default(DEFAULT_DISCIPLINE) })
 
 const parentRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -25,6 +24,16 @@ const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   validateSearch: disciplineSchema.merge(paginationSchema),
+  beforeLoad: ({ search: { page, discipline } }) => {
+    // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
+    if (!isDiscipline(discipline)) {
+      throw redirect({
+        to: parentRoute.id,
+        search: { discipline: castDiscipline(discipline), page },
+        replace: true,
+      })
+    }
+  },
   component: ContestsIndexPage,
 })
 
