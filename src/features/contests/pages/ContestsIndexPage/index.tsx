@@ -151,7 +151,6 @@ function ContestsList({
           list={list}
           renderSkeleton={() => <ContestSkeleton height={optimalElementHeight} />}
           renderItem={({ item: contest }) => (
-            // NOTE: optimalElementHeight is only used with pagination (tablet and desktop)
             <Contest discipline={discipline} contest={contest} height={optimalElementHeight} />
           )}
           getItemKey={(contest) => contest.id}
