@@ -17,7 +17,7 @@ import {
   type ListWithPinnedItemProps,
   type ListWrapperProps,
 } from '@/features/autofillHeight'
-import { formatContestDuration, matchesQuery } from '@/utils'
+import { cn, formatContestDuration, matchesQuery } from '@/utils'
 import {
   PageTitleMobile,
   NavigateBackButton,
@@ -117,7 +117,7 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
   const { data: ongoing } = useOngoingContest()
   const isOngoing = contestSlug === ongoing?.slug
 
-  let contestDuration = contest ? formatContestDuration(contest) : ''
+  let contestDuration = contest ? formatContestDuration(contest) : undefined
 
   let title = ''
   if (!isOngoing) {
@@ -142,7 +142,9 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
             </Link>
             <div>
               <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
-              <p className='text-large text-grey-40'>{contestDuration}</p>
+              <p className={cn('text-large min-w-1 text-grey-40', contestDuration ? undefined : 'opacity-0')}>
+                {contestDuration ?? 'Loading...'}
+              </p>
             </div>
             {behavior === 'pagination' && <Pagination currentPage={page} pages={pages} className='ml-auto sm:hidden' />}
           </SectionHeader>
