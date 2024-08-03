@@ -44,7 +44,7 @@ export function SolvePageContent() {
   const { discipline } = route.useSearch()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
-  const { data: state, error } = useSolveContestState({ disciplineSlug: discipline })
+  const { data: state, error, isFetching: isStateFetching } = useSolveContestState({ disciplineSlug: discipline })
   const errorStatus = error?.response?.status
 
   if (errorStatus === 403) {
@@ -98,7 +98,7 @@ export function SolvePageContent() {
     <>
       <SectionHeader>
         <div>
-          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug: String(contestSlug) }}>
+          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug }}>
             <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
         </div>
@@ -118,7 +118,7 @@ export function SolvePageContent() {
         </Dialog>
 
         <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
-        <SolveContestForm contestSlug={contestSlug} discipline={discipline} state={state} />
+        <SolveContestForm state={state} isStateFetching={isStateFetching} />
       </div>
     </>
   )

@@ -4,33 +4,39 @@ import { SolveContestStateDTO } from '../types'
 import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
-import { useState } from 'react'
+import { getRouteApi } from '@tanstack/react-router'
 
-type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; discipline: string }
-export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, discipline }: SolveContestProps) {
-  const { mutateAsync: postSolveResult } = usePostSolveResult(discipline)
-  const { mutateAsync: solveAction } = useSolveAction({
+const route = getRouteApi('/contests/$contestSlug/solve')
+type SolveContestProps = {
+  state: SolveContestStateDTO
+  isStateFetching: boolean
+}
+export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, isStateFetching }: SolveContestProps) {
+  const { discipline } = route.useSearch()
+
+  const { mutateAsync: postSolveResult, isPending: isPostSolvePending } = usePostSolveResult(discipline)
+  const { mutateAsync: solveAction, isPending: isSolveActionPending } = useSolveAction({
     solveId: currentSolve.solve?.id,
     discipline,
   })
+  const isPending = isStateFetching || isPostSolvePending || isSolveActionPending
+
   const { initSolve } = useCube()
-  const [isPending, setIsPending] = useState(false)
 
   function handleInitSolve() {
     const onSolveFinish = async (result: CubeSolveResult) => {
       await postSolveResult({ scrambleId: currentSolve.scramble.id, result })
-      setIsPending(false)
     }
-    const onEarlyAbort = () => setIsPending(false)
 
-    initSolve(currentSolve.scramble.moves, (result) => void onSolveFinish(result), onEarlyAbort)
-    setIsPending(true)
+    initSolve(
+      currentSolve.scramble.moves,
+      (result) => void onSolveFinish(result),
+      () => {},
+    )
   }
 
   async function handleSolveAction(action: 'change_to_extra' | 'submit') {
-    setIsPending(true)
     await solveAction(action)
-    setIsPending(false)
   }
 
   // TODO: remove submittedSolveSet nonnullable type assertion once backend is updated
