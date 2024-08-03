@@ -35,8 +35,8 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
     await solveAction(action)
   }
 
-  // TODO: remove submittedSolveSet nonnullable type assertion once backend is updated
-  const currentSolveNumber = submittedSolveSet!.length + 1
+  // @ts-expect-error submittedSolveSet shouldn't be nullable in the swagger schema
+  const currentSolveNumber = submittedSolveSet.length + 1
   return (
     <div className='flex flex-1 justify-center pl-16 pr-12'>
       <div className='flex max-w-[64rem] flex-1 flex-col'>
