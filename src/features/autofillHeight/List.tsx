@@ -31,7 +31,7 @@ type ListProps<T> = {
   list: T[] | undefined
   pageSize: number | undefined
   getItemKey: (item: T) => React.Key
-  renderItem: (args: { item: T; isFirst: boolean }) => ReactNode
+  renderItem: (params: { item: T; isFirst: boolean }) => ReactNode
   renderSkeleton: () => ReactElement
   lastElementRef?: (node?: Element | null) => void
 }
