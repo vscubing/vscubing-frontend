@@ -7,7 +7,7 @@ import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner }
 import { KeyMapDialogContent, KeyMapDialogTrigger } from '@/components/shared'
 
 type CubeContextValue = {
-  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback, onEarlyAbort: () => void) => void
+  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({
@@ -21,7 +21,6 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
     scramble: string
     solveCallback: CubeSolveFinishCallback
-    earlyAbortCallback: () => void
     wasTimeStarted: boolean
   } | null>(null)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
@@ -31,12 +30,9 @@ export function CubeProvider({ children }: CubeProviderProps) {
     iframeRef.current?.contentWindow?.focus()
   }, [])
 
-  const initSolve = useCallback(
-    (scramble: string, solveCallback: CubeSolveFinishCallback, earlyAbortCallback: () => void) => {
-      setSolveState({ scramble, solveCallback, wasTimeStarted: false, earlyAbortCallback })
-    },
-    [],
-  )
+  const initSolve = useCallback((scramble: string, solveCallback: CubeSolveFinishCallback) => {
+    setSolveState({ scramble, solveCallback, wasTimeStarted: false })
+  }, [])
 
   const handleTimeStart = useCallback(() => {
     setSolveState((prev) => prev && { ...prev, wasTimeStarted: true })
@@ -57,7 +53,6 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const abortOrShowPrompt = useCallback(() => {
     if (solveState!.wasTimeStarted === false) {
       setSolveState(null)
-      solveState!.earlyAbortCallback()
       return
     }
 
