@@ -13,6 +13,7 @@ const paginationSchema = z.object({
   page: z.number().int().gte(1).catch(1),
 })
 
+// we can remove discipline validation once backend accepts discipline as a query parameter
 const disciplineSchema = z.object({ discipline: z.enum(DISCIPLINES).catch(DEFAULT_DISCIPLINE) })
 
 const parentRoute = createRoute({
@@ -75,7 +76,6 @@ const contestResultsRoute = createRoute({
 const solveContestRoute = createRoute({
   getParentRoute: () => contestRoute,
   path: '/solve',
-  loaderDeps: ({ search }) => search,
   component: SolveContestPage,
 })
 
