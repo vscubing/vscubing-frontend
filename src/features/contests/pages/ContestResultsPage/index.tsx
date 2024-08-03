@@ -38,7 +38,12 @@ function ControllerWithPagination() {
   const { contestSlug } = route.useParams()
   const { discipline, page } = route.useSearch()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const {
+    fittingCount: pageSize,
+    optimalElementHeight,
+    containerRef,
+    fakeElementRef,
+  } = AutofillHeight.useFittingCount()
   const query = getContestResultsQuery({
     contestSlug,
     disciplineSlug: discipline,
@@ -59,6 +64,7 @@ function ControllerWithPagination() {
         fakeElementRef={fakeElementRef}
         isFetching={isFetching}
         pageSize={pageSize}
+        optimalElementHeight={optimalElementHeight}
       />
     </View>
   )
@@ -158,7 +164,9 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
 type SessionsListProps = {
   ownSession: ContestResultsDTO['ownResult']
 } & Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
-  Pick<ListWithPinnedItemProps<ContestSession>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'>
+  Pick<ListWithPinnedItemProps<ContestSession>, 'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'> & {
+    optimalElementHeight?: number
+  }
 function SessionsList({
   isFetching,
   lastElementRef,
@@ -168,6 +176,7 @@ function SessionsList({
   pageSize,
   containerRef,
   fakeElementRef,
+  optimalElementHeight,
 }: SessionsListProps) {
   const { contestSlug } = route.useParams()
   const { discipline } = route.useSearch()
@@ -209,9 +218,10 @@ function SessionsList({
                 contestSlug={contestSlug}
                 discipline={discipline}
                 session={session}
+                height={optimalElementHeight}
               />
             )}
-            renderSkeleton={() => <SessionSkeleton />}
+            renderSkeleton={() => <SessionSkeleton height={optimalElementHeight} />}
             list={list}
             isFetching={isFetching}
           />

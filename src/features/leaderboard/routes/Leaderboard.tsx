@@ -29,7 +29,12 @@ export function Leaderboard() {
 
 function ControllerWithPagination() {
   const { page } = route.useSearch()
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const {
+    fittingCount: pageSize,
+    optimalElementHeight,
+    containerRef,
+    fakeElementRef,
+  } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
     page,
@@ -50,6 +55,7 @@ function ControllerWithPagination() {
             containerRef={containerRef}
             fakeElementRef={fakeElementRef}
             isFetching={isFetching}
+            optimalElementHeight={optimalElementHeight}
           />
         </View>
       </NotFoundHandler>
@@ -119,7 +125,7 @@ type ResultsListProps = { ownResult?: LeaderboardDTO['ownResult'] } & Pick<
   Pick<
     ListWithPinnedItemProps<LeaderboardDTO['solveSet'][0]>,
     'pageSize' | 'lastElementRef' | 'list' | 'isFetching' | 'behavior'
-  >
+  > & { optimalElementHeight?: number }
 function ResultsList({
   list,
   ownResult,
@@ -129,6 +135,7 @@ function ResultsList({
   containerRef,
   fakeElementRef,
   isFetching,
+  optimalElementHeight,
 }: ResultsListProps) {
   const { data: currentUser } = useUser()
   const { discipline } = route.useParams()
@@ -170,6 +177,7 @@ function ResultsList({
                       ...ownResult.solve,
                     },
                   }}
+                  height={optimalElementHeight}
                 />
               </div>
             ) : null
@@ -180,9 +188,10 @@ function ResultsList({
               isFirstOnPage={isFirst}
               isOwn={result.solve.id === ownResult?.solve.id}
               result={result}
+              height={optimalElementHeight}
             />
           )}
-          renderSkeleton={() => <ResultSkeleton />}
+          renderSkeleton={() => <ResultSkeleton height={optimalElementHeight} />}
           pageSize={pageSize}
           list={list}
           isFetching={isFetching}

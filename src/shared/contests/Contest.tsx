@@ -20,6 +20,6 @@ export function Contest({ contest: { slug, startDate, endDate } }: ContestProps)
   )
 }
 
-export function ContestSkeleton() {
-  return <div className='h-16 animate-pulse rounded-xl bg-grey-100'></div>
+export function ContestSkeleton({ height }: { height?: number }) {
+  return <div className='min-h-16 animate-pulse rounded-xl bg-grey-100' style={{ height }}></div>
 }

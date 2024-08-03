@@ -12,8 +12,9 @@ type ResultProps = {
   discipline: string
   isOwn?: boolean
   isFirstOnPage: boolean
+  height?: number
 }
-export function Result({ result, isOwn, linkToPage, discipline, isFirstOnPage }: ResultProps) {
+export function Result({ result, isOwn, linkToPage, discipline, isFirstOnPage, height }: ResultProps) {
   let username = result.solve.user.username
   if (isOwn) {
     username = username + ' (you)'
@@ -27,6 +28,7 @@ export function Result({ result, isOwn, linkToPage, discipline, isFirstOnPage }:
           'flex min-h-15 items-center rounded-xl pl-2 md:min-h-[4.75rem] md:flex-wrap md:px-4 md:py-2 sm:min-h-28 sm:p-4',
           isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         )}
+        style={{ minHeight: height }}
       >
         <Accordion.Header className='flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[min-content_min-content] sm:gap-x-3 sm:gap-y-1'>
           <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
@@ -66,13 +68,15 @@ export function Result({ result, isOwn, linkToPage, discipline, isFirstOnPage }:
               asChild
               size={matchesQuery('sm') ? 'sm' : 'lg'}
               className='md:mb-2 md:ml-auto sm:col-span-full sm:m-0 sm:w-full'
+              style={{ height: matchesQuery('md') ? undefined : height }}
             >
               <Link
                 to='/contests/$contestSlug'
                 params={{ contestSlug: result.solve.contest.slug }}
                 search={{ discipline }}
               >
-                <span className='sm:uppercase'>v</span>iew contest
+                <span className='sm:hidden'>view contest</span>
+                <span className='hidden sm:block'>View contest</span>
               </Link>
             </SecondaryButton>
           </span>
@@ -82,8 +86,8 @@ export function Result({ result, isOwn, linkToPage, discipline, isFirstOnPage }:
   )
 }
 
-export function ResultSkeleton() {
-  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.75rem] sm:h-28'></div>
+export function ResultSkeleton({ height }: { height?: number }) {
+  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.75rem] sm:h-28' style={{ height }}></div>
 }
 
 export function ResultsHeader({ className }: { className: string }) {

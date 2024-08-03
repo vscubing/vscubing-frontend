@@ -13,6 +13,7 @@ export function Session({
   contestSlug,
   discipline,
   isFirstOnPage,
+  height,
 }: {
   session: ContestSession
   contestSlug: string
@@ -20,6 +21,7 @@ export function Session({
   linkToPage?: number
   isOwn?: boolean
   isFirstOnPage: boolean
+  height?: number
 }) {
   const currentUserLabel = isOwn ? ' (you)' : ''
 
@@ -35,6 +37,7 @@ export function Session({
           'flex min-h-15 items-center rounded-xl px-2 md:min-h-[4.5rem] md:flex-wrap md:px-4 md:py-2 sm:min-h-28 sm:p-4',
           isOwn ? 'bg-secondary-80' : 'bg-grey-100',
         )}
+        style={{ minHeight: height }}
       >
         <Accordion.Header className='flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[repeat(2,min-content)] sm:gap-x-3 sm:gap-y-1'>
           <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
@@ -88,8 +91,8 @@ export function Session({
   )
 }
 
-export function SessionSkeleton() {
-  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.5rem] sm:h-28'></div>
+export function SessionSkeleton({ height }: { height?: number }) {
+  return <div className='h-15 animate-pulse rounded-xl bg-grey-100 md:h-[4.5rem] sm:h-28' style={{ height }}></div>
 }
 
 function getBestAndWorstIds(solves: ContestSession['roundSession']['solveSet']) {

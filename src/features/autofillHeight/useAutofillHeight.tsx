@@ -6,7 +6,7 @@ export function useFittingCount<
 >() {
   const containerRef = useRef<TContainer>(null)
   const fakeElementRef = useRef<TFake>(null)
-  const [fittingCount, setFittingCount] = useState<number>()
+  const [res, setRes] = useState<{ fittingCount: number; optimalElementHeight: number }>()
 
   useEffect(() => {
     if (!containerRef.current || !fakeElementRef.current) {
@@ -17,9 +17,13 @@ export function useFittingCount<
     const fakeElementHeight = fakeElementRef.current?.clientHeight
 
     const gap = parseInt(getComputedStyle(containerRef.current).gap)
-    let count = Math.floor((containerHeight + gap - 1) / (fakeElementHeight + gap))
+    const fittingCount = Math.floor((containerHeight + gap - 1) / (fakeElementHeight + gap))
 
-    setFittingCount(count)
+    const freeSpace = containerHeight - (fittingCount - 1) * gap
+    const optimalElementHeight = Math.floor(freeSpace / fittingCount)
+
+    setRes({ fittingCount, optimalElementHeight })
   }, [containerRef, fakeElementRef])
-  return { fittingCount, containerRef, fakeElementRef }
+
+  return { ...res, containerRef, fakeElementRef }
 }

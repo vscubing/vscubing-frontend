@@ -34,7 +34,12 @@ export function ContestsIndexPage() {
 function ControllerWithPagination() {
   const { discipline, page } = route.useSearch()
 
-  const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const {
+    fittingCount: pageSize,
+    optimalElementHeight,
+    containerRef,
+    fakeElementRef,
+  } = AutofillHeight.useFittingCount()
   const { data, error } = useContests({
     page,
     pageSize: pageSize ?? 0,
@@ -49,6 +54,7 @@ function ControllerWithPagination() {
           pageSize={pageSize}
           containerRef={containerRef}
           fakeElementRef={fakeElementRef}
+          optimalElementHeight={optimalElementHeight}
         />
       </View>
     </NotFoundHandler>
@@ -110,8 +116,15 @@ function View({ withPagination = false, page, discipline, pages, children }: Vie
 }
 
 type ContestsListProps = Pick<ListWrapperProps, 'containerRef' | 'fakeElementRef'> &
-  Pick<ListProps<ContestDTO>, 'pageSize' | 'lastElementRef' | 'list'>
-function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElementRef }: ContestsListProps) {
+  Pick<ListProps<ContestDTO>, 'pageSize' | 'lastElementRef' | 'list'> & { optimalElementHeight?: number }
+function ContestsList({
+  list,
+  pageSize,
+  containerRef,
+  fakeElementRef,
+  lastElementRef,
+  optimalElementHeight,
+}: ContestsListProps) {
   const { discipline } = route.useSearch()
   if (list?.length === 0) {
     return (
@@ -136,8 +149,11 @@ function ContestsList({ list, pageSize, containerRef, fakeElementRef, lastElemen
           lastElementRef={lastElementRef}
           pageSize={pageSize}
           list={list}
-          renderSkeleton={() => <ContestSkeleton />}
-          renderItem={({ item: contest }) => <Contest discipline={discipline} contest={contest} />}
+          renderSkeleton={() => <ContestSkeleton height={optimalElementHeight} />}
+          renderItem={({ item: contest }) => (
+            // NOTE: optimalElementHeight is only used with pagination (tablet and desktop)
+            <Contest discipline={discipline} contest={contest} height={optimalElementHeight} />
+          )}
           getItemKey={(contest) => contest.id}
         />
       </AutofillHeight.ListWrapper>
