@@ -5,12 +5,11 @@ import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
 import { PlaceLabel } from '@/components/shared'
 import * as Accordion from '@radix-ui/react-accordion'
-import { type Discipline } from '@/types'
 
 type ResultProps = {
   result: LeaderboardResult
   linkToPage?: number
-  discipline: Discipline
+  discipline: string
   isOwn?: boolean
   isFirstOnPage: boolean
 }

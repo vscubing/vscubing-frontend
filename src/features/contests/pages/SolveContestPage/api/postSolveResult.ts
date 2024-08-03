@@ -1,5 +1,4 @@
 import { queryClient } from '@/lib/reactQuery'
-import { type Discipline } from '@/types'
 import { useMutation } from '@tanstack/react-query'
 import { getSolveContestStateQuery } from './getSolveContestState'
 import { ContestsCreateSolveInput, contestsOngoingContestSolveCreateCreate } from '@/api'
@@ -12,7 +11,7 @@ const SOLVE_REJECTED_TOAST = {
   duration: 'infinite',
 } satisfies Toast
 
-export const usePostSolveResult = (discipline: Discipline) =>
+export const usePostSolveResult = (discipline: string) =>
   useMutation({
     mutationFn: async ({ scrambleId, result }: { scrambleId: number; result: ContestsCreateSolveInput }) => {
       try {

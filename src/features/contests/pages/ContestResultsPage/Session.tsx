@@ -5,7 +5,6 @@ import { useMemo } from 'react'
 import { type ContestSession } from '../../api'
 import * as Accordion from '@radix-ui/react-accordion'
 import { PlaceLabel, ExtraLabel } from '@/components/shared'
-import { type Discipline } from '@/types'
 
 export function Session({
   session,
@@ -17,7 +16,7 @@ export function Session({
 }: {
   session: ContestSession
   contestSlug: string
-  discipline: Discipline
+  discipline: string
   linkToPage?: number
   isOwn?: boolean
   isFirstOnPage: boolean

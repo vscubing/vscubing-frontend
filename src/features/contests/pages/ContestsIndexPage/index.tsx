@@ -2,7 +2,7 @@ import { Header, SectionHeader } from '@/components/layout'
 import { CubeSwitcher, OverlaySpinner } from '@/components/ui'
 import { Link, getRouteApi } from '@tanstack/react-router'
 import { matchesQuery } from '@/utils'
-import type { ContestDTO, Discipline } from '@/types'
+import type { ContestDTO } from '@/types'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
@@ -88,7 +88,7 @@ type ViewProps = {
   page?: number
   pages?: number
   withPagination?: boolean
-  discipline: Discipline
+  discipline: string
   children: ReactNode
 }
 function View({ withPagination = false, page, discipline, pages, children }: ViewProps) {

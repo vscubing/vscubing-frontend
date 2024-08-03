@@ -1,4 +1,3 @@
-import { type Discipline } from '@/types'
 import { usePostSolveResult, useSolveAction } from '../api'
 import { type CubeSolveResult, useCube } from '@/features/cube'
 import { SolveContestStateDTO } from '../types'
@@ -7,7 +6,7 @@ import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
 import { useState } from 'react'
 
-type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; discipline: Discipline }
+type SolveContestProps = { state: SolveContestStateDTO; contestSlug: string; discipline: string }
 export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, discipline }: SolveContestProps) {
   const { mutateAsync: postSolveResult } = usePostSolveResult(discipline)
   const { mutateAsync: solveAction } = useSolveAction({

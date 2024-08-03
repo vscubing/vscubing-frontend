@@ -1,10 +1,10 @@
 import { CubeIcon, SecondaryButton } from '@/components/ui'
-import type { ContestDTO, Discipline } from '@/types'
+import type { ContestDTO } from '@/types'
 import { formatContestDuration } from '@/utils'
 import { Link, getRouteApi } from '@tanstack/react-router'
 
 const route = getRouteApi('/contests/')
-type ContestProps = { contest: ContestDTO; discipline: Discipline }
+type ContestProps = { contest: ContestDTO; discipline: string }
 export function ContestRow({ contest, discipline }: ContestProps) {
   return (
     <div className='text-large flex h-15 items-center justify-between rounded-xl bg-grey-100 pl-4'>

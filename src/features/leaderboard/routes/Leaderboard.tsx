@@ -28,7 +28,7 @@ export function Leaderboard() {
 }
 
 function ControllerWithPagination() {
-  const { page } = route.useLoaderData()
+  const { page } = route.useSearch()
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
 
   const query = getLeaderboardQuery({
@@ -131,7 +131,7 @@ function ResultsList({
   isFetching,
 }: ResultsListProps) {
   const { data: currentUser } = useUser()
-  const { discipline } = route.useLoaderData()
+  const { discipline } = route.useParams()
   if (list?.length === 0) {
     return (
       <HintSection>

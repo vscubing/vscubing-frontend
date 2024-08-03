@@ -1,5 +1,4 @@
 import { Popover, PopoverAnchor, PopoverCloseButton, PopoverContent } from '@/components/ui'
-import { Discipline } from '@/types'
 import { cn, formatSolveTime, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
@@ -26,7 +25,7 @@ type SolveTimeLinkOrDnfProps = VariantProps<typeof solveTimeButtonVariants> & {
   timeMs: number
   isDnf: boolean
   contestSlug: string
-  discipline: Discipline
+  discipline: string
   solveId: number
   canShowHint: boolean
   className?: string

@@ -28,7 +28,7 @@ import GithubIcon from '@/assets/icons/github.svg?react'
 import EllipsisIcon from '@/assets/icons/ellipsis.svg?react'
 import PlusIcon from '@/assets/icons/plus.svg?react'
 import MinusIcon from '@/assets/icons/minus.svg?react'
-import { type Discipline } from '@/types'
+import { isDiscipline } from '@/types'
 import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef } from 'react'
 
@@ -65,14 +65,16 @@ export {
 }
 
 type CubeIconProps = HTMLAttributes<SVGSVGElement> & {
-  cube: Discipline
+  cube: string
 }
 
 const ICONS = { '3by3': Cube3Icon } as const
-const CubeIcon = forwardRef<SVGSVGElement, CubeIconProps>(({ cube, className, ...props }, ref) => {
-  const Comp = ICONS[cube]
+export const CubeIcon = forwardRef<SVGSVGElement, CubeIconProps>(({ cube, className, ...props }, ref) => {
+  const Comp = isDiscipline(cube) ? ICONS[cube] : PlaceholderIcon
   return <Comp {...props} ref={ref} className={cn('h-[27px] w-[27px]', className)} />
 })
 CubeIcon.displayName = 'CubeIcon'
 
-export { CubeIcon }
+function PlaceholderIcon({ className }: { className?: string }) {
+  return <svg className={cn('animate-pulse bg-grey-100', className)}></svg>
+}

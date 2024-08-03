@@ -2,9 +2,8 @@ import { queryClient } from '@/lib/reactQuery'
 import { useMutation } from '@tanstack/react-query'
 import { getSolveContestStateQuery } from './getSolveContestState'
 import { contestsOngoingContestSubmitCreate } from '@/api'
-import { Discipline } from '@/types'
 
-export function useSolveAction({ solveId, discipline }: { solveId?: number; discipline: Discipline }) {
+export function useSolveAction({ solveId, discipline }: { solveId?: number; discipline: string }) {
   return useMutation({
     mutationFn: async (action: 'change_to_extra' | 'submit') => {
       if (!solveId) {
