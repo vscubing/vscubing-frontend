@@ -8,7 +8,7 @@ export function SolvePanel({
   number,
   timeMs,
   isDnf,
-  scramble,
+  scramble: { moves, position },
   id,
   isInited = true,
   ActionComponent,
@@ -16,7 +16,7 @@ export function SolvePanel({
   number: number
   timeMs?: number
   isDnf?: boolean
-  scramble: string
+  scramble: { moves: string; position: string }
   id?: number
   isInited?: boolean
   ActionComponent?: ReactNode
@@ -25,12 +25,11 @@ export function SolvePanel({
     <div className='flex h-11 items-center gap-8 rounded-xl bg-grey-100 pl-4'>
       <span className='vertical-alignment-fix relative flex h-full min-w-16 items-center justify-center after:absolute after:-right-4 after:h-6 after:w-px after:bg-grey-60'>
         No {number}
-        <ExtraLabel scramblePosition={'1'} className='absolute right-0 top-0' />{' '}
-        {/* TODO: fix scramblePosition once backend is updated */}
+        <ExtraLabel scramblePosition={position} className='absolute right-0 top-0' />
       </span>
       <TimeSection timeMs={timeMs} isDnf={isDnf} id={id} isInited={isInited} />
       {isInited ? (
-        <Ellipsis className='vertical-alignment-fix flex-1'>{scramble}</Ellipsis>
+        <Ellipsis className='vertical-alignment-fix flex-1'>{moves}</Ellipsis>
       ) : (
         <span className='vertical-alignment-fix text-grey-40'>
           Your scramble will be displayed here after you start solving
