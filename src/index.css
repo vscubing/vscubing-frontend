@@ -5,6 +5,13 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+  }
+
   :root {
     @apply text-base;
 
