@@ -5,11 +5,8 @@
 @tailwind utilities;
 
 @layer base {
-  html,
-  body {
-    position: fixed;
-    overflow: hidden;
-    width: 100%;
+  html {
+    overscroll-behavior: none;
   }
 
   :root {
