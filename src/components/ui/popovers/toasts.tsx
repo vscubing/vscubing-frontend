@@ -52,7 +52,9 @@ export function toast({ title, description, contactUsButton = false, duration = 
   Sonner.toast(title, {
     closeButton: true,
     description,
-    action: contactUsButton ? { label: 'Contact us', onClick: () => alert('clicked on toast') } : undefined,
+    action: contactUsButton
+      ? { label: 'Contact us', onClick: () => window.location.replace('https://discord.gg/PxFrW9vTAy') }
+      : undefined,
     //  TODO: add contact link (discord?)
     duration: durations[duration],
     id: dedupId,
