@@ -129,7 +129,7 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
   if (!isOngoing) {
     title = 'Look through the contest results'
   } else if (errorCode === 401) {
-    title = `Ongoing contest (${contestDuration})` // TODO: get from backend
+    title = `Ongoing contest (${contestDuration})`
   } else {
     title = 'Check out ongoing contest results'
   }
