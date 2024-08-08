@@ -17,7 +17,7 @@ export const usePostSolveResult = (discipline: string) =>
       try {
         await contestsOngoingContestSolveCreateCreate(result, { disciplineSlug: discipline, scrambleId })
       } catch (err) {
-        if (err instanceof AxiosError && err.status === 400) {
+        if (err instanceof AxiosError && err.response?.status === 400) {
           toast(SOLVE_REJECTED_TOAST)
         } else {
           toast(TOASTS_PRESETS.internalError)
