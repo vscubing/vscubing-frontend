@@ -99,7 +99,7 @@ function LogoutButton({ className }: { className?: string }) {
       </DialogTrigger>
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent>
+        <DialogContent aria-describedby={undefined}>
           <DialogTitle>Are you sure you want to log out?</DialogTitle>
           <DialogFooter className='sm:grid sm:grid-cols-2'>
             <DialogClose version='secondary'>Stay</DialogClose>
