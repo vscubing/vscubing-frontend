@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    overscroll-behavior: none;
+  }
+
   :root {
     @apply text-base;
 
