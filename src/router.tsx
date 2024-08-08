@@ -14,8 +14,8 @@ export const rootRoute = createRootRoute({
       <Layout />
       {import.meta.env.MODE === 'development' && (
         <>
-          {/* <TanStackRouterDevtools /> */}
-          {/* <ReactQueryDevtools /> */}
+          <TanStackRouterDevtools />
+          <ReactQueryDevtools />
         </>
       )}
     </>
