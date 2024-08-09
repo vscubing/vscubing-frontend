@@ -48,7 +48,6 @@ export function SolvePageContent() {
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
   const { data: state, error, isFetching: isStateFetching } = useSolveContestState({ disciplineSlug: discipline })
   const errorStatus = error?.response?.status
-  console.log(isUserFetching, user)
 
   if (isUserFetching || (user && !user.isVerified)) {
     return (
