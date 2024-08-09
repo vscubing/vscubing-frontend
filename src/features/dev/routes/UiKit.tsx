@@ -34,6 +34,7 @@ import {
   CubeBadge,
   AlertDialogPortal,
   TOASTS_PRESETS,
+  AlertDialogDescription,
 } from '@/components/ui'
 import {
   toast,
@@ -161,6 +162,7 @@ export function UiKit() {
           <AlertDialogPortal>
             <AlertDialogOverlay />
             <AlertDialogContent>
+              <AlertDialogDescription>This is an AlertDialog</AlertDialogDescription>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>

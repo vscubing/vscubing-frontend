@@ -16,6 +16,8 @@ const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal
 
+const AlertDialogDescription = AlertDialogPrimitive.Description
+
 const AlertDialogOverlay = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
@@ -77,4 +79,5 @@ export {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogFooter,
+  AlertDialogDescription,
 }
