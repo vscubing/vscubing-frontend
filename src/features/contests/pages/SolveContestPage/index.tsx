@@ -22,6 +22,7 @@ import {
 } from '@/components/shared'
 import { NotFoundRedirect } from '@/features/NotFoundPage'
 import { useOngoingContestDuration } from '@/shared/contests'
+import { useUser } from '@/features/auth'
 
 const route = getRouteApi('/contests/$contestSlug/solve')
 export function SolveContestPage() {
@@ -42,11 +43,20 @@ export function SolveContestPage() {
 export function SolvePageContent() {
   const { contestSlug } = route.useParams()
   const { discipline } = route.useSearch()
+  const { data: user, isFetching: isUserFetching } = useUser()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
   const { data: state, error, isFetching: isStateFetching } = useSolveContestState({ disciplineSlug: discipline })
   const errorStatus = error?.response?.status
+  console.log(isUserFetching, user)
 
+  if (isUserFetching || (user && !user.isVerified)) {
+    return (
+      <div className='flex flex-1 items-center justify-center'>
+        <LoadingSpinner />
+      </div>
+    )
+  }
   if (errorStatus === 403) {
     return (
       <Navigate
