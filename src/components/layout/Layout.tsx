@@ -22,7 +22,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <>
       <PickUsernameDialog />
-      <PopupMenu />
+      <PopupSidebar />
       <div
         vaul-drawer-wrapper='vaul-drawer-wrapper'
         className='flex h-svh gap-3 p-[1.625rem] sm:flex-col sm:gap-0 sm:px-3 sm:py-0'
@@ -44,16 +44,16 @@ function Sidebar({ className }: { className?: string }) {
         <div className='flex h-[7rem] xl-short:h-[var(--header-height)] lg:h-[var(--header-height)] lg:gap-3'>
           <Logo className='w-full lg:hidden' />
           <Logo className='hidden flex-shrink-0 lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
-          <div className='hidden flex-1 items-center justify-end rounded-2xl bg-black-80 py-3 pl-2 pr-4 lg:flex lg:min-w-[17rem] sm:min-w-0'>
+          <div className='hidden flex-1 items-center justify-between rounded-2xl bg-black-80 py-3 pr-4 lg:flex lg:min-w-[17rem] sm:min-w-0 sm:pr-2'>
             <UsernameOrSignInButton usernameEllipsis className='flex-auto' />
+            <div className='hidden lg:block'>
+              <button onClick={() => setOpenOnMobile(false)} className='flex h-11 w-11 items-center justify-center'>
+                <CloseIcon />
+              </button>
+            </div>
           </div>
         </div>
         <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:py-3'>
-          <div className='mb-10 hidden justify-end px-3 lg:flex sm:mb-0 sm:pb-0'>
-            <button onClick={() => setOpenOnMobile(false)} className='flex h-11 w-11 items-center justify-center'>
-              <CloseIcon />
-            </button>
-          </div>
           <Navbar variant='vertical' onItemSelect={() => setOpenOnMobile(false)} />
           <div className='mt-auto flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1 sm:gap-2'>
             <SocialLinks />
@@ -66,7 +66,7 @@ function Sidebar({ className }: { className?: string }) {
   )
 }
 
-function PopupMenu() {
+function PopupSidebar() {
   const [open, setOpen] = useAtom(mobileMenuOpenAtom)
 
   return (

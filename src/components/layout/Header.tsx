@@ -16,7 +16,7 @@ export function Header({ title, className }: HeaderProps) {
         <Logo className='hidden lg:flex sm:flex-1' />
         <div className='flex flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end sm:min-h-0 sm:flex-grow-0 sm:p-[0.375rem]'>
           <h1 className='title-h3 lg:hidden sm:hidden'>{title}</h1>
-          <UsernameOrSignInButton className='sm:hidden' />
+          <UsernameOrSignInButton textRight className='sm:hidden' />
           <button
             className='ml-4 hidden h-[44px] w-[44px] items-center justify-center lg:flex sm:ml-0'
             onClick={() => setMobileMenuOpen(true)}
