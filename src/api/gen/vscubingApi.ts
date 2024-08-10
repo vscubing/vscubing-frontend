@@ -34,6 +34,7 @@ import accountsGoogleLoginCreateMutator from '../axiosInstance'
 import accountsTokenRefreshCreateMutator from '../axiosInstance'
 import contestsContestsRetrieveMutator from '../axiosInstance'
 import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
+import contestsDevOwnRoundSessionDeleteDestroyMutator from '../axiosInstance'
 import contestsOngoingContestSubmitCreateMutator from '../axiosInstance'
 import contestsOngoingContestCurrentRoundSessionProgressRetrieveMutator from '../axiosInstance'
 import contestsOngoingContestRetrieveRetrieveMutator from '../axiosInstance'
@@ -155,6 +156,13 @@ export const contestsContestsLeaderboardRetrieve = (params: ContestsContestsLead
   })
 }
 
+export const contestsDevOwnRoundSessionDeleteDestroy = () => {
+  return contestsDevOwnRoundSessionDeleteDestroyMutator<void>({
+    url: `/api/contests/dev/own-round-session/delete/`,
+    method: 'DELETE',
+  })
+}
+
 export const contestsOngoingContestSubmitCreate = (
   solveId: number,
   input: Input,
@@ -242,6 +250,9 @@ export type AccountsTokenRefreshCreateResult = NonNullable<Awaited<ReturnType<ty
 export type ContestsContestsRetrieveResult = NonNullable<Awaited<ReturnType<typeof contestsContestsRetrieve>>>
 export type ContestsContestsLeaderboardRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>
+>
+export type ContestsDevOwnRoundSessionDeleteDestroyResult = NonNullable<
+  Awaited<ReturnType<typeof contestsDevOwnRoundSessionDeleteDestroy>>
 >
 export type ContestsOngoingContestSubmitCreateResult = NonNullable<
   Awaited<ReturnType<typeof contestsOngoingContestSubmitCreate>>
