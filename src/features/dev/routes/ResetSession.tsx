@@ -1,5 +1,5 @@
+import { contestsDevOwnRoundSessionDeleteDestroy } from '@/api'
 import { USER_QUERY_KEY } from '@/features/auth'
-import { axiosClient } from '@/lib/axios'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
@@ -9,7 +9,7 @@ export function ResetSession() {
   const queryClient = useQueryClient()
   const resetSession = async () => {
     try {
-      await axiosClient.delete('/contests/round-session/')
+      await contestsDevOwnRoundSessionDeleteDestroy()
       await queryClient.refetchQueries({ queryKey: [USER_QUERY_KEY] })
       await navigate({ to: '/contests/ongoing', search: { discipline: DEFAULT_DISCIPLINE } })
     } catch (err) {
