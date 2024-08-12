@@ -55,7 +55,7 @@ export function PickUsernameDialog() {
     try {
       await accountsChangeUsernameUpdate({ username })
     } catch (error) {
-      if (error instanceof AxiosError && error.response?.status === 400 /* TODO: change to 409 on backend */) {
+      if (error instanceof AxiosError && error.response?.status === 409) {
         setError('username', {
           message: 'Sorry, that nickname is already taken! How about trying a unique variation or adding some numbers?',
         })
