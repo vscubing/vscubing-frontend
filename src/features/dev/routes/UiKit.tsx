@@ -47,6 +47,7 @@ import {
   AlertDialogTrigger,
   AlertDialogOverlay,
 } from '@/components/ui'
+import { Link } from '@tanstack/react-router'
 
 export function UiKit() {
   return (
@@ -172,6 +173,9 @@ export function UiKit() {
           </AlertDialogPortal>
         </AlertDialog>
       </div>
+      <GhostButton asChild>
+        <Link to='/landing'>Go to landing</Link>
+      </GhostButton>
     </div>
   )
 }

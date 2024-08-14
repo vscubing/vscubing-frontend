@@ -1,5 +1,5 @@
 import { Layout } from './components/layout/'
-import { createRootRoute, createRouter } from '@tanstack/react-router'
+import { Outlet, createRootRoute, createRouter } from '@tanstack/react-router'
 import { leaderboardRoute } from './features/leaderboard'
 import { contestsRoute } from './features/contests'
 import { dashboardRoute } from './features/dashboard'
@@ -12,7 +12,9 @@ import { landingRoute } from './features/landing'
 export const rootRoute = createRootRoute({
   component: () => (
     <>
-      <Layout />
+      <Layout>
+        <Outlet />
+      </Layout>
       {import.meta.env.MODE === 'development' && (
         <>
           <TanStackRouterDevtools />

@@ -1,9 +1,7 @@
 import { createRoute } from '@tanstack/react-router'
-import { LandingPage } from './LandingPage'
 import { rootRoute } from '@/router'
 
 export const landingRoute = createRoute({
   getParentRoute: () => rootRoute,
-  component: LandingPage,
-  path: 'landing',
-})
+  path: '/landing',
+}).lazy(() => import('./LandingPage.lazy').then((d) => d.Route))

@@ -1,4 +1,3 @@
-import { Outlet } from '@tanstack/react-router'
 import { useAtom, useSetAtom } from 'jotai'
 import { PickUsernameDialog, Logo, Navbar, UsernameOrSignInButton } from './components'
 import { cn } from '@/utils'
@@ -17,7 +16,7 @@ import { logout, useUser } from '@/features/auth'
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogClose, DialogFooter } from '../ui'
 import { Drawer } from 'vaul'
 
-type LayoutProps = { children?: React.ReactNode }
+type LayoutProps = { children: React.ReactNode }
 export function Layout({ children }: LayoutProps) {
   return (
     <>
@@ -28,7 +27,7 @@ export function Layout({ children }: LayoutProps) {
         className='flex h-svh gap-3 p-[1.625rem] sm:flex-col sm:gap-0 sm:px-3 sm:py-0'
       >
         <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
-        <main className='flex flex-1 flex-col overflow-y-auto'>{children ?? <Outlet />}</main>
+        <main className='flex flex-1 flex-col overflow-y-auto'>{children}</main>
         <BottomNavbar className='hidden sm:block' />
       </div>
     </>
