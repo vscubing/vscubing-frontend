@@ -40,7 +40,7 @@ export function SolvePanel({
   )
 }
 
-const route = getRouteApi('/contests/$contestSlug/solve')
+const route = getRouteApi('/_app/contests/$contestSlug/solve')
 
 type TimeSectionProps = { timeMs?: number; isDnf?: boolean; id?: number; isInited: boolean }
 function TimeSection({ timeMs, isDnf, id, isInited }: TimeSectionProps) {

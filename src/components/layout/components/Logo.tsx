@@ -9,7 +9,7 @@ export function Logo({ variant = 'normal', className, ...props }: LogoProps) {
   return (
     <Link
       {...props}
-      to='/'
+      to='/landing'
       className={cn('title-h2 outline-ring flex items-center rounded-2xl bg-black-80 px-4', className)}
     >
       <img

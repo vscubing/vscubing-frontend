@@ -10,7 +10,7 @@ import { toast } from '@/components/ui'
 import { Discipline } from '@/types'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
-const route = getRouteApi('/contests/$contestSlug/watch/$solveId')
+const route = getRouteApi('/_app/contests/$contestSlug/watch/$solveId')
 export function WatchSolvePage() {
   const params = route.useParams()
   const search = route.useSearch()
@@ -24,8 +24,7 @@ export function WatchSolvePage() {
   if (res && (res.contest.slug !== params.contestSlug || res.discipline.slug !== search.discipline)) {
     return (
       <Navigate
-        from={route.id}
-        to={route.id}
+        to='/contests/$contestSlug/watch/$solveId'
         params={{ contestSlug: res.contest.slug, solveId: params.solveId }}
         search={{ discipline: res.discipline.slug as Discipline }}
       />

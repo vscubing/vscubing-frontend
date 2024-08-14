@@ -6,7 +6,7 @@ import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
 import { getRouteApi } from '@tanstack/react-router'
 
-const route = getRouteApi('/contests/$contestSlug/solve')
+const route = getRouteApi('/_app/contests/$contestSlug/solve')
 type SolveContestProps = {
   state: SolveContestStateDTO
   isStateFetching: boolean

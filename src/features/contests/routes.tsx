@@ -1,4 +1,4 @@
-import { rootRoute } from '@/router'
+import { appRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, castDiscipline, isDiscipline } from '@/types'
 import { Navigate, createRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
@@ -16,7 +16,7 @@ const paginationSchema = z.object({
 const disciplineSchema = z.object({ discipline: z.string().default(DEFAULT_DISCIPLINE) })
 
 const parentRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => appRoute,
   path: '/contests',
 })
 
@@ -28,7 +28,7 @@ const indexRoute = createRoute({
     // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
     if (!isDiscipline(discipline)) {
       throw redirect({
-        to: parentRoute.id,
+        to: '/contests',
         search: { discipline: castDiscipline(discipline), page },
         replace: true,
       })
@@ -44,7 +44,7 @@ const ongoingContestRedirectRoute = createRoute({
   beforeLoad: async ({ search: { discipline } }) => {
     const ongoing = await queryClient.fetchQuery(ongoingContestQuery)
     void redirect({
-      to: contestRoute.id,
+      to: '/contests/$contestSlug',
       params: { contestSlug: ongoing.slug },
       search: { discipline },
       replace: true,

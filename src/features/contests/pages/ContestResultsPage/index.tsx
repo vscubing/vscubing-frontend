@@ -29,7 +29,7 @@ import {
 import { useOngoingContest } from '@/shared/contests'
 import { AxiosError } from 'axios'
 
-const route = getRouteApi('/contests/$contestSlug/results')
+const route = getRouteApi('/_app/contests/$contestSlug/results')
 export function ContestResultsPage() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
 }
@@ -143,7 +143,11 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
         <NavigateBackButton className='self-start' />
         <ErrorHandler error={error}>
           <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
-            <Link from={route.id} search={{ discipline: '3by3', page: 1 }} params={{ contestSlug }}>
+            <Link
+              from='/contests/$contestSlug/results'
+              search={{ discipline: '3by3', page: 1 }}
+              params={{ contestSlug }}
+            >
               <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
             </Link>
             <div>
@@ -241,7 +245,7 @@ function ErrorHandler({ error, children }: ErrorHandlerProps) {
   if (error?.response?.status === 403) {
     return (
       <Navigate
-        from={route.id}
+        from='/contests/$contestSlug/results'
         to='/contests/$contestSlug/solve'
         search={(prev) => prev}
         params={{ contestSlug }}

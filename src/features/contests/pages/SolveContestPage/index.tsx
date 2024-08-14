@@ -24,7 +24,7 @@ import { NotFoundRedirect } from '@/features/NotFoundPage'
 import { useOngoingContestDuration } from '@/shared/contests'
 import { useUser } from '@/features/auth'
 
-const route = getRouteApi('/contests/$contestSlug/solve')
+const route = getRouteApi('/_app/contests/$contestSlug/solve')
 export function SolveContestPage() {
   const duration = useOngoingContestDuration()
   const title = <>Ongoing contest {duration && <span className='whitespace-nowrap'>({duration})</span>}</>
@@ -107,7 +107,7 @@ export function SolvePageContent() {
     <>
       <SectionHeader>
         <div>
-          <Link from={route.id} search={{ discipline: '3by3' }} params={{ contestSlug }}>
+          <Link from='/contests/$contestSlug/solve' search={{ discipline: '3by3' }} params={{ contestSlug }}>
             <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
           </Link>
         </div>

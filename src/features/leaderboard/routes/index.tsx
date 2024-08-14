@@ -1,11 +1,11 @@
-import { rootRoute } from '@/router'
+import { appRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, castDiscipline, isDiscipline } from '@/types'
 import { Navigate, redirect, createRoute } from '@tanstack/react-router'
 import { Leaderboard } from './Leaderboard'
 import { z } from 'zod'
 
 const parentRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => appRoute,
   path: '/leaderboard',
 })
 
@@ -13,7 +13,7 @@ const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   component: () => (
-    <Navigate to={disciplineRoute.id} search={{ page: 1 }} params={{ discipline: DEFAULT_DISCIPLINE }} replace />
+    <Navigate to='/leaderboard/$discipline' search={{ page: 1 }} params={{ discipline: DEFAULT_DISCIPLINE }} replace />
   ),
 })
 
@@ -29,7 +29,7 @@ export const disciplineRoute = createRoute({
     // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
     if (!isDiscipline(discipline) || page === undefined) {
       throw redirect({
-        to: disciplineRoute.id,
+        to: '/leaderboard/$discipline',
         params: { discipline: castDiscipline(discipline) },
         search: { page: page },
         replace: true,

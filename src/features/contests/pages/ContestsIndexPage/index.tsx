@@ -26,7 +26,7 @@ import {
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop
 
-const route = getRouteApi('/contests/')
+const route = getRouteApi('/_app/contests/')
 export function ContestsIndexPage() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
 }

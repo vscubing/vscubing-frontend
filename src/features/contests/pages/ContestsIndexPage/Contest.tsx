@@ -1,9 +1,8 @@
 import { CubeIcon, SecondaryButton } from '@/components/ui'
 import type { ContestDTO } from '@/types'
 import { formatContestDuration } from '@/utils'
-import { Link, getRouteApi } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 
-const route = getRouteApi('/contests/')
 type ContestProps = { contest: ContestDTO; discipline: string; height?: number }
 export function ContestRow({ contest, discipline, height }: ContestProps) {
   return (
@@ -15,7 +14,6 @@ export function ContestRow({ contest, discipline, height }: ContestProps) {
       <span className='vertical-alignment-fix mr-10 w-44'>{formatContestDuration(contest)}</span>
       <SecondaryButton asChild className='h-full'>
         <Link
-          from={route.id}
           to='/contests/$contestSlug/results'
           search={{ discipline, page: 1 }}
           params={{ contestSlug: contest.slug }}

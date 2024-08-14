@@ -1,9 +1,9 @@
-import { rootRoute } from '@/router'
+import { appRoute } from '@/router'
 import { Navigate, createRoute } from '@tanstack/react-router'
 import { NotFoundPage } from '.'
 
 export const notFoundRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => appRoute,
   path: '404',
   component: NotFoundPage,
 })

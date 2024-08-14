@@ -22,7 +22,7 @@ import {
 import { matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
 
-const route = getRouteApi('/leaderboard/$discipline')
+const route = getRouteApi('/_app/leaderboard/$discipline')
 export function Leaderboard() {
   return matchesQuery('sm') ? <ControllerWithInfiniteScroll /> : <ControllerWithPagination />
 }
