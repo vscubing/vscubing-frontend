@@ -16,7 +16,7 @@ import {
   type Behavior,
   type ListWithPinnedItemProps,
   type ListWrapperProps,
-} from '@/features/autofillHeight'
+} from '@/shared/autofillHeight'
 import { cn, formatContestDuration, matchesQuery } from '@/utils'
 import {
   PageTitleMobile,

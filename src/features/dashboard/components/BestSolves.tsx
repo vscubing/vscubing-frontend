@@ -2,7 +2,7 @@ import { CubeIcon, Ellipsis, SecondaryButton, UnderlineButton, ArrowRightIcon } 
 import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { Link } from '@tanstack/react-router'
 import { cn, matchesQuery } from '@/utils'
-import { AutofillHeight } from '@/features/autofillHeight'
+import { AutofillHeight } from '@/shared/autofillHeight'
 import { type ContestsSolveListBestInEveryDiscipline } from '@/api'
 import { type Discipline } from '@/types'
 

@@ -18,7 +18,7 @@ import {
   type ListWrapperProps,
   AutofillHeight,
   type Behavior,
-} from '@/features/autofillHeight'
+} from '@/shared/autofillHeight'
 import { matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
 

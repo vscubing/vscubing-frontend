@@ -5,7 +5,7 @@ import { matchesQuery } from '@/utils'
 import type { ContestDTO } from '@/types'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
-import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/features/autofillHeight'
+import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/shared/autofillHeight'
 import {
   HintSection,
   NavigateBackButton,

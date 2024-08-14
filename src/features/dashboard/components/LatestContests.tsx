@@ -2,7 +2,7 @@ import { cn, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { UnderlineButton } from '@/components/ui'
 import { ContestSkeleton, Contest } from '@/shared/contests'
-import { AutofillHeight } from '@/features/autofillHeight'
+import { AutofillHeight } from '@/shared/autofillHeight'
 import { type ContestDTO, DEFAULT_DISCIPLINE } from '@/types'
 
 const MIN_ITEMS_IF_OVERFLOW = 2
