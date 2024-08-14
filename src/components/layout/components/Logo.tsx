@@ -7,11 +7,7 @@ import { type ComponentProps } from 'react'
 type LogoProps = ComponentProps<LinkComponent<'a'>> & { variant?: 'normal' | 'sm' }
 export function Logo({ variant = 'normal', className, ...props }: LogoProps) {
   return (
-    <Link
-      {...props}
-      to='/landing'
-      className={cn('title-h2 outline-ring flex items-center rounded-2xl bg-black-80 px-4', className)}
-    >
+    <Link {...props} to='/landing' className={cn('title-h2 outline-ring flex items-center rounded-2xl', className)}>
       <img
         src={variant === 'normal' ? logoImg : logoSmImg}
         alt='vscubing - Virtual Speedcubing'

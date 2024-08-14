@@ -22,13 +22,15 @@ export function Layout({ children }: LayoutProps) {
     <>
       <PickUsernameDialog />
       <PopupSidebar />
-      <div
-        vaul-drawer-wrapper='vaul-drawer-wrapper'
-        className='flex h-svh gap-3 p-[1.625rem] sm:flex-col sm:gap-0 sm:px-3 sm:py-0'
-      >
-        <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
-        <main className='flex flex-1 flex-col overflow-y-auto'>{children}</main>
-        <BottomNavbar className='hidden sm:block' />
+      <div className='bg-black-100'>
+        <div
+          vaul-drawer-wrapper='vaul-drawer-wrapper'
+          className='flex h-svh gap-3 bg-black-100 p-[1.625rem] sm:flex-col sm:gap-0 sm:px-3 sm:py-0'
+        >
+          <Sidebar className='w-[clamp(16rem,20vw,21rem)] xl-short:min-w-[19rem] lg:sr-only' />
+          <main className='flex flex-1 flex-col overflow-y-auto'>{children}</main>
+          <BottomNavbar className='hidden sm:block' />
+        </div>
       </div>
     </>
   )
@@ -41,8 +43,12 @@ function Sidebar({ className }: { className?: string }) {
     <>
       <aside className={cn('flex flex-col gap-3', className)}>
         <div className='flex h-[7rem] xl-short:h-[var(--header-height)] lg:h-[var(--header-height)] lg:gap-3'>
-          <Logo className='w-full lg:hidden' />
-          <Logo className='hidden flex-shrink-0 lg:flex' variant='sm' onClick={() => setOpenOnMobile(false)} />
+          <Logo className='w-full bg-black-80 px-4 lg:hidden' />
+          <Logo
+            className='hidden flex-shrink-0 bg-black-80 px-4 lg:flex'
+            variant='sm'
+            onClick={() => setOpenOnMobile(false)}
+          />
           <div className='hidden flex-1 items-center justify-between rounded-2xl bg-black-80 py-3 pr-4 lg:flex lg:min-w-[17rem] sm:min-w-0 sm:pr-2'>
             <UsernameOrSignInButton usernameEllipsis className='flex-auto' />
             <div className='hidden lg:block'>

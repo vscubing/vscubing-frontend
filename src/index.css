@@ -20,7 +20,6 @@
   }
   body {
     @apply font-hind text-[0.875rem] leading-[1.5] text-white-100;
-    @apply !bg-black-100; /* !important for vaul's shouldScaleBackground */
     @apply !pointer-events-auto; /* to make toasts accessible with opened Radix Dialog (and Vaul) */
   }
   svg {
