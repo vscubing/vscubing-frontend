@@ -1,16 +1,16 @@
-import { TwistyScrubber as Scrubber, type TwistyPlayer as Player } from '@vscubing/cubing/twisty'
+import { TwistyScrubber as Scrubber, type TwistyPlayer } from '@vscubing/cubing/twisty'
 import { useEffect, useRef } from 'react'
 import { handleSliderStylesOnChange, sliderStyles } from './sliderStyles'
 
 type TwistyScrubberProps = {
-  twistyPlayer: Player
+  player: TwistyPlayer
   className?: string
 }
-export const TwistyScrubber = ({ className, twistyPlayer }: TwistyScrubberProps) => {
+export const TwistyScrubber = ({ className, player }: TwistyScrubberProps) => {
   const spanRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
-    const scrubber = new Scrubber(twistyPlayer.experimentalModel, twistyPlayer.controller, {
+    const scrubber = new Scrubber(player.experimentalModel, player.controller, {
       mode: 'open',
     })
 
@@ -26,14 +26,14 @@ export const TwistyScrubber = ({ className, twistyPlayer }: TwistyScrubberProps)
       elem.addEventListener('dragstart', (e) => e.preventDefault())
       handleSliderStylesOnChange(elem, timestamp.toString())
     }
-    twistyPlayer.experimentalModel.detailedTimelineInfo.addFreshListener(handleProgress)
+    player.experimentalModel.detailedTimelineInfo.addFreshListener(handleProgress)
 
     spanRef.current?.appendChild(scrubber)
     return () => {
       scrubber.remove()
-      twistyPlayer.experimentalModel.detailedTimelineInfo.removeFreshListener(handleProgress)
+      player.experimentalModel.detailedTimelineInfo.removeFreshListener(handleProgress)
     }
-  }, [className, twistyPlayer])
+  }, [className, player])
 
   return <span className={className} ref={spanRef} />
 }

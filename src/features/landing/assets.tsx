@@ -1,7 +1,0 @@
-import CubeIcon from 'cube.svg'
-import KeyboardIcon from 'keyboard.svg'
-import LeaderboardIcon from 'leaderboard.svg'
-import ResultIcon from 'result.svg'
-import ScrambleIcon from 'scramble.svg'
-import ShareIcon from 'share.svg'
-import StopwatchIcon from 'stopwatch.svg'

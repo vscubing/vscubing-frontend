@@ -1,6 +1,8 @@
-import { PrimaryButton } from '@/components/ui'
+import { LoadingSpinner, PrimaryButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { StopwatchIcon } from '../components/icons'
+import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
+import { TwistyPlayer } from '@vscubing/cubing/twisty'
 
 export function HeroSection() {
   return (
@@ -23,9 +25,28 @@ export function HeroSection() {
             <Link>Start cubing now</Link>
           </PrimaryButton>
         </div>
-        <div className='h-[21rem] w-[21rem] shrink-0 rounded-3xl bg-black-100'></div>
+        <div className='flex h-[21rem] w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4'>
+          <TwistySection />
+        </div>
         <div className='-ml-[22rem] rounded-3xl bg-secondary-20'></div>
       </div>
     </section>
+  )
+}
+
+function TwistySection() {
+  const player = useTwistyPlayer('R U', 'R U')
+
+  if (!player) {
+    return <LoadingSpinner />
+  }
+
+  return (
+    <>
+      <TwistyCube player={player} className='mb-2 h-full w-full flex-1' />
+
+      <TwistyScrubber player={player} className='mb-1 w-full px-12' />
+      <TwistyControls player={player} className='w-full px-8' size='sm' />
+    </>
   )
 }

@@ -1,12 +1,13 @@
-import { TwistyScrubber, TwistyPlayer, TwistyAlgViewer, TwistyControls, TwistyTempo } from './twisty'
-import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { TwistyScrubber, TwistyCube, TwistyAlgViewer, TwistyControls, TwistyTempo } from '@/shared/twisty'
+import { type ReactNode, useLayoutEffect, useRef } from 'react'
 import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { MinusIcon, PlusIcon } from '@/components/ui'
 import { cn, matchesQuery } from '@/utils'
 import * as Accordion from '@radix-ui/react-accordion'
+import { useTwistyPlayer } from '@/shared/twisty'
 
 export default function TwistySection({ scramble, solution }: { scramble?: string; solution?: string }) {
-  const { player } = useTwistyPlayer(scramble, solution)
+  const player = useTwistyPlayer(scramble, solution)
   if (!player || !scramble || !solution) {
     return null
   }
@@ -34,11 +35,11 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
     <>
       <div className='flex flex-col gap-10 rounded-2xl bg-black-80 pb-6 lg:gap-6 md:col-span-full'>
         <div className='flex max-h-[35rem] flex-1 md:min-h-[20rem] sm:max-w-full sm:overflow-x-clip'>
-          <TwistyPlayer player={player} className='h-full flex-1 sm:-mx-5' />
+          <TwistyCube player={player} className='h-full flex-1 sm:-mx-5' />
         </div>
         <div className='flex w-[27rem] max-w-full flex-col items-center gap-2 self-center sm:px-3'>
-          <TwistyScrubber twistyPlayer={player} className='w-full px-4' />
-          <TwistyControls twistyPlayer={player} className='w-full' />
+          <TwistyScrubber player={player} className='w-full px-4' />
+          <TwistyControls player={player} className='w-full' />
         </div>
       </div>
       <div className='flex flex-col gap-3 md:col-span-full md:flex-col-reverse'>
@@ -96,26 +97,4 @@ function AccordionItem({ value, className, children }: AccordionItemProps) {
       </Accordion.Content>
     </Accordion.Item>
   )
-}
-
-function useTwistyPlayer(scramble?: string, solution?: string) {
-  const [player, setPlayer] = useState<Player | null>(null)
-
-  useEffect(() => {
-    if (!scramble || !solution) {
-      return
-    }
-
-    const newPlayer = new Player({
-      controlPanel: 'none',
-      background: 'none',
-      visualization: 'PG3D',
-      experimentalSetupAlg: scramble,
-      alg: solution,
-    })
-    setPlayer(newPlayer)
-    return () => setPlayer(null)
-  }, [scramble, solution])
-
-  return { player }
 }
