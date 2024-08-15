@@ -3,6 +3,7 @@ import { PrimaryButton } from '@/components/ui'
 import { cn } from '@/utils'
 import { Link, createLazyRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { StopwatchIcon } from './components/icons'
 
 export const Route = createLazyRoute('/landing')({
   component: LandingPage,
@@ -15,15 +16,22 @@ function LandingPage() {
         <div className='flex h-svh flex-col'>
           <Header />
           <section className='flex flex-1 gap-3 py-3 '>
-            <div className='landing-gradient-1 landing-hero-clip-polygon flex h-full flex-col justify-center rounded-3xl p-10'>
-              <h1 className='landing-h1 flex flex-wrap text-white-100'>
+            <div className='landing-gradient-1 landing-hero-clip-polygon flex h-full flex-col items-start justify-center rounded-3xl p-10'>
+              <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100'>
                 <span className='whitespace-nowrap'>
                   Join <span className='landing-h3 text-grey-40'>the</span> exciting world
                 </span>
                 <span className='whitespace-nowrap'>
-                  <span className='landing-h3 text-grey-40'>of</span> virtual speedcubing
+                  <span className='landing-h3 text-grey-40'>of</span> <StopwatchIcon className='-mt-2 inline' /> virtual
+                  speedcubing
                 </span>
               </h1>
+              <p className='mb-6 text-white-100'>
+                <span>Compete</span> with our online contests
+              </p>
+              <PrimaryButton asChild className='h-auto px-20 py-5'>
+                <Link>Start cubing now</Link>
+              </PrimaryButton>
             </div>
             <div className='h-[21rem] w-[21rem] shrink-0 rounded-3xl bg-black-100'></div>
           </section>
