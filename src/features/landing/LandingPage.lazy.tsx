@@ -2,19 +2,32 @@ import { Logo } from '@/components/layout/components'
 import { PrimaryButton } from '@/components/ui'
 import { cn } from '@/utils'
 import { Link, createLazyRoute } from '@tanstack/react-router'
-import { RefObject, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Route = createLazyRoute('/landing')({
   component: LandingPage,
 })
 
 function LandingPage() {
-  const scrollableWrapperRef = useRef<HTMLElement>(null)
-
   return (
-    <main className='h-svh overflow-y-auto bg-black-120 px-6 pb-6 text-lg text-grey-40' ref={scrollableWrapperRef}>
+    <main className='bg-black-120 px-6 pb-6 text-lg text-grey-40'>
       <div className='mx-auto max-w-[86rem]'>
-        <Header scrollableWrapperRef={scrollableWrapperRef} />
+        <div className='flex h-svh flex-col'>
+          <Header />
+          <section className='flex flex-1 gap-3 py-3 '>
+            <div className='landing-gradient-1 landing-hero-clip-polygon flex h-full flex-col justify-center rounded-3xl p-10'>
+              <h1 className='landing-h1 flex flex-wrap text-white-100'>
+                <span className='whitespace-nowrap'>
+                  Join <span className='landing-h3 text-grey-40'>the</span> exciting world
+                </span>
+                <span className='whitespace-nowrap'>
+                  <span className='landing-h3 text-grey-40'>of</span> virtual speedcubing
+                </span>
+              </h1>
+            </div>
+            <div className='h-[21rem] w-[21rem] shrink-0 rounded-3xl bg-black-100'></div>
+          </section>
+        </div>
         Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem
         pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud
         ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut
@@ -73,27 +86,31 @@ function LandingPage() {
   )
 }
 
-function Header({ scrollableWrapperRef }: { scrollableWrapperRef: RefObject<HTMLElement> }) {
+function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-    const wrapperElem = scrollableWrapperRef.current
-    if (!wrapperElem) return
-
     function onScroll() {
-      setIsScrolled(wrapperElem!.scrollTop !== 0)
+      setTimeout(() => {
+        // without setTimeout the scroll is blocked at the starting point because it gets snapped back
+        if (window.scrollY >= 20) {
+          setIsScrolled(true)
+        } else {
+          setIsScrolled(false)
+          window.scrollTo({ top: 0 })
+        }
+      }, 200)
     }
 
-    wrapperElem.addEventListener('scroll', onScroll)
-    return () => wrapperElem!.removeEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  console.log(isScrolled)
   return (
     <header
       className={cn(
-        'sticky top-0 flex rounded-[1rem] bg-black-120 pl-9 pr-2 transition-all duration-100',
-        isScrolled ? 'h-[4.75rem] items-center bg-black-80/75 backdrop-blur-lg' : 'h-24 items-end pb-2',
+        'sticky top-0 z-10 flex rounded-[1rem] bg-black-120 pl-9 pr-2 transition-all duration-100',
+        isScrolled ? 'items-center bg-black-80/75 py-2 backdrop-blur-lg' : 'items-end pb-2 pt-9',
       )}
     >
       <div className='flex w-full items-center gap-[6.25rem]'>

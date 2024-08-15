@@ -105,4 +105,94 @@
     @apply after:transition-transform;
     @apply after:block after:h-[.5px] after:w-full after:scale-x-0 after:bg-current;
   }
+
+  .landing-h1 {
+    @apply font-kanit text-[4rem] leading-[1.1] tracking-[0.01em];
+  }
+  .landing-h2 {
+    @apply font-kanit text-[3rem] leading-[1.1] tracking-[0.01em];
+  }
+  .landing-h3 {
+    @apply font-kanit text-[1.75rem] leading-[1.4] tracking-normal;
+  }
+  .landing-gradient-1 {
+    background: linear-gradient(159deg, rgba(73, 76, 116, 1) 0%, rgba(27, 30, 37, 1) 71%);
+  }
+  .landing-hero-clip-polygon {
+    clip-path: polygon(
+      calc(100% - 24px) 0px,
+      24px 0px,
+      24px 0px,
+      20.1070836px 0.3141204px,
+      16.4141568px 1.2235392px,
+      12.9706332px 2.6788428px,
+      9.8259264px 4.6306176px,
+      7.02945px 7.02945px,
+      4.6306176px 9.8259264px,
+      2.6788428px 12.9706332px,
+      1.2235392px 16.4141568px,
+      0.3141204px 20.1070836px,
+      3.9733444681785e-31px 24px,
+      0px calc(100% - 24px),
+      0px calc(100% - 24px),
+      0.3141204px calc(100% - 20.107035px),
+      1.2235392px calc(100% - 16.41408px),
+      2.6788428px calc(100% - 12.970545px),
+      4.6306176px calc(100% - 9.82584px),
+      7.02945px calc(100% - 7.0293750000001px),
+      9.8259264px calc(100% - 4.6305599999999px),
+      12.9706332px calc(100% - 2.678805px),
+      16.4141568px calc(100% - 1.22352px),
+      20.1070836px calc(100% - 0.3141149999999px),
+      24px calc(100% - 1.1368683772162e-13px),
+      calc(100% - 374px) calc(100% - 0px),
+      calc(100% - 374px) calc(100% - 0px),
+      calc(100% - 370.107035px) calc(100% - 0.3141149999999px),
+      calc(100% - 366.41408px) calc(100% - 1.2235199999999px),
+      calc(100% - 362.970545px) calc(100% - 2.678805px),
+      calc(100% - 359.82584px) calc(100% - 4.6305600000001px),
+      calc(100% - 357.029375px) calc(100% - 7.0293750000001px),
+      calc(100% - 354.63056px) calc(100% - 9.82584px),
+      calc(100% - 352.678805px) calc(100% - 12.970545px),
+      calc(100% - 351.22352px) calc(100% - 16.41408px),
+      calc(100% - 350.314115px) calc(100% - 20.107035px),
+      calc(100% - 350px) calc(100% - 24px),
+      calc(100% - 350px) 363px,
+      calc(100% - 350px) 363px,
+      calc(100% - 349.685885px) 359.107035px,
+      calc(100% - 348.77648px) 355.41408px,
+      calc(100% - 347.321195px) 351.970545px,
+      calc(100% - 345.36944px) 348.82584px,
+      calc(100% - 342.970625px) 346.029375px,
+      calc(100% - 340.17416px) 343.63056px,
+      calc(100% - 337.029455px) 341.678805px,
+      calc(100% - 333.58592px) 340.22352px,
+      calc(100% - 329.892965px) 339.314115px,
+      calc(100% - 326px) 339px,
+      calc(100% - 24px) 339px,
+      calc(100% - 24px) 339px,
+      calc(100% - 20.10825px) 338.685885px,
+      calc(100% - 16.416px) 337.77648px,
+      calc(100% - 12.97275px) 336.321195px,
+      calc(100% - 9.828px) 334.36944px,
+      calc(100% - 7.03125px) 331.970625px,
+      calc(100% - 4.6320000000001px) 329.17416px,
+      calc(100% - 2.6797500000002px) 326.029455px,
+      calc(100% - 1.2239999999999px) 322.58592px,
+      calc(100% - 0.3142499999999px) 318.892965px,
+      calc(100% - 2.2737367544323e-13px) 315px,
+      calc(100% - 0px) 24px,
+      calc(100% - 0px) 24px,
+      calc(100% - 0.3142499999999px) 20.1070836px,
+      calc(100% - 1.2239999999997px) 16.4141568px,
+      calc(100% - 2.67975px) 12.9706332px,
+      calc(100% - 4.6320000000001px) 9.8259264px,
+      calc(100% - 7.03125px) 7.02945px,
+      calc(100% - 9.828px) 4.6306176px,
+      calc(100% - 12.97275px) 2.6788428px,
+      calc(100% - 16.416px) 1.2235392px,
+      calc(100% - 20.10825px) 0.3141204px,
+      calc(100% - 24px) 3.9733444681785e-31px
+    );
+  }
 }
