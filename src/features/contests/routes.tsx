@@ -28,7 +28,7 @@ const indexRoute = createRoute({
     // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
     if (!isDiscipline(discipline)) {
       throw redirect({
-        to: '/contests',
+        from: indexRoute.fullPath,
         search: { discipline: castDiscipline(discipline), page },
         replace: true,
       })
@@ -44,7 +44,7 @@ const ongoingContestRedirectRoute = createRoute({
   beforeLoad: async ({ search: { discipline } }) => {
     const ongoing = await queryClient.fetchQuery(ongoingContestQuery)
     void redirect({
-      to: '/contests/$contestSlug',
+      to: contestRoute.to,
       params: { contestSlug: ongoing.slug },
       search: { discipline },
       replace: true,
@@ -68,7 +68,7 @@ const contestIndexRoute = createRoute({
       <Navigate
         search={{ discipline: DEFAULT_DISCIPLINE, page: 1 }}
         params={{ contestSlug }}
-        to='/contests/$contestSlug/results'
+        to={contestResultsRoute.to}
         replace
       />
     )

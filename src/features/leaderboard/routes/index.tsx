@@ -13,7 +13,7 @@ const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   component: () => (
-    <Navigate to='/leaderboard/$discipline' search={{ page: 1 }} params={{ discipline: DEFAULT_DISCIPLINE }} replace />
+    <Navigate to={disciplineRoute.to} search={{ page: 1 }} params={{ discipline: DEFAULT_DISCIPLINE }} replace />
   ),
 })
 
@@ -29,9 +29,9 @@ export const disciplineRoute = createRoute({
     // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
     if (!isDiscipline(discipline) || page === undefined) {
       throw redirect({
-        to: '/leaderboard/$discipline',
+        from: disciplineRoute.fullPath,
         params: { discipline: castDiscipline(discipline) },
-        search: { page: page },
+        search: { page },
         replace: true,
       })
     }

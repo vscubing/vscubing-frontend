@@ -10,5 +10,5 @@ export const notFoundRoute = createRoute({
 
 // NOTE: this is a workaround because we can't throw notFound() from tanstack/react-router in components
 export function NotFoundRedirect() {
-  return <Navigate to='/404' />
+  return <Navigate to={notFoundRoute.to} />
 }
