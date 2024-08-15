@@ -28,8 +28,17 @@ export function HeroSection() {
         <div className='flex h-[21rem] w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4'>
           <TwistySection />
         </div>
-        <div className='-ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-20'>
-          <ul className='grid -rotate-[18deg] grid-cols-[repeat(10,auto)] gap-1'>
+        <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl'>
+          <div className='absolute left-[1%] top-[30%] h-[40%] w-[30%] rounded-[100%] bg-secondary-20 blur-xl'></div>
+          <div className='absolute left-[25%] top-[-5%] h-[55%] w-[30%] rounded-[100%] bg-secondary-60 blur-xl'></div>
+          <div className='absolute left-0 top-0 h-[40%] w-[35%] bg-primary-60 blur-xl'></div>
+          <div className='absolute bottom-0 left-[-5%] h-[40%] w-[40%] bg-primary-60 blur-xl'></div>
+          <div className='absolute bottom-[-15%] left-[50%] h-[60%] w-[30%] rounded-[100%] bg-secondary-20 blur-xl'></div>
+          <div className='absolute right-0 top-0 h-[35%] w-[30%] rounded-[100%] bg-secondary-60 blur-xl'></div>
+          <div className='absolute bottom-0 right-[-5%] h-[70%] w-[30%] rounded-[100%] bg-primary-100 blur-xl'></div>
+          <div className='absolute left-[52%] top-[5%] h-[40%] w-[30%] rounded-[100%] bg-primary-60 blur-xl'></div>
+          <div className='absolute bottom-[5%] left-[30%] h-[40%] w-[30%] rounded-[100%] bg-primary-100 blur-xl'></div>
+          <ul className='relative grid -rotate-[18deg] grid-cols-[repeat(10,auto)] gap-1'>
             {KEY_MAP.map(({ keyName, cubeMovement }) => (
               <KeyMapTile
                 key={keyName}
