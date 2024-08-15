@@ -26,27 +26,30 @@ export const KeyMapDialogContent = forwardRef<
       </div>
 
       <ul className='contents'>
-        {keyMap.map(({ keyName, cubeMovement }) => (
-          <KeyTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
+        {KEY_MAP.map(({ keyName, cubeMovement }) => (
+          <KeyMapTile key={keyName} keyName={keyName} cubeMovement={cubeMovement} />
         ))}
       </ul>
     </div>
   </DialogContent>
 ))
 
-function KeyTile({ keyName, cubeMovement }: (typeof keyMap)[number]) {
+export function KeyMapTile({ keyName, cubeMovement, className }: (typeof KEY_MAP)[number] & { className?: string }) {
   return (
     <li
-      className='title-h3 flex h-[4.625rem] w-[4.625rem] flex-col justify-between rounded-xl bg-black-80 px-3 py-1'
+      className={cn(
+        'title-h3 flex h-[4.625rem] w-[4.625rem] flex-col justify-between rounded-xl bg-black-80 px-3 py-1',
+        className,
+      )}
       aria-hidden={!cubeMovement}
     >
       <span className='text-grey-20'>{keyName}</span>
-      <span className='text-end'>{cubeMovement}</span>
+      <span className='text-end text-white-100'>{cubeMovement}</span>
     </li>
   )
 }
 
-const keyMap = [
+export const KEY_MAP = [
   { keyName: '1' },
   { keyName: '2' },
   { keyName: '3' },

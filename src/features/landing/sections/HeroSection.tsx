@@ -2,6 +2,7 @@ import { LoadingSpinner, PrimaryButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
 import { StopwatchIcon } from '../components/icons'
 import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
+import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'
 
 export function HeroSection() {
   return (
@@ -27,7 +28,18 @@ export function HeroSection() {
         <div className='flex h-[21rem] w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4'>
           <TwistySection />
         </div>
-        <div className='-ml-[22rem] rounded-3xl bg-secondary-20'></div>
+        <div className='-ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-20'>
+          <ul className='grid -rotate-[18deg] grid-cols-[repeat(10,auto)] gap-1'>
+            {KEY_MAP.map(({ keyName, cubeMovement }) => (
+              <KeyMapTile
+                key={keyName}
+                keyName={keyName}
+                cubeMovement={cubeMovement}
+                className='h-12 w-12 rounded-lg py-1 pl-2 pr-2 text-sm'
+              />
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   )
