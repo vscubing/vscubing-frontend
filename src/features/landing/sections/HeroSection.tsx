@@ -4,8 +4,8 @@ import { StopwatchIcon } from '../components/icons'
 
 export function HeroSection() {
   return (
-    <section className='flex flex-1 items-center'>
-      <div className='grid h-full max-h-[44rem] flex-1 grid-cols-[1fr,auto] gap-3 pb-10 pt-3'>
+    <section className='flex flex-1 flex-col items-center justify-center'>
+      <div className='grid max-h-[44rem] min-h-[40rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3 pb-10 pt-3'>
         <div className='landing-gradient-1 landing-hero-clip-polygon row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10'>
           <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100'>
             <span className='whitespace-nowrap'>
@@ -24,6 +24,7 @@ export function HeroSection() {
           </PrimaryButton>
         </div>
         <div className='h-[21rem] w-[21rem] shrink-0 rounded-3xl bg-black-100'></div>
+        <div className='-ml-[22rem] rounded-3xl bg-secondary-20'></div>
       </div>
     </section>
   )

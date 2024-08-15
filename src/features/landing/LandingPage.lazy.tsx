@@ -10,7 +10,7 @@ function LandingPage() {
   return (
     <main className='bg-black-120 px-6 pb-6 text-lg text-grey-40'>
       <div className='mx-auto max-w-[86rem]'>
-        <div className='flex h-svh flex-col'>
+        <div className='flex min-h-svh flex-col'>
           <Header />
           <HeroSection />
         </div>
