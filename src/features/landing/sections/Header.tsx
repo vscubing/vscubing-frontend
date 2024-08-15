@@ -1,7 +1,5 @@
 import { Logo } from '@/components/layout/components'
-import { PrimaryButton } from '@/components/ui'
 import { cn } from '@/utils'
-import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 
 export function Header() {
@@ -9,15 +7,11 @@ export function Header() {
 
   useEffect(() => {
     function onScroll() {
-      setTimeout(() => {
-        // without setTimeout the scroll is blocked at the starting point because it gets snapped back
-        if (window.scrollY >= 20) {
-          setIsScrolled(true)
-        } else {
-          setIsScrolled(false)
-          window.scrollTo({ top: 0 })
-        }
-      }, 200)
+      if (window.scrollY >= 20) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
     }
 
     window.addEventListener('scroll', onScroll)
@@ -27,7 +21,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-10 flex rounded-[1rem] bg-black-120 pl-9 pr-2 transition-all duration-100',
+        'fixed top-0 z-10 flex w-full rounded-[1rem] bg-black-120 pl-9 pr-2 transition-all duration-100',
         isScrolled ? 'items-center bg-black-80/75 py-2 backdrop-blur-lg' : 'items-end pb-2 pt-9',
       )}
     >
@@ -40,9 +34,9 @@ export function Header() {
           <a>Guide</a>
           <a>Contacts</a>
         </nav>
-        <PrimaryButton asChild className='ml-auto h-14 px-10'>
-          <Link to='/'>Start cubing now</Link>
-        </PrimaryButton>
+        {/* <PrimaryButton asChild className='ml-auto h-14 px-10'> */}
+        {/*   <Link to='/'>Start cubing now</Link> */}
+        {/* </PrimaryButton> */}
       </div>
     </header>
   )
