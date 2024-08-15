@@ -1,10 +1,11 @@
 import { CubeIcon, Ellipsis, PlusIcon, MinusIcon } from '@/components/ui'
-import { SolveTimeLinkOrDnf, SolveTimeLabel } from '@/components/shared'
 import { cn, matchesQuery } from '@/utils'
 import { useMemo } from 'react'
 import { type ContestSession } from '../../api'
 import * as Accordion from '@radix-ui/react-accordion'
-import { PlaceLabel, ExtraLabel } from '@/components/shared'
+import { ExtraLabel } from '@/shared/ExtraLabel'
+import { PlaceLabel } from '@/shared/PlaceLabel'
+import { SolveTimeLabel, SolveTimeLinkOrDnf } from '@/shared/SolveTimeButton'
 
 export function Session({
   session,

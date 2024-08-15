@@ -1,6 +1,6 @@
 import { useLogin } from '@/features/auth'
 import { cn } from '@/utils'
-import { GhostButton, GoogleIcon, PrimaryButton } from '../ui'
+import { GhostButton, GoogleIcon, PrimaryButton } from '@/components/ui'
 
 const buttons = {
   primary: PrimaryButton,

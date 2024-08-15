@@ -1,6 +1,6 @@
-import { SignInButton } from '@/components/shared'
 import { AvatarIcon } from '@/components/ui'
 import { useUser } from '@/features/auth'
+import { SignInButton } from '@/shared/SignInButton'
 import { cn } from '@/utils'
 
 export function UsernameOrSignInButton({

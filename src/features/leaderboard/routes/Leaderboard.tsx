@@ -1,14 +1,6 @@
 import { Header, SectionHeader } from '@/components/layout'
 import { useUser } from '@/features/auth'
 import { useQuery } from '@tanstack/react-query'
-import {
-  NavigateBackButton,
-  HintSection,
-  PageTitleMobile,
-  Pagination,
-  PaginationInvalidPageHandler,
-  NotFoundHandler,
-} from '@/components/shared'
 import { CubeSwitcher, OverlaySpinner } from '@/components/ui'
 import { Link, getRouteApi } from '@tanstack/react-router'
 import { Result, ResultSkeleton, ResultsHeader } from '../components'
@@ -21,6 +13,11 @@ import {
 } from '@/shared/autofillHeight'
 import { matchesQuery } from '@/utils'
 import { type ReactNode } from 'react'
+import { PaginationInvalidPageHandler, NotFoundHandler } from '@/shared/ErrorHandlers'
+import { HintSection } from '@/shared/HintSection'
+import { NavigateBackButton } from '@/shared/NavigateBackButton'
+import { PageTitleMobile } from '@/shared/PageTitleMobile'
+import { Pagination } from '@/shared/Pagination'
 
 const route = getRouteApi('/_app/leaderboard/$discipline')
 export function Leaderboard() {

@@ -13,16 +13,12 @@ import { Header, SectionHeader } from '@/components/layout'
 import { useSolveContestState } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
-import {
-  KeyMapDialogContent,
-  KeyMapDialogTrigger,
-  NavigateBackButton,
-  HintSection,
-  HintSignInSection,
-} from '@/components/shared'
 import { NotFoundRedirect } from '@/features/NotFoundPage'
 import { useOngoingContestDuration } from '@/shared/contests'
 import { useUser } from '@/features/auth'
+import { HintSection, HintSignInSection } from '@/shared/HintSection'
+import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
+import { NavigateBackButton } from '@/shared/NavigateBackButton'
 
 const route = getRouteApi('/_app/contests/$contestSlug/solve')
 export function SolveContestPage() {

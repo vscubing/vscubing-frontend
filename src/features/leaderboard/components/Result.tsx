@@ -1,10 +1,10 @@
 import { CubeIcon, Ellipsis, MinusIcon, PlusIcon, SecondaryButton } from '@/components/ui'
-import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { cn, formatDate, matchesQuery } from '@/utils'
 import { Link } from '@tanstack/react-router'
 import { type LeaderboardResult } from '../api'
-import { PlaceLabel } from '@/components/shared'
 import * as Accordion from '@radix-ui/react-accordion'
+import { PlaceLabel } from '@/shared/PlaceLabel'
+import { SolveTimeLinkOrDnf } from '@/shared/SolveTimeButton'
 
 type ResultProps = {
   result: LeaderboardResult

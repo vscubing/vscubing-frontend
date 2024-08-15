@@ -4,7 +4,7 @@ import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube
 import { AbortPrompt } from './AbortPrompt'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
-import { KeyMapDialogContent, KeyMapDialogTrigger } from '@/components/shared'
+import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
 
 type CubeContextValue = {
   initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback) => void

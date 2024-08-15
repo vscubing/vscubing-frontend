@@ -1,10 +1,10 @@
 import { CubeIcon, Ellipsis, SecondaryButton, UnderlineButton, ArrowRightIcon } from '@/components/ui'
-import { SolveTimeLinkOrDnf } from '@/components/shared'
 import { Link } from '@tanstack/react-router'
 import { cn, matchesQuery } from '@/utils'
 import { AutofillHeight } from '@/shared/autofillHeight'
 import { type ContestsSolveListBestInEveryDiscipline } from '@/api'
 import { type Discipline } from '@/types'
+import { SolveTimeLinkOrDnf } from '@/shared/SolveTimeButton'
 
 type BestSolvesProps = { className: string; solves?: ContestsSolveListBestInEveryDiscipline[] }
 export function BestSolves({ className, solves }: BestSolvesProps) {

@@ -6,14 +6,6 @@ import type { ContestDTO } from '@/types'
 import { type ReactNode } from 'react'
 import { ContestsListHeader } from './ContestsListHeader'
 import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/shared/autofillHeight'
-import {
-  HintSection,
-  NavigateBackButton,
-  NotFoundHandler,
-  PageTitleMobile,
-  Pagination,
-  PaginationInvalidPageHandler,
-} from '@/components/shared'
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import {
@@ -22,6 +14,11 @@ import {
   getInfiniteContestsQuery,
   useContests,
 } from '@/shared/contests'
+import { NotFoundHandler, PaginationInvalidPageHandler } from '@/shared/ErrorHandlers'
+import { HintSection } from '@/shared/HintSection'
+import { NavigateBackButton } from '@/shared/NavigateBackButton'
+import { PageTitleMobile } from '@/shared/PageTitleMobile'
+import { Pagination } from '@/shared/Pagination'
 
 const Contest = matchesQuery('sm') ? ContestMobile : ContestDesktop
 const ContestSkeleton = matchesQuery('sm') ? ContestSkeletonMobile : ContestSkeletonDesktop

@@ -18,16 +18,13 @@ import {
   type ListWrapperProps,
 } from '@/shared/autofillHeight'
 import { cn, formatContestDuration, matchesQuery } from '@/utils'
-import {
-  PageTitleMobile,
-  NavigateBackButton,
-  Pagination,
-  HintSignInSection,
-  NotFoundHandler,
-  PaginationInvalidPageHandler,
-} from '@/components/shared'
 import { useOngoingContest } from '@/shared/contests'
 import { AxiosError } from 'axios'
+import { PaginationInvalidPageHandler, NotFoundHandler } from '@/shared/ErrorHandlers'
+import { HintSignInSection } from '@/shared/HintSection'
+import { NavigateBackButton } from '@/shared/NavigateBackButton'
+import { PageTitleMobile } from '@/shared/PageTitleMobile'
+import { Pagination } from '@/shared/Pagination'
 
 const route = getRouteApi('/_app/contests/$contestSlug/results')
 export function ContestResultsPage() {

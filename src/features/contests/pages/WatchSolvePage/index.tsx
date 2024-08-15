@@ -1,4 +1,3 @@
-import { NavigateBackButton } from '@/components/shared'
 import { Header, SectionHeader } from '@/components/layout'
 import { CubeBadge, LoadingSpinner, SecondaryButton, ShareIcon } from '@/components/ui'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
@@ -8,6 +7,7 @@ import { useReconstruction } from '../../api'
 import { Suspense, lazy } from 'react'
 import { toast } from '@/components/ui'
 import { Discipline } from '@/types'
+import { NavigateBackButton } from '@/shared/NavigateBackButton'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
 const route = getRouteApi('/_app/contests/$contestSlug/watch/$solveId')
