@@ -64,10 +64,16 @@ export default {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
         },
+        'landing-alternating-text': {
+          '0%,20%': { transform: 'translateY(80%)' },
+          '33.3%,53.3%': { transform: 'translateY(0)' },
+          '66.6%,86.6%,100%': { transform: 'translateY(-80%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'landing-alternating-text': 'landing-alternating-text 6s ease-in infinite',
       },
       spacing: {
         15: '3.75rem',
