@@ -4,7 +4,17 @@ import { queryOptions, useQuery } from '@tanstack/react-query'
 
 export const ongoingContestQuery = queryOptions({
   queryKey: ['ongoing-contest-metadata'],
-  queryFn: contestsOngoingContestRetrieveRetrieve,
+  queryFn: async () => {
+    try {
+      const data = await contestsOngoingContestRetrieveRetrieve()
+      if (data.id === null) {
+        throw Error('no ongoing contest, probably on maintenance')
+      }
+      return { isOnMaintenance: false, data } as const
+    } catch (err) {
+      return { isOnMaintenance: true, data: undefined } as const
+    }
+  },
 })
 
 export function useOngoingContest() {
@@ -14,8 +24,8 @@ export function useOngoingContest() {
 export function useOngoingContestDuration() {
   const { data: contest } = useOngoingContest()
 
-  if (!contest) {
+  if (!contest || contest.isOnMaintenance) {
     return null
   }
-  return formatContestDuration(contest)
+  return formatContestDuration(contest.data)
 }

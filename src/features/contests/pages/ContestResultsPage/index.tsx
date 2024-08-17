@@ -118,7 +118,7 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
   const { discipline, page } = route.useSearch()
 
   const { data: ongoing } = useOngoingContest()
-  const isOngoing = contestSlug === ongoing?.slug
+  const isOngoing = contestSlug === ongoing?.data?.slug
 
   let contestDuration = contest ? formatContestDuration(contest) : undefined
 

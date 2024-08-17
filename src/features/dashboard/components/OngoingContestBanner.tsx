@@ -1,15 +1,16 @@
 import { CubeBadge, ExclamationCircleIcon, PrimaryButton } from '@/components/ui'
 import { Popover, PopoverCloseButton, PopoverContent, PopoverTrigger } from '@/components/ui'
-import { useOngoingContestDuration } from '@/shared/contests'
+import { useOngoingContest, useOngoingContestDuration } from '@/shared/contests'
 import { DEFAULT_DISCIPLINE } from '@/types'
 import { cn } from '@/utils'
 import { Link } from '@tanstack/react-router'
 
 export function OngoingContestBanner() {
-  const isOnMaintenance = false
+  const { data: ongoing } = useOngoingContest()
+
   return (
     <section className={cn('bg-card-gradient overflow-x-clip rounded-2xl')}>
-      {isOnMaintenance ? (
+      {ongoing?.isOnMaintenance ? (
         <BannerOnMaintenance />
       ) : (
         <>

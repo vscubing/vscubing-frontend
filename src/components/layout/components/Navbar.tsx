@@ -10,23 +10,29 @@ type NavbarProps = {
   variant: 'vertical' | 'horizontal'
 }
 
+const ACTIVE_CLASSES_VERTICAL = 'text-primary-80 after:h-[1.5px] after:scale-x-100 hover:text-primary-80'
+const ACTIVE_CLASSES_HORIZONTAL = 'text-primary-80 hover:text-primary-80'
+
 export function Navbar({ onItemSelect, variant }: NavbarProps) {
   const navbarLinks = useNavbar()
 
   if (variant === 'vertical') {
     return (
       <nav className='flex flex-col gap-4 sm:gap-0'>
-        {navbarLinks.map(({ children, activeCondition = true, ...props }) => (
+        {navbarLinks.map(({ children, customActiveCondition, ...props }) => (
           <Link
             {...props}
             key={props.to}
             activeProps={{
               className: cn({
-                'text-primary-80 hover:text-primary-80 after:h-[1.5px] after:scale-x-100': activeCondition,
+                [ACTIVE_CLASSES_VERTICAL]: customActiveCondition === undefined,
               }),
             }}
             onClick={onItemSelect}
-            className='title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 px-4 py-2 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 sm:gap-3 sm:p-3'
+            className={cn(
+              'title-h3 after-border-bottom transition-base outline-ring flex items-center gap-4 px-4 py-2 text-grey-20 after:origin-[0%_50%] after:bg-primary-80 hover:text-primary-60 active:text-primary-80 sm:gap-3 sm:p-3',
+              { [ACTIVE_CLASSES_VERTICAL]: customActiveCondition },
+            )}
           >
             {children}
           </Link>
@@ -38,17 +44,20 @@ export function Navbar({ onItemSelect, variant }: NavbarProps) {
   if (variant === 'horizontal') {
     return (
       <nav className='flex justify-between gap-2 overflow-y-auto px-1 py-2'>
-        {navbarLinks.map(({ children, activeCondition = true, ...props }) => (
+        {navbarLinks.map(({ children, customActiveCondition, ...props }) => (
           <Link
             {...props}
             key={props.to}
             onClick={onItemSelect}
             activeProps={{
               className: cn({
-                'text-primary-80 hover:text-primary-80': activeCondition,
+                [ACTIVE_CLASSES_HORIZONTAL]: customActiveCondition === undefined,
               }),
             }}
-            className='caption-sm transition-base flex min-w-[4.625rem] flex-col items-center gap-1 whitespace-nowrap px-1 text-grey-20 active:text-primary-80'
+            className={cn(
+              'caption-sm transition-base flex min-w-[4.625rem] flex-col items-center gap-1 whitespace-nowrap px-1 text-grey-20 active:text-primary-80',
+              { [ACTIVE_CLASSES_HORIZONTAL]: customActiveCondition },
+            )}
           >
             {children}
           </Link>
@@ -66,20 +75,26 @@ function useNavbar() {
     to: '/contests',
     fuzzy: true,
   })
-  const isOnOngoingContest = !!matchRoute({
-    to: '/contests/$contestSlug',
-    fuzzy: true,
-    params: { contestSlug: ongoing?.slug },
-  })
+  const isOnOngoingContest =
+    !!matchRoute({
+      to: '/contests/$contestSlug',
+      fuzzy: true,
+      params: { contestSlug: ongoing?.data?.slug },
+    }) || !!matchRoute({ to: '/contests/ongoing' })
 
-  const shouldHighlightAllContests = isOnContests && !isOnOngoingContest
-  return getLinks(ongoing?.slug, shouldHighlightAllContests)
+  let customActive: 'all-contests' | 'ongoing-contest' | undefined = undefined
+  if (isOnOngoingContest) {
+    customActive = 'ongoing-contest'
+  } else if (isOnContests) {
+    customActive = 'all-contests'
+  }
+
+  return getLinks(customActive)
 }
 
 function getLinks(
-  ongoingContest: string | undefined,
-  shouldHighlightAllContests: boolean,
-): (LinkProps & { children: ReactNode } & { activeCondition?: boolean })[] {
+  patchedActive?: 'all-contests' | 'ongoing-contest',
+): (LinkProps & { children: ReactNode } & { customActiveCondition?: boolean })[] {
   return [
     {
       children: (
@@ -111,7 +126,7 @@ function getLinks(
       activeOptions: {
         includeSearch: false,
       },
-      activeCondition: shouldHighlightAllContests,
+      customActiveCondition: patchedActive === 'all-contests',
     },
     {
       children: (
@@ -120,11 +135,8 @@ function getLinks(
           <span>Ongoing contest</span>
         </>
       ),
-      to: `/contests/$contestSlug`,
-      params: {
-        discipline: DEFAULT_DISCIPLINE,
-        contestSlug: ongoingContest === undefined ? undefined : ongoingContest,
-      },
+      to: `/contests/ongoing`,
+      customActiveCondition: patchedActive === 'ongoing-contest',
     },
   ]
 }

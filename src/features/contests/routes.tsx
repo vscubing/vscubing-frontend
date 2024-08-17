@@ -2,12 +2,15 @@ import { appRoute } from '@/router'
 import { DEFAULT_DISCIPLINE, castDiscipline, isDiscipline } from '@/types'
 import { Navigate, createRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
-import { queryClient } from '@/lib/reactQuery'
 import { ContestResultsPage } from './pages/ContestResultsPage'
 import { ContestsIndexPage } from './pages/ContestsIndexPage'
 import { SolveContestPage } from './pages/SolveContestPage'
 import { WatchSolvePage } from './pages/WatchSolvePage'
-import { ongoingContestQuery } from '@/shared/contests'
+import { useOngoingContest } from '@/shared/contests'
+import { Header } from '@/components/layout'
+import { LoadingSpinnerPage } from '@/components/ui'
+import { HintSection } from '@/shared/HintSection'
+import { NavigateBackButton } from '@/shared/NavigateBackButton'
 
 const paginationSchema = z.object({
   page: z.number().int().gte(1).catch(1),
@@ -41,15 +44,30 @@ const ongoingContestRedirectRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: 'ongoing',
   validateSearch: disciplineSchema,
-  beforeLoad: async ({ search: { discipline } }) => {
-    const ongoing = await queryClient.fetchQuery(ongoingContestQuery)
-    void redirect({
-      to: contestRoute.to,
-      params: { contestSlug: ongoing.slug },
-      search: { discipline },
-      replace: true,
-      throw: true,
-    })
+  component: () => {
+    const { data: ongoing } = useOngoingContest()
+    const search = ongoingContestRedirectRoute.useSearch()
+    if (!ongoing) {
+      return (
+        <>
+          <Header />
+          <LoadingSpinnerPage />
+        </>
+      )
+    }
+    if (ongoing.isOnMaintenance) {
+      // TODO: OnMaintenance note
+      return (
+        <div className='flex flex-1 flex-col gap-3 sm:gap-2'>
+          <Header />
+          <NavigateBackButton className='self-start' />
+          <HintSection>
+            <p>The ongoing contest is currently down for maintenance</p>
+          </HintSection>
+        </div>
+      )
+    }
+    return <Navigate to={contestRoute.to} params={{ contestSlug: ongoing.data.slug }} search={search} replace />
   },
 })
 
