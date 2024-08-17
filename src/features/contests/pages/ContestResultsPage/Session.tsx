@@ -50,7 +50,8 @@ export function Session({
           <span className='mr-4 md:mr-10 sm:mr-0 sm:flex sm:items-center'>
             <span className='sm:vertical-alignment-fix hidden text-center text-grey-40 md:block'>Average time</span>
             <SolveTimeLabel
-              timeMs={session.roundSession.avgMs ?? undefined}
+              timeMs={session.roundSession.avgMs}
+              isDnf={session.roundSession.avgMs === null}
               isAverage
               className='relative after:absolute after:-right-2 after:top-1/2 after:h-6 after:w-px after:-translate-y-1/2 after:bg-grey-60 md:after:hidden'
             />
