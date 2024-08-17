@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { StopwatchIcon } from '../components/icons'
 import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
 import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'
+import { useEffect } from 'react'
 
 export function HeroSection() {
   return (
@@ -57,13 +58,13 @@ export function HeroSection() {
 function AlternatingText({ text1, text2, text3 }: { text1: string; text2: string; text3: string }) {
   return (
     <span className='relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20 text-center font-medium'>
-      <span className='animate-landing-alternating-text vertical-alignment-fix absolute left-0 h-9 w-full'>
+      <span className='vertical-alignment-fix absolute left-0 h-9 w-full animate-landing-alternating-text'>
         {text1}
       </span>
-      <span className='animate-landing-alternating-text vertical-alignment-fix absolute left-0 h-9 w-full [animation-delay:-2s]'>
+      <span className='vertical-alignment-fix absolute left-0 h-9 w-full animate-landing-alternating-text [animation-delay:-2s]'>
         {text2}
       </span>
-      <span className='animate-landing-alternating-text vertical-alignment-fix absolute left-0 h-9 w-full [animation-delay:-4s]'>
+      <span className='vertical-alignment-fix absolute left-0 h-9 w-full animate-landing-alternating-text [animation-delay:-4s]'>
         {text3}
       </span>
     </span>
@@ -71,7 +72,9 @@ function AlternatingText({ text1, text2, text3 }: { text1: string; text2: string
 }
 
 function TwistySection() {
-  const player = useTwistyPlayer('R U', 'R U')
+  const player = useTwistyPlayer(VALK_474_WR)
+
+  useEffect(() => player?.play(), [player])
 
   if (!player) {
     return <LoadingSpinner />
@@ -84,4 +87,10 @@ function TwistySection() {
       <TwistyControls player={player} className='w-full px-8' size='sm' />
     </>
   )
+}
+
+const VALK_474_WR = {
+  scramble: "F2 U2 R2 F' L2 F2 U' R F D U F2 U R B R2 U B' R'",
+  solution:
+    "z r' D R2 R U' R' U' L' U' L U' U' R U R' d' U' R U R' d' U' R U' R' L U' L' y' U' U' R' U2 R U' U' R' U R' F R F' U R U",
 }

@@ -7,7 +7,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { useTwistyPlayer } from '@/shared/twisty'
 
 export default function TwistySection({ scramble, solution }: { scramble?: string; solution?: string }) {
-  const player = useTwistyPlayer(scramble, solution)
+  const player = useTwistyPlayer({ scramble, solution })
   if (!player || !scramble || !solution) {
     return null
   }

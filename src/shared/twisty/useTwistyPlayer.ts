@@ -1,7 +1,7 @@
 import { TwistyPlayer } from '@vscubing/cubing/twisty'
 import { useState, useEffect } from 'react'
 
-export function useTwistyPlayer(scramble?: string, solution?: string) {
+export function useTwistyPlayer({ scramble, solution }: { scramble?: string; solution?: string }) {
   const [player, setPlayer] = useState<TwistyPlayer | null>(null)
 
   useEffect(() => {
