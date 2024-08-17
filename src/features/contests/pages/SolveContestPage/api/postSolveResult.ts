@@ -4,6 +4,7 @@ import { getSolveContestStateQuery } from './getSolveContestState'
 import { ContestsCreateSolveInput, contestsOngoingContestSolveCreateCreate } from '@/api'
 import { TOASTS_PRESETS, Toast, toast } from '@/components/ui'
 import { AxiosError } from 'axios'
+import { ongoingContestQuery } from '@/shared/contests'
 
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
@@ -24,6 +25,9 @@ export const usePostSolveResult = (discipline: string) =>
         }
       }
 
-      queryClient.invalidateQueries(getSolveContestStateQuery({ disciplineSlug: discipline }))
+      const contest = await queryClient.fetchQuery(ongoingContestQuery)
+      queryClient.invalidateQueries(
+        getSolveContestStateQuery({ disciplineSlug: discipline, contestSlug: contest.data!.slug }),
+      )
     },
   })

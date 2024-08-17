@@ -1,6 +1,5 @@
 import { cn } from '@/utils'
 import { type VariantProps, cva } from 'class-variance-authority'
-import { Header } from '../layout/Header'
 
 const spinnerVariants = cva('relative inline-block h-16 w-16 after:border-[#FF3D00]', {
   variants: { size: { sm: 'h-8 w-8', md: 'h-16 w-16', lg: 'h-24 w-24' } },

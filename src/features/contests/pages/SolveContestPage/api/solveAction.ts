@@ -2,6 +2,7 @@ import { queryClient } from '@/lib/reactQuery'
 import { useMutation } from '@tanstack/react-query'
 import { getSolveContestStateQuery } from './getSolveContestState'
 import { contestsOngoingContestSubmitCreate } from '@/api'
+import { ongoingContestQuery } from '@/shared/contests'
 
 export function useSolveAction({ solveId, discipline }: { solveId?: number; discipline: string }) {
   return useMutation({
@@ -11,7 +12,10 @@ export function useSolveAction({ solveId, discipline }: { solveId?: number; disc
       }
 
       await contestsOngoingContestSubmitCreate(solveId, { idDnf: false }, { action, disciplineSlug: discipline })
-      queryClient.invalidateQueries(getSolveContestStateQuery({ disciplineSlug: discipline }))
+      const contest = await queryClient.fetchQuery(ongoingContestQuery)
+      queryClient.invalidateQueries(
+        getSolveContestStateQuery({ disciplineSlug: discipline, contestSlug: contest.data!.slug }),
+      )
     },
   })
 }
