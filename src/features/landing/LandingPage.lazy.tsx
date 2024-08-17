@@ -13,9 +13,7 @@ function LandingPage() {
       <Header />
       <main className='bg-black-120 pb-6 text-lg text-grey-40'>
         <Container>
-          <div className='flex min-h-svh flex-col py-24'>
-            <HeroSection />
-          </div>
+          <HeroSection />
           Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem
           reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim
           cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate

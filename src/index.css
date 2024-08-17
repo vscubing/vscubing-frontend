@@ -107,13 +107,13 @@
   }
 
   .landing-h1 {
-    @apply font-kanit text-[4rem] leading-[1.1] tracking-[0.01em];
+    @apply font-kanit text-[4rem] leading-[1.1] tracking-[0.01em] text-white-100;
   }
   .landing-h2 {
-    @apply font-kanit text-[3rem] leading-[1.1] tracking-[0.01em];
+    @apply font-kanit text-[3rem] leading-[1.1] tracking-[0.01em] text-white-100;
   }
   .landing-h3 {
-    @apply font-kanit text-[1.75rem] leading-[1.4] tracking-normal;
+    @apply font-kanit text-[1.75rem] leading-[1.4] tracking-normal text-white-100;
   }
   .landing-gradient-1 {
     background: linear-gradient(159deg, rgba(73, 76, 116, 1) 0%, rgba(27, 30, 37, 1) 71%);

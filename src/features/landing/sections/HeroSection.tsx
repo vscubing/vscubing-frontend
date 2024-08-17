@@ -7,8 +7,8 @@ import { useEffect } from 'react'
 
 export function HeroSection() {
   return (
-    <section className='flex flex-1 flex-col items-center justify-center'>
-      <div className='grid max-h-[44rem] min-h-[40rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3 pb-10 pt-3'>
+    <section className='flex min-h-svh flex-col justify-center pb-12 pt-28'>
+      <div className='grid max-h-[40rem] min-h-[35rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3'>
         <div className='landing-gradient-1 landing-hero-clip-polygon row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10'>
           <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100'>
             <span className='whitespace-nowrap'>
