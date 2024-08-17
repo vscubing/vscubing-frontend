@@ -1,6 +1,7 @@
 import { CubeIcon, KeyboardIcon } from '../components/icons'
 import virtualCubeLaptopMp4 from '../assets/virtual-cube-laptop.mp4'
 import virtualCubeLaptopWebM from '../assets/virtual-cube-laptop.webm'
+import virtualCubeLaptopThumbnail from '../assets/virtual-cube-laptop-thumbnail.jpg'
 import { useRef } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 
@@ -30,18 +31,29 @@ export function AboutSection() {
 }
 
 function CubeVideo() {
-  const { ref } = useIntersectionObserver({
+  const ref = useRef<HTMLVideoElement | null>(null)
+  const { ref: intersectionRef } = useIntersectionObserver({
     threshold: 1,
     freezeOnceVisible: true,
     onChange: (isIntersecting) => {
       if (isIntersecting) {
-        console.log('intersecting')
+        ref.current?.play()
       }
     },
   })
 
   return (
-    <video width='100%' muted preload='none' className='rounded-3xl' ref={ref}>
+    <video
+      width='100%'
+      muted
+      preload='none'
+      className='rounded-3xl'
+      poster={virtualCubeLaptopThumbnail}
+      ref={(el) => {
+        ref.current = el
+        intersectionRef(el)
+      }}
+    >
       <source src={virtualCubeLaptopWebM} type='video/webm; codecs=vp9' />
       <source src={virtualCubeLaptopMp4} type='video/mp4' />
     </video>
