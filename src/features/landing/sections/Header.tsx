@@ -20,7 +20,7 @@ export function Header() {
   }, [])
 
   return (
-    <header className={cn('fixed left-0 top-0 z-10 w-full')}>
+    <header className={cn('fixed left-0 top-0 z-20 w-full')}>
       <Container>
         <div
           className={cn(
