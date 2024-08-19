@@ -4,6 +4,7 @@ import { HeroSection } from './sections/HeroSection'
 import { AboutSection } from './sections/AboutSection'
 import { FeaturesSection } from './sections/FeaturesSection'
 import aboutBackground from './assets/about-bg.svg'
+import { GuideSection } from './sections/GuideSection'
 
 export const Route = createLazyRoute('/landing')({
   component: LandingPage,
@@ -20,6 +21,7 @@ function LandingPage() {
           <img src={aboutBackground} className='top absolute bottom-[calc(100%-6rem)] w-screen' />
           <FeaturesSection className='relative' />
         </div>
+        <GuideSection />
       </main>
     </>
   )
