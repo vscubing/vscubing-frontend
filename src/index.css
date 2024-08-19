@@ -115,9 +115,6 @@
   .landing-h3 {
     @apply font-kanit text-[1.75rem] leading-[1.4] tracking-normal text-white-100;
   }
-  .landing-gradient-1 {
-    background: linear-gradient(159deg, rgba(73, 76, 116, 1) 0%, rgba(27, 30, 37, 1) 71%);
-  }
   .landing-hero-clip-polygon {
     clip-path: polygon(
       calc(100% - 24px) 0px,

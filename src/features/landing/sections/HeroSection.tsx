@@ -11,7 +11,7 @@ export function HeroSection() {
     <Container>
       <section className='flex min-h-svh flex-col justify-center pb-12 pt-28'>
         <div className='grid max-h-[40rem] min-h-[35rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3'>
-          <div className='landing-gradient-1 landing-hero-clip-polygon row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10'>
+          <div className='landing-hero-clip-polygon row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10 [background:linear-gradient(159deg,rgba(73,76,116,1)_0%,rgba(27,30,37,1)_71%)]'>
             <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100'>
               <span className='whitespace-nowrap'>
                 Join <span className='landing-h3 text-grey-40'>the</span> exciting world
