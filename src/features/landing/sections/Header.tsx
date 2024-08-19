@@ -4,20 +4,7 @@ import { useState, useEffect } from 'react'
 import { Container } from '../components/Container'
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    function onScroll() {
-      if (window.scrollY >= 20) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
-    }
-
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const isWindowScrolled = useIsWindowScrolled()
 
   return (
     <header className={cn('fixed left-0 top-0 z-20 w-full')}>
@@ -25,7 +12,7 @@ export function Header() {
         <div
           className={cn(
             'flex rounded-[1rem] bg-black-120 pl-9 pr-2 transition-all duration-100',
-            isScrolled ? 'items-center bg-black-80/75 py-2 backdrop-blur-lg ' : 'items-end pb-2 pt-9',
+            isWindowScrolled ? 'items-center bg-black-80/75 py-2 backdrop-blur-lg ' : 'items-end pb-2 pt-9',
           )}
         >
           <div className='flex w-full items-center gap-[6.25rem]'>
@@ -45,4 +32,23 @@ export function Header() {
       </Container>
     </header>
   )
+}
+
+function useIsWindowScrolled() {
+  const [isWindowScrolled, setIsWindowScrolled] = useState(false)
+
+  useEffect(() => {
+    function onScroll() {
+      if (window.scrollY >= 20) {
+        setIsWindowScrolled(true)
+      } else {
+        setIsWindowScrolled(false)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return isWindowScrolled
 }
