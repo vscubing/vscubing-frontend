@@ -1,10 +1,11 @@
 import { DiscordIcon, PrimaryButton } from '@/components/ui'
 import { Container } from '../components/Container'
+import contactsPeopleImg from '../assets/contacts-people.svg'
 
 export function ContactsSection() {
   return (
     <Container>
-      <section className='grid grid-cols-2 grid-rows-[30rem]'>
+      <section className='grid grid-cols-2 grid-rows-[30rem] gap-3'>
         <div className='flex flex-col'>
           <div
             className='flex flex-1 flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'
@@ -16,9 +17,13 @@ export function ContactsSection() {
             </h2>
             <p>Share your solves, discuss strategies, and connect with fellow enthusiasts</p>
           </div>
-          <PrimaryButton className='-mt-[6rem] h-[5.8rem] w-[21.125rem] shrink-0 self-end rounded-3xl'>
-            Join us on Discord <DiscordIcon className='ml-4 text-4xl' />
+          <PrimaryButton className='group -mt-[6rem] h-[5.8rem] w-[21.2rem] shrink-0 self-end rounded-3xl'>
+            Join us on Discord{' '}
+            <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
           </PrimaryButton>
+        </div>
+        <div className='flex items-center justify-center rounded-3xl bg-secondary-20'>
+          <img src={contactsPeopleImg} alt='people with cubes' />
         </div>
       </section>
     </Container>
