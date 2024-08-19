@@ -5,6 +5,7 @@ import { AboutSection } from './sections/AboutSection'
 import { FeaturesSection } from './sections/FeaturesSection'
 import aboutBackground from './assets/about-bg.svg'
 import { GuideSection } from './sections/GuideSection'
+import { ContactsSection } from './sections/ContactsSection'
 
 export const Route = createLazyRoute('/landing')({
   component: LandingPage,
@@ -22,6 +23,7 @@ function LandingPage() {
           <FeaturesSection className='relative' />
         </div>
         <GuideSection />
+        <ContactsSection />
       </main>
     </>
   )
