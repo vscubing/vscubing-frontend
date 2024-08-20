@@ -1,7 +1,8 @@
-import { Logo } from '@/components/layout/components'
+import { LogoWithLinkToLanding } from '@/components/layout/components'
 import { cn } from '@/utils'
 import { useState, useEffect } from 'react'
 import { Container } from '../components/Container'
+import { Logo } from '@/components/ui'
 
 export function Header() {
   const isWindowScrolled = useIsWindowScrolled()
@@ -16,7 +17,7 @@ export function Header() {
           )}
         >
           <div className='flex w-full items-center gap-[6.25rem]'>
-            <Logo />
+            <Logo variant='full' />
             <nav className='vertical-alignment-fix flex gap-10 font-bold text-grey-40'>
               {/* TODO: add anchor links */}
               <a>About</a>

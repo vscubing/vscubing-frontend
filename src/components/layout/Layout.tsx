@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from 'jotai'
-import { PickUsernameDialog, Logo, Navbar, UsernameOrSignInButton } from './components'
+import { PickUsernameDialog, LogoWithLinkToLanding, Navbar, UsernameOrSignInButton } from './components'
 import { cn } from '@/utils'
 import {
   CloseIcon,
@@ -43,9 +43,9 @@ function Sidebar({ className }: { className?: string }) {
     <>
       <aside className={cn('flex flex-col gap-3', className)}>
         <div className='flex h-[7rem] xl-short:h-[var(--header-height)] lg:h-[var(--header-height)] lg:gap-3'>
-          <Logo className='w-full bg-black-80 px-4 lg:hidden' />
-          <Logo
-            className='hidden flex-shrink-0 bg-black-80 px-4 lg:flex'
+          <LogoWithLinkToLanding className='flex w-full rounded-2xl bg-black-80 px-4 lg:hidden' />
+          <LogoWithLinkToLanding
+            className='hidden flex-shrink-0 rounded-2xl bg-black-80 px-4 lg:flex'
             variant='sm'
             onClick={() => setOpenOnMobile(false)}
           />
