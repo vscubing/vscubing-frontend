@@ -6,6 +6,7 @@ import { FeaturesSection } from './sections/FeaturesSection'
 import aboutBackground from './assets/about-bg.svg'
 import { GuideSection } from './sections/GuideSection'
 import { ContactsSection } from './sections/ContactsSection'
+import { AcknowledgmentsSection } from './sections/AcknowledgmentsSection'
 
 export const Route = createLazyRoute('/landing')({
   component: LandingPage,
@@ -24,6 +25,7 @@ function LandingPage() {
         </div>
         <GuideSection />
         <ContactsSection />
+        <AcknowledgmentsSection />
       </main>
     </>
   )
