@@ -7,6 +7,7 @@ import aboutBackground from './assets/about-bg.svg'
 import { GuideSection } from './sections/GuideSection'
 import { ContactsSection } from './sections/ContactsSection'
 import { AcknowledgmentsSection } from './sections/AcknowledgmentsSection'
+import { Footer } from './sections/Footer'
 
 export const Route = createLazyRoute('/landing')({
   component: LandingPage,
@@ -14,9 +15,9 @@ export const Route = createLazyRoute('/landing')({
 
 function LandingPage() {
   return (
-    <>
+    <div className='bg-black-120 text-lg text-grey-40'>
       <Header />
-      <main className='space-y-40 bg-black-120 pb-6 text-lg text-grey-40'>
+      <main className='space-y-40'>
         <HeroSection />
         <AboutSection className='relative z-10' />
         <div className='relative'>
@@ -27,6 +28,7 @@ function LandingPage() {
         <ContactsSection />
         <AcknowledgmentsSection />
       </main>
-    </>
+      <Footer className='mt-40' />
+    </div>
   )
 }
