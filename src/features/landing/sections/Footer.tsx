@@ -6,7 +6,7 @@ import footerBgCubes from '../assets/footer/footer-bg-cubes.svg'
 export function Footer({ className }: { className: string }) {
   return (
     <Container className={cn('pb-[1.625rem]', className)}>
-      <footer className='relative rounded-3xl px-[1.625rem] pb-[6.25rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
+      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[6.25rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
         <img
           src={footerBgCubes}
           loading='lazy'
@@ -62,10 +62,10 @@ export function Footer({ className }: { className: string }) {
                   </a>
                 </li>
                 <li>
-                  <a href=''>Anton Savytskyi - Backend Developer</a>
+                  <a href='https://www.linkedin.com/in/anton-savytskyi/'>Anton Savytskyi - Backend Developer</a>
                 </li>
                 <li>
-                  <a href=''>Olesia Petryk - UX/UI Designer</a>
+                  <a href='https://www.linkedin.com/in/olesiapetryk/'>Olesia Petryk - UX/UI Designer</a>
                 </li>
               </ul>
             </div>
