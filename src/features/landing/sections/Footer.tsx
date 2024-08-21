@@ -3,10 +3,16 @@ import { Container } from '../components/Container'
 import { cn } from '@/utils'
 import footerBgCubes from '../assets/footer/footer-bg-cubes.svg'
 
-export function Footer({ className }: { className: string }) {
+export function Footer({
+  className,
+  navigationAnchors,
+}: {
+  className: string
+  navigationAnchors: { id: string; name: string }[]
+}) {
   return (
     <Container className={cn('pb-[1.625rem]', className)}>
-      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[6.25rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
+      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[4.75rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
         <img
           src={footerBgCubes}
           loading='lazy'
@@ -47,10 +53,9 @@ export function Footer({ className }: { className: string }) {
             <div className='w-[21.125rem]'>
               <h2 className='landing-h3 mb-4'>Quick links</h2>
               <nav className='flex flex-col gap-2 font-medium'>
-                {/* TODO: anchor links */}
-                <a href='#'>About</a>
-                <a href='#'>Features</a>
-                <a href='#'>Guide</a>
+                {navigationAnchors.map(({ id, name }) => (
+                  <a href={`#${id}`}>{name}</a>
+                ))}
               </nav>
             </div>
             <div className='flex-1'>

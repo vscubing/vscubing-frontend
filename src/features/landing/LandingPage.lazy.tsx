@@ -13,22 +13,29 @@ export const Route = createLazyRoute('/landing')({
   component: LandingPage,
 })
 
+const NAVIGATION_ANCHORS = {
+  about: { id: 'about', name: 'About' },
+  features: { id: 'features', name: 'Features' },
+  guide: { id: 'guide', name: 'Guide' },
+  contacts: { id: 'contacts', name: 'Contacts' },
+}
+
 function LandingPage() {
   return (
     <div className='bg-black-120 text-lg text-grey-40'>
-      <Header />
+      <Header navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
       <main className='space-y-40'>
         <HeroSection />
-        <AboutSection className='relative z-10' />
+        <AboutSection className='relative z-10' id={NAVIGATION_ANCHORS.about.id} />
         <div className='relative'>
           <img src={featuresBackground} loading='lazy' className='top absolute bottom-[calc(100%-28rem)] w-screen' />
-          <FeaturesSection className='relative' />
+          <FeaturesSection className='relative' id={NAVIGATION_ANCHORS.features.id} />
         </div>
-        <GuideSection />
-        <ContactsSection />
+        <GuideSection id={NAVIGATION_ANCHORS.guide.id} />
+        <ContactsSection id={NAVIGATION_ANCHORS.contacts.id} />
         <AcknowledgmentsSection />
       </main>
-      <Footer className='mt-40' />
+      <Footer className='mt-40' navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
     </div>
   )
 }

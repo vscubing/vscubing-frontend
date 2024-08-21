@@ -2,10 +2,10 @@ import { ReactNode } from '@tanstack/react-router'
 import { Container } from '../components/Container'
 import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../components/icons'
 
-export function FeaturesSection({ className }: { className: string }) {
+export function FeaturesSection({ className, id }: { className: string; id: string }) {
   return (
     <Container className={className}>
-      <section>
+      <section id={id} className='landing-offset-anchor'>
         <h2 className='landing-h2 mb-14 text-center'>The problem we solve</h2>
         <ul className='grid grid-cols-2 grid-rows-[18.75rem,18.75rem] gap-3'>
           <Feature

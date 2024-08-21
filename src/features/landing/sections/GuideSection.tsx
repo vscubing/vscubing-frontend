@@ -5,10 +5,10 @@ import { KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import VirtualCubeImg from '../assets/virtual-cube.png'
 import { Link } from '@tanstack/react-router'
 
-export function GuideSection() {
+export function GuideSection({ id }: { id: string }) {
   return (
     <Container>
-      <section>
+      <section id={id} className='landing-offset-anchor'>
         <h2 className='landing-h2 mb-14 text-center'>Three easy steps to get started</h2>
         <div className='grid grid-flow-col grid-cols-2 grid-rows-[repeat(3,auto)] gap-3'>
           <ul className='contents'>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Container } from '../components/Container'
 import { Logo } from '@/components/ui'
 
-export function Header() {
+export function Header({ navigationAnchors }: { navigationAnchors: { id: string; name: string }[] }) {
   const isWindowScrolled = useIsWindowScrolled()
 
   return (
@@ -19,12 +19,13 @@ export function Header() {
             <a href='#'>
               <Logo variant='full' />
             </a>
-            <nav className='vertical-alignment-fix flex gap-10 font-medium text-grey-40'>
+            <nav className='vertical-alignment-fix flex gap-10'>
               {/* TODO: add anchor links */}
-              <a>About</a>
-              <a>Features</a>
-              <a>Guide</a>
-              <a>Contacts</a>
+              {navigationAnchors.map(({ id, name }) => (
+                <a key={id} href={`#${id}`} className='font-medium text-grey-40'>
+                  {name}
+                </a>
+              ))}
             </nav>
             {/* <PrimaryButton asChild className='ml-auto h-14 px-10'> TODO: add show/hide logic */}
             {/*   <Link to='/'>Start cubing now</Link> */}

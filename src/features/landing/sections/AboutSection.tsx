@@ -6,10 +6,10 @@ import { useRef } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 import { Container } from '../components/Container'
 
-export function AboutSection({ className }: { className: string }) {
+export function AboutSection({ className, id }: { className: string; id: string }) {
   return (
     <Container className={className}>
-      <section className='mx-auto max-w-[75rem] space-y-14'>
+      <section className='landing-offset-anchor mx-auto max-w-[75rem] space-y-14' id={id}>
         <h2 className='landing-h2 text-center'>What is virtual speedcubing?</h2>
         <div className='flex justify-center gap-40'>
           <div className='flex items-center gap-2'>

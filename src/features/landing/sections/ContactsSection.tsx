@@ -2,28 +2,30 @@ import { DiscordIcon, PrimaryButton } from '@/components/ui'
 import { Container } from '../components/Container'
 import contactsPeopleImg from '../assets/contacts-people.svg'
 
-export function ContactsSection() {
+export function ContactsSection({ id }: { id: string }) {
   return (
     <Container>
-      <section className='grid grid-cols-2 grid-rows-[30rem] gap-3'>
-        <div className='relative'>
-          <div
-            className='flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'
-            style={{ clipPath: CLIP_PATH_POLYGON }}
-          >
-            <h2 className='landing-h2 mb-6'>
-              Join <span className='landing-h3 text-grey-40'>our</span> growing community{' '}
-              <span className='landing-h3 text-grey-40'>of</span>&nbsp;virtual speedcubers!
-            </h2>
-            <p>Share your solves, discuss strategies, and connect with fellow enthusiasts</p>
+      <section id={id} className='landing-offset-anchor'>
+        <div className='grid grid-cols-2 grid-rows-[30rem] gap-3'>
+          <div className='relative'>
+            <div
+              className='flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'
+              style={{ clipPath: CLIP_PATH_POLYGON }}
+            >
+              <h2 className='landing-h2 mb-6'>
+                Join <span className='landing-h3 text-grey-40'>our</span> growing community{' '}
+                <span className='landing-h3 text-grey-40'>of</span>&nbsp;virtual speedcubers!
+              </h2>
+              <p>Share your solves, discuss strategies, and connect with fellow enthusiasts</p>
+            </div>
+            <PrimaryButton className='group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl'>
+              Join us on Discord{' '}
+              <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
+            </PrimaryButton>
           </div>
-          <PrimaryButton className='group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl'>
-            Join us on Discord{' '}
-            <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
-          </PrimaryButton>
-        </div>
-        <div className='flex items-center justify-center rounded-3xl bg-secondary-20'>
-          <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' />
+          <div className='flex items-center justify-center rounded-3xl bg-secondary-20'>
+            <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' />
+          </div>
         </div>
       </section>
     </Container>

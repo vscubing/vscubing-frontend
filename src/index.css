@@ -116,4 +116,13 @@
   .landing-h3 {
     @apply font-kanit text-[1.75rem] leading-[1.4] tracking-normal text-white-100;
   }
+
+  .landing-offset-anchor::before {
+    /* offset the anchoring point to account for the fixed header */
+    content: '';
+    display: block;
+    height: 100px;
+    margin-top: -100px;
+    visibility: hidden;
+  }
 }
