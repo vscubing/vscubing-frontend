@@ -95,12 +95,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
             })}
           >
             <DialogPrimitive.Title className='sr-only'>Virtual cube simulator</DialogPrimitive.Title>
-            <div className='relative h-full rounded-2xl bg-black-1000/25'>
-              <div
-                className={cn('absolute inset-0 h-full w-full bg-cubes bg-cover bg-bottom opacity-40', {
-                  hidden: !isModalOpen, // for lazy-loading of bg-cubes
-                })}
-              ></div>
+            <div className='relative h-full rounded-2xl'>
               <Cube
                 fallback={
                   <div className='flex h-full items-center justify-center'>
