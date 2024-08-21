@@ -2,6 +2,7 @@ import { ChevronLeftIcon, DiscordIcon, GithubIcon, LinkedinIcon, Logo, Secondary
 import { Container } from '../components/Container'
 import { cn } from '@/utils'
 import footerBgCubes from '../assets/footer/footer-bg-cubes.svg'
+import standWithUkraineImg from '@/assets/images/stand-with-ukraine.svg'
 
 export function Footer({
   className,
@@ -12,14 +13,15 @@ export function Footer({
 }) {
   return (
     <Container className={cn('pb-[1.625rem]', className)}>
-      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[4.75rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
+      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[1.625rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
         <img
           src={footerBgCubes}
           loading='lazy'
           alt=''
-          className='absolute bottom-0 right-0 w-full object-contain object-right-bottom'
+          className='pointer-events-none absolute bottom-0 right-0 w-full object-contain object-right-bottom'
         />
-        <div className='relative'>
+
+        <div className='relative' /* position:relative to put it over footerBgCubes */>
           <div className='mb-7 flex items-center justify-between'>
             <Logo variant='full' className='w-[38.5rem]' />
             <SecondaryButton asChild className='h-11 w-11 px-0 [&>svg]:h-6 [&>svg]:w-6'>
@@ -74,6 +76,11 @@ export function Footer({
                 </li>
               </ul>
             </div>
+          </div>
+          <div className='flex justify-end'>
+            <a href='https://u24.gov.ua/about'>
+              <img src={standWithUkraineImg} alt='Stand with Ukraine' />
+            </a>
           </div>
         </div>
       </footer>
