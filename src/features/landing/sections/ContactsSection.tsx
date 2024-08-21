@@ -6,9 +6,9 @@ export function ContactsSection() {
   return (
     <Container>
       <section className='grid grid-cols-2 grid-rows-[30rem] gap-3'>
-        <div className='flex flex-col'>
+        <div className='relative'>
           <div
-            className='flex flex-1 flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'
+            className='flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'
             style={{ clipPath: CLIP_PATH_POLYGON }}
           >
             <h2 className='landing-h2 mb-6'>
@@ -17,7 +17,7 @@ export function ContactsSection() {
             </h2>
             <p>Share your solves, discuss strategies, and connect with fellow enthusiasts</p>
           </div>
-          <PrimaryButton className='group -mt-[6rem] h-[5.8rem] w-[21.2rem] shrink-0 self-end rounded-3xl'>
+          <PrimaryButton className='group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl'>
             Join us on Discord{' '}
             <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
           </PrimaryButton>
