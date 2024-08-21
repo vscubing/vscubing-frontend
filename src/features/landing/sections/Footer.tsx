@@ -9,7 +9,7 @@ export function Footer({ className }: { className: string }) {
       <footer className='rounded-3xl [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
         <div
           className='px-[1.625rem] pb-[6.25rem] pt-10'
-          style={{ background: `url("${footerBgCubes}") bottom right no-repeat / contain` }}
+          style={{ background: `url("${footerBgCubes}") bottom right / no-repeat contain` }}
         >
           <div className='mb-7 flex items-center justify-between'>
             <Logo variant='full' className='w-[38.5rem]' />
