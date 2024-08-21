@@ -19,7 +19,7 @@ export function Header() {
             <a href='#'>
               <Logo variant='full' />
             </a>
-            <nav className='vertical-alignment-fix flex gap-10 font-bold text-grey-40'>
+            <nav className='vertical-alignment-fix flex gap-10 font-medium text-grey-40'>
               {/* TODO: add anchor links */}
               <a>About</a>
               <a>Features</a>
