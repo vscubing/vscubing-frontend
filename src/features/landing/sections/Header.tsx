@@ -1,4 +1,3 @@
-import { LogoWithLinkToLanding } from '@/components/layout/components'
 import { cn } from '@/utils'
 import { useState, useEffect } from 'react'
 import { Container } from '../components/Container'
@@ -17,7 +16,9 @@ export function Header() {
           )}
         >
           <div className='flex w-full items-center gap-[6.25rem]'>
-            <Logo variant='full' />
+            <a href='#'>
+              <Logo variant='full' />
+            </a>
             <nav className='vertical-alignment-fix flex gap-10 font-bold text-grey-40'>
               {/* TODO: add anchor links */}
               <a>About</a>
