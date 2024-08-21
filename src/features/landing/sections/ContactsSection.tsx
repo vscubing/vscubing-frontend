@@ -23,7 +23,7 @@ export function ContactsSection() {
           </PrimaryButton>
         </div>
         <div className='flex items-center justify-center rounded-3xl bg-secondary-20'>
-          <img src={contactsPeopleImg} alt='people with cubes' />
+          <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' />
         </div>
       </section>
     </Container>

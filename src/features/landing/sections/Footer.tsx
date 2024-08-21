@@ -6,11 +6,14 @@ import footerBgCubes from '../assets/footer/footer-bg-cubes.svg'
 export function Footer({ className }: { className: string }) {
   return (
     <Container className={cn('pb-[1.625rem]', className)}>
-      <footer className='rounded-3xl [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
-        <div
-          className='px-[1.625rem] pb-[6.25rem] pt-10'
-          style={{ background: `url("${footerBgCubes}") bottom right / no-repeat contain` }}
-        >
+      <footer className='relative rounded-3xl px-[1.625rem] pb-[6.25rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
+        <img
+          src={footerBgCubes}
+          loading='lazy'
+          alt=''
+          className='absolute bottom-0 right-0 w-full object-contain object-right-bottom'
+        />
+        <div className='relative'>
           <div className='mb-7 flex items-center justify-between'>
             <Logo variant='full' className='w-[38.5rem]' />
             <SecondaryButton asChild className='h-11 w-11 px-0 [&>svg]:h-6 [&>svg]:w-6'>
