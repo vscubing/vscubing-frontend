@@ -3,7 +3,7 @@ import { Header } from './sections/Header'
 import { HeroSection } from './sections/HeroSection'
 import { AboutSection } from './sections/AboutSection'
 import { FeaturesSection } from './sections/FeaturesSection'
-import aboutBackground from './assets/about-bg.svg'
+import featuresBackground from './assets/features-bg.svg'
 import { GuideSection } from './sections/GuideSection'
 import { ContactsSection } from './sections/ContactsSection'
 import { AcknowledgmentsSection } from './sections/AcknowledgmentsSection'
@@ -21,7 +21,7 @@ function LandingPage() {
         <HeroSection />
         <AboutSection className='relative z-10' />
         <div className='relative'>
-          <img src={aboutBackground} className='top absolute bottom-[calc(100%-6rem)] w-screen' />
+          <img src={featuresBackground} loading='lazy' className='top absolute bottom-[calc(100%-28rem)] w-screen' />
           <FeaturesSection className='relative' />
         </div>
         <GuideSection />
