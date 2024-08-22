@@ -54,7 +54,7 @@ function Sidebar({ className }: { className?: string }) {
           </div>
         </div>
       </div>
-      <div className='flex flex-1 flex-col rounded-2xl bg-black-80 pb-4 pt-6 lg:py-3'>
+      <div className='flex flex-1 flex-col rounded-2xl bg-black-80 py-6 lg:py-3'>
         <Navbar variant='vertical' onItemSelect={() => setOpenOnMobile(false)} />
         <div className='mb-4 mt-auto flex flex-col items-center gap-4 xl-short:flex-row xl-short:justify-center xl-short:gap-1 sm:gap-2'>
           <SocialLinks />
