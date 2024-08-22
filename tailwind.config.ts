@@ -65,15 +65,15 @@ export default {
           to: { transform: 'rotate(360deg)' },
         },
         'landing-alternating-text': {
-          '0%,20%': { transform: 'translateY(80%)' },
+          '0%,20%': { transform: 'translateY(85%)' },
           '33.3%,53.3%': { transform: 'translateY(0)' },
-          '66.6%,86.6%,100%': { transform: 'translateY(-80%)' },
+          '66.6%,100%': { transform: 'translateY(-85%)' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'landing-alternating-text': 'landing-alternating-text 6s ease-in infinite',
+        'landing-alternating-text': 'landing-alternating-text 6s linear infinite',
       },
       spacing: {
         15: '3.75rem',
