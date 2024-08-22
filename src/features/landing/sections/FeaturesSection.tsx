@@ -1,6 +1,6 @@
 import { ReactNode } from '@tanstack/react-router'
-import { Container } from '../components/Container'
-import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../components/icons'
+import { Container } from '../shared/Container'
+import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../shared/icons'
 
 export function FeaturesSection({ className, id }: { className: string; id: string }) {
   return (

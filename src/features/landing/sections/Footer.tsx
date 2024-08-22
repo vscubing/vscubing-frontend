@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, DiscordIcon, GithubIcon, LinkedinIcon, Logo, SecondaryButton } from '@/components/ui'
-import { Container } from '../components/Container'
+import { Container } from '../shared/Container'
 import { cn } from '@/utils'
 import footerBgCubes from '../assets/footer/footer-bg-cubes.svg'
 import standWithUkraineImg from '@/assets/images/stand-with-ukraine.svg'
@@ -58,7 +58,9 @@ export function Footer({
                 {navigationAnchors
                   .filter(({ id }) => id !== 'contacts') // we already have the contacts in the footer
                   .map(({ id, name }) => (
-                    <a href={`#${id}`}>{name}</a>
+                    <a key={id} href={`#${id}`}>
+                      {name}
+                    </a>
                   ))}
               </nav>
             </div>

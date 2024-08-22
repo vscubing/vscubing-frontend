@@ -1,7 +1,8 @@
 import { cn } from '@/utils'
 import { useState, useEffect } from 'react'
-import { Container } from '../components/Container'
+import { Container } from '../shared/Container'
 import { Logo } from '@/components/ui'
+import { DynamicLinkToApp } from '../shared/LinkToApp'
 
 export function Header({ navigationAnchors }: { navigationAnchors: { id: string; name: string }[] }) {
   const isWindowScrolled = useIsWindowScrolled()
@@ -27,9 +28,7 @@ export function Header({ navigationAnchors }: { navigationAnchors: { id: string;
                 </a>
               ))}
             </nav>
-            {/* <PrimaryButton asChild className='ml-auto h-14 px-10'> TODO: add show/hide logic */}
-            {/*   <Link to='/'>Start cubing now</Link> */}
-            {/* </PrimaryButton> */}
+            <DynamicLinkToApp className='ml-auto h-14 px-10' />
           </div>
         </div>
       </Container>

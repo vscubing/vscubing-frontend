@@ -1,4 +1,4 @@
-import { Container } from '../components/Container'
+import { Container } from '../shared/Container'
 import cstimerLogo from '../assets/cstimer-logo.png'
 import cubingjsLogo from '../assets/cubingjs-logo.png'
 import sportcubingLogo from '../assets/sportcubing-logo.png'

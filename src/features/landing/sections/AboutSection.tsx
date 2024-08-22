@@ -1,10 +1,10 @@
-import { CubeIcon, KeyboardIcon } from '../components/icons'
+import { CubeIcon, KeyboardIcon } from '../shared/icons'
 import virtualCubeLaptopMp4 from '../assets/virtual-cube-laptop.mp4'
 import virtualCubeLaptopWebM from '../assets/virtual-cube-laptop.webm'
 import virtualCubeLaptopThumbnail from '../assets/virtual-cube-laptop-thumbnail.jpg'
 import { useRef } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
-import { Container } from '../components/Container'
+import { Container } from '../shared/Container'
 
 export function AboutSection({ className, id }: { className: string; id: string }) {
   return (

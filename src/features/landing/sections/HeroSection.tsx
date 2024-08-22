@@ -1,11 +1,12 @@
 import { LoadingSpinner, PrimaryButton } from '@/components/ui'
 import { Link } from '@tanstack/react-router'
-import { StopwatchIcon } from '../components/icons'
+import { StopwatchIcon } from '../shared/icons'
 import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
 import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'
 import { useEffect } from 'react'
-import { Container } from '../components/Container'
-import { AnimatedBlob } from '../components/AnimatedBlob'
+import { Container } from '../shared/Container'
+import { AnimatedBlob } from '../shared/AnimatedBlob'
+import { StaticLinkToApp } from '../shared/LinkToApp'
 
 export function HeroSection() {
   return (
@@ -28,9 +29,7 @@ export function HeroSection() {
             <p className='mb-6 flex items-center gap-2 text-white-100'>
               <AlternatingText text1='Improve' text2='Compete' text3='Have fun' /> <span>with our online contests</span>
             </p>
-            <PrimaryButton asChild className='h-auto px-20 py-5'>
-              <Link to='/'>Start cubing now</Link>
-            </PrimaryButton>
+            <StaticLinkToApp className='h-[4.5rem] px-20' />
           </div>
           <div className='flex h-[21rem] w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4'>
             <TwistySection />

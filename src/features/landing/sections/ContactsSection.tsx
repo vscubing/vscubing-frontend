@@ -1,7 +1,7 @@
 import { DiscordIcon, PrimaryButton } from '@/components/ui'
-import { Container } from '../components/Container'
+import { Container } from '../shared/Container'
 import contactsPeopleImg from '../assets/contacts-people.svg'
-import { AnimatedBlob } from '../components/AnimatedBlob'
+import { AnimatedBlob } from '../shared/AnimatedBlob'
 
 export function ContactsSection({ id }: { id: string }) {
   return (
