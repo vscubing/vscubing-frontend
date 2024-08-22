@@ -69,11 +69,22 @@ export default {
           '33.3%,53.3%': { transform: 'translateY(0)' },
           '66.6%,100%': { transform: 'translateY(-85%)' },
         },
+        'landing-blobs': {
+          '0%,100%': {
+            left: 'var(--from-left)',
+            top: 'var(--from-top)',
+          },
+          '50%': {
+            left: 'var(--to-left)',
+            top: 'var(--to-top)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'landing-alternating-text': 'landing-alternating-text 6s linear infinite',
+        'landing-blobs': 'landing-blobs 20s linear infinite',
       },
       spacing: {
         15: '3.75rem',

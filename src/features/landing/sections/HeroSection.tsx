@@ -3,8 +3,9 @@ import { Link } from '@tanstack/react-router'
 import { StopwatchIcon } from '../components/icons'
 import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
 import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'
-import { useEffect } from 'react'
+import { CSSProperties, useEffect } from 'react'
 import { Container } from '../components/Container'
+import { AnimatedBlob } from '../components/AnimatedBlob'
 
 export function HeroSection() {
   return (
@@ -34,16 +35,13 @@ export function HeroSection() {
           <div className='flex h-[21rem] w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4'>
             <TwistySection />
           </div>
-          <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl'>
-            <div className='absolute left-[1%] top-[30%] h-[40%] w-[30%] rounded-[100%] bg-secondary-20 blur-xl'></div>
-            <div className='absolute left-[25%] top-[-5%] h-[55%] w-[30%] rounded-[100%] bg-secondary-60 blur-xl'></div>
-            <div className='absolute left-0 top-0 h-[40%] w-[35%] bg-primary-60 blur-xl'></div>
-            <div className='absolute bottom-0 left-[-5%] h-[40%] w-[40%] bg-primary-60 blur-xl'></div>
-            <div className='absolute bottom-[-15%] left-[50%] h-[60%] w-[30%] rounded-[100%] bg-secondary-20 blur-xl'></div>
-            <div className='absolute right-0 top-0 h-[35%] w-[30%] rounded-[100%] bg-secondary-60 blur-xl'></div>
-            <div className='absolute bottom-0 right-[-5%] h-[70%] w-[30%] rounded-[100%] bg-primary-100 blur-xl'></div>
-            <div className='absolute left-[52%] top-[5%] h-[40%] w-[30%] rounded-[100%] bg-primary-60 blur-xl'></div>
-            <div className='absolute bottom-[5%] left-[30%] h-[40%] w-[30%] rounded-[100%] bg-primary-100 blur-xl'></div>
+          <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80'>
+            <AnimatedBlob fromLeft='-10%' fromTop='-30%' toLeft='60%' toTop='-80%' className='bg-secondary-40' />
+            <AnimatedBlob fromLeft='28%' fromTop='-34%' toLeft='-10%' toTop='25%' className='bg-secondary-20' />
+            <AnimatedBlob fromLeft='70%' fromTop='-38%' toLeft='15%' toTop='120%' className='bg-primary-100' />
+            <AnimatedBlob fromLeft='-5%' fromTop='55%' toLeft='-8%' toTop='-95%' className='bg-primary-60' />
+            <AnimatedBlob fromLeft='68%' fromTop='30%' toLeft='30%' toTop='-3%' className='bg-primary-80' />
+            <AnimatedBlob fromLeft='28%' fromTop='20%' toLeft='80%' toTop='30%' className='bg-secondary-40' />
             <ul className='relative grid -rotate-[18deg] grid-cols-[repeat(10,auto)] gap-1'>
               {KEY_MAP.map(({ keyName, cubeMovement }) => (
                 <KeyMapTile
