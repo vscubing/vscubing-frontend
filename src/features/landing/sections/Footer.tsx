@@ -55,9 +55,11 @@ export function Footer({
             <div className='w-[21.125rem]'>
               <h2 className='landing-h3 mb-4'>Quick links</h2>
               <nav className='flex flex-col gap-2 font-medium'>
-                {navigationAnchors.map(({ id, name }) => (
-                  <a href={`#${id}`}>{name}</a>
-                ))}
+                {navigationAnchors
+                  .filter(({ id }) => id !== 'contacts') // we already have the contacts in the footer
+                  .map(({ id, name }) => (
+                    <a href={`#${id}`}>{name}</a>
+                  ))}
               </nav>
             </div>
             <div className='flex-1'>
@@ -77,7 +79,7 @@ export function Footer({
               </ul>
             </div>
           </div>
-          <div className='flex justify-end'>
+          <div className='flex justify-end pt-5'>
             <a href='https://u24.gov.ua/about'>
               <img src={standWithUkraineImg} alt='Stand with Ukraine' />
             </a>

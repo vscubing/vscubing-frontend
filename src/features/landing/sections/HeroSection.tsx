@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { StopwatchIcon } from '../components/icons'
 import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
 import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'
-import { CSSProperties, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Container } from '../components/Container'
 import { AnimatedBlob } from '../components/AnimatedBlob'
 
