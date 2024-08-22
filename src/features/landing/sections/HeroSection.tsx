@@ -74,10 +74,10 @@ function AnimatedBackground() {
   return (
     <>
       <AnimatedBlob fromLeft='-10%' fromTop='-30%' toLeft='60%' toTop='-80%' className='h-[110%] bg-secondary-40' />
-      <AnimatedBlob fromLeft='28%' fromTop='-34%' toLeft='-10%' toTop='25%' className='h-[110%] bg-secondary-20' />
       <AnimatedBlob fromLeft='70%' fromTop='-38%' toLeft='15%' toTop='120%' className='h-[110%] bg-primary-100' />
-      <AnimatedBlob fromLeft='-5%' fromTop='55%' toLeft='-8%' toTop='-95%' className='h-[110%] bg-primary-60' />
+      <AnimatedBlob fromLeft='28%' fromTop='-34%' toLeft='-10%' toTop='25%' className='h-[110%] bg-secondary-20' />
       <AnimatedBlob fromLeft='68%' fromTop='30%' toLeft='30%' toTop='-3%' className='h-[110%] bg-primary-80' />
+      <AnimatedBlob fromLeft='-5%' fromTop='55%' toLeft='-8%' toTop='-95%' className='h-[110%] bg-primary-60' />
       <AnimatedBlob fromLeft='28%' fromTop='20%' toLeft='80%' toTop='30%' className='h-[110%] bg-secondary-40' />
     </>
   )
