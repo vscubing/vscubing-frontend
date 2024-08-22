@@ -1,6 +1,7 @@
 import { DiscordIcon, PrimaryButton } from '@/components/ui'
 import { Container } from '../components/Container'
 import contactsPeopleImg from '../assets/contacts-people.svg'
+import { AnimatedBlob } from '../components/AnimatedBlob'
 
 export function ContactsSection({ id }: { id: string }) {
   return (
@@ -23,12 +24,27 @@ export function ContactsSection({ id }: { id: string }) {
               <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
             </PrimaryButton>
           </div>
-          <div className='flex items-center justify-center rounded-3xl bg-secondary-20'>
-            <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' />
+          <div className='relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80'>
+            <AnimatedBackground />
+            <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' className='relative' />
           </div>
         </div>
       </section>
     </Container>
+  )
+}
+
+function AnimatedBackground() {
+  return (
+    <>
+      <AnimatedBlob fromLeft='-15%' fromTop='-5%' toLeft='-18%' toTop='50%' className='h-[58%] bg-secondary-40' />
+      <AnimatedBlob fromLeft='30%' fromTop='-30%' toLeft='80%' toTop='-20%' className='h-[58%] bg-secondary-20' />
+      <AnimatedBlob fromLeft='80%' fromTop='65%' toLeft='40%' toTop='65%' className='h-[58%] bg-primary-80' />
+      <AnimatedBlob fromLeft='-12%' fromTop='62%' toLeft='-12%' toTop='-27%' className='h-[58%] bg-primary-60' />
+      <AnimatedBlob fromLeft='75%' fromTop='-8%' toLeft='85%' toTop='35%' className='h-[58%] bg-primary-80' />
+      <AnimatedBlob fromLeft='38%' fromTop='65%' toLeft='20%' toTop='20%' className='h-[58%] bg-secondary-40' />
+      <AnimatedBlob fromLeft='28%' fromTop='8%' toLeft='40%' toTop='-45%' className='h-[58%] bg-primary-100' />
+    </>
   )
 }
 
