@@ -80,21 +80,21 @@ export default {
           },
         },
         'landing-falling-text': {
-          '0%,100%': {
+          '0%': {
+            left: 'var(--from-left)',
+            top: 'var(--from-top)',
+            transform: 'rotate(var(--from-rotation))',
+          },
+          '66.6%': {
             left: 'var(--transition-left)',
             top: 'var(--transition-top)',
             transform: 'rotate(var(--transition-rotation))',
           },
-          // '66.6%': {
-          //   left: 'var(--transition-left)',
-          //   top: 'var(--transition-top)',
-          //   transform: 'rotate(var(--transition-rotation))',
-          // },
-          // '100%': {
-          //   left: 'var(--to-left)',
-          //   top: 'var(--to-top)',
-          //   transform: 'rotate(var(--to-rotation))',
-          // },
+          '100%': {
+            left: 'var(--to-left)',
+            top: 'var(--to-top)',
+            transform: 'rotate(var(--to-rotation))',
+          },
         },
       },
       animation: {
@@ -102,7 +102,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'landing-alternating-text': 'landing-alternating-text 6s linear infinite',
         'landing-blobs': 'landing-blobs 20s linear infinite',
-        'landing-falling-text': 'landing-falling-text 3s infinite',
+        'landing-falling-text': 'landing-falling-text 3s linear 3s forwards',
       },
       spacing: {
         15: '3.75rem',

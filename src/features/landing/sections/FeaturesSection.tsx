@@ -73,7 +73,7 @@ function ResultsAnimation() {
         transitionLeft='-3%'
         transitionTop='30%'
         toRotation='11deg'
-        toLeft='-5%'
+        toLeft='0%'
         toTop='52%'
       >
         Average time
@@ -86,8 +86,8 @@ function ResultsAnimation() {
         transitionLeft='46%'
         transitionTop='57%'
         toRotation='-13deg'
-        toLeft='40%'
-        toTop='65%'
+        toLeft='42%'
+        toTop='78%'
       >
         Single time
       </ResultsAnimationItem>
@@ -98,6 +98,9 @@ function ResultsAnimation() {
         transitionRotation='-58deg'
         transitionLeft='25%'
         transitionTop='18%'
+        toRotation='30deg'
+        toLeft='30%'
+        toTop='49%'
       >
         Attempt 1
       </ResultsAnimationItem>
@@ -108,6 +111,9 @@ function ResultsAnimation() {
         transitionRotation='29deg'
         transitionLeft='18%'
         transitionTop='68%'
+        toRotation='-22deg'
+        toLeft='16%'
+        toTop='76%'
       >
         Attempt 2
       </ResultsAnimationItem>
@@ -118,6 +124,9 @@ function ResultsAnimation() {
         transitionRotation='-20deg'
         transitionLeft='75%'
         transitionTop='55%'
+        toRotation='16deg'
+        toLeft='75%'
+        toTop='74%'
       >
         Attempt 3
       </ResultsAnimationItem>
@@ -126,8 +135,11 @@ function ResultsAnimation() {
         fromLeft='58%'
         fromTop='-120%'
         transitionRotation='45deg'
-        transitionLeft='52%'
+        transitionLeft='50%'
         transitionTop='15%'
+        toRotation='32deg'
+        toLeft='52.5%'
+        toTop='53.5%'
       >
         Attempt 4
       </ResultsAnimationItem>
@@ -138,6 +150,9 @@ function ResultsAnimation() {
         transitionRotation='-16.5deg'
         transitionLeft='76%'
         transitionTop='6%'
+        toRotation='-16.5deg'
+        toLeft='75%'
+        toTop='41%'
       >
         Attempt 5
       </ResultsAnimationItem>
@@ -176,7 +191,7 @@ function ResultsAnimationItem(
           '--to-rotation': props.toRotation,
         } as CSSProperties
       }
-      className='animate-landing-falling-text absolute whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20'
+      className='absolute animate-landing-falling-text whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20'
     >
       <div className='mb-[-.1em] pt-[.1em]'>{props.children}</div>
     </div>
