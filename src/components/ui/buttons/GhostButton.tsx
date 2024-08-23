@@ -33,4 +33,4 @@ const GhostButton = forwardRef<HTMLButtonElement, GhostButtonProps>(
 )
 GhostButton.displayName = 'GhostButton'
 
-export { GhostButton, ghostButtonVariants }
+export { GhostButton }

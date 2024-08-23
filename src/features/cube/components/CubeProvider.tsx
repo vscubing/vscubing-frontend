@@ -1,20 +1,11 @@
-import { createContext, useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { cn, useConditionalBeforeUnload } from '@/utils'
 import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
 import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
-
-type CubeContextValue = {
-  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback) => void
-}
-
-export const CubeContext = createContext<CubeContextValue>({
-  initSolve: () => {
-    throw new Error('cube context is missing')
-  },
-})
+import { CubeContext } from './CubeContext'
 
 type CubeProviderProps = { children: React.ReactNode }
 export function CubeProvider({ children }: CubeProviderProps) {

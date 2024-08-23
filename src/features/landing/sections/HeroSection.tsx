@@ -1,5 +1,4 @@
-import { LoadingSpinner, PrimaryButton } from '@/components/ui'
-import { Link } from '@tanstack/react-router'
+import { LoadingSpinner } from '@/components/ui'
 import { StopwatchIcon } from '../shared/icons'
 import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
 import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'

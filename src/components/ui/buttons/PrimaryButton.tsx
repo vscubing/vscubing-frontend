@@ -34,4 +34,4 @@ const PrimaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(
 )
 PrimaryButton.displayName = 'PrimaryButton'
 
-export { PrimaryButton, primaryButtonVariants }
+export { PrimaryButton }

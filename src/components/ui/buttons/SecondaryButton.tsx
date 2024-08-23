@@ -36,4 +36,4 @@ const SecondaryButton = forwardRef<HTMLButtonElement, SecondaryButtonProps>(
 )
 SecondaryButton.displayName = 'SecondaryButton'
 
-export { SecondaryButton, secondaryButtonVariants }
+export { SecondaryButton }

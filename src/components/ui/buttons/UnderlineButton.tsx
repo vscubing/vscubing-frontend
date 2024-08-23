@@ -34,4 +34,4 @@ const UnderlineButton = forwardRef<HTMLButtonElement, UnderlineButtonProps>(
 )
 UnderlineButton.displayName = 'UnderlineButton'
 
-export { UnderlineButton, underlineButtonVariants }
+export { UnderlineButton }

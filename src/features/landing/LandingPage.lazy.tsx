@@ -28,7 +28,7 @@ function LandingPage() {
         <HeroSection />
         <AboutSection className='relative z-10' id={NAVIGATION_ANCHORS.about.id} />
         <div className='relative'>
-          <img src={featuresBackground} loading='lazy' className='top absolute bottom-[calc(100%-28rem)] w-screen' />
+          <img src={featuresBackground} loading='lazy' className='top absolute bottom-[calc(100%-40rem)] w-screen' />
           <FeaturesSection className='relative' id={NAVIGATION_ANCHORS.features.id} />
         </div>
         <GuideSection id={NAVIGATION_ANCHORS.guide.id} />

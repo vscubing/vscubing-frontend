@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { CubeContext } from './components/CubeProvider'
+import { CubeContext } from './components/CubeContext'
 
 export * from './components/CubeProvider'
 export { type CubeSolveResult } from './components/Cube'

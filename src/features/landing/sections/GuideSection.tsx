@@ -1,9 +1,8 @@
 import { ReactNode } from 'react'
 import { Container } from '../shared/Container'
-import { Dialog, DialogOverlay, DialogTrigger, PrimaryButton } from '@/components/ui'
+import { Dialog, DialogOverlay, DialogTrigger } from '@/components/ui'
 import { KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import VirtualCubeImg from '../assets/virtual-cube.png'
-import { Link } from '@tanstack/react-router'
 import { StaticLinkToApp } from '../shared/LinkToApp'
 
 export function GuideSection({ id }: { id: string }) {
