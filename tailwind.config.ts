@@ -79,7 +79,7 @@ export default {
             top: 'var(--to-top)',
           },
         },
-        'landing-falling-text': {
+        'landing-features-results': {
           '0%': {
             left: 'var(--from-left)',
             top: 'var(--from-top)',
@@ -100,13 +100,18 @@ export default {
           from: { backgroundColor: 'white' },
           to: { backgroundColor: 'black' },
         },
+        'landing-features-scrambles': {
+          from: { clipPath: 'inset(0 100% 0 0)' },
+          to: { clipPath: 'inset(0 0% 0 0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'landing-alternating-text': 'landing-alternating-text 6s linear infinite',
         'landing-blobs': 'landing-blobs 20s linear infinite',
-        'landing-falling-text': 'landing-falling-text linear 3s forwards',
+        'landing-features-results': 'landing-features-results linear 3s forwards',
+        'landing-features-scrambles': 'landing-features-scrambles linear 2.7s forwards',
         fake: 'fake linear 3s forwards',
       },
       spacing: {

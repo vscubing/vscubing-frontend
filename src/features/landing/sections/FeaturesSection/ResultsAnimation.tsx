@@ -136,7 +136,7 @@ function ResultsAnimationItem(
         } as CSSProperties
       }
       className={cn(
-        'absolute animate-landing-falling-text whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20',
+        'animate-landing-features-results absolute whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20',
       )}
     >
       <div className='mb-[-.1em] pt-[.1em]'>{props.children}</div>

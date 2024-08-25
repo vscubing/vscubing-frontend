@@ -3,6 +3,7 @@ import { Container } from '../../shared/Container'
 import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../../shared/icons'
 import { AnimationsController, BlockIntersectionWrapper, AnimationItem } from './animations'
 import { ResultsAnimation } from './ResultsAnimation'
+import { ScramblesAnimation } from './ScramblesAnimation'
 
 export type BlockType = 'results' | 'scrambles' | 'leaderboards' | 'sharing'
 export function FeaturesSection({ className, id }: { className: string; id: string }) {
@@ -25,7 +26,7 @@ export function FeaturesSection({ className, id }: { className: string; id: stri
                 title='Instant scrambles'
                 description='Get your scrambles without any manual copy-pasting.'
                 icon={<ScrambleIcon />}
-                visualization={<FakeAnimation block='scrambles' />}
+                visualization={<ScramblesAnimation />}
               />
             </BlockIntersectionWrapper>
             <BlockIntersectionWrapper block='leaderboards'>
