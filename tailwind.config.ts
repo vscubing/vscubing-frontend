@@ -96,13 +96,18 @@ export default {
             transform: 'rotate(var(--to-rotation))',
           },
         },
+        fake: {
+          from: { backgroundColor: 'white' },
+          to: { backgroundColor: 'black' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'landing-alternating-text': 'landing-alternating-text 6s linear infinite',
         'landing-blobs': 'landing-blobs 20s linear infinite',
-        'landing-falling-text': 'landing-falling-text 3s linear 3s forwards',
+        'landing-falling-text': 'landing-falling-text linear 3s forwards',
+        fake: 'fake linear 3s forwards',
       },
       spacing: {
         15: '3.75rem',

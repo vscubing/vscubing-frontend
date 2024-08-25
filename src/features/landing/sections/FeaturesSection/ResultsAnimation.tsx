@@ -1,68 +1,8 @@
-import { ReactNode } from '@tanstack/react-router'
-import { Container } from '../shared/Container'
-import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../shared/icons'
+import { cn } from '@/utils'
 import { CSSProperties } from 'react'
+import { AnimationItem } from './animations'
 
-export function FeaturesSection({ className, id }: { className: string; id: string }) {
-  return (
-    <Container className={className}>
-      <section id={id} className='landing-offset-anchor'>
-        <h2 className='landing-h2 mb-14 text-center'>The problem we solve</h2>
-        <ul className='grid grid-cols-2 grid-rows-[repeat(2,20rem)] gap-3'>
-          <Feature
-            title='Automated results'
-            description='No more manual entering of results in Excel. Everything is automated!'
-            icon={<ResultIcon />}
-            visualization={<ResultsAnimation />}
-          />
-          <Feature
-            title='Instant scrambles'
-            description='Get your scrambles without any manual copy-pasting.'
-            icon={<ScrambleIcon />}
-            visualization='visual'
-          />
-          <Feature
-            title='Leaderboards'
-            description='Compete for top spots on both contest-wise and all-time leaderboards.'
-            icon={<LeaderboardIcon />}
-            visualization='visual'
-          />
-          <Feature
-            title='Share your solves'
-            description='Easily share your solves with friends and challenge them to beat your time!'
-            icon={<ShareIcon />}
-            visualization='visual'
-          />
-        </ul>
-      </section>
-    </Container>
-  )
-}
-
-function Feature({
-  title,
-  description,
-  icon,
-  visualization,
-}: {
-  title: string
-  description: string
-  icon: ReactNode
-  visualization: ReactNode
-}) {
-  return (
-    <li className='flex flex-col rounded-3xl bg-black-100 px-10 pb-10'>
-      <div className='flex flex-1 gap-28'>
-        <div className='self-end pb-6'>{icon}</div>
-        <div className='-mb-2 -ml-2 -mr-10 flex-1 border border-red-80'>{visualization}</div>
-      </div>
-      <h3 className='landing-h3 mb-2'>{title}</h3>
-      <p>{description}</p>
-    </li>
-  )
-}
-
-function ResultsAnimation() {
+export function ResultsAnimation() {
   return (
     <div className='relative h-full'>
       <ResultsAnimationItem
@@ -75,6 +15,7 @@ function ResultsAnimation() {
         toRotation='11deg'
         toLeft='0%'
         toTop='52%'
+        shouldRegisterAnimationEnd
       >
         Average time
       </ResultsAnimationItem>
@@ -173,11 +114,14 @@ function ResultsAnimationItem(
     | 'toRotation',
     string
   > & {
+    shouldRegisterAnimationEnd?: boolean
     children: string
   },
 ) {
   return (
-    <div
+    <AnimationItem
+      shouldRegisterAnimationEnd={props.shouldRegisterAnimationEnd}
+      block='results'
       style={
         {
           '--from-left': props.fromLeft,
@@ -191,9 +135,11 @@ function ResultsAnimationItem(
           '--to-rotation': props.toRotation,
         } as CSSProperties
       }
-      className='absolute animate-landing-falling-text whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20'
+      className={cn(
+        'absolute animate-landing-falling-text whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20',
+      )}
     >
       <div className='mb-[-.1em] pt-[.1em]'>{props.children}</div>
-    </div>
+    </AnimationItem>
   )
 }
