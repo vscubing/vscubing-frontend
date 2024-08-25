@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Container } from '../shared/Container'
-import { Dialog, DialogOverlay, DialogTrigger } from '@/components/ui'
+import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from '@/components/ui'
 import { KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import VirtualCubeImg from '../assets/virtual-cube.png'
 import { StaticLinkToApp } from '../shared/LinkToApp'
@@ -81,8 +81,10 @@ function KeyMapDialogTrigger({ children, className }: { children: ReactNode; cla
   return (
     <Dialog>
       <DialogTrigger className={className}>{children}</DialogTrigger>
-      <DialogOverlay className='bg-black-1000/50' withCubes={false} />
-      <KeyMapDialogContent />
+      <DialogPortal>
+        <DialogOverlay className='bg-black-1000/50' withCubes={false} />
+        <KeyMapDialogContent />
+      </DialogPortal>
     </Dialog>
   )
 }
