@@ -73,6 +73,10 @@ export const SolveTimeLabel = forwardRef<HTMLSpanElement, SolveTimeLabelProps>(
   ({ timeMs, isDnf = false, isPlaceholder = false, isAverage, className, ...props }, ref) => {
     let variant: 'average' | 'dnf' | undefined
 
+    if (timeMs === 2147483647) {
+      isDnf = true
+    }
+
     if (isDnf) {
       variant = 'dnf'
     } else if (isAverage) {
