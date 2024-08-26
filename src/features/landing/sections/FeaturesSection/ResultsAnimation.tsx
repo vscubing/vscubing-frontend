@@ -7,91 +7,91 @@ export function ResultsAnimation() {
     <div className='relative h-full'>
       <ResultsAnimationItem
         fromRotation='18deg'
-        fromLeft='-5%'
+        fromLeft='-13%'
         fromTop='-100%'
         transitionRotation='-31deg'
-        transitionLeft='-3%'
+        transitionLeft='-11%'
         transitionTop='30%'
         toRotation='11deg'
-        toLeft='0%'
+        toLeft='-8%'
         toTop='52%'
       >
         Average time
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='-9.5deg'
-        fromLeft='40%'
+        fromLeft='32%'
         fromTop='-75%'
         transitionRotation='41.5deg'
-        transitionLeft='46%'
+        transitionLeft='38%'
         transitionTop='57%'
         toRotation='-13deg'
-        toLeft='42%'
+        toLeft='34%'
         toTop='78%'
       >
         Single time
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='10.5deg'
-        fromLeft='25%'
+        fromLeft='17%'
         fromTop='-120%'
         transitionRotation='-58deg'
-        transitionLeft='25%'
+        transitionLeft='17%'
         transitionTop='18%'
         toRotation='30deg'
-        toLeft='30%'
+        toLeft='22%'
         toTop='49%'
       >
         Attempt 1
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='-21.5deg'
-        fromLeft='13%'
+        fromLeft='5%'
         fromTop='-60%'
         transitionRotation='29deg'
-        transitionLeft='18%'
+        transitionLeft='10%'
         transitionTop='68%'
         toRotation='-22deg'
-        toLeft='16%'
+        toLeft='8%'
         toTop='76%'
       >
         Attempt 2
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='22deg'
-        fromLeft='68%'
+        fromLeft='60%'
         fromTop='-50%'
         transitionRotation='-20deg'
-        transitionLeft='75%'
+        transitionLeft='67%'
         transitionTop='55%'
         toRotation='16deg'
-        toLeft='75%'
+        toLeft='67%'
         toTop='74%'
       >
         Attempt 3
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='-21.5deg'
-        fromLeft='58%'
+        fromLeft='50%'
         fromTop='-120%'
         transitionRotation='45deg'
-        transitionLeft='50%'
+        transitionLeft='42%'
         transitionTop='15%'
         toRotation='32deg'
-        toLeft='52.5%'
+        toLeft='44.5%'
         toTop='53.5%'
       >
         Attempt 4
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='42deg'
-        fromLeft='74%'
+        fromLeft='66%'
         fromTop='-85%'
         transitionRotation='-16.5deg'
-        transitionLeft='76%'
+        transitionLeft='68%'
         transitionTop='6%'
         toRotation='-16.5deg'
-        toLeft='75%'
+        toLeft='67%'
         toTop='41%'
       >
         Attempt 5
