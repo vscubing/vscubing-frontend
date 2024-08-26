@@ -76,5 +76,5 @@ function Feature({
 }
 
 function FakeAnimation({ block }: { block: BlockType }) {
-  return <AnimationItem block={block} shouldRegisterAnimationEnd className='animate-fake h-full w-full'></AnimationItem>
+  return <AnimationItem block={block} className='animate-fake h-full w-full'></AnimationItem>
 }

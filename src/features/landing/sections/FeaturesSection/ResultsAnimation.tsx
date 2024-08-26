@@ -15,7 +15,6 @@ export function ResultsAnimation() {
         toRotation='11deg'
         toLeft='0%'
         toTop='52%'
-        shouldRegisterAnimationEnd
       >
         Average time
       </ResultsAnimationItem>
@@ -114,13 +113,11 @@ function ResultsAnimationItem(
     | 'toRotation',
     string
   > & {
-    shouldRegisterAnimationEnd?: boolean
     children: string
   },
 ) {
   return (
     <AnimationItem
-      shouldRegisterAnimationEnd={props.shouldRegisterAnimationEnd}
       block='results'
       style={
         {

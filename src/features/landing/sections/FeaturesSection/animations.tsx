@@ -3,9 +3,9 @@ import { createContext, ReactNode, useRef, useState, useEffect, useContext, Comp
 import { type BlockType } from '.'
 
 type AnimationContextType = {
-  animationState: Record<BlockType, 'waiting' | 'can-run'>
+  canRun: Record<BlockType, boolean>
   blocksRef: BlocksRef
-  onAnimationEnd: () => void
+  onAnimationEnd: (block: BlockType) => void
 }
 
 const AnimationContext = createContext<AnimationContextType | null>(null)
@@ -13,11 +13,11 @@ const AnimationContext = createContext<AnimationContextType | null>(null)
 type BlocksRef = Map<BlockType, Element | null>
 export function AnimationsController({ children }: { children: ReactNode }) {
   const blocksRef = useRef<BlocksRef>(new Map())
-  const [state, setState] = useState<AnimationContextType['animationState']>({
-    results: 'waiting',
-    scrambles: 'waiting',
-    leaderboards: 'waiting',
-    sharing: 'waiting',
+  const [canRun, setCanRun] = useState<AnimationContextType['canRun']>({
+    results: false,
+    scrambles: false,
+    leaderboards: false,
+    sharing: false,
   })
   const [queue, setQueue] = useState<BlockType[]>(['results', 'scrambles', 'leaderboards', 'sharing'])
 
@@ -29,7 +29,7 @@ export function AnimationsController({ children }: { children: ReactNode }) {
 
     const observer = new IntersectionObserver(
       ([{ isIntersecting }]) => {
-        if (isIntersecting) setState({ ...state, [currentBlock]: 'running' })
+        if (isIntersecting) setCanRun({ ...canRun, [currentBlock]: true })
       },
       {
         rootMargin: '-72px 0px 0px',
@@ -41,12 +41,15 @@ export function AnimationsController({ children }: { children: ReactNode }) {
     return () => observer.unobserve(currentBlockNode)
   }, [queue])
 
-  function onAnimationEnd() {
-    setQueue((prev) => prev.slice(1))
+  function onAnimationEnd(block: BlockType) {
+    setQueue((prev) => {
+      const currentBlock = prev[0]
+      return currentBlock === block ? prev.slice(1) : prev
+    })
   }
 
   return (
-    <AnimationContext.Provider value={{ animationState: state, onAnimationEnd, blocksRef: blocksRef.current }}>
+    <AnimationContext.Provider value={{ canRun, onAnimationEnd, blocksRef: blocksRef.current }}>
       {children}
     </AnimationContext.Provider>
   )
@@ -75,35 +78,34 @@ export function BlockIntersectionWrapper({ children, block }: { children: ReactN
 }
 
 export function AnimationItem({
-  shouldRegisterAnimationEnd = false,
   className,
   block,
   children,
   ...props
-}: ComponentPropsWithoutRef<'div'> & { block: BlockType; shouldRegisterAnimationEnd?: boolean }) {
-  const { ref } = useRegisterAnimationEnd(shouldRegisterAnimationEnd)
-  const { animationState } = useAnimationContext()
+}: ComponentPropsWithoutRef<'div'> & { block: BlockType }) {
+  const { ref } = useRegisterAnimationEnd(block)
+  const { canRun } = useAnimationContext()
 
   return (
-    <div className={cn({ paused: animationState[block] === 'waiting' }, className)} ref={ref} {...props}>
+    <div className={cn({ paused: !canRun[block] }, className)} ref={ref} {...props}>
       {children}
     </div>
   )
 }
 
-function useRegisterAnimationEnd(enabled: boolean) {
+function useRegisterAnimationEnd(block: BlockType) {
   const ref = useRef<HTMLDivElement>(null)
-  const { onAnimationEnd } = useContext(AnimationContext)!
+  const { onAnimationEnd } = useAnimationContext()
 
   useEffect(() => {
     const node = ref.current
-    if (!node || !enabled) {
+    if (!node) {
       return
     }
-    const callback = () => onAnimationEnd()
+    const callback = () => onAnimationEnd(block)
     node.addEventListener('animationend', callback)
     return () => node.removeEventListener('animationend', callback)
-  }, [ref, enabled])
+  }, [ref, block])
 
   return { ref }
 }
