@@ -4,6 +4,7 @@ import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../../shar
 import { AnimationsController, BlockIntersectionWrapper, AnimationItem } from './animations'
 import { ResultsAnimation } from './ResultsAnimation'
 import { ScramblesAnimation } from './ScramblesAnimation'
+import { LeaderboardsAnimation } from './LeaderboardsAnimation'
 
 export type BlockType = 'results' | 'scrambles' | 'leaderboards' | 'sharing'
 export function FeaturesSection({ className, id }: { className: string; id: string }) {
@@ -34,7 +35,7 @@ export function FeaturesSection({ className, id }: { className: string; id: stri
                 title='Leaderboards'
                 description='Compete for top spots on both contest-wise and all-time leaderboards.'
                 icon={<LeaderboardIcon />}
-                visualization={<FakeAnimation block='leaderboards' />}
+                visualization={<LeaderboardsAnimation />}
               />
             </BlockIntersectionWrapper>
             <BlockIntersectionWrapper block='sharing'>

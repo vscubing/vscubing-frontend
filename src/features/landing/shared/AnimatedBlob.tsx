@@ -24,7 +24,7 @@ export function AnimatedBlob({
           '--to-top': toTop,
         } as CSSProperties
       }
-      className={cn('animate-landing-blobs absolute aspect-square rounded-[100%] blur-xl', className)}
+      className={cn('absolute aspect-square animate-landing-blobs rounded-full blur-xl', className)}
     ></div>
   )
 }
