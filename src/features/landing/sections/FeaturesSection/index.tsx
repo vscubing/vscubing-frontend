@@ -1,10 +1,11 @@
 import { ReactNode } from '@tanstack/react-router'
 import { Container } from '../../shared/Container'
 import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../../shared/icons'
-import { AnimationsController, BlockIntersectionWrapper, AnimationItem } from './animations'
+import { AnimationsController, BlockIntersectionWrapper } from './animations'
 import { ResultsAnimation } from './ResultsAnimation'
 import { ScramblesAnimation } from './ScramblesAnimation'
 import { LeaderboardsAnimation } from './LeaderboardsAnimation'
+import { SharingAnimation } from './SharingAnimation'
 
 export type BlockType = 'results' | 'scrambles' | 'leaderboards' | 'sharing'
 export function FeaturesSection({ className, id }: { className: string; id: string }) {
@@ -43,7 +44,7 @@ export function FeaturesSection({ className, id }: { className: string; id: stri
                 title='Share your solves'
                 description='Easily share your solves with friends and challenge them to beat your time!'
                 icon={<ShareIcon />}
-                visualization={<FakeAnimation block='sharing' />}
+                visualization={<SharingAnimation />}
               />
             </BlockIntersectionWrapper>
           </ul>
@@ -65,17 +66,13 @@ function Feature({
   visualization: ReactNode
 }) {
   return (
-    <li className='flex h-full flex-col rounded-3xl bg-black-100 px-10 pb-10'>
+    <li className='flex h-full flex-col overflow-clip rounded-3xl bg-black-100 px-10 pb-10'>
       <div className='flex flex-1 gap-28'>
         <div className='self-end pb-6'>{icon}</div>
-        <div className='-mb-2 -ml-2 -mr-10 flex-1 border border-red-80'>{visualization}</div>
+        <div className='-mb-2 -ml-2 -mr-10 flex-1'>{visualization}</div>
       </div>
       <h3 className='landing-h3 mb-2'>{title}</h3>
       <p>{description}</p>
     </li>
   )
-}
-
-function FakeAnimation({ block }: { block: BlockType }) {
-  return <AnimationItem block={block} className='animate-fake h-full w-full'></AnimationItem>
 }
