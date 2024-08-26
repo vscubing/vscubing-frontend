@@ -55,7 +55,7 @@ export function AnimationsController({ children }: { children: ReactNode }) {
   )
 }
 
-function useAnimationContext() {
+export function useAnimationContext() {
   const context = useContext(AnimationContext)
   if (!context) {
     throw new Error('animation context is missing')
@@ -81,9 +81,10 @@ export function AnimationItem({
   className,
   block,
   children,
+  shouldRegisterAnimationEnd = true,
   ...props
-}: ComponentPropsWithoutRef<'div'> & { block: BlockType }) {
-  const { ref } = useRegisterAnimationEnd(block)
+}: ComponentPropsWithoutRef<'div'> & { block: BlockType; shouldRegisterAnimationEnd?: boolean }) {
+  const { ref } = useRegisterAnimationEnd(block, shouldRegisterAnimationEnd)
   const { canRun } = useAnimationContext()
 
   return (
@@ -93,13 +94,13 @@ export function AnimationItem({
   )
 }
 
-function useRegisterAnimationEnd(block: BlockType) {
+function useRegisterAnimationEnd(block: BlockType, enabled: boolean) {
   const ref = useRef<HTMLDivElement>(null)
   const { onAnimationEnd } = useAnimationContext()
 
   useEffect(() => {
     const node = ref.current
-    if (!node) {
+    if (!node || !enabled) {
       return
     }
     const callback = () => onAnimationEnd(block)

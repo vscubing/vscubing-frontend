@@ -102,7 +102,11 @@ export default {
         },
         'landing-features-scrambles': {
           from: { clipPath: 'inset(0 100% 0 0)' },
-          to: { clipPath: 'inset(0 0% 0 0)' },
+          to: { clipPath: 'inset(0)' },
+        },
+        'landing-features-leaderboards': {
+          from: { clipPath: 'inset(0 0 100%)' },
+          to: { clipPath: 'inset(0)' },
         },
       },
       animation: {
@@ -112,6 +116,7 @@ export default {
         'landing-blobs': 'landing-blobs 20s linear infinite',
         'landing-features-results': 'landing-features-results linear 3s forwards',
         'landing-features-scrambles': 'landing-features-scrambles linear 2.7s forwards',
+        'landing-features-leaderboards': 'landing-features-leaderboards ease-in-out 1s forwards var(--delay)',
         fake: 'fake linear 3s forwards',
       },
       spacing: {
