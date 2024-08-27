@@ -2,9 +2,8 @@ import { CubeIcon, KeyboardIcon } from '../shared/icons'
 import virtualCubeLaptopMp4 from '../assets/virtual-cube-laptop.mp4'
 import virtualCubeLaptopWebM from '../assets/virtual-cube-laptop.webm'
 import virtualCubeLaptopThumbnail from '../assets/virtual-cube-laptop-thumbnail.jpg'
-import { useRef } from 'react'
-import { useIntersectionObserver } from 'usehooks-ts'
 import { Container } from '../shared/Container'
+import { LazyVideo } from '../shared/LazyVideo'
 
 export function AboutSection({ className, id }: { className: string; id: string }) {
   return (
@@ -27,38 +26,16 @@ export function AboutSection({ className, id }: { className: string; id: string 
             </p>
           </div>
         </div>
-        <CubeVideo />
+        <LazyVideo
+          width='100%'
+          muted
+          preload='none'
+          className='rounded-3xl'
+          thumbnail={virtualCubeLaptopThumbnail}
+          webm={virtualCubeLaptopWebM}
+          mp4={virtualCubeLaptopMp4}
+        />
       </section>
     </Container>
-  )
-}
-
-function CubeVideo() {
-  const ref = useRef<HTMLVideoElement | null>(null)
-  const { ref: intersectionRef } = useIntersectionObserver({
-    threshold: 1,
-    freezeOnceVisible: true,
-    onChange: (isIntersecting) => {
-      if (isIntersecting) {
-        ref.current?.play()
-      }
-    },
-  })
-
-  return (
-    <video
-      width='100%'
-      muted
-      preload='none'
-      className='rounded-3xl'
-      poster={virtualCubeLaptopThumbnail}
-      ref={(el) => {
-        ref.current = el
-        intersectionRef(el)
-      }}
-    >
-      <source src={virtualCubeLaptopWebM} type='video/webm; codecs=vp9' />
-      <source src={virtualCubeLaptopMp4} type='video/mp4' />
-    </video>
   )
 }
