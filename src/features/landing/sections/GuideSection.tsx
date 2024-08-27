@@ -2,8 +2,11 @@ import { ReactNode } from 'react'
 import { Container } from '../shared/Container'
 import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from '@/components/ui'
 import { KeyMapDialogContent } from '@/shared/KeyMapDialog'
-import VirtualCubeImg from '../assets/virtual-cube.png'
+import virtualCubeMp4 from '../assets/virtual-cube-screen.mp4'
+import virtualCubeWebM from '../assets/virtual-cube-screen.webm'
+import virtualCubeThumbnail from '../assets/virtual-cube-screen-thumbnail.jpg'
 import { StaticLinkToApp } from '../shared/LinkToApp'
+import { LazyVideo } from '../shared/LazyVideo'
 
 export function GuideSection({ id }: { id: string }) {
   return (
@@ -53,8 +56,8 @@ export function GuideSection({ id }: { id: string }) {
               }
             />
           </ul>
-          <div className='row-span-3 flex flex-col items-center justify-end gap-11'>
-            <img src={VirtualCubeImg} />
+          <div className='row-span-3 flex flex-col items-center justify-end gap-14'>
+            <LazyVideo thumbnail={virtualCubeThumbnail} mp4={virtualCubeMp4} webm={virtualCubeWebM} muted width={380} />
             <StaticLinkToApp className='h-[4.5rem] px-[4.625rem]' />
           </div>
         </div>

@@ -28,7 +28,7 @@ export function LazyVideo({
         intersectionRef(el)
       }}
     >
-      {/* <source src={webm} type='video/webm; codecs=vp9' /> */}
+      <source src={webm} type='video/webm; codecs=vp9' />
       <source src={mp4} type='video/mp4' />
     </video>
   )
