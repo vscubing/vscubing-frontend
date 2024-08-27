@@ -9,7 +9,10 @@ export function SharingAnimation() {
     <div className='flex h-full items-center justify-center gap-3'>
       <div className='relative'>
         <AnimationItem
-          className={cn(secondaryButtonVariants({ size: 'iconSm' }), 'animate-landing-features-sharing-button')}
+          className={cn(
+            secondaryButtonVariants({ size: 'iconSm' }),
+            'animate-landing-features-sharing-button cursor-pointer',
+          )}
           shouldRegisterAnimationEnd={false}
           block='sharing'
         >
@@ -18,7 +21,7 @@ export function SharingAnimation() {
         <AnimationItem
           block='sharing'
           shouldRegisterAnimationEnd={false}
-          className='animate-landing-features-sharing-cursor absolute left-[70%] top-[80%]'
+          className='absolute left-[70%] top-[80%] animate-landing-features-sharing-cursor'
         >
           <img src={cursorIcon} alt='' />
         </AnimationItem>

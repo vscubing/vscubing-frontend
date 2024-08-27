@@ -130,7 +130,6 @@ export default {
           '100%': {
             backgroundColor: '#393966',
             border: '1px solid #393966',
-            cursor: 'pointer',
           },
         },
         'landing-features-sharing-img': {
