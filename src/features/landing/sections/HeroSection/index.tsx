@@ -1,11 +1,11 @@
 import { LoadingSpinner } from '@/components/ui'
-import { StopwatchIcon } from '../shared/icons'
-import { TwistyControls, TwistyCube, TwistyScrubber, useTwistyPlayer } from '@/shared/twisty'
+import { StopwatchIcon } from '../../shared/icons'
 import { KEY_MAP, KeyMapTile } from '@/shared/KeyMapDialog'
-import { useEffect } from 'react'
-import { Container } from '../shared/Container'
-import { AnimatedBlob } from '../shared/AnimatedBlob'
-import { StaticLinkToApp } from '../shared/LinkToApp'
+import { Container } from '../../shared/Container'
+import { AnimatedBlob } from '../../shared/AnimatedBlob'
+import { StaticLinkToApp } from '../../shared/LinkToApp'
+import { Suspense, lazy } from 'react'
+const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
 export function HeroSection() {
   return (
@@ -31,8 +31,11 @@ export function HeroSection() {
             </p>
             <StaticLinkToApp className='h-[4.5rem] px-20' />
           </div>
+
           <div className='flex h-[21rem] w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4'>
-            <TwistySection />
+            <Suspense fallback={<LoadingSpinner />}>
+              <TwistySection />
+            </Suspense>
           </div>
           <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80'>
             <AnimatedBackground />
@@ -80,30 +83,6 @@ function AnimatedBackground() {
       <AnimatedBlob fromLeft='28%' fromTop='20%' toLeft='80%' toTop='30%' className='h-[110%] bg-secondary-40' />
     </>
   )
-}
-
-function TwistySection() {
-  const player = useTwistyPlayer(VALK_474_WR)
-
-  useEffect(() => player?.play(), [player])
-
-  if (!player) {
-    return <LoadingSpinner />
-  }
-
-  return (
-    <>
-      <TwistyCube player={player} className='mb-2 h-full w-full flex-1' />
-      <TwistyScrubber player={player} className='mb-1 w-full px-12' />
-      <TwistyControls player={player} className='w-full px-8' size='sm' />
-    </>
-  )
-}
-
-const VALK_474_WR = {
-  scramble: "F2 U2 R2 F' L2 F2 U' R F D U F2 U R B R2 U B' R'",
-  solution:
-    "z r' D R2 R U' R' U' L' U' L U' U' R U R' d' U' R U R' d' U' R U' R' L U' L' y' U' U' R' U2 R U' U' R' U R' F R F' U R U",
 }
 
 const CLIP_PATH_POLYGON = `polygon(
