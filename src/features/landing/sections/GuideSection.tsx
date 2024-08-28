@@ -21,7 +21,8 @@ export function GuideSection({ id }: { id: string }) {
               text={
                 <>
                   If you don't know how to solve Rubik's Cube, start by watching{' '}
-                  <a className='text-primary-60'>the Rubik's Cube tutorial</a> to brush up on your skills
+                  <a className='text-primary-60 hover:underline'>the Rubik's Cube tutorial</a> to brush up on your
+                  skills
                 </>
               }
             />
@@ -31,8 +32,10 @@ export function GuideSection({ id }: { id: string }) {
               text={
                 <>
                   Our platform is intuitive — if you can solve a real cube, you can solve a virtual one.{' '}
-                  <KeyMapDialogTrigger className='text-primary-60'>Check the keymap</KeyMapDialogTrigger> to learn the
-                  controls
+                  <KeyMapDialogTrigger className='text-primary-60 hover:underline'>
+                    Check the keymap
+                  </KeyMapDialogTrigger>{' '}
+                  to learn the controls
                 </>
               }
             />
@@ -41,12 +44,12 @@ export function GuideSection({ id }: { id: string }) {
               title='Practice regularly'
               text={
                 <>
-                  <a className='text-primary-60' href='https://cstimer.net/'>
+                  <a className='text-primary-60 hover:underline' href='https://cstimer.net/'>
                     Use csTimer
                   </a>{' '}
                   for regular practice sessions, to track progress, and improve your skills. Also{' '}
                   <a
-                    className='text-primary-60'
+                    className='text-primary-60 hover:underline'
                     href='https://youtube.com/clip/UgkxcFC_Cw_ea1xKLOjcfLbNJMXjIOaAbcMZ?si=i2qFLqXnyFZW4dNA'
                   >
                     check out the guide

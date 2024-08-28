@@ -54,11 +54,11 @@ export function Footer({
             </div>
             <div className='w-[21.125rem]'>
               <h2 className='landing-h3 mb-4'>Quick links</h2>
-              <nav className='flex flex-col gap-2 font-medium'>
+              <nav className='flex flex-col gap-2'>
                 {navigationAnchors
                   .filter(({ id }) => id !== 'contacts') // we already have the contacts in the footer
                   .map(({ id, name }) => (
-                    <a key={id} href={`#${id}`}>
+                    <a key={id} href={`#${id}`} className='font-medium hover:text-white-100'>
                       {name}
                     </a>
                   ))}
@@ -68,15 +68,22 @@ export function Footer({
               <h2 className='landing-h3 mb-4'>Creators</h2>
               <ul className='flex flex-col gap-2 font-medium'>
                 <li>
-                  <a href='https://www.linkedin.com/in/bohdan-chornokondratenko-98075b202/'>
+                  <a
+                    className='hover:text-white-100'
+                    href='https://www.linkedin.com/in/bohdan-chornokondratenko-98075b202/'
+                  >
                     Bohdan Chornokondratenko - Frontend Developer
                   </a>
                 </li>
                 <li>
-                  <a href='https://www.linkedin.com/in/anton-savytskyi/'>Anton Savytskyi - Backend Developer</a>
+                  <a className='hover:text-white-100' href='https://www.linkedin.com/in/anton-savytskyi/'>
+                    Anton Savytskyi - Backend Developer
+                  </a>
                 </li>
                 <li>
-                  <a href='https://www.linkedin.com/in/olesiapetryk/'>Olesia Petryk - UX/UI Designer</a>
+                  <a className='hover:text-white-100' href='https://www.linkedin.com/in/olesiapetryk/'>
+                    Olesia Petryk - UX/UI Designer
+                  </a>
                 </li>
               </ul>
             </div>
