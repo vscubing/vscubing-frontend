@@ -2,7 +2,17 @@ import { ChevronLeftIcon, DiscordIcon, GithubIcon, LinkedinIcon, Logo, Secondary
 import { Container } from '../shared/Container'
 import { cn } from '@/utils'
 import footerBgCubes from '../assets/footer/footer-bg-cubes.svg'
+import animatedCube1 from '../assets/footer/animated-cube-1.svg'
+import animatedCube2 from '../assets/footer/animated-cube-2.svg'
+import animatedCube3 from '../assets/footer/animated-cube-3.svg'
+import animatedCube4 from '../assets/footer/animated-cube-4.svg'
+import animatedCube5 from '../assets/footer/animated-cube-5.svg'
+import animatedCube6 from '../assets/footer/animated-cube-6.svg'
+import animatedCube7 from '../assets/footer/animated-cube-7.svg'
+import animatedCube8 from '../assets/footer/animated-cube-8.svg'
+import animatedCube9 from '../assets/footer/animated-cube-9.svg'
 import standWithUkraineImg from '@/assets/images/stand-with-ukraine.svg'
+import { CSSProperties } from 'react'
 
 export function Footer({
   className,
@@ -20,6 +30,15 @@ export function Footer({
           alt=''
           className='pointer-events-none absolute bottom-0 right-0 w-full object-contain object-right-bottom'
         />
+        <AnimatedCube src={animatedCube1} className='bottom-[-7.5rem] left-[-1.5rem]' toTranslateY='-10%' />
+        <AnimatedCube src={animatedCube2} className='bottom-0 left-[30%]' toTranslateY='35%' />
+        <AnimatedCube src={animatedCube3} className='bottom-[-10.5rem] left-[40%]' toTranslateY='-10%' />
+        <AnimatedCube src={animatedCube4} className='bottom-[-16.5rem] left-[56%]' toTranslateY='-7%' />
+        <AnimatedCube src={animatedCube5} className='bottom-[1rem] left-[65%]' toTranslateY='35%' />
+        <AnimatedCube src={animatedCube6} className='bottom-[3.5rem] right-[12rem]' toTranslateY='35%' />
+        <AnimatedCube src={animatedCube7} className='bottom-[-1rem] right-[3rem]' toTranslateY='-30%' />
+        <AnimatedCube src={animatedCube8} className='right-[10rem] top-[2.5rem]' toTranslateY='10%' />
+        <AnimatedCube src={animatedCube9} className='right-[.2rem] top-[0]' toTranslateY='15%' />
 
         <div className='relative' /* position:relative to put it over footerBgCubes */>
           <div className='mb-7 flex items-center justify-between'>
@@ -96,5 +115,17 @@ export function Footer({
         </div>
       </footer>
     </Container>
+  )
+}
+
+function AnimatedCube({ src, className, toTranslateY }: { src: string; className: string; toTranslateY: string }) {
+  return (
+    <img
+      src={src}
+      loading='lazy'
+      alt=''
+      className={cn('animate-landing-footer-cubes pointer-events-none absolute', className)}
+      style={{ '--toTranslateY': toTranslateY } as CSSProperties}
+    />
   )
 }

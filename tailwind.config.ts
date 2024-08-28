@@ -136,6 +136,11 @@ export default {
           from: { clipPath: 'inset(0 100% 0 0)' },
           to: { clipPath: 'inset(0)' },
         },
+        'landing-footer-cubes': {
+          '50%': {
+            transform: 'translateY(var(--toTranslateY))',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -148,6 +153,7 @@ export default {
         'landing-features-sharing-cursor': 'landing-features-sharing-cursor ease-out 3.2s forwards',
         'landing-features-sharing-button': 'landing-features-sharing-button ease-out 0.8s forwards 1s',
         'landing-features-sharing-img': 'landing-features-sharing-img linear 1s forwards 3.3s',
+        'landing-footer-cubes': 'landing-footer-cubes linear 10s infinite',
       },
       spacing: {
         15: '3.75rem',
