@@ -96,10 +96,6 @@ export default {
             transform: 'rotate(var(--to-rotation))',
           },
         },
-        fake: {
-          from: { backgroundColor: 'white' },
-          to: { backgroundColor: 'black' },
-        },
         'landing-features-scrambles': {
           from: { clipPath: 'inset(0 100% 0 0)' },
           to: { clipPath: 'inset(0)' },

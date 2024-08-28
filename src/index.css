@@ -108,13 +108,13 @@
   }
 
   .landing-h1 {
-    @apply font-kanit text-[4rem] leading-[1.1] tracking-[0.01em] text-white-100;
+    @apply font-kanit text-[3.625rem] leading-[1.1] tracking-[0.01em] text-white-100;
   }
   .landing-h2 {
-    @apply font-kanit text-[3rem] leading-[1.1] tracking-[0.01em] text-white-100;
+    @apply font-kanit text-[2.75rem] leading-[1.1] tracking-[0.01em] text-white-100;
   }
   .landing-h3 {
-    @apply font-kanit text-[1.75rem] leading-[1.4] tracking-normal text-white-100;
+    @apply font-kanit text-[1.625rem] leading-[1.4] tracking-normal text-white-100;
   }
 
   .landing-offset-anchor::before {

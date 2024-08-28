@@ -22,7 +22,7 @@ const NAVIGATION_ANCHORS = {
 
 function LandingPage() {
   return (
-    <div className='bg-black-120 text-grey-40'>
+    <div className='bg-black-120 leading-[1.4] text-grey-40'>
       <Header navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
       <main className='space-y-40'>
         <HeroSection />

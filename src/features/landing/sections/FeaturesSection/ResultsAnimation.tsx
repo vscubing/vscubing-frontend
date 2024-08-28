@@ -20,7 +20,7 @@ export function ResultsAnimation() {
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='-9.5deg'
-        fromLeft='32%'
+        fromLeft='35%'
         fromTop='-75%'
         transitionRotation='41.5deg'
         transitionLeft='38%'
@@ -59,13 +59,13 @@ export function ResultsAnimation() {
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='22deg'
-        fromLeft='60%'
+        fromLeft='65%'
         fromTop='-50%'
         transitionRotation='-20deg'
         transitionLeft='67%'
         transitionTop='55%'
         toRotation='16deg'
-        toLeft='67%'
+        toLeft='69%'
         toTop='74%'
       >
         Attempt 3
@@ -78,21 +78,21 @@ export function ResultsAnimation() {
         transitionLeft='42%'
         transitionTop='15%'
         toRotation='32deg'
-        toLeft='44.5%'
-        toTop='53.5%'
+        toLeft='45%'
+        toTop='53%'
       >
         Attempt 4
       </ResultsAnimationItem>
       <ResultsAnimationItem
         fromRotation='42deg'
-        fromLeft='66%'
-        fromTop='-85%'
+        fromLeft='69%'
+        fromTop='-88%'
         transitionRotation='-16.5deg'
         transitionLeft='68%'
         transitionTop='6%'
         toRotation='-16.5deg'
-        toLeft='67%'
-        toTop='41%'
+        toLeft='70%'
+        toTop='42%'
       >
         Attempt 5
       </ResultsAnimationItem>
@@ -133,7 +133,7 @@ function ResultsAnimationItem(
         } as CSSProperties
       }
       className={cn(
-        'animate-landing-features-results absolute whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-1 text-[0.875rem] text-grey-20',
+        'absolute animate-landing-features-results whitespace-nowrap rounded-3xl border border-secondary-20 px-6 py-2 text-[0.875rem] text-grey-20',
       )}
     >
       <div className='mb-[-.1em] pt-[.1em]'>{props.children}</div>

@@ -14,7 +14,7 @@ export function FeaturesSection({ className, id }: { className: string; id: stri
       <section id={id} className='landing-offset-anchor'>
         <h2 className='landing-h2 mb-14 text-center'>The problem we solve</h2>
         <AnimationsController>
-          <ul className='grid grid-cols-2 grid-rows-[repeat(2,20rem)] gap-3'>
+          <ul className='grid grid-cols-2 grid-rows-[repeat(2,18.75rem)] gap-3'>
             <BlockIntersectionWrapper block='results'>
               <Feature
                 title='Automated results'

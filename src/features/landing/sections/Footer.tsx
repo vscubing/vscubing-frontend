@@ -73,7 +73,7 @@ export function Footer({
             </div>
             <div className='w-[21.125rem]'>
               <h2 className='landing-h3 mb-4'>Quick links</h2>
-              <nav className='flex flex-col gap-2'>
+              <nav className='flex flex-col gap-4'>
                 {navigationAnchors
                   .filter(({ id }) => id !== 'contacts') // we already have the contacts in the footer
                   .map(({ id, name }) => (

@@ -25,8 +25,9 @@ export function HeroSection() {
                 speedcubing
               </span>
             </h1>
-            <p className='mb-6 flex items-center gap-2 text-white-100'>
-              <AlternatingText text1='Improve' text2='Compete' text3='Have fun' /> <span>with our online contests</span>
+            <p className='mb-6 flex items-center gap-2 text-white-100 '>
+              <AlternatingText text1='Improve' text2='Compete' text3='Have fun' />{' '}
+              <span className='text-[1.125rem]'>with our online contests</span>
             </p>
             <StaticLinkToApp className='h-[4.5rem] px-20' />
           </div>
@@ -54,7 +55,7 @@ export function HeroSection() {
 
 function AlternatingText({ text1, text2, text3 }: { text1: string; text2: string; text3: string }) {
   return (
-    <span className='relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20 text-center font-medium'>
+    <span className='relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20 text-center text-[1.125rem] font-medium'>
       <span className='vertical-alignment-fix absolute left-0 h-9 w-full animate-landing-alternating-text'>
         {text1}
       </span>
