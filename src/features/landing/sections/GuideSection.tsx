@@ -13,7 +13,7 @@ export function GuideSection({ id }: { id: string }) {
     <Container>
       <section id={id} className='landing-offset-anchor'>
         <h2 className='landing-h2 mb-14 text-center'>Three easy steps to get started</h2>
-        <div className='grid grid-flow-col grid-cols-2 grid-rows-[repeat(3,auto)] gap-3'>
+        <div className='grid grid-flow-col grid-cols-2 grid-rows-[repeat(3,auto)] gap-3 lg:grid-cols-1 lg:grid-rows-[repeat(4,auto)] lg:justify-items-center'>
           <ul className='contents'>
             <StepsListItem
               number={1}
@@ -59,7 +59,7 @@ export function GuideSection({ id }: { id: string }) {
               }
             />
           </ul>
-          <div className='row-span-3 flex flex-col items-center justify-end gap-14'>
+          <div className='row-span-3 flex flex-col items-center justify-end gap-14 lg:row-span-1 lg:pt-12'>
             <LazyVideo thumbnail={virtualCubeThumbnail} mp4={virtualCubeMp4} webm={virtualCubeWebM} muted width={380} />
             <StaticLinkToApp className='h-[4.5rem] px-[4.625rem]' />
           </div>
@@ -71,7 +71,7 @@ export function GuideSection({ id }: { id: string }) {
 
 function StepsListItem({ number, title, text }: { number: number; title: string; text: ReactNode }) {
   return (
-    <li className='flex gap-10 rounded-3xl py-10 pl-10 pr-[6.25rem] [background:linear-gradient(90deg,rgba(6,7,9,1)_15%,rgba(73,76,116,1)_100%)]'>
+    <li className='flex gap-10 rounded-3xl py-10 pl-10 pr-[6.25rem] [background:linear-gradient(90deg,rgba(6,7,9,1)_15%,rgba(73,76,116,1)_100%)] lg:max-w-[40rem]'>
       <span className='font-outline-2 shrink-0 basis-[4.625rem] text-center font-kanit text-[8.75rem] leading-[.75] text-transparent [-webkit-text-stroke:_1px_#8F8FFE]'>
         {number}
       </span>

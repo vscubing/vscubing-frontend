@@ -26,7 +26,7 @@ export function ContactsSection({ id }: { id: string }) {
           </div>
           <div className='relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80'>
             <AnimatedBackground />
-            <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' className='relative' />
+            <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' className='relative max-w-[80%]' />
           </div>
         </div>
       </section>

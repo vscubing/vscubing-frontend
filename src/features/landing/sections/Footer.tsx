@@ -49,13 +49,13 @@ export function Footer({
               </a>
             </SecondaryButton>
           </div>
-          <div className='flex gap-3'>
+          <div className='flex gap-3 pl-2 lg:flex-col lg:gap-10 lg:pl-0'>
             <div className='w-[19.125rem]'>
-              <div className='mb-2 pl-2'>
+              <div className='mb-2'>
                 <h2 className='landing-h3 mb-4'>Have questions?</h2>
                 <p>Reach out to us at</p>
               </div>
-              <div className='flex gap-2'>
+              <div className='-ml-2 flex gap-2'>
                 {[
                   { href: 'https://github.com/vscubing', children: <GithubIcon /> },
                   { href: 'https://www.linkedin.com/company/vscubing', children: <LinkedinIcon /> },
@@ -71,9 +71,9 @@ export function Footer({
                 ))}
               </div>
             </div>
-            <div className='w-[21.125rem]'>
-              <h2 className='landing-h3 mb-4'>Quick links</h2>
-              <nav className='flex flex-col gap-4'>
+            <div className='w-[21.125rem] pt-3'>
+              <h2 className='mb-4 font-medium text-white-100'>Quick links</h2>
+              <nav className='flex flex-col gap-[.8rem]'>
                 {navigationAnchors
                   .filter(({ id }) => id !== 'contacts') // we already have the contacts in the footer
                   .map(({ id, name }) => (
@@ -83,9 +83,9 @@ export function Footer({
                   ))}
               </nav>
             </div>
-            <div className='flex-1'>
-              <h2 className='landing-h3 mb-4'>Creators</h2>
-              <ul className='flex flex-col gap-2 font-medium'>
+            <div className='flex-1 pt-3'>
+              <h2 className='mb-4 font-medium text-white-100'>Creators</h2>
+              <ul className='flex flex-col gap-[.8rem] font-medium'>
                 <li>
                   <a
                     className='hover:text-white-100'
@@ -124,7 +124,7 @@ function AnimatedCube({ src, className, toTranslateY }: { src: string; className
       src={src}
       loading='lazy'
       alt=''
-      className={cn('animate-landing-footer-cubes pointer-events-none absolute', className)}
+      className={cn('pointer-events-none absolute animate-landing-footer-cubes', className)}
       style={{ '--toTranslateY': toTranslateY } as CSSProperties}
     />
   )

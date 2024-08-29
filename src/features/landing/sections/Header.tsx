@@ -16,7 +16,7 @@ export function Header({ navigationAnchors }: { navigationAnchors: { id: string;
             isWindowScrolled ? 'items-center bg-black-80/75 py-2 backdrop-blur-lg ' : 'items-end pb-2 pt-9',
           )}
         >
-          <div className='flex w-full items-center gap-[6.25rem]'>
+          <div className='flex w-full items-center gap-[6.25rem] lg:gap-20'>
             <a href='#'>
               <Logo variant='full' />
             </a>

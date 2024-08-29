@@ -10,7 +10,7 @@ export function AboutSection({ className, id }: { className: string; id: string 
     <Container className={className}>
       <section className='landing-offset-anchor mx-auto max-w-[75rem]' id={id}>
         <h2 className='landing-h2 mb-14 text-center'>What is virtual speedcubing?</h2>
-        <div className='mb-12 flex justify-center gap-40'>
+        <div className='mb-12 flex justify-center gap-40 lg:gap-3'>
           <div className='flex items-center gap-2'>
             <CubeIcon className='flex-shrink-0' />
             <p>
