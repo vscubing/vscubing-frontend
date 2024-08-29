@@ -55,7 +55,7 @@ export function AnimationsController({ children }: { children: ReactNode }) {
   )
 }
 
-export function useAnimationContext() {
+function useAnimationContext() {
   const context = useContext(AnimationContext)
   if (!context) {
     throw new Error('animation context is missing')
