@@ -24,21 +24,7 @@ export function Footer({
   return (
     <Container className={cn('pb-[1.625rem]', className)}>
       <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[1.625rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
-        <img
-          src={footerBgCubes}
-          loading='lazy'
-          alt=''
-          className='pointer-events-none absolute bottom-0 right-0 w-full object-contain object-right-bottom'
-        />
-        <AnimatedCube src={animatedCube1} className='bottom-[-7.5rem] left-[-1.5rem]' toTranslateY='-10%' />
-        <AnimatedCube src={animatedCube2} className='bottom-0 left-[30%]' toTranslateY='35%' />
-        <AnimatedCube src={animatedCube3} className='bottom-[-10.5rem] left-[40%]' toTranslateY='-10%' />
-        <AnimatedCube src={animatedCube4} className='bottom-[-16.5rem] left-[56%]' toTranslateY='-7%' />
-        <AnimatedCube src={animatedCube5} className='bottom-[1rem] left-[65%]' toTranslateY='35%' />
-        <AnimatedCube src={animatedCube6} className='bottom-[3.5rem] right-[12rem]' toTranslateY='35%' />
-        <AnimatedCube src={animatedCube7} className='bottom-[-1rem] right-[3rem]' toTranslateY='-30%' />
-        <AnimatedCube src={animatedCube8} className='right-[10rem] top-[2.5rem]' toTranslateY='10%' />
-        <AnimatedCube src={animatedCube9} className='right-[.2rem] top-[0]' toTranslateY='15%' />
+        <AnimatedBackground />
 
         <div className='relative' /* position:relative to put it over footerBgCubes */>
           <div className='mb-7 flex items-center justify-between'>
@@ -118,11 +104,49 @@ export function Footer({
   )
 }
 
+function AnimatedBackground() {
+  return (
+    <div className='sm:hidden'>
+      <img
+        src={footerBgCubes}
+        loading='lazy'
+        alt=''
+        className='pointer-events-none absolute bottom-0 right-[-3rem] max-w-max lg:right-[-4rem] md:bottom-[-1rem]'
+      />
+      <AnimatedCube src={animatedCube1} className='bottom-[-7.5rem] left-[-3.8rem] md:hidden' toTranslateY='-10%' />
+      <AnimatedCube src={animatedCube2} className='bottom-0 left-[26%] md:hidden' toTranslateY='35%' />
+      <AnimatedCube
+        src={animatedCube3}
+        className='bottom-[-10.5rem] left-[40%] lg:left-[30%] md:bottom-[-12rem] md:left-[-6rem]'
+        toTranslateY='-10%'
+      />
+      <AnimatedCube src={animatedCube4} className='bottom-[-16.5rem] left-[56%] md:left-[6rem]' toTranslateY='-7%' />
+      <AnimatedCube
+        src={animatedCube5}
+        className='bottom-[1rem] left-[65%] lg:left-[50%] md:left-[35%]'
+        toTranslateY='35%'
+      />
+      <AnimatedCube src={animatedCube6} className='bottom-[3.5rem] right-[12rem]' toTranslateY='35%' />
+      <AnimatedCube src={animatedCube7} className='bottom-[-1rem] right-[1rem] md:right-[-1rem]' toTranslateY='-30%' />
+      <AnimatedCube
+        src={animatedCube8}
+        className='right-[10rem] top-[2.5rem] lg:bottom-[13rem] lg:right-[25rem] lg:top-auto md:right-[6rem]'
+        toTranslateY='10%'
+      />
+      <AnimatedCube
+        src={animatedCube9}
+        className='right-[.2rem] top-[0] lg:bottom-[14rem] lg:right-[15rem] lg:top-auto md:right-[-3rem]'
+        toTranslateY='15%'
+      />
+    </div>
+  )
+}
+
 function AnimatedCube({ src, className, toTranslateY }: { src: string; className: string; toTranslateY: string }) {
   return (
     <img
       src={src}
-      loading='lazy'
+      // loading='lazy'
       alt=''
       className={cn('pointer-events-none absolute animate-landing-footer-cubes', className)}
       style={{ '--toTranslateY': toTranslateY } as CSSProperties}
