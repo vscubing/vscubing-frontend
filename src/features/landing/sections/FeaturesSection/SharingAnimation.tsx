@@ -1,23 +1,17 @@
-import { ShareIcon, secondaryButtonVariants } from '@/components/ui'
+import { SecondaryButton, ShareIcon } from '@/components/ui'
 import smileyArrowImg from '../../assets/features-sharing-img.svg'
 import cursorIcon from '../../assets/features-sharing-cursor.svg'
 import { AnimationItem } from './animations'
-import { cn } from '@/utils'
 
 export function SharingAnimation() {
   return (
     <div className='flex h-full items-center justify-center gap-3'>
       <div className='relative'>
-        <AnimationItem
-          className={cn(
-            secondaryButtonVariants({ size: 'iconSm' }),
-            'animate-landing-features-sharing-button cursor-pointer',
-          )}
-          shouldRegisterAnimationEnd={false}
-          block='sharing'
-        >
-          <ShareIcon />
-        </AnimationItem>
+        <SecondaryButton asChild size='iconSm' className='animate-landing-features-sharing-button cursor-pointer'>
+          <AnimationItem shouldRegisterAnimationEnd={false} block='sharing'>
+            <ShareIcon />
+          </AnimationItem>
+        </SecondaryButton>
         <AnimationItem
           block='sharing'
           shouldRegisterAnimationEnd={false}
