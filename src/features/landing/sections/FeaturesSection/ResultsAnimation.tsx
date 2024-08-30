@@ -4,7 +4,7 @@ import { AnimationItem } from './animations'
 
 export function ResultsAnimation() {
   return (
-    <div className='relative h-full'>
+    <div className='relative -ml-16 h-full sm:min-w-[28rem] sm:scale-[60%]'>
       <ResultsAnimationItem
         fromRotation='18deg'
         fromLeft='-13%'

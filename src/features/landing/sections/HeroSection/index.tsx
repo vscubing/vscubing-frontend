@@ -11,8 +11,8 @@ const TwistySection = lazy(() => import('./TwistySection.lazy'))
 export function HeroSection() {
   return (
     <Container>
-      <section className='flex min-h-svh flex-col justify-center pb-12 pt-28 md:min-h-0 md:pt-24'>
-        <div className='grid max-h-[40rem] min-h-[35rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3 lg:max-h-none lg:grid-cols-[1fr,30rem] lg:grid-rows-[40rem,auto] md:grid-cols-[1fr,22.4rem] md:grid-rows-[34rem,auto]'>
+      <section className='flex min-h-svh flex-col justify-center pb-12 pt-28 md:min-h-0 md:pt-24 sm:pb-0'>
+        <div className='grid max-h-[40rem] min-h-[35rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3 lg:max-h-none lg:grid-cols-[1fr,30rem] lg:grid-rows-[40rem,auto] md:grid-cols-[1fr,22.4rem] md:grid-rows-[34rem,auto] sm:block sm:space-y-3'>
           <div
             style={{
               clipPath: matchesQuery('sm')
@@ -23,30 +23,30 @@ export function HeroSection() {
                     ? CLIP_PATH_POLYGON.LG
                     : CLIP_PATH_POLYGON.XL,
             }}
-            className='row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10 [background:linear-gradient(159deg,rgba(73,76,116,1)_0%,rgba(27,30,37,1)_71%)] lg:col-span-2 lg:row-span-1 md:px-6 md:pt-32'
+            className='row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10 [background:linear-gradient(159deg,rgba(73,76,116,1)_0%,rgba(27,30,37,1)_71%)] lg:col-span-2 lg:row-span-1 md:px-6 md:pt-32 sm:px-4 sm:pb-4 sm:pt-20'
           >
-            <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100'>
-              <span className='whitespace-nowrap'>
+            <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100 sm:block sm:leading-[1.3]'>
+              <span className='whitespace-nowrap sm:mr-2 sm:whitespace-normal'>
                 Join <span className='landing-h3 text-grey-40'>the</span> exciting world
               </span>
-              <span className='whitespace-nowrap'>
-                <span className='landing-h3 text-grey-40'>of</span> <StopwatchIcon className='-mt-2 inline' /> virtual
-                speedcubing
+              <span className='whitespace-nowrap sm:whitespace-normal'>
+                <span className='landing-h3 text-grey-40 sm:mr-1'>of</span>{' '}
+                <StopwatchIcon className='-mt-2 inline sm:w-11' /> virtual speedcubing
               </span>
             </h1>
             <p className='mb-6 flex items-center gap-2 text-white-100 '>
               <AlternatingText text1='Improve' text2='Compete' text3='Have fun' />{' '}
               <span className='text-[1.125rem]'>with our online contests</span>
             </p>
-            <StaticLinkToApp className='h-[4.5rem] px-20' />
+            <StaticLinkToApp className='h-[4.5rem] px-20 sm:h-[4.5rem] sm:w-full' />
           </div>
 
-          <div className='flex aspect-square w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4 lg:mt-[-19rem] lg:aspect-square lg:w-auto md:mt-[-13rem]'>
+          <div className='flex aspect-square w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4 lg:mt-[-19rem] lg:aspect-square lg:w-auto md:mt-[-13rem] sm:mt-0'>
             <Suspense fallback={<LoadingSpinner />}>
               <TwistySection />
             </Suspense>
           </div>
-          <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80 lg:col-start-1 lg:row-start-2 lg:ml-0'>
+          <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80 lg:col-start-1 lg:row-start-2 lg:ml-0 sm:hidden'>
             <AnimatedBackground />
             <ul className='absolute grid -rotate-[18deg] grid-cols-[repeat(10,auto)] gap-1 lg:scale-75 md:scale-50'>
               {KEY_MAP.map(({ keyName, cubeMovement }) => (

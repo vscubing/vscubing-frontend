@@ -8,7 +8,9 @@ export function AcknowledgmentsSection() {
     <Container>
       <section>
         <h2 className='landing-h2 mb-4 text-center'>Acknowledgments</h2>
-        <p className='mb-14 text-center'>Special thanks to the incredible tools and platforms that power our project</p>
+        <p className='mb-14 text-center sm:mb-10'>
+          Special thanks to the incredible tools and platforms that power our project
+        </p>
         <div className='grid grid-cols-3 gap-3 md:mx-auto md:max-w-[40rem] md:grid-cols-1'>
           <Acknowledgment
             name='csTimer'
@@ -46,7 +48,7 @@ function Acknowledgment({
   description: string
 }) {
   return (
-    <div className='rounded-3xl bg-black-100 p-10'>
+    <div className='rounded-3xl bg-black-100 p-10 sm:p-6'>
       <a href={link} className='mb-4 inline-flex items-end gap-2'>
         <span className='flex h-[3.375rem] w-[3.375rem] items-center justify-center rounded-2xl bg-white-100'>
           <img src={logoImg} alt={name} />

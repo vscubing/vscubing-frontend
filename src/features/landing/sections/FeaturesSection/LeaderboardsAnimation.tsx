@@ -6,7 +6,7 @@ import { CSSProperties } from 'react'
 export function LeaderboardsAnimation() {
   return (
     <div className='flex justify-end'>
-      <div className='w-[24rem] pr-10 pt-8'>
+      <div className='w-[24rem] pr-10 pt-8 sm:py-4 sm:pr-0'>
         <div className='mb-1 flex gap-3 text-[.75rem] text-grey-40'>
           <span>Place</span>
           <span>Type</span>

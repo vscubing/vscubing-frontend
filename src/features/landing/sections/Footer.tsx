@@ -23,13 +23,13 @@ export function Footer({
 }) {
   return (
     <Container className={cn('pb-[1.625rem]', className)}>
-      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[1.625rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)]'>
+      <footer className='relative overflow-clip rounded-3xl px-[1.625rem] pb-[1.625rem] pt-10 [background:linear-gradient(180deg,#060709_0%,#494C74_100%)] sm:px-6'>
         <AnimatedBackground />
 
         <div className='relative' /* position:relative to put it over footerBgCubes */>
           <div className='mb-7 flex items-center justify-between'>
-            <Logo variant='full' className='w-[38.5rem]' />
-            <SecondaryButton asChild className='h-11 w-11 px-0 [&>svg]:h-6 [&>svg]:w-6'>
+            <Logo variant='full' className='w-[38.5rem] sm:w-auto' />
+            <SecondaryButton asChild className='h-11 w-11 px-0 sm:h-11 sm:w-11 [&>svg]:h-6 [&>svg]:w-6'>
               <a href='#'>
                 <ChevronLeftIcon className='rotate-90' />
               </a>
@@ -93,7 +93,7 @@ export function Footer({
               </ul>
             </div>
           </div>
-          <div className='flex justify-end pt-5'>
+          <div className='mt-5 flex justify-end sm:mt-20 sm:justify-start'>
             <a href='https://u24.gov.ua/about'>
               <img src={standWithUkraineImg} alt='Stand with Ukraine' />
             </a>

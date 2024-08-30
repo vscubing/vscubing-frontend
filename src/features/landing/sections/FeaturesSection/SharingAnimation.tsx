@@ -7,7 +7,11 @@ export function SharingAnimation() {
   return (
     <div className='flex h-full items-center justify-center gap-3'>
       <div className='relative'>
-        <SecondaryButton asChild size='iconSm' className='animate-landing-features-sharing-button cursor-pointer'>
+        <SecondaryButton
+          asChild
+          size='iconSm'
+          className='animate-landing-features-sharing-button cursor-pointer sm:h-15 sm:w-15'
+        >
           <AnimationItem shouldRegisterAnimationEnd={false} block='sharing'>
             <ShareIcon />
           </AnimationItem>

@@ -14,7 +14,7 @@ export function FeaturesSection({ className, id }: { className: string; id: stri
       <section id={id} className='landing-offset-anchor'>
         <h2 className='landing-h2 mb-14 text-center'>The problem we solve</h2>
         <AnimationsController>
-          <ul className='grid grid-cols-2 justify-center gap-3 lg:grid-cols-1 lg:justify-items-center'>
+          <ul className='grid grid-cols-2 justify-center gap-3 lg:mx-auto lg:max-w-[40rem] lg:grid-cols-1 lg:grid-rows-[repeat(4,1fr)]'>
             <BlockIntersectionWrapper block='results'>
               <Feature
                 title='Automated results'
@@ -66,10 +66,10 @@ function Feature({
   visualization: ReactNode
 }) {
   return (
-    <li className='flex h-[18.75rem] flex-col overflow-clip rounded-3xl bg-black-100 px-10 pb-10 lg:w-[40rem]'>
-      <div className='flex flex-1 gap-28'>
-        <div className='self-end pb-6'>{icon}</div>
-        <div className='-mb-2 -ml-2 -mr-10 flex-1'>{visualization}</div>
+    <li className='flex h-[18.75rem] flex-col overflow-clip rounded-3xl bg-black-100 px-10 pb-10 sm:h-full sm:w-auto sm:px-6 sm:pb-6 sm:pt-12'>
+      <div className='flex flex-1 gap-28 sm:flex-col-reverse sm:gap-8'>
+        <div className='self-end pb-6 sm:self-start'>{icon}</div>
+        <div className='-mb-2 -ml-2 -mr-10 flex-1 sm:mb-0 sm:ml-0 sm:mr-0'>{visualization}</div>
       </div>
       <h3 className='landing-h3 mb-2'>{title}</h3>
       <p>{description}</p>

@@ -24,14 +24,14 @@ function LandingPage() {
   return (
     <div className='bg-black-120 leading-[1.4] text-grey-40'>
       <Header navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
-      <main className='space-y-40'>
+      <main className='space-y-40 sm:space-y-24'>
         <HeroSection />
         <AboutSection className='relative z-10' id={NAVIGATION_ANCHORS.about.id} />
         <div className='relative overflow-x-clip'>
           <img
             src={featuresBackground}
             loading='lazy'
-            className='absolute bottom-[calc(100%-20rem)] left-1/2 w-screen max-w-max -translate-x-1/2 md:w-[200%]'
+            className='absolute bottom-[calc(100%-20rem)] left-1/2 w-screen max-w-max -translate-x-1/2 md:w-[200%] sm:hidden'
           />
           <FeaturesSection className='relative' id={NAVIGATION_ANCHORS.features.id} />
         </div>
@@ -39,7 +39,7 @@ function LandingPage() {
         <ContactsSection id={NAVIGATION_ANCHORS.contacts.id} />
         <AcknowledgmentsSection />
       </main>
-      <Footer className='mt-40' navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
+      <Footer className='mt-40 sm:mt-24' navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
     </div>
   )
 }
