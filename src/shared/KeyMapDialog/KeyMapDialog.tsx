@@ -2,6 +2,7 @@ import { DialogCloseCross, DialogContent, DialogTrigger, UnderlineButton } from 
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/utils'
 import { type ElementRef, forwardRef, type ComponentPropsWithoutRef } from 'react'
+import { KEY_MAP } from '.'
 
 export const KeyMapDialogTrigger = forwardRef<
   ElementRef<typeof UnderlineButton>,
