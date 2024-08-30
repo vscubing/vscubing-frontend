@@ -11,7 +11,7 @@ const TwistySection = lazy(() => import('./TwistySection.lazy'))
 export function HeroSection() {
   return (
     <Container>
-      <section className='flex min-h-svh flex-col justify-center pb-12 pt-28'>
+      <section className='flex min-h-svh flex-col justify-center pb-12 pt-28 md:pt-24'>
         <div className='grid max-h-[40rem] min-h-[35rem] flex-1 grid-cols-[1fr,auto] grid-rows-[auto,1fr] gap-3 lg:max-h-none lg:grid-cols-[1fr,30rem] lg:grid-rows-[40rem,auto]'>
           <div
             style={{ clipPath: matchesQuery('lg') ? CLIP_PATH_POLYGON_TABLET : CLIP_PATH_POLYGON }}
