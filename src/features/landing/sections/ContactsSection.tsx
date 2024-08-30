@@ -7,7 +7,7 @@ export function ContactsSection({ id }: { id: string }) {
   return (
     <Container>
       <section id={id} className='landing-offset-anchor'>
-        <div className='grid grid-cols-2 grid-rows-[30rem] gap-3'>
+        <div className='grid grid-cols-2 grid-rows-[30rem] gap-3 md:grid-cols-1 md:grid-rows-[30rem,30rem]'>
           <div className='relative'>
             <div
               className='flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'
@@ -24,7 +24,7 @@ export function ContactsSection({ id }: { id: string }) {
               <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
             </PrimaryButton>
           </div>
-          <div className='relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80'>
+          <div className='relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80 md:row-start-1'>
             <AnimatedBackground />
             <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' className='relative max-w-[80%]' />
           </div>

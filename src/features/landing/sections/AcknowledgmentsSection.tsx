@@ -9,7 +9,7 @@ export function AcknowledgmentsSection() {
       <section>
         <h2 className='landing-h2 mb-4 text-center'>Acknowledgments</h2>
         <p className='mb-14 text-center'>Special thanks to the incredible tools and platforms that power our project</p>
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='grid grid-cols-3 gap-3 md:mx-auto md:max-w-[40rem] md:grid-cols-1'>
           <Acknowledgment
             name='csTimer'
             link='https://csTimer.net'

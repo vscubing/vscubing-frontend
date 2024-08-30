@@ -27,8 +27,12 @@ function LandingPage() {
       <main className='space-y-40'>
         <HeroSection />
         <AboutSection className='relative z-10' id={NAVIGATION_ANCHORS.about.id} />
-        <div className='relative'>
-          <img src={featuresBackground} loading='lazy' className='top absolute bottom-[calc(100%-40rem)] w-screen' />
+        <div className='relative overflow-x-clip'>
+          <img
+            src={featuresBackground}
+            loading='lazy'
+            className='absolute bottom-[calc(100%-20rem)] left-1/2 w-screen max-w-max -translate-x-1/2 md:w-[200%]'
+          />
           <FeaturesSection className='relative' id={NAVIGATION_ANCHORS.features.id} />
         </div>
         <GuideSection id={NAVIGATION_ANCHORS.guide.id} />
