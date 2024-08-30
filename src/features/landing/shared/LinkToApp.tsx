@@ -13,6 +13,7 @@ export function StaticLinkToApp({ className }: { className?: string }) {
 
 export function DynamicLinkToApp({ className }: { className?: string }) {
   const [isAnyStaticLinkVisible, setIsAnyStaticLinkVisible] = useState<boolean>(true)
+  const showDynamicLink = !isAnyStaticLinkVisible
 
   useEffect(() => {
     const staticLinks = document.querySelectorAll('[data-static-link-to-app]')
@@ -25,7 +26,10 @@ export function DynamicLinkToApp({ className }: { className?: string }) {
   }, [])
 
   return (
-    <PrimaryButton asChild className={cn('transition-base', { 'opacity-0': isAnyStaticLinkVisible }, className)}>
+    <PrimaryButton
+      asChild
+      className={cn('transition-base', { 'pointer-events-none opacity-0': !showDynamicLink }, className)}
+    >
       <Link to='/'>Start cubing now</Link>
     </PrimaryButton>
   )
