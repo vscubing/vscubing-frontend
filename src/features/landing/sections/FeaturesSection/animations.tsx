@@ -2,6 +2,8 @@ import { cn } from '@/utils'
 import { createContext, ReactNode, useRef, useState, useEffect, useContext, ComponentPropsWithoutRef } from 'react'
 import { type BlockType } from '.'
 
+const INTERVAL_BETWEEN_ANIMATIONS = 1000
+
 type AnimationContextType = {
   canRun: Record<BlockType, boolean>
   blocksRef: BlocksRef
@@ -42,10 +44,14 @@ export function AnimationsController({ children }: { children: ReactNode }) {
   }, [queue])
 
   function onAnimationEnd(block: BlockType) {
-    setQueue((prev) => {
-      const currentBlock = prev[0]
-      return currentBlock === block ? prev.slice(1) : prev
-    })
+    setTimeout(
+      () =>
+        setQueue((prev) => {
+          const currentBlock = prev[0]
+          return currentBlock === block ? prev.slice(1) : prev
+        }),
+      INTERVAL_BETWEEN_ANIMATIONS,
+    )
   }
 
   return (
