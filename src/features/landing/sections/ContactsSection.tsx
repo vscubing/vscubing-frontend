@@ -11,7 +11,7 @@ export function ContactsSection({ id }: { id: string }) {
         <div className='grid grid-cols-2 grid-rows-[30rem] gap-3 md:grid-cols-1 md:grid-rows-[30rem,30rem] sm:grid-rows-none'>
           <div className='relative sm:rounded-3xl sm:px-4 sm:pb-4 sm:pt-15 sm:[background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'>
             <div
-              className='sm:background-none flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)] sm:h-auto sm:p-0'
+              className='flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)] sm:h-auto sm:bg-none sm:p-0'
               style={{ clipPath: matchesQuery('sm') ? 'none' : CLIP_PATH_POLYGON }}
             >
               <h2 className='landing-h2 mb-6'>
