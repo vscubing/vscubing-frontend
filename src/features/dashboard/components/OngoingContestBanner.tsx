@@ -9,7 +9,7 @@ export function OngoingContestBanner() {
   const { data: ongoing } = useOngoingContest()
 
   return (
-    <section className={cn('bg-card-gradient overflow-x-clip rounded-2xl')}>
+    <section className={cn('bg-card-gradient overflow-clip rounded-2xl')}>
       {ongoing?.isOnMaintenance ? (
         <BannerOnMaintenance />
       ) : (
