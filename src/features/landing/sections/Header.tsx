@@ -25,7 +25,11 @@ export function Header({ navigationAnchors }: { navigationAnchors: { id: string;
             </a>
             <nav className='vertical-alignment-fix flex gap-10 md:hidden'>
               {navigationAnchors.map(({ id, name }) => (
-                <a key={id} href={`#${id}`} className='transition-base font-medium text-grey-40 hover:text-white-100'>
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className='transition-base text-[1.125rem] font-medium text-grey-40 hover:text-white-100'
+                >
                   {name}
                 </a>
               ))}

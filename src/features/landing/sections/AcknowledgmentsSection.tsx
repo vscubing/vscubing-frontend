@@ -49,11 +49,11 @@ function Acknowledgment({
 }) {
   return (
     <div className='rounded-3xl bg-black-100 p-10 sm:p-6'>
-      <a href={link} className='mb-4 inline-flex items-end gap-2'>
+      <a href={link} className='group mb-4 inline-flex items-end gap-2'>
         <span className='flex h-[3.375rem] w-[3.375rem] items-center justify-center rounded-2xl bg-white-100'>
           <img src={logoImg} alt={name} />
         </span>
-        <span className='text-primary-60'>{name}</span>
+        <span className='text-primary-60 group-hover:underline'>{name}</span>
       </a>
       <p>{description}</p>
     </div>

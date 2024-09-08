@@ -63,7 +63,7 @@ export function Footer({
                 {navigationAnchors
                   .filter(({ id }) => id !== 'contacts') // we already have the contacts in the footer
                   .map(({ id, name }) => (
-                    <a key={id} href={`#${id}`} className='font-medium hover:text-white-100'>
+                    <a key={id} href={`#${id}`} className='text-[1.125rem] font-medium hover:text-white-100'>
                       {name}
                     </a>
                   ))}
@@ -71,7 +71,7 @@ export function Footer({
             </div>
             <div className='flex-1 pt-3'>
               <h2 className='mb-4 font-medium text-white-100'>Creators</h2>
-              <ul className='flex flex-col gap-[.8rem] font-medium'>
+              <ul className='flex flex-col gap-[.8rem] text-[1.125rem] font-medium'>
                 <li>
                   <a
                     className='hover:text-white-100'
