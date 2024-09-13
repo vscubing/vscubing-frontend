@@ -20,9 +20,14 @@ export function ContactsSection({ id }: { id: string }) {
               </h2>
               <p>Share your solves, discuss strategies, and connect with fellow enthusiasts</p>
             </div>
-            <PrimaryButton className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full'>
-              Join us on Discord{' '}
-              <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
+            <PrimaryButton
+              asChild
+              className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full'
+            >
+              <a href='https://discord.gg/PxFrW9vTAy'>
+                Join us on Discord{' '}
+                <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
+              </a>
             </PrimaryButton>
           </div>
           <div className='relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80 md:row-start-1 sm:py-12'>
