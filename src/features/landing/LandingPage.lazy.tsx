@@ -24,7 +24,7 @@ function LandingPage() {
   return (
     <div className='bg-black-120 text-[1rem] leading-[1.4] text-grey-40'>
       <Header navigationAnchors={Object.values(NAVIGATION_ANCHORS)} />
-      <main className='space-y-40 sm:space-y-24'>
+      <main className='space-y-44 sm:space-y-24'>
         <HeroSection />
         <AboutSection className='relative z-10' id={NAVIGATION_ANCHORS.about.id} />
         <div className='relative overflow-x-clip'>
