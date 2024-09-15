@@ -146,6 +146,7 @@ function SocialLinks({ className }: { className?: string }) {
           href={href}
           key={href}
           className='transition-base outline-ring flex h-11 w-11 items-center justify-center text-[1.5rem] text-grey-20 hover:text-primary-80'
+          target='_blank'
         >
           {children}
         </a>

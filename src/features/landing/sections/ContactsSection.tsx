@@ -24,7 +24,7 @@ export function ContactsSection({ id }: { id: string }) {
               asChild
               className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full'
             >
-              <a href='https://discord.gg/PxFrW9vTAy'>
+              <a href='https://discord.gg/PxFrW9vTAy' target='_blank'>
                 Join us on Discord{' '}
                 <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
               </a>

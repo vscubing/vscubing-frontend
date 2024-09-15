@@ -51,6 +51,7 @@ export function Footer({
                     href={href}
                     key={href}
                     className='transition-base outline-ring flex h-11 w-11 items-center justify-center text-[1.5rem] text-grey-20 hover:text-primary-80'
+                    target='_blank'
                   >
                     {children}
                   </a>
@@ -146,7 +147,7 @@ function AnimatedCube({ src, className, toTranslateY }: { src: string; className
   return (
     <img
       src={src}
-      // loading='lazy'
+      loading='lazy'
       alt=''
       className={cn('pointer-events-none absolute animate-landing-footer-cubes', className)}
       style={{ '--toTranslateY': toTranslateY } as CSSProperties}

@@ -53,9 +53,8 @@ export function toast({ title, description, contactUsButton = false, duration = 
     closeButton: true,
     description,
     action: contactUsButton
-      ? { label: 'Contact us', onClick: () => window.location.replace('https://discord.gg/PxFrW9vTAy') }
+      ? { label: 'Contact us', onClick: () => window.open('https://discord.gg/PxFrW9vTAy', '_blank') }
       : undefined,
-    //  TODO: add contact link (discord?)
     duration: durations[duration],
     id: dedupId,
   })

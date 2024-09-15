@@ -142,7 +142,7 @@ export function UiKit() {
 
         <SecondaryButton
           onClick={() => {
-            toast({ title: 'Test toast!', description: 'This is a test toast.' })
+            toast({ title: 'Test toast!', description: 'This is a test toast.', contactUsButton: true })
           }}
         >
           Toast!
