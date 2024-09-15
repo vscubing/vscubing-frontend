@@ -31,6 +31,7 @@ export function AboutSection({ className, id }: { className: string; id: string 
           muted
           preload='none'
           className='min-h-[19rem] rounded-3xl object-cover'
+          replayable
           thumbnail={virtualCubeLaptopThumbnail}
           webm={virtualCubeLaptopWebM}
           mp4={virtualCubeLaptopMp4}
