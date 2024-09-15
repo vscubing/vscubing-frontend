@@ -22,7 +22,7 @@ export function ContactsSection({ id }: { id: string }) {
             </div>
             <PrimaryButton
               asChild
-              className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full'
+              className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full sm:rounded-xl'
             >
               <a href='https://discord.gg/PxFrW9vTAy' target='_blank'>
                 Join us on Discord{' '}
