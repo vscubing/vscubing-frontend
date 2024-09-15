@@ -39,8 +39,8 @@ export function ResultsAnimation() {
         transitionLeft='17%'
         transitionTop='18%'
         toRotation='30deg'
-        toLeft='22%'
-        toTop='43%'
+        toLeft='24%'
+        toTop='39%'
       >
         Attempt 1
       </ResultsAnimationItem>
@@ -52,7 +52,7 @@ export function ResultsAnimation() {
         transitionLeft='10%'
         transitionTop='68%'
         toRotation='-22deg'
-        toLeft='8%'
+        toLeft='11%'
         toTop='70%'
       >
         Attempt 2
@@ -65,7 +65,7 @@ export function ResultsAnimation() {
         transitionLeft='67%'
         transitionTop='55%'
         toRotation='16deg'
-        toLeft='69%'
+        toLeft='71%'
         toTop='68%'
       >
         Attempt 3
@@ -78,7 +78,7 @@ export function ResultsAnimation() {
         transitionLeft='42%'
         transitionTop='15%'
         toRotation='32deg'
-        toLeft='45%'
+        toLeft='48%'
         toTop='47%'
       >
         Attempt 4
@@ -92,7 +92,7 @@ export function ResultsAnimation() {
         transitionTop='6%'
         toRotation='-16.5deg'
         toLeft='70%'
-        toTop='36%'
+        toTop='31%'
       >
         Attempt 5
       </ResultsAnimationItem>
