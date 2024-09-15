@@ -31,7 +31,8 @@ export function GuideSection({ id }: { id: string }) {
               title='Know your keys'
               text={
                 <>
-                  Our platform is intuitive — if you can solve a real cube, you can solve a virtual one.{' '}
+                  Our platform is intuitive — if you can solve a real cube, you can solve a virtual one.
+                  <br />
                   <KeyMapDialogTrigger className='text-primary-60 hover:underline'>
                     Check the keymap
                   </KeyMapDialogTrigger>{' '}
@@ -47,7 +48,8 @@ export function GuideSection({ id }: { id: string }) {
                   <a className='text-primary-60 hover:underline' href='https://cstimer.net/'>
                     Use csTimer
                   </a>{' '}
-                  for regular practice sessions, to track progress, and improve your skills. Also{' '}
+                  for regular practice sessions, to track progress, and improve your skills. <br />
+                  Also{' '}
                   <a
                     className='text-primary-60 hover:underline'
                     href='https://youtube.com/clip/UgkxcFC_Cw_ea1xKLOjcfLbNJMXjIOaAbcMZ?si=i2qFLqXnyFZW4dNA'
