@@ -14,7 +14,7 @@ export function ResultsAnimation() {
         transitionTop='30%'
         toRotation='11deg'
         toLeft='-8%'
-        toTop='52%'
+        toTop='46%'
       >
         Average time
       </ResultsAnimationItem>
@@ -27,7 +27,7 @@ export function ResultsAnimation() {
         transitionTop='57%'
         toRotation='-13deg'
         toLeft='34%'
-        toTop='78%'
+        toTop='72%'
       >
         Single time
       </ResultsAnimationItem>
@@ -40,7 +40,7 @@ export function ResultsAnimation() {
         transitionTop='18%'
         toRotation='30deg'
         toLeft='22%'
-        toTop='49%'
+        toTop='43%'
       >
         Attempt 1
       </ResultsAnimationItem>
@@ -53,7 +53,7 @@ export function ResultsAnimation() {
         transitionTop='68%'
         toRotation='-22deg'
         toLeft='8%'
-        toTop='76%'
+        toTop='70%'
       >
         Attempt 2
       </ResultsAnimationItem>
@@ -66,7 +66,7 @@ export function ResultsAnimation() {
         transitionTop='55%'
         toRotation='16deg'
         toLeft='69%'
-        toTop='74%'
+        toTop='68%'
       >
         Attempt 3
       </ResultsAnimationItem>
@@ -79,7 +79,7 @@ export function ResultsAnimation() {
         transitionTop='15%'
         toRotation='32deg'
         toLeft='45%'
-        toTop='53%'
+        toTop='47%'
       >
         Attempt 4
       </ResultsAnimationItem>
@@ -92,7 +92,7 @@ export function ResultsAnimation() {
         transitionTop='6%'
         toRotation='-16.5deg'
         toLeft='70%'
-        toTop='42%'
+        toTop='36%'
       >
         Attempt 5
       </ResultsAnimationItem>
