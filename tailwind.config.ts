@@ -65,9 +65,18 @@ export default {
           to: { transform: 'rotate(360deg)' },
         },
         'landing-alternating-text': {
-          '0%,20%': { transform: 'translateY(85%)' },
-          '33.3%,53.3%': { transform: 'translateY(0)' },
-          '66.6%,100%': { transform: 'translateY(-85%)' },
+          '0%,20%': {
+            transform: 'scale(2) translateY(80%)',
+            zoom: '0.5', // hack to make text not blurry
+          },
+          '33.3%,53.3%': {
+            transform: 'scale(2) translateY(34%)',
+            zoom: '0.5',
+          },
+          '66.6%,100%': {
+            transform: 'scale(2) translateY(-12%)',
+            zoom: '0.5',
+          },
         },
         'landing-blobs': {
           '0%,100%': {
