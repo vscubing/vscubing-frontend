@@ -110,7 +110,6 @@ function AnimatedBackground() {
     <div className='sm:hidden'>
       <img
         src={footerBgCubes}
-        loading='lazy'
         alt=''
         className='pointer-events-none absolute bottom-0 right-[-3rem] max-w-max lg:right-[-4rem] md:bottom-[-1rem]'
       />
@@ -147,7 +146,6 @@ function AnimatedCube({ src, className, toTranslateY }: { src: string; className
   return (
     <img
       src={src}
-      loading='lazy'
       alt=''
       className={cn('pointer-events-none absolute animate-landing-footer-cubes', className)}
       style={{ '--toTranslateY': toTranslateY } as CSSProperties}
