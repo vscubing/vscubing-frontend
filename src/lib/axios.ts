@@ -3,7 +3,6 @@ import { refreshAccessToken } from '@/features/auth/api/refreshAccessToken'
 import { createAuthorizedRequestInterceptor, getAuthTokens } from '@/utils'
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
-import applyCaseMiddleware from 'axios-case-converter'
 
 const axiosParams: AxiosRequestConfig = {
   headers: {
@@ -14,7 +13,6 @@ const axiosParams: AxiosRequestConfig = {
 }
 const _axiosClient = axios.create(axiosParams)
 
-applyCaseMiddleware(_axiosClient)
 createAuthorizedRequestInterceptor(_axiosClient)
 createAuthRefreshInterceptor(_axiosClient, () => refreshAccessToken(axiosParams), {
   shouldRefresh: (err) => err.response?.status === 401 && !!getAuthTokens(),

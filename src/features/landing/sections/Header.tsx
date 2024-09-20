@@ -70,7 +70,7 @@ function MobileMenu({
           </div>
           <div className='flex flex-1 flex-col items-center gap-11 rounded-b-3xl pt-6 text-[1rem] text-grey-40 [background:linear-gradient(180deg,rgba(6,7,9,1)_16%,rgba(73,76,116,1)_80%)]'>
             {navigationAnchors.map(({ id, name }) => (
-              <DialogPrimitive.Close asChild>
+              <DialogPrimitive.Close asChild key={id}>
                 <a href={`#${id}`} className='py-1 font-medium'>
                   {name}
                 </a>
