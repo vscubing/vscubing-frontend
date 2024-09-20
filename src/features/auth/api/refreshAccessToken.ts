@@ -12,7 +12,7 @@ export async function refreshAccessToken(axiosParams: AxiosRequestConfig) {
 
   try {
     const response = await axios.post<{ refresh: string }, { data: { access: string } }>(
-      '/accounts/token/refresh/',
+      '/api/accounts/token/refresh/',
       {
         refresh,
       },

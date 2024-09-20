@@ -8,6 +8,8 @@ export function createAuthorizedRequestInterceptor(client: AxiosInstance) {
     const accessToken = localStorage.getItem(LS_ACCESS_TOKEN)
     if (accessToken) {
       config.headers.set('Authorization', `Bearer ${accessToken}`)
+    } else {
+      config.headers.delete('Authorization')
     }
     return config
   })
