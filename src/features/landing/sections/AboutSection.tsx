@@ -3,7 +3,7 @@ import virtualCubeLaptopMp4 from '../assets/virtual-cube-laptop.mp4'
 import virtualCubeLaptopWebM from '../assets/virtual-cube-laptop.webm'
 import virtualCubeLaptopThumbnail from '../assets/virtual-cube-laptop-thumbnail.jpg'
 import { Container } from '../shared/Container'
-import { LazyVideo } from '../shared/LazyVideo'
+import { LazyAutoplayVideo } from '../shared/LazyAutoplayVideo'
 
 export function AboutSection({ className, id }: { className: string; id: string }) {
   return (
@@ -26,10 +26,8 @@ export function AboutSection({ className, id }: { className: string; id: string 
             </p>
           </div>
         </div>
-        <LazyVideo
+        <LazyAutoplayVideo
           width='100%'
-          muted
-          preload='none'
           className='min-h-[19rem] rounded-3xl object-cover'
           replayable
           thumbnail={virtualCubeLaptopThumbnail}

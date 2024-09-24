@@ -3,7 +3,7 @@ import { cn } from '@/utils'
 import { ComponentPropsWithoutRef, useRef, useState } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 
-export function LazyVideo({
+export function LazyAutoplayVideo({
   thumbnail,
   webm,
   mp4,
@@ -43,6 +43,8 @@ export function LazyVideo({
       <video
         preload='none'
         poster={thumbnail}
+        playsInline
+        muted
         {...props}
         ref={(el) => {
           ref.current = el

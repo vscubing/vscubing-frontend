@@ -6,7 +6,7 @@ import virtualCubeMp4 from '../assets/virtual-cube-screen.mp4'
 import virtualCubeWebM from '../assets/virtual-cube-screen.webm'
 import virtualCubeThumbnail from '../assets/virtual-cube-screen-thumbnail.jpg'
 import { StaticLinkToApp } from '../shared/LinkToApp'
-import { LazyVideo } from '../shared/LazyVideo'
+import { LazyAutoplayVideo } from '../shared/LazyAutoplayVideo'
 
 export function GuideSection({ id }: { id: string }) {
   return (
@@ -62,7 +62,12 @@ export function GuideSection({ id }: { id: string }) {
             />
           </ul>
           <div className='row-span-3 flex flex-col items-center justify-end gap-14 lg:row-span-1 lg:pt-12'>
-            <LazyVideo thumbnail={virtualCubeThumbnail} mp4={virtualCubeMp4} webm={virtualCubeWebM} muted width={380} />
+            <LazyAutoplayVideo
+              thumbnail={virtualCubeThumbnail}
+              mp4={virtualCubeMp4}
+              webm={virtualCubeWebM}
+              width={380}
+            />
             <StaticLinkToApp className='h-[4.5rem] px-[4.625rem] sm:h-[4.5rem]' />
           </div>
         </div>
