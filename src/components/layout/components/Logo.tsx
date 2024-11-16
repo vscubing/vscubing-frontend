@@ -6,8 +6,9 @@ import { Logo } from '@/components/ui'
 type LogoProps = ComponentProps<LinkComponent<'a'>> & { variant?: 'full' | 'sm' }
 export function LogoWithLinkToLanding({ variant = 'full', className, ...props }: LogoProps) {
   return (
-    <Link {...props} to='/landing' className={cn('title-h2 outline-ring', className)}>
+    <Link {...props} to='/landing' className={cn('title-h2 outline-ring relative', className)}>
       <Logo variant={variant} className={cn({ 'w-[13rem] sm:w-[12rem]': variant === 'full' })} />
+      <span className='absolute'>DEV</span>
     </Link>
   )
 }
