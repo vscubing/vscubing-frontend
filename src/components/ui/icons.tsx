@@ -12,6 +12,8 @@ import GoogleIcon from '@/assets/icons/google.svg?react'
 import LeaderboardIcon from '@/assets/icons/leaderboard.svg?react'
 import ChevronLeftIcon from '@/assets/icons/chevron-left.svg?react'
 import ChevronRightIcon from '@/assets/icons/chevron-right.svg?react'
+import ChevronUpIcon from '@/assets/icons/chevron-up.svg?react'
+import ChevronDownIcon from '@/assets/icons/chevron-down.svg?react'
 import LinkedinIcon from '@/assets/icons/linkedin.svg?react'
 import LogoutIcon from '@/assets/icons/logout.svg?react'
 import MenuIcon from '@/assets/icons/menu.svg?react'
@@ -28,6 +30,7 @@ import GithubIcon from '@/assets/icons/github.svg?react'
 import EllipsisIcon from '@/assets/icons/ellipsis.svg?react'
 import PlusIcon from '@/assets/icons/plus.svg?react'
 import MinusIcon from '@/assets/icons/minus.svg?react'
+import SettingIcon from '@/assets/icons/setting.svg?react'
 import { isDiscipline } from '@/types'
 import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef } from 'react'
@@ -46,6 +49,8 @@ export {
   GithubIcon,
   LeaderboardIcon,
   ChevronLeftIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
   LinkedinIcon,
   LogoutIcon,
   MenuIcon,
@@ -62,6 +67,7 @@ export {
   EllipsisIcon,
   PlusIcon,
   MinusIcon,
+  SettingIcon,
 }
 
 type CubeIconProps = HTMLAttributes<SVGSVGElement> & {

@@ -35,6 +35,9 @@ import {
   AlertDialogPortal,
   TOASTS_PRESETS,
   AlertDialogDescription,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  SettingIcon,
 } from '@/components/ui'
 import {
   toast,
@@ -66,6 +69,8 @@ export function UiKit() {
         <LeaderboardIcon />
         <ChevronLeftIcon />
         <ChevronRightIcon />
+        <ChevronDownIcon />
+        <ChevronUpIcon />
         <LinkedinIcon />
         <LogoutIcon />
         <MenuIcon />
@@ -80,6 +85,7 @@ export function UiKit() {
         <StopIcon />
         <GithubIcon />
         <GoogleIcon />
+        <SettingIcon />
       </div>
 
       <div className='mt-2 flex flex-wrap items-start gap-2 [&>div]:flex [&>div]:items-start [&>div]:gap-2'>
