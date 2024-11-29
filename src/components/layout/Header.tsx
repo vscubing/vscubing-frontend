@@ -21,8 +21,8 @@ import { useSetAtom } from 'jotai'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
 import { cn } from '@/utils'
 import { logout, useUser } from '@/features/auth'
-import { SignInButton } from '@/shared/SignInButton'
 import { AccountsCurrentUserOutput } from '@/api'
+import { SignInButton } from '@/shared/SignInButton'
 
 type HeaderProps = { title?: ReactNode; className?: string }
 export function Header({ title, className }: HeaderProps) {
@@ -31,24 +31,18 @@ export function Header({ title, className }: HeaderProps) {
 
   return (
     <header className={cn('z-40 flex bg-black-100 sm:pb-2 sm:pt-3', className)}>
-      <div className='mr-2 hidden h-14 w-14 items-center justify-center rounded-2xl bg-black-80 sm:flex'>
-        <MenuIcon onClick={() => setMobileMenuOpen(true)} />
-      </div>
-      <div className='flex h-[var(--header-height)] flex-1 gap-3 sm:gap-2'>
-        <LogoWithLinkToLanding className='hidden rounded-2xl bg-black-80 px-4 lg:flex sm:hidden' />
-        <div className='flex flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end sm:min-h-0 sm:p-[0.375rem]'>
-          <LogoWithLinkToLanding className='mr-auto hidden w-[10.25rem] sm:block' />
-          <h1 className='title-h3 lg:hidden sm:hidden'>{title}</h1>
-          <span className='flex items-center justify-end'>
-            {user ? <UserDropdown user={user} className='md:-mr-2 sm:mr-0' /> : <SignInButton variant='ghost' />}
-          </span>
-          <button
-            className='ml-4 hidden h-[44px] w-[44px] items-center justify-center lg:flex sm:ml-0 sm:hidden'
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <MenuIcon />
-          </button>
-        </div>
+      <button
+        onClick={() => setMobileMenuOpen(true)}
+        className='mr-2 hidden h-[4.375rem] w-[4.375rem] items-center justify-center rounded-2xl bg-black-80 lg:flex sm:h-14 sm:w-14'
+      >
+        <MenuIcon />
+      </button>
+      <div className='flex h-[var(--header-height)] flex-1 items-center justify-between rounded-2xl bg-black-80 px-4 lg:justify-end sm:pl-4 sm:pr-2'>
+        <LogoWithLinkToLanding className='mr-auto hidden lg:block' />
+        <h1 className='title-h3 lg:hidden sm:hidden'>{title}</h1>
+        <span className='flex items-center justify-end'>
+          {user ? <UserDropdown user={user} className='md:-mr-2 sm:mr-0' /> : <SignInButton variant='ghost' />}
+        </span>
       </div>
     </header>
   )
