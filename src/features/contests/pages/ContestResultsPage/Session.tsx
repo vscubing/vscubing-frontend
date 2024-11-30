@@ -25,10 +25,11 @@ export function Session({
   height?: number
 }) {
   const currentUserLabel = isOwn ? ' (you)' : ''
+  const solveSet = session.roundSession.solveSet.filter((solve) => solve.submissionState === 'submitted')
 
   const { bestId, worstId } = useMemo(
-    () => getBestAndWorstIds(session.roundSession.solveSet),
-    [session.roundSession.solveSet],
+    () => getBestAndWorstIds(solveSet),
+    [solveSet],
   )
   return (
     <Accordion.Root type='single' collapsible defaultValue={matchesQuery('md') ? undefined : 'result'}>
@@ -63,8 +64,7 @@ export function Session({
         </Accordion.Header>
         <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:w-full md:overflow-y-clip'>
           <ul className='grid grid-cols-[repeat(5,min-content)] gap-x-2 md:grid-flow-col md:grid-rows-2 md:justify-end md:border-t md:border-grey-60 md:pt-4 sm:grid-flow-row sm:grid-cols-2 sm:grid-rows-none sm:items-center sm:pl-2 sm:pt-3'>
-            {session.roundSession.solveSet
-              .filter((solve) => solve.submissionState === 'submitted')
+            {solveSet
               .map((solve, index) => (
                 <li key={solve.id} className='contents'>
                   <span className='hidden text-center text-grey-40 md:block sm:text-left'>Attempt {index + 1}</span>
