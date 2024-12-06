@@ -8,7 +8,8 @@ import { ongoingContestQuery } from '@/shared/contests'
 
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
-  description: "Under normal circumstances this shouldn't happen.",
+  // description: "Under normal circumstances this shouldn't happen.", // uncomment once the bug is fixed
+  description: 'We are working on fixing this bug, for now please take an extra.',
   duration: 'infinite',
 } satisfies Toast
 
