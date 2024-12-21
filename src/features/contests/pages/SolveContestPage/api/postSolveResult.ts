@@ -5,7 +5,9 @@ import { ContestsCreateSolveInput, contestsOngoingContestSolveCreateCreate } fro
 import { TOASTS_PRESETS, Toast, toast } from '@/components/ui'
 import { AxiosError } from 'axios'
 import { ongoingContestQuery } from '@/shared/contests'
+import * as Sentry from '@sentry/browser'
 
+export const SOLVE_REJECTED_ERROR_TEXT = 'A solve was rejected by the server'
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
   // description: "Under normal circumstances this shouldn't happen.", // uncomment once the bug is fixed
@@ -20,6 +22,7 @@ export const usePostSolveResult = (discipline: string) =>
         await contestsOngoingContestSolveCreateCreate(result, { disciplineSlug: discipline, scrambleId })
       } catch (err) {
         if (err instanceof AxiosError && err.response?.status === 400) {
+          Sentry.captureException(new Error(SOLVE_REJECTED_ERROR_TEXT))
           toast(SOLVE_REJECTED_TOAST)
         } else {
           toast(TOASTS_PRESETS.internalError)
