@@ -206,6 +206,7 @@ function SessionsList({
                     contestSlug={contestSlug}
                     linkToPage={behavior === 'pagination' ? ownSession.page : undefined}
                     isOwn
+                    height={optimalElementHeight}
                     session={ownSession}
                   />
                 </div>

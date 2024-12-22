@@ -32,7 +32,12 @@ export const appRoute = createRoute({
 const indexRoute = dashboardRoute
 
 const routeTree = rootRoute.addChildren([
-  appRoute.addChildren([indexRoute, leaderboardRoute, contestsRoute, devRoute]),
+  appRoute.addChildren([
+    indexRoute,
+    leaderboardRoute,
+    contestsRoute,
+    ...(import.meta.env.MODE === 'development' ? [devRoute] : []),
+  ]),
   notFoundRoute,
   landingRoute,
 ])

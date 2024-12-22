@@ -21,14 +21,14 @@ export function Cube({
   onSolveFinish,
   iframeRef,
 }: CubeProps & { fallback: ReactNode }) {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isReady, setIsReady] = useState(false)
   return (
     <div className={cn('h-full', className)}>
-      {!isLoaded && <div className='h-full'>{fallback}</div>}
+      {!isReady && <div className='h-full'>{fallback}</div>}
       <CubeIframe
-        className={cn({ 'invisible absolute': !isLoaded })}
-        isLoaded={isLoaded}
-        setIsLoaded={setIsLoaded}
+        className={cn({ 'invisible absolute': !isReady })}
+        isReady={isReady}
+        setIsReady={setIsReady}
         scramble={scramble}
         onTimeStart={onTimeStart}
         onSolveFinish={onSolveFinish}
@@ -39,18 +39,18 @@ export function Cube({
 }
 
 function CubeIframe({
-  setIsLoaded,
-  isLoaded,
+  setIsReady,
+  isReady,
   className,
   scramble,
   onTimeStart,
   onSolveFinish,
   iframeRef,
-}: CubeProps & { isLoaded: boolean; setIsLoaded: (isLoaded: boolean) => void }) {
-  useHandleIframeLoaded(setIsLoaded, iframeRef)
-  useInitSolve(isLoaded, iframeRef, onTimeStart, onSolveFinish, scramble)
+}: CubeProps & { isReady: boolean; setIsReady: (isReady: boolean) => void }) {
+  useHandleIframeReady(setIsReady)
+  useInitSolve(isReady, iframeRef, onTimeStart, onSolveFinish, scramble)
 
-  const isIframeInited = !!scramble || isLoaded
+  const isIframeInited = !!scramble || isReady
   return (
     <iframe
       ref={iframeRef}
@@ -64,33 +64,33 @@ function CubeIframe({
 
 type EventMessage =
   | { source: undefined }
-  | ({ source: typeof POST_MESSAGE_SOURCE } & (TimeStartEvent | SolveFinishEvent))
+  | ({ source: typeof POST_MESSAGE_SOURCE } & (ReadyEvent | TimeStartEvent | SolveFinishEvent))
+type ReadyEvent = { event: 'ready' }
 type TimeStartEvent = { event: 'timeStart' }
 type SolveFinishEvent = { event: 'solveFinish'; payload: { reconstruction: string; timeMs: number } }
 const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 
-function useHandleIframeLoaded(setIsLoaded: (isLoaded: boolean) => void, iframeRef: RefObject<HTMLIFrameElement>) {
+function useHandleIframeReady(setIsReady: (isReady: boolean) => void) {
   useEffect(() => {
-    const iframe = iframeRef.current!
-    function onLoad() {
-      setIsLoaded(true)
+    function handleReadyMessage(event: { data: EventMessage }) {
+      if (event.data.source === POST_MESSAGE_SOURCE && event.data.event === 'ready') {
+        setIsReady(true)
+      }
     }
-    iframe.addEventListener('load', onLoad)
-    return () => {
-      iframe.removeEventListener('load', onLoad)
-    }
-  })
+    window.addEventListener('message', handleReadyMessage)
+    return () => window.removeEventListener('message', handleReadyMessage)
+  }, [])
 }
 
 function useInitSolve(
-  isLoaded: boolean,
+  isReady: boolean,
   iframeRef: RefObject<HTMLIFrameElement>,
   onTimeStart: CubeTimeStartCallback,
   onSolveFinish: CubeSolveFinishCallback,
   scramble?: string,
 ) {
   useEffect(() => {
-    if (!scramble || !isLoaded) {
+    if (!scramble || !isReady) {
       return
     }
 
@@ -121,5 +121,5 @@ function useInitSolve(
     return () => {
       window.removeEventListener('message', solveProgressListener)
     }
-  }, [isLoaded, scramble, onTimeStart, onSolveFinish, iframeRef])
+  }, [isReady, scramble, onTimeStart, onSolveFinish, iframeRef])
 }
