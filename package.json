@@ -25,6 +25,7 @@
     "axios": "^1.6.8",
     "axios-auth-refresh": "^3.3.6",
     "axios-case-converter": "^1.1.0",
+    "caniuse-lite": "^1.0.30001690",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
