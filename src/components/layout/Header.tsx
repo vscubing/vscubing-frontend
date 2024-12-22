@@ -9,13 +9,12 @@ import {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-  GhostButton,
   LogoutIcon,
   MenuIcon,
   SettingIcon,
 } from '@/components/ui'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { type ReactNode } from 'react'
+import { forwardRef, useState, type ReactNode } from 'react'
 import { LogoWithLinkToLanding } from './components/Logo'
 import { useSetAtom } from 'jotai'
 import { mobileMenuOpenAtom } from './store/mobileMenuOpenAtom'
@@ -23,6 +22,8 @@ import { cn } from '@/utils'
 import { logout, useUser } from '@/features/auth'
 import { AccountsCurrentUserOutput } from '@/api'
 import { SignInButton } from '@/shared/SignInButton'
+import { Slot } from '@radix-ui/react-slot'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 type HeaderProps = { title?: ReactNode; className?: string }
 export function Header({ title, className }: HeaderProps) {
@@ -49,8 +50,11 @@ export function Header({ title, className }: HeaderProps) {
 }
 
 function UserDropdown({ user, className }: { user: AccountsCurrentUserOutput; className?: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
+
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenu.Trigger
         className={cn(
           'group flex items-center gap-3 whitespace-nowrap rounded-xl px-2 py-3 data-[state=open]:bg-grey-100 md:gap-1',
@@ -70,21 +74,25 @@ function UserDropdown({ user, className }: { user: AccountsCurrentUserOutput; cl
         <DropdownMenu.Label className='mb-6 border-b border-b-grey-100 pb-2 text-grey-20'>
           User@gmail.com
         </DropdownMenu.Label>
-        <DropdownMenu.Item asChild>
-          <GhostButton size='sm' className='mb-2 w-full justify-start pl-0'>
-            <SettingIcon />
-            Settings
-          </GhostButton>
-        </DropdownMenu.Item>
-        <DropdownMenu.Item asChild>
-          <LogoutButton className='pl-0' />
+        <DropdownButton className='w-full cursor-pointer' asChild>
+          <DropdownMenu.Item asChild>
+            {/* DropdownMenu.Item must be a direct parent of Link for it to work */}
+            <Link to='/'>
+              <SettingIcon />
+              Settings
+            </Link>
+          </DropdownMenu.Item>
+        </DropdownButton>
+        <DropdownMenu.Item onSelect={(e) => e.preventDefault()}>
+          {/* the dropdown is closed after dialog is closed because triggering dialogs from dropdowns in radix works weirdly */}
+          <LogoutButton className='w-full' onDialogClose={() => setIsOpen(false)} />
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   )
 }
 
-function LogoutButton({ className }: { className?: string }) {
+function LogoutButton({ className, onDialogClose }: { className?: string; onDialogClose: () => void }) {
   const { data: user } = useUser()
   const setMobileMenuOpen = useSetAtom(mobileMenuOpenAtom)
 
@@ -93,13 +101,17 @@ function LogoutButton({ className }: { className?: string }) {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <GhostButton size='sm' className={className}>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) onDialogClose()
+      }}
+    >
+      <DropdownButton className={className} asChild>
+        <DialogTrigger>
           <LogoutIcon />
           Log out
-        </GhostButton>
-      </DialogTrigger>
+        </DialogTrigger>
+      </DropdownButton>
       <DialogPortal>
         <DialogOverlay />
         <DialogContent aria-describedby={undefined}>
@@ -121,3 +133,20 @@ function LogoutButton({ className }: { className?: string }) {
     </Dialog>
   )
 }
+
+const DropdownButton = forwardRef<HTMLButtonElement, { children: ReactNode; className?: string; asChild?: boolean }>(
+  ({ children, className, asChild = false }, ref) => {
+    const Comp = asChild ? Slot : 'button'
+    return (
+      <Comp
+        className={cn(
+          'transition-base outline-ring btn-sm inline-flex h-9 items-center gap-3 rounded-xl text-white-100 hover:bg-grey-100 active:bg-grey-80 disabled:text-grey-60',
+          className,
+        )}
+        ref={ref}
+      >
+        {children}
+      </Comp>
+    )
+  },
+)
