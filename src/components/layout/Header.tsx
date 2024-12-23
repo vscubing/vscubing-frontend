@@ -23,7 +23,7 @@ import { logout, useUser } from '@/features/auth'
 import { AccountsCurrentUserOutput } from '@/api'
 import { SignInButton } from '@/shared/SignInButton'
 import { Slot } from '@radix-ui/react-slot'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 
 type HeaderProps = { title?: ReactNode; className?: string }
 export function Header({ title, className }: HeaderProps) {
