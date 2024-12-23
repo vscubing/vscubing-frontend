@@ -87,51 +87,51 @@ export type ContestsContestsRetrieveParams = {
 }
 
 export interface ContestsSolveRetrieveOutput {
-  contest: S01j6h5es13k0p98gnfbbwhwp9m
-  discipline: S01j6h5es13ynhjk3xj7xamtb2q
+  contest: S01jft4msfbbgzhya7we2hy5j6b
+  discipline: S01jft4msfb29vkn64az2bz64hg
   id: number
   isDnf: boolean
   reconstruction: string
-  scramble: S01j6h5es139fmyknb8y6qm273n
+  scramble: S01jft4msfbwk7kqydk5znzwf10
   submissionState: string
   timeMs: number
-  user: S01j6h5es13jh91fq9b8pg3fhes
+  user: S01jft4msfb3be74zs04npd0ggg
 }
 
 export interface ContestsSolveListBestInEveryDiscipline {
-  contest: S01j6h5es13hv14mhgxsmkvj5az
+  contest: S01jft4msfcy1e2yvv3jhxf7jt3
   createdAt: string
-  discipline: S01j6h5es13g936xyx5x5sc5zc5
+  discipline: S01jft4msfcfn1q0x9q5sjat638
   id: number
-  scramble: S01j6h5es13hhx1fh1dtz6x6hev
+  scramble: S01jft4msfbqb1a6n1z1zx1pmfa
   timeMs: number
-  user: S01j6h5es13epzmdg9vmm6dwk5y
+  user: S01jft4msfbyxrexgqxxejhd4dm
 }
 
 export interface ContestsSingleResultLeaderboardOutput {
   page: number
   pages: number
   pageSize: number
-  results: S01j6h5es15j1vhzfactdyf405e
+  results: S01jft4msfek9prt4c262zmc733
 }
 
 export interface ContestsRoundSessionWithSolvesListOutput {
   page: number
   pages: number
   pageSize: number
-  results: S01j6h5es14cef8s1rth1r87dad
+  results: S01jft4msfdv4zw1myw1njjckz0
 }
 
 export interface ContestsCurrentSolveOutput {
-  currentSolve: S01j6h5es15cgr20bp2sd3rcsev
-  submittedSolveSet?: S01j6h5es158c2dvy1yjx6w63ag[]
+  currentSolve: S01jft4msfd0fcd6mdec027w55w
+  submittedSolveSet?: S01jft4msfdh25hwx99bd5k9b41[]
 }
 
 export interface ContestsCreateSolveOutput {
   createdAt: string
   id: number
   isDnf: boolean
-  scramble: S01j6h5es13m2dze3b29sh67gq8
+  scramble: S01jft4msfcxm22nadb4e71gfer
   timeMs: number
 }
 
@@ -145,13 +145,13 @@ export interface ContestsContestListOutput {
   page: number
   pages: number
   pageSize: number
-  results: S01j6h5es142kkv4pfjdy46yx40[]
+  results: S01jft4msfd5a14xvy0309ymjgb[]
 }
 
 export interface AccountsGoogleLoginOutput {
   access: string
   refresh: string
-  user: S01j6h5es0tpdas7pb50mhqqv0h
+  user: S01jft4mseqhexnsa11pkce9xds
 }
 
 export interface AccountsGoogleLoginInput {
@@ -159,6 +159,7 @@ export interface AccountsGoogleLoginInput {
 }
 
 export interface AccountsCurrentUserOutput {
+  email: string
   id: number
   isVerified: boolean
   username: string
@@ -178,262 +179,262 @@ export interface TokenRefresh {
   refresh: string
 }
 
-export interface S01j6h5es15xx58x0ndq3mga7kx {
+export interface S01jft4msfez7ajandqjfb132p6 {
   id: number
   slug: string
 }
 
-export interface S01j6h5es15x9026htep3qam5cy {
+export interface S01jft4msfeshs4m12yzqrhdhq1 {
+  place: number
+  solve: S01jft4msfe5rxtb5ncs4f025t1
+}
+
+export interface S01jft4msfek9prt4c262zmc733 {
+  ownResult?: S01jft4msfec4eg1n67fg81s46g
+  solveSet: S01jft4msfeshs4m12yzqrhdhq1[]
+}
+
+export interface S01jft4msfecv9xawnsvg6ybdap {
+  id: number
+  username: string
+}
+
+export interface S01jft4msfec4eg1n67fg81s46g {
+  isDisplayedSeparately: boolean
+  page: number
+  place: number
+  solve: S01jft4msfe6c75aqvmgqf1gbwz
+}
+
+export interface S01jft4msfe7k1q6fha18n77zh5 {
+  id: number
+  slug: string
+}
+
+export interface S01jft4msfe6c75aqvmgqf1gbwz {
+  contest: S01jft4msfez7ajandqjfb132p6
+  createdAt: string
+  id: number
+  isDnf: boolean
+  timeMs: number
+}
+
+export interface S01jft4msfe5rxtb5ncs4f025t1 {
+  contest: S01jft4msfe7k1q6fha18n77zh5
+  createdAt: string
+  id: number
+  isDnf: boolean
+  timeMs: number
+  user: S01jft4msfecv9xawnsvg6ybdap
+}
+
+export interface S01jft4msfdv4zw1myw1njjckz0 {
+  contest: S01jft4msfc1gmxrgfez1gz2wbj
+  ownResult?: S01jft4msfc0mz5m7ywgjay5rkd
+  roundSessionSet: S01jft4msfdnj1kw5yp6wgxmdfr[]
+}
+
+export interface S01jft4msfdv3smy2h4yj3vgq10 {
   id: number
   isExtra: boolean
   moves: string
   position: string
 }
 
-export interface S01j6h5es15twzkgdv1ktjtydtv {
+export interface S01jft4msfdsfcq56q3espqgz04 {
   id: number
-  slug: string
+  isExtra: boolean
+  moves: string
+  position: string
 }
 
-export interface S01j6h5es15nz8gm9c0esc5s508 {
+export interface S01jft4msfdv29f2pjwv6c0t7nj {
   id: number
   isDnf: boolean
-  scramble: S01j6h5es1563an2evatdmx2k4m
+  scramble: S01jft4msfdsfcq56q3espqgz04
   timeMs: number
 }
 
-export interface S01j6h5es15mqhzwhxwbp68vvn3 {
+export interface S01jft4msfdr8p1eab40qzns8pt {
   id: number
   isDnf: boolean
-  scramble: S01j6h5es152yaysg1w26y14wpa
+  scramble: S01jft4msfdv3smy2h4yj3vgq10
   timeMs: number
 }
 
-export interface S01j6h5es15mj1httk1ka3zzd93 {
-  contest: S01j6h5es15twzkgdv1ktjtydtv
+export interface S01jft4msfdn5r2xg8gvsknjxma {
+  avgMs: number
+  contest: S01jft4msfcgm21rbh695qc2kve
   createdAt: string
+  discipline: S01jft4msfdfn0a89bytk7agy4d
   id: number
   isDnf: boolean
-  timeMs: number
-  user: S01j6h5es15d3dxw3rstcp1n28v
+  isFinished: boolean
+  solveSet: S01jft4msfdh0zg62d1ya3by8v1[]
+  updatedAt: string
+  user: S01jft4msfcgn94ztfahjg3j6g0
 }
 
-export interface S01j6h5es15j1vhzfactdyf405e {
-  ownResult?: S01j6h5es1560a3ncgab6kv0jcz
-  solveSet: S01j6h5es150s0bs5s4sme1s48k[]
+export interface S01jft4msfdnj1kw5yp6wgxmdfr {
+  place: number
+  roundSession: S01jft4msfdn5r2xg8gvsknjxma
 }
 
-export interface S01j6h5es15d3dxw3rstcp1n28v {
+export interface S01jft4msfdh25hwx99bd5k9b41 {
+  solve: S01jft4msfdr8p1eab40qzns8pt
+}
+
+export interface S01jft4msfdgqafpyw9at9ce00h {
   id: number
-  username: string
+  isExtra: boolean
+  moves: string
+  position: string
 }
 
-export interface S01j6h5es15cgr20bp2sd3rcsev {
+export interface S01jft4msfdfn0a89bytk7agy4d {
+  id: number
+}
+
+export interface S01jft4msfd5a14xvy0309ymjgb {
+  endDate: string
+  id: number
+  name: string
+  slug: string
+  startDate: string
+}
+
+export interface S01jft4msfd1gxwxxv9vejxdgs2 {
+  id: number
+  position: string
+}
+
+export interface S01jft4msfdh0zg62d1ya3by8v1 {
+  extraId: number
+  id: number
+  isDnf: boolean
+  scramble: S01jft4msfd1gxwxxv9vejxdgs2
+  submissionState: string
+  timeMs: number
+}
+
+export interface S01jft4msfd0fcd6mdec027w55w {
   canChangeToExtra: boolean
-  scramble: S01j6h5es15x9026htep3qam5cy
-  solve?: S01j6h5es15nz8gm9c0esc5s508
+  scramble: S01jft4msfdgqafpyw9at9ce00h
+  solve?: S01jft4msfdv29f2pjwv6c0t7nj
 }
 
-export interface S01j6h5es159f482m6gb9b2vyw1 {
-  contest: S01j6h5es15xx58x0ndq3mga7kx
+export interface S01jft4msfcy1e2yvv3jhxf7jt3 {
+  id: number
+  name: string
+  slug: string
+}
+
+export interface S01jft4msfcxm22nadb4e71gfer {
+  id: number
+  moves: string
+}
+
+export interface S01jft4msfcsam0ap50tckmkeb4 {
+  id: number
+}
+
+export interface S01jft4msfck1qz3wmpzpp9v6xp {
+  id: number
+  username: string
+}
+
+export interface S01jft4msfcwy434w4t53vwtysq {
+  avgMs: number
+  contest: S01jft4msfcdt58n4hmnes9py33
   createdAt: string
+  discipline: S01jft4msfcsam0ap50tckmkeb4
   id: number
   isDnf: boolean
-  timeMs: number
+  isFinished: boolean
+  solveSet: S01jft4msfc47ypvxe6g3r3xs08[]
+  updatedAt: string
+  user: S01jft4msfck1qz3wmpzpp9v6xp
 }
 
-export interface S01j6h5es158c2dvy1yjx6w63ag {
-  solve: S01j6h5es15mqhzwhxwbp68vvn3
-}
-
-export interface S01j6h5es1563an2evatdmx2k4m {
+export interface S01jft4msfcgn94ztfahjg3j6g0 {
   id: number
-  isExtra: boolean
-  moves: string
-  position: string
+  username: string
 }
 
-export interface S01j6h5es1560a3ncgab6kv0jcz {
-  isDisplayedSeparately: boolean
-  page: number
-  place: number
-  solve: S01j6h5es159f482m6gb9b2vyw1
-}
-
-export interface S01j6h5es152yaysg1w26y14wpa {
+export interface S01jft4msfcgm21rbh695qc2kve {
   id: number
-  isExtra: boolean
-  moves: string
-  position: string
 }
 
-export interface S01j6h5es150s0bs5s4sme1s48k {
-  place: number
-  solve: S01j6h5es15mj1httk1ka3zzd93
+export interface S01jft4msfcfn1q0x9q5sjat638 {
+  id: number
+  name: string
+  slug: string
 }
 
-export interface S01j6h5es14y3pp6wr5rcmecns1 {
+export interface S01jft4msfcdt58n4hmnes9py33 {
+  id: number
+}
+
+export interface S01jft4msfc47ypvxe6g3r3xs08 {
   extraId: number
   id: number
   isDnf: boolean
-  scramble: S01j6h5es14ctxjwj0pfff4fr1p
+  scramble: S01jft4msfc0rv8pzr8xzfgm8nf
   submissionState: string
   timeMs: number
 }
 
-export interface S01j6h5es14wjmhfpk6znjad7zb {
+export interface S01jft4msfc1gmxrgfez1gz2wbj {
   endDate: string
   id: number
   slug: string
   startDate: string
 }
 
-export interface S01j6h5es14rq0sayee0jt36g02 {
-  extraId: number
-  id: number
-  isDnf: boolean
-  scramble: S01j6h5es142gp1ykmz056vhy1d
-  submissionState: string
-  timeMs: number
-}
-
-export interface S01j6h5es14pzh7xhqnh9hrw1e2 {
-  id: number
-  username: string
-}
-
-export interface S01j6h5es14mqdwxqzpkzqkwt9z {
-  place: number
-  roundSession: S01j6h5es142pw4x2em46rk197p
-}
-
-export interface S01j6h5es14kyjcme1vf8yb775z {
-  id: number
-  username: string
-}
-
-export interface S01j6h5es14ctxjwj0pfff4fr1p {
+export interface S01jft4msfc0rv8pzr8xzfgm8nf {
   id: number
   position: string
 }
 
-export interface S01j6h5es14cef8s1rth1r87dad {
-  contest: S01j6h5es14wjmhfpk6znjad7zb
-  ownResult?: S01j6h5es14083r2ahqc73epjgm
-  roundSessionSet: S01j6h5es14mqdwxqzpkzqkwt9z[]
-}
-
-export interface S01j6h5es14aphaqj1zbqqtdr9z {
-  avgMs: number
-  contest: S01j6h5es142xkr36dszzrk1bjd
-  createdAt: string
-  discipline: S01j6h5es146rze1yb99zep5f6j
-  id: number
-  isDnf: boolean
-  isFinished: boolean
-  solveSet: S01j6h5es14rq0sayee0jt36g02[]
-  updatedAt: string
-  user: S01j6h5es14pzh7xhqnh9hrw1e2
-}
-
-export interface S01j6h5es148tx3zq3zd87mh4rs {
-  id: number
-}
-
-export interface S01j6h5es146rze1yb99zep5f6j {
-  id: number
-}
-
-export interface S01j6h5es142xkr36dszzrk1bjd {
-  id: number
-}
-
-export interface S01j6h5es142pw4x2em46rk197p {
-  avgMs: number
-  contest: S01j6h5es1410e3xzparvy11qqv
-  createdAt: string
-  discipline: S01j6h5es148tx3zq3zd87mh4rs
-  id: number
-  isDnf: boolean
-  isFinished: boolean
-  solveSet: S01j6h5es14y3pp6wr5rcmecns1[]
-  updatedAt: string
-  user: S01j6h5es14kyjcme1vf8yb775z
-}
-
-export interface S01j6h5es142kkv4pfjdy46yx40 {
-  endDate: string
-  id: number
-  name: string
-  slug: string
-  startDate: string
-}
-
-export interface S01j6h5es142gp1ykmz056vhy1d {
-  id: number
-  position: string
-}
-
-export interface S01j6h5es1410e3xzparvy11qqv {
-  id: number
-}
-
-export interface S01j6h5es14083r2ahqc73epjgm {
+export interface S01jft4msfc0mz5m7ywgjay5rkd {
   isDisplayedSeparately: boolean
   page: number
   place: number
-  roundSession: S01j6h5es14aphaqj1zbqqtdr9z
+  roundSession: S01jft4msfcwy434w4t53vwtysq
 }
 
-export interface S01j6h5es13ynhjk3xj7xamtb2q {
-  id: number
-  slug: string
-}
-
-export interface S01j6h5es13m2dze3b29sh67gq8 {
-  id: number
-  moves: string
-}
-
-export interface S01j6h5es13k0p98gnfbbwhwp9m {
-  id: number
-  slug: string
-}
-
-export interface S01j6h5es13jh91fq9b8pg3fhes {
+export interface S01jft4msfbyxrexgqxxejhd4dm {
   id: number
   username: string
 }
 
-export interface S01j6h5es13hv14mhgxsmkvj5az {
-  id: number
-  name: string
-  slug: string
-}
-
-export interface S01j6h5es13hhx1fh1dtz6x6hev {
-  id: number
-  moves: string
-}
-
-export interface S01j6h5es13g936xyx5x5sc5zc5 {
-  id: number
-  name: string
-  slug: string
-}
-
-export interface S01j6h5es13epzmdg9vmm6dwk5y {
-  id: number
-  username: string
-}
-
-export interface S01j6h5es139fmyknb8y6qm273n {
+export interface S01jft4msfbwk7kqydk5znzwf10 {
   id: number
   moves: string
   position: string
 }
 
-export interface S01j6h5es0tpdas7pb50mhqqv0h {
+export interface S01jft4msfbqb1a6n1z1zx1pmfa {
+  id: number
+  moves: string
+}
+
+export interface S01jft4msfbbgzhya7we2hy5j6b {
+  id: number
+  slug: string
+}
+
+export interface S01jft4msfb3be74zs04npd0ggg {
+  id: number
+  username: string
+}
+
+export interface S01jft4msfb29vkn64az2bz64hg {
+  id: number
+  slug: string
+}
+
+export interface S01jft4mseqhexnsa11pkce9xds {
   email: string
   pk: number
 }

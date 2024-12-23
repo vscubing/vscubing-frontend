@@ -7,7 +7,7 @@ type LogoProps = ComponentProps<LinkComponent<'a'>> & { variant?: 'full' | 'sm' 
 export function LogoWithLinkToLanding({ variant = 'full', className, ...props }: LogoProps) {
   return (
     <Link {...props} to='/landing' className={cn('title-h2 outline-ring', className)}>
-      <Logo variant={variant} className={cn({ 'w-[13rem] sm:w-[12rem]': variant === 'full' })} />
+      <Logo variant={variant} className={cn({ 'w-[13rem] sm:w-[10.25rem]': variant === 'full' })} />
     </Link>
   )
 }
