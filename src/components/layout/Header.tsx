@@ -71,7 +71,7 @@ function UserDropdown({ user, className }: { user: AccountsCurrentUserOutput; cl
       >
         <DropdownMenu.Label className='title-h3 text-white mb-1'>{user.username}</DropdownMenu.Label>
         <DropdownMenu.Label className='mb-6 border-b border-b-grey-100 pb-2 text-grey-20'>
-          User@gmail.com
+          {user.email}
         </DropdownMenu.Label>
         <DropdownMenu.Group className='-ml-2 flex flex-col gap-2'>
           <DropdownButton className='w-full cursor-pointer' asChild>
