@@ -9,6 +9,10 @@ export function SettingsPage() {
   const { data: settings } = useSettings()
   const { mutate } = useMutateSettings()
   // TODO: add auth guard
+  if (!settings) {
+    return 'loading'
+  }
+
   return (
     <div className='flex flex-1 flex-col gap-3 sm:gap-2'>
       <Header title='Settings' />
@@ -16,9 +20,9 @@ export function SettingsPage() {
       <ul className='flex-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
         <li className='flex items-center justify-between rounded-xl bg-grey-100 p-4'>
           <span>VRC base speed (tps):</span>
-          <AnimationDurationSelect
-            value={settings?.animationDuration}
-            onValueChange={(animationDuration) => mutate({ animationDuration })}
+          <CsAnimationDurationSelect
+            value={settings.csAnimationDuration}
+            onValueChange={(csAnimationDuration) => mutate({ csAnimationDuration })}
           />
         </li>
       </ul>
@@ -26,11 +30,11 @@ export function SettingsPage() {
   )
 }
 
-function AnimationDurationSelect({
-  value = 100,
+function CsAnimationDurationSelect({
+  value,
   onValueChange,
 }: {
-  value?: number
+  value: number
   onValueChange: (value: number) => void
 }) {
   return (
