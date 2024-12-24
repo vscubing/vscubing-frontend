@@ -49,17 +49,17 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
           type='multiple'
           defaultValue={matchesQuery('sm') ? [] : ['Scramble', 'Solve']}
         >
-          <AccordionItem value='Scramble'>
-            <div className='mt-2 flex flex-col border-t border-grey-60 pt-2'>
+          <AccordionItem title='Scramble'>
+            <div className='flex flex-col border-t border-grey-60 pt-2'>
               <div className='scrollbar basis-0 overflow-y-auto pr-2 md:overflow-y-visible' ref={scrambleWrapperRef}>
                 <span ref={scrambleRef}>{scramble}</span>
               </div>
             </div>
           </AccordionItem>
 
-          <AccordionItem value='Solve' className='flex-1'>
-            <div className={cn('mt-2 flex flex-col border-t border-grey-60 pt-2', 'h-full')}>
-              <div className={cn('scrollbar basis-0 overflow-y-auto pr-2 md:overflow-y-visible', 'flex-grow')}>
+          <AccordionItem title='Solve' className='flex-1'>
+            <div className='flex h-full flex-col border-t border-grey-60 pt-2'>
+              <div className='scrollbar -ml-1 -mt-1 flex-grow basis-0 overflow-y-auto pl-1 pr-2 pt-1 md:overflow-y-visible'>
                 <TwistyAlgViewer twistyPlayer={player} />
               </div>
             </div>
@@ -77,22 +77,18 @@ function TwistySectionContent({ player, scramble }: { player: Player; scramble: 
   )
 }
 
-type AccordionItemProps = { value: string; className?: string; children: ReactNode }
-function AccordionItem({ value, className, children }: AccordionItemProps) {
+type AccordionItemProps = { title: string; className?: string; children: ReactNode }
+function AccordionItem({ title, className, children }: AccordionItemProps) {
   return (
-    <Accordion.Item className={cn('flex flex-col rounded-2xl bg-black-80 p-4', className)} value={value}>
+    <Accordion.Item className={cn('flex flex-col rounded-2xl bg-black-80 p-4', className)} value={title}>
       <Accordion.Header className='flex justify-between'>
-        <div className='title-h3 text-grey-20'>{value}</div>
+        <div className='title-h3 text-grey-20'>{title}</div>
         <Accordion.Trigger className='outline-ring group hidden sm:block'>
           <PlusIcon className='block group-data-[state=open]:hidden' />
           <MinusIcon className='hidden group-data-[state=open]:block' />
         </Accordion.Trigger>
       </Accordion.Header>
-      <Accordion.Content
-        className={cn(
-          'title-h3 h-full overflow-y-clip tracking-wide data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
-        )}
-      >
+      <Accordion.Content className='title-h3 flex-1 overflow-y-clip pt-2 tracking-wide data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'>
         {children}
       </Accordion.Content>
     </Accordion.Item>
