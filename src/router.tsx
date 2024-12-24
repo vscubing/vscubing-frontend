@@ -38,7 +38,7 @@ const routeTree = rootRoute.addChildren([
     leaderboardRoute,
     contestsRoute,
     settingsRoute,
-    ...(import.meta.env.MODE === 'development' ? [devRoute] : []),
+    ...(import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test' ? [devRoute] : []),
   ]),
   notFoundRoute,
   landingRoute,
