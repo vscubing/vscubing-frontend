@@ -10,8 +10,7 @@ import * as Sentry from '@sentry/browser'
 export const SOLVE_REJECTED_ERROR_TEXT = 'A solve was rejected by the server'
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
-  // description: "Under normal circumstances this shouldn't happen.", // uncomment once the bug is fixed
-  description: 'We are working on fixing this bug, for now please take an extra.',
+  description: "Under normal circumstances this shouldn't happen.",
   duration: 'infinite',
 } satisfies Toast
 
