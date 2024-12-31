@@ -71,14 +71,8 @@ const contestIndexRoute = createRoute({
   path: '/',
   component: () => {
     const { contestSlug } = contestRoute.useParams()
-    return (
-      <Navigate
-        search={{ discipline: DEFAULT_DISCIPLINE, page: 1 }}
-        params={{ contestSlug }}
-        to={contestResultsRoute.to}
-        replace
-      />
-    )
+    const { discipline } = contestRoute.useSearch()
+    return <Navigate search={{ discipline, page: 1 }} params={{ contestSlug }} to={contestResultsRoute.to} replace />
   },
 })
 
