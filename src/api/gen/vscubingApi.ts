@@ -32,6 +32,7 @@ import accountsChangeUsernameUpdateMutator from '../axiosInstance'
 import accountsCurrentUserRetrieveMutator from '../axiosInstance'
 import accountsGoogleLoginCreateMutator from '../axiosInstance'
 import accountsTokenRefreshCreateMutator from '../axiosInstance'
+import contestsAvailableDisciplinesRetrieveMutator from '../axiosInstance'
 import contestsContestsRetrieveMutator from '../axiosInstance'
 import contestsContestsLeaderboardRetrieveMutator from '../axiosInstance'
 import contestsDevNewContestCreateCreateMutator from '../axiosInstance'
@@ -141,6 +142,13 @@ export const accountsTokenRefreshCreate = (tokenRefresh: NonReadonly<TokenRefres
   })
 }
 
+export const contestsAvailableDisciplinesRetrieve = () => {
+  return contestsAvailableDisciplinesRetrieveMutator<{ id: number; name: string; slug: string }[]>({
+    url: `/api/contests/available_disciplines/`,
+    method: 'GET',
+  })
+}
+
 export const contestsContestsRetrieve = (params?: ContestsContestsRetrieveParams) => {
   return contestsContestsRetrieveMutator<ContestsContestListOutput>({
     url: `/api/contests/contests/`,
@@ -242,7 +250,7 @@ export const contestsSolvesBestInEveryDisciplineList = () => {
 }
 
 export const contestsSolvesSingleResultLeaderboardRetrieve = (
-  params?: ContestsSolvesSingleResultLeaderboardRetrieveParams,
+  params: ContestsSolvesSingleResultLeaderboardRetrieveParams,
 ) => {
   return contestsSolvesSingleResultLeaderboardRetrieveMutator<ContestsSingleResultLeaderboardOutput>({
     url: `/api/contests/solves/single-result-leaderboard`,
@@ -255,6 +263,9 @@ export type AccountsChangeUsernameUpdateResult = NonNullable<Awaited<ReturnType<
 export type AccountsCurrentUserRetrieveResult = NonNullable<Awaited<ReturnType<typeof accountsCurrentUserRetrieve>>>
 export type AccountsGoogleLoginCreateResult = NonNullable<Awaited<ReturnType<typeof accountsGoogleLoginCreate>>>
 export type AccountsTokenRefreshCreateResult = NonNullable<Awaited<ReturnType<typeof accountsTokenRefreshCreate>>>
+export type ContestsAvailableDisciplinesRetrieveResult = NonNullable<
+  Awaited<ReturnType<typeof contestsAvailableDisciplinesRetrieve>>
+>
 export type ContestsContestsRetrieveResult = NonNullable<Awaited<ReturnType<typeof contestsContestsRetrieve>>>
 export type ContestsContestsLeaderboardRetrieveResult = NonNullable<
   Awaited<ReturnType<typeof contestsContestsLeaderboardRetrieve>>

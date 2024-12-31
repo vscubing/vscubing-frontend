@@ -18,6 +18,7 @@ import { HintSection } from '@/shared/HintSection'
 import { NavigateBackButton } from '@/shared/NavigateBackButton'
 import { PageTitleMobile } from '@/shared/PageTitleMobile'
 import { Pagination } from '@/shared/Pagination'
+import { useAvailableDisciplines } from '@/shared/contests'
 
 const route = getRouteApi('/_app/leaderboard/$discipline')
 export function Leaderboard() {
@@ -26,6 +27,7 @@ export function Leaderboard() {
 
 function ControllerWithPagination() {
   const { page } = route.useSearch()
+  const { discipline } = route.useParams()
   const {
     fittingCount: pageSize,
     optimalElementHeight,
@@ -35,6 +37,7 @@ function ControllerWithPagination() {
 
   const query = getLeaderboardQuery({
     page,
+    disciplineSlug: discipline,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
   })
@@ -62,9 +65,11 @@ function ControllerWithPagination() {
 
 function ControllerWithInfiniteScroll() {
   const { fittingCount: pageSize, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
+  const { discipline } = route.useParams()
   const query = getLeaderboardInfiniteQuery({
     pageSize,
     enabled: pageSize !== undefined,
+    disciplineSlug: discipline,
   })
   const { data, error, isFetching, isLoading, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
   const isFetchingNotFirstPage = isFetching && !isLoading
@@ -94,10 +99,11 @@ type ViewProps = {
   children: ReactNode
 }
 function View({ pages, children, behavior }: ViewProps) {
-  const { discipline: discipline } = route.useParams()
+  const { discipline: currentDiscipline } = route.useParams()
   const { page } = route.useSearch()
   const { data: user } = useUser()
   const title = user?.username ? `${user.username}, check out our best solves` : 'Check out our best solves'
+  const { data: availableDisciplines } = useAvailableDisciplines()
 
   return (
     <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
@@ -105,9 +111,13 @@ function View({ pages, children, behavior }: ViewProps) {
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link activeOptions={{ exact: true, includeSearch: false }} search={{}} params={{ discipline: '3by3' }}>
-          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-        </Link>
+        <div className='flex gap-3'>
+          {availableDisciplines?.map(({ slug: discipline }) => (
+            <Link activeOptions={{ exact: true, includeSearch: false }} search={{ page: 1 }} params={{ discipline }}>
+              <CubeSwitcher asButton={false} cube={discipline} isActive={currentDiscipline === discipline} />
+            </Link>
+          ))}
+        </div>
         {behavior === 'pagination' && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
       </SectionHeader>
       {children}

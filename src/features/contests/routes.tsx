@@ -1,6 +1,6 @@
 import { appRoute } from '@/router'
-import { DEFAULT_DISCIPLINE, castDiscipline, isDiscipline } from '@/types'
-import { Navigate, createRoute, redirect } from '@tanstack/react-router'
+import { DEFAULT_DISCIPLINE } from '@/types'
+import { Navigate, createRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 import { ContestResultsPage } from './pages/ContestResultsPage'
 import { ContestsIndexPage } from './pages/ContestsIndexPage'
@@ -27,16 +27,6 @@ const indexRoute = createRoute({
   getParentRoute: () => parentRoute,
   path: '/',
   validateSearch: disciplineSchema.merge(paginationSchema),
-  beforeLoad: ({ search: { page, discipline } }) => {
-    // TODO: remove isDiscipline and castDiscipline once backend accepts disciplines
-    if (!isDiscipline(discipline)) {
-      throw redirect({
-        from: indexRoute.fullPath,
-        search: { discipline: castDiscipline(discipline), page },
-        replace: true,
-      })
-    }
-  },
   component: ContestsIndexPage,
 })
 
@@ -56,7 +46,6 @@ const ongoingContestRedirectRoute = createRoute({
       )
     }
     if (ongoing.isOnMaintenance) {
-      // TODO: OnMaintenance note
       return (
         <div className='flex flex-1 flex-col gap-3 sm:gap-2'>
           <Header />

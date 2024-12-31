@@ -14,7 +14,7 @@ import { useSolveContestState } from './api'
 import { SolveContestForm } from './components/SolveContestForm'
 import { isTouchDevice, matchesQuery } from '@/utils'
 import { NotFoundRedirect } from '@/features/NotFoundPage'
-import { useOngoingContestDuration } from '@/shared/contests'
+import { useOngoingContest, useOngoingContestDuration } from '@/shared/contests'
 import { useUser } from '@/features/auth'
 import { HintSection, HintSignInSection } from '@/shared/HintSection'
 import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
@@ -38,7 +38,7 @@ export function SolveContestPage() {
 
 export function SolvePageContent() {
   const { contestSlug } = route.useParams()
-  const { discipline } = route.useSearch()
+  const { discipline: currentDiscipline } = route.useSearch()
   const { data: user, isFetching: isUserFetching } = useUser()
 
   const [hasSeenOngoingHint, setHasSeenOngoingHint] = useLocalStorage('vs-hasSeenOngoingHint', false)
@@ -46,22 +46,17 @@ export function SolvePageContent() {
     data: state,
     error,
     isFetching: isStateFetching,
-  } = useSolveContestState({ disciplineSlug: discipline, contestSlug })
+  } = useSolveContestState({ disciplineSlug: currentDiscipline, contestSlug })
   const errorStatus = error?.response?.status
+  const { data: metadata } = useOngoingContest()
 
-  if (isUserFetching || (user && !user.isVerified)) {
-    return (
-      <div className='flex flex-1 items-center justify-center'>
-        <LoadingSpinner />
-      </div>
-    )
-  }
-  if (errorStatus === 403) {
+  if (errorStatus === 403 && user?.isVerified) {
+    // user?.isVerified prevents a redirect cycle
     return (
       <Navigate
         to='/contests/$contestSlug/results'
         params={{ contestSlug: contestSlug }}
-        search={{ discipline, page: 1 }}
+        search={{ discipline: currentDiscipline, page: 1 }}
         replace
       />
     )
@@ -86,7 +81,7 @@ export function SolvePageContent() {
     return <HintSignInSection description='You need to be signed in to participate in a contest' />
   }
 
-  if (!state) {
+  if (!state || isUserFetching || user?.isVerified === false) {
     return (
       <div className='flex flex-1 items-center justify-center rounded-2xl bg-black-80'>
         <LoadingSpinner />
@@ -106,10 +101,12 @@ export function SolvePageContent() {
   return (
     <>
       <SectionHeader>
-        <div>
-          <Link from='/contests/$contestSlug/solve' search={{ discipline: '3by3' }} params={{ contestSlug }}>
-            <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-          </Link>
+        <div className='flex gap-3'>
+          {metadata?.data?.disciplineSet.map(({ slug: discipline }) => (
+            <Link from='/contests/$contestSlug/solve' search={{ discipline }} params={{ contestSlug }}>
+              <CubeSwitcher asButton={false} cube={discipline} isActive={currentDiscipline === discipline} />
+            </Link>
+          ))}
         </div>
         <div className='ml-10 flex flex-1 items-center gap-4'>
           <ExclamationCircleIcon />
