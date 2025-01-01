@@ -97,7 +97,7 @@ export function SolvePageContent() {
   if ((!state.submittedSolveSet || state.submittedSolveSet.length === 0) && !hasSeenOngoingHint) {
     return (
       <HintSection>
-        <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
+        <p>You can't see the results of an ongoing round until you solve all scrambles or the round ends</p>
         <PrimaryButton onClick={() => setHasSeenOngoingHint(true)}>Got it</PrimaryButton>
       </HintSection>
     )
@@ -113,7 +113,7 @@ export function SolvePageContent() {
         </div>
         <div className='ml-10 flex flex-1 items-center gap-4'>
           <ExclamationCircleIcon />
-          <p>You can't see results of an ongoing round until you solve all scrambles or the round ends</p>
+          <p>You can't see the results of an ongoing round until you solve all scrambles or the round ends</p>
         </div>
       </SectionHeader>
 
