@@ -28,7 +28,7 @@ export function useTwistyPlayer({
       visualization: 'PG3D',
       experimentalSetupAlg: scramble,
       alg: solution,
-      puzzle: TWISTY_PUZZLE[discipline],
+      puzzle: TWISTY_PUZZLE_MAP[discipline],
     })
     setPlayer(newPlayer)
     return () => setPlayer(null)
@@ -37,7 +37,7 @@ export function useTwistyPlayer({
   return player
 }
 
-const TWISTY_PUZZLE: Record<Discipline, PuzzleID> = {
+const TWISTY_PUZZLE_MAP: Record<Discipline, PuzzleID> = {
   '3by3': '3x3x3',
   '2by2': '2x2x2',
 }

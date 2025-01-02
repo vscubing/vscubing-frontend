@@ -28,7 +28,7 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
       await postSolveResult({ scrambleId: currentSolve.scramble.id, result })
     }
 
-    initSolve(currentSolve.scramble.moves, (result) => void onSolveFinish(result))
+    initSolve({ scramble: currentSolve.scramble.moves, discipline }, (result) => void onSolveFinish(result))
   }
 
   async function handleSolveAction(action: 'change_to_extra' | 'submit') {
