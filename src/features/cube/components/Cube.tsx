@@ -9,7 +9,7 @@ export type CubeTimeStartCallback = () => void
 type CubeProps = {
   className?: string
   scramble?: string
-  onTimeStart: CubeTimeStartCallback
+  onSolveStart: CubeTimeStartCallback
   onSolveFinish: CubeSolveFinishCallback
   iframeRef: RefObject<HTMLIFrameElement>
 }
@@ -18,7 +18,7 @@ export function Cube({
   className,
   fallback,
   scramble,
-  onTimeStart,
+  onSolveStart,
   onSolveFinish,
   iframeRef,
 }: CubeProps & { fallback: ReactNode }) {
@@ -31,7 +31,7 @@ export function Cube({
         isReady={isReady}
         setIsReady={setIsReady}
         scramble={scramble}
-        onTimeStart={onTimeStart}
+        onSolveStart={onSolveStart}
         onSolveFinish={onSolveFinish}
         iframeRef={iframeRef}
       />
@@ -44,12 +44,12 @@ function CubeIframe({
   isReady,
   className,
   scramble,
-  onTimeStart,
+  onSolveStart,
   onSolveFinish,
   iframeRef,
 }: CubeProps & { isReady: boolean; setIsReady: (isReady: boolean) => void }) {
   useHandleIframeReady(setIsReady)
-  useInitSolve(isReady, iframeRef, onTimeStart, onSolveFinish, scramble)
+  useInitSolve(isReady, iframeRef, onSolveStart, onSolveFinish, scramble)
   usePassSettings(isReady, iframeRef)
 
   const isIframeInited = !!scramble || isReady
@@ -64,18 +64,23 @@ function CubeIframe({
   )
 }
 
-const POST_MESSAGE_SOURCE = 'vs-solver-integration'
+export const POST_MESSAGE_SOURCE = 'vs-solver-integration'
 
-type AppMessage = { source: typeof POST_MESSAGE_SOURCE } & (SettingsMessage | InitSolveMessage)
+export type AppMessage = { source: typeof POST_MESSAGE_SOURCE } & (
+  | SettingsMessage
+  | InitSolveMessage
+  | AbortSolveMessage
+)
 type SettingsMessage = { event: 'settings'; payload: { settings: Settings } }
 type InitSolveMessage = { event: 'initSolve'; payload: { scramble: string } }
+type AbortSolveMessage = { event: 'abortSolve' }
 
 type CsMessage =
   | { source: undefined }
-  | ({ source: typeof POST_MESSAGE_SOURCE } & (ReadyEvent | TimeStartEvent | SolveFinishEvent))
+  | ({ source: typeof POST_MESSAGE_SOURCE } & (ReadyEvent | SolveStartEvent | SolveFinishEvent))
 type ReadyEvent = { event: 'ready'; payload: undefined }
-type TimeStartEvent = { event: 'timeStart'; payload: undefined }
-type SolveFinishEvent = { event: 'solveFinish'; payload: { result: { reconstruction: string; timeMs: number } } }
+type SolveStartEvent = { event: 'solveStart'; payload: undefined }
+type SolveFinishEvent = { event: 'solveFinish'; payload: { result: CubeSolveResult } }
 
 function useHandleIframeReady(setIsReady: (isReady: boolean) => void) {
   useEffect(() => {
@@ -92,7 +97,7 @@ function useHandleIframeReady(setIsReady: (isReady: boolean) => void) {
 function useInitSolve(
   isReady: boolean,
   iframeRef: RefObject<HTMLIFrameElement>,
-  onTimeStart: CubeTimeStartCallback,
+  onSolveStart: CubeTimeStartCallback,
   onSolveFinish: CubeSolveFinishCallback,
   scramble?: string,
 ) {
@@ -115,20 +120,19 @@ function useInitSolve(
       }
 
       const { event, payload } = message.data
-      if (event === 'timeStart') {
-        onTimeStart()
+      if (event === 'solveStart') {
+        onSolveStart()
       }
 
       if (event === 'solveFinish') {
-        const { reconstruction, timeMs } = payload.result
-        onSolveFinish({ reconstruction, timeMs, isDnf: false })
+        onSolveFinish(payload.result)
       }
     }
 
     initSolve()
     window.addEventListener('message', solveProgressListener)
     return () => window.removeEventListener('message', solveProgressListener)
-  }, [isReady, scramble, onTimeStart, onSolveFinish, iframeRef])
+  }, [isReady, scramble, onSolveStart, onSolveFinish, iframeRef])
 }
 
 function usePassSettings(isReady: boolean, iframeRef: RefObject<HTMLIFrameElement>) {
