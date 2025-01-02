@@ -103,7 +103,7 @@ export function SolvePageContent() {
       <SectionHeader>
         <div className='flex gap-3'>
           {metadata?.data?.disciplineSet.map(({ slug: discipline }) => (
-            <Link from='/contests/$contestSlug/solve' search={{ discipline }} params={{ contestSlug }}>
+            <Link from='/contests/$contestSlug/solve' search={{ discipline }} params={{ contestSlug }} key={discipline}>
               <CubeSwitcher asButton={false} cube={discipline} isActive={currentDiscipline === discipline} />
             </Link>
           ))}

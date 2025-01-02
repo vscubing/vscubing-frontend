@@ -1,8 +1,8 @@
 import { contestsSolvesRetrieveRetrieve } from '@/api'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query'
 
-export function useReconstruction(solveId: number) {
-  return useQuery({
+export function getReconstructionQuery(solveId: number) {
+  return queryOptions({
     queryKey: ['reconstructor', solveId],
     queryFn: () => contestsSolvesRetrieveRetrieve(solveId),
   })
