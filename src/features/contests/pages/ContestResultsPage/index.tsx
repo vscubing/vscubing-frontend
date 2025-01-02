@@ -140,13 +140,18 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
         <NavigateBackButton className='self-start' />
         <ErrorHandler error={error}>
           <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
-            <Link
-              from='/contests/$contestSlug/results'
-              search={{ discipline: '3by3', page: 1 }}
-              params={{ contestSlug }}
-            >
-              <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-            </Link>
+            <div className='flex gap-3'>
+              {contest?.disciplineSet?.map(({ slug: disciplineSlug }) => (
+                <Link
+                  from='/contests/$contestSlug/results'
+                  search={{ discipline: disciplineSlug, page: 1 }}
+                  params={{ contestSlug }}
+                  key={disciplineSlug}
+                >
+                  <CubeSwitcher asButton={false} cube={disciplineSlug} isActive={discipline === disciplineSlug} />
+                </Link>
+              ))}
+            </div>
             <div>
               <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
               <p className={cn('text-large min-w-1 text-grey-40', contestDuration ? undefined : 'opacity-0')}>
