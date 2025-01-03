@@ -42,6 +42,7 @@ function ControllerWithPagination() {
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
+    disciplineSlug: discipline,
   })
 
   return (
@@ -68,6 +69,7 @@ function ControllerWithInfiniteScroll() {
   const query = getInfiniteContestsQuery({
     enabled: pageSize !== undefined,
     pageSize,
+    disciplineSlug: discipline,
   })
   const { data, isFetching, isLoading, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
   const isFetchingNotFirstPage = isFetching && !isLoading
