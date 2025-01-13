@@ -32,7 +32,7 @@ export function CurrentSolve({
   areActionsDisabled: boolean
   number: number
   currentSolve: SolveContestStateDTO['currentSolve']
-  onChangeToExtra: () => void
+  onChangeToExtra: (reason: string) => void
   onSolveInit: () => void
   onSolveSubmit: () => void
 }) {
