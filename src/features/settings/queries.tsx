@@ -7,7 +7,7 @@ import { USER_QUERY_KEY } from '../auth'
 const SETTINGS_QUERY_KEY = 'settings'
 const SETTINGS_LS_KEY = 'vs-settings'
 
-export type Settings = { csAnimationDuration: number }
+export type Settings = { csAnimationDuration: number; csInspectionVoiceAlert: 'Male' | 'Female' | null }
 
 const settingsQuery = queryOptions({
   queryKey: [USER_QUERY_KEY, SETTINGS_QUERY_KEY],
@@ -40,12 +40,14 @@ async function getSettings(): Promise<Settings> {
   // @ts-expect-error mock backend
   if (!getAuthTokens()) throw new AxiosError('Unauthorized', undefined, undefined, undefined, { status: 401 })
   const settings = localStorage.getItem(SETTINGS_LS_KEY)
-  if (!settings) return { csAnimationDuration: 100 }
+  if (!settings) return { csAnimationDuration: 100, csInspectionVoiceAlert: 'Male' }
   return JSON.parse(settings)
 }
 
 async function patchSettings(patchedSettings: Partial<Settings>) {
-  const oldSettings = getSettings()
+  const oldSettings = await getSettings()
+  console.log(getSettings, patchedSettings)
+  console.log({ ...oldSettings, ...patchedSettings })
   localStorage.setItem(SETTINGS_LS_KEY, JSON.stringify({ ...oldSettings, ...patchedSettings }))
 }
 
