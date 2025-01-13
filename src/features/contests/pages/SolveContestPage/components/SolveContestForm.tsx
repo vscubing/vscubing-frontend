@@ -31,8 +31,9 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
     initSolve(currentSolve.scramble.moves, (result) => void onSolveFinish(result))
   }
 
-  async function handleSolveAction(action: 'change_to_extra' | 'submit') {
-    await solveAction(action)
+  async function handleSolveAction(payload: { type: 'change_to_extra'; reason: string } | { type: 'submit' }) {
+    // TODO: also pass the reason for extras once backend is ready
+    await solveAction(payload.type)
   }
 
   const currentSolveNumber = (submittedSolveSet?.length ?? 0) + 1
@@ -61,9 +62,9 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
             <CurrentSolve
               areActionsDisabled={isPending}
               currentSolve={currentSolve}
-              onChangeToExtra={() => handleSolveAction('change_to_extra')}
+              onChangeToExtra={(reason) => handleSolveAction({ type: 'change_to_extra', reason })}
               onSolveInit={handleInitSolve}
-              onSolveSubmit={() => handleSolveAction('submit')}
+              onSolveSubmit={() => handleSolveAction({ type: 'submit' })}
               number={currentSolveNumber}
             />
           </div>

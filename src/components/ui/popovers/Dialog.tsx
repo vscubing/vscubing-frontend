@@ -19,6 +19,8 @@ const DialogTrigger = DialogPrimitive.Trigger
 
 const DialogPortal = DialogPrimitive.Portal
 
+const DialogDescription = DialogPrimitive.Description
+
 const DialogOverlay = forwardRef<
   ElementRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay> & { withCubes?: boolean }
@@ -82,4 +84,5 @@ export {
   DialogContent,
   DialogFooter,
   DialogTitle,
+  DialogDescription,
 }
