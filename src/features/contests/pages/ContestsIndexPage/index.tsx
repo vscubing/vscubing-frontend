@@ -108,7 +108,7 @@ function View({ withPagination = false, page, discipline: currentDiscipline, pag
       <SectionHeader>
         <div className='flex gap-3'>
           {availableDisciplines?.map(({ slug: discipline }) => (
-            <Link search={{ page: 1, discipline }} key={discipline}>
+            <Link to='/contests' search={{ page: 1, discipline }} key={discipline}>
               <CubeSwitcher asButton={false} cube={discipline} isActive={discipline === currentDiscipline} />
             </Link>
           ))}
