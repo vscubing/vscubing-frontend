@@ -32,10 +32,10 @@ import EllipsisIcon from '@/assets/icons/ellipsis.svg?react'
 import PlusIcon from '@/assets/icons/plus.svg?react'
 import MinusIcon from '@/assets/icons/minus.svg?react'
 import SettingIcon from '@/assets/icons/setting.svg?react'
-import { Discipline, isDiscipline } from '@/types'
+import { type Discipline, isDiscipline } from '@/types'
 import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef } from 'react'
-import { ReactNode } from '@tanstack/react-router'
+import { type ReactNode } from '@tanstack/react-router'
 
 export {
   AllContestsIcon,

@@ -13,7 +13,7 @@ export function useSolveAction({ solveId, discipline }: { solveId?: number; disc
 
       await contestsOngoingContestSubmitCreate(solveId, { idDnf: false }, { action })
       const contest = await queryClient.fetchQuery(ongoingContestQuery)
-      queryClient.invalidateQueries(
+      void queryClient.invalidateQueries(
         getSolveContestStateQuery({ disciplineSlug: discipline, contestSlug: contest.data!.slug }),
       )
     },

@@ -1,5 +1,5 @@
-import { Discipline, isDiscipline } from '@/types'
-import { PuzzleID, TwistyPlayer } from '@vscubing/cubing/twisty'
+import { type Discipline, isDiscipline } from '@/types'
+import { type PuzzleID, TwistyPlayer } from '@vscubing/cubing/twisty'
 import { useState, useEffect } from 'react'
 
 export function useTwistyPlayer({

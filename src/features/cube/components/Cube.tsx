@@ -93,7 +93,7 @@ function useHandleIframeReady(setIsReady: (isReady: boolean) => void) {
     }
     window.addEventListener('message', handleReadyMessage)
     return () => window.removeEventListener('message', handleReadyMessage)
-  }, [])
+  }, [setIsReady])
 }
 
 function useInitSolve(

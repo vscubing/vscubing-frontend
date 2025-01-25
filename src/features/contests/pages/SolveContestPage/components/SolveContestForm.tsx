@@ -1,6 +1,6 @@
 import { usePostSolveResult, useSolveAction } from '../api'
 import { type CubeSolveResult, useCube } from '@/features/cube'
-import { SolveContestStateDTO } from '../types'
+import { type SolveContestStateDTO } from '../types'
 import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'

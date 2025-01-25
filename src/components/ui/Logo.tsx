@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef } from 'react'
 import logoFullImg from '@/assets/images/logo-full.svg'
 import logoSmImg from '@/assets/images/logo-sm.svg'
 import { cn } from '@/utils'

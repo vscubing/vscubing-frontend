@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { InitSolveData, type CubeSolveFinishCallback } from './Cube'
+import { type InitSolveData, type CubeSolveFinishCallback } from './Cube'
 
 type CubeContextValue = {
   initSolve: (data: InitSolveData, onSolveFinish: CubeSolveFinishCallback) => void

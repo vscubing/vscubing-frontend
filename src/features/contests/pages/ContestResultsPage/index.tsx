@@ -19,7 +19,7 @@ import {
 } from '@/shared/autofillHeight'
 import { cn, formatContestDuration, matchesQuery } from '@/utils'
 import { useOngoingContest } from '@/shared/contests'
-import { AxiosError } from 'axios'
+import { type AxiosError } from 'axios'
 import { PaginationInvalidPageHandler, NotFoundHandler } from '@/shared/ErrorHandlers'
 import { HintSignInSection } from '@/shared/HintSection'
 import { NavigateBackButton } from '@/shared/NavigateBackButton'
@@ -120,7 +120,7 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
   const { data: ongoing } = useOngoingContest()
   const isOngoing = contestSlug === ongoing?.data?.slug
 
-  let contestDuration = contest ? formatContestDuration(contest) : undefined
+  const contestDuration = contest ? formatContestDuration(contest) : undefined
 
   let title = ''
   if (!isOngoing) {

@@ -1,6 +1,6 @@
 import { TwistyScrubber, TwistyCube, TwistyAlgViewer, TwistyControls, TwistyTempo } from '@/shared/twisty'
 import { type ReactNode, useLayoutEffect, useRef } from 'react'
-import { TwistyPlayer as Player } from '@vscubing/cubing/twisty'
+import { type TwistyPlayer as Player } from '@vscubing/cubing/twisty'
 import { MinusIcon, PlusIcon } from '@/components/ui'
 import { cn, matchesQuery } from '@/utils'
 import * as Accordion from '@radix-ui/react-accordion'

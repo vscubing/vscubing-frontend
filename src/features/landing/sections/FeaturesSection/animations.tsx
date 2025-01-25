@@ -1,5 +1,14 @@
 import { cn } from '@/utils'
-import { createContext, ReactNode, useRef, useState, useEffect, useContext, ComponentPropsWithoutRef } from 'react'
+import {
+  createContext,
+  type ReactNode,
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  type ComponentPropsWithoutRef,
+  useCallback,
+} from 'react'
 import { type BlockType } from '.'
 
 const INTERVAL_BETWEEN_ANIMATIONS = 1000
@@ -41,18 +50,20 @@ export function AnimationsController({ children }: { children: ReactNode }) {
 
     observer.observe(currentBlockNode)
     return () => observer.unobserve(currentBlockNode)
-  }, [queue])
+  }, [queue, canRun])
 
-  function onAnimationEnd(block: BlockType) {
-    setTimeout(
-      () =>
-        setQueue((prev) => {
-          const currentBlock = prev[0]
-          return currentBlock === block ? prev.slice(1) : prev
-        }),
-      INTERVAL_BETWEEN_ANIMATIONS,
-    )
-  }
+  const onAnimationEnd = useCallback(
+    (block: BlockType) =>
+      setTimeout(
+        () =>
+          setQueue((prev) => {
+            const currentBlock = prev[0]
+            return currentBlock === block ? prev.slice(1) : prev
+          }),
+        INTERVAL_BETWEEN_ANIMATIONS,
+      ),
+    [setQueue],
+  )
 
   return (
     <AnimationContext.Provider value={{ canRun, onAnimationEnd, blocksRef: blocksRef.current }}>
@@ -112,7 +123,7 @@ function useRegisterAnimationEnd(block: BlockType, enabled: boolean) {
     const callback = () => onAnimationEnd(block)
     node.addEventListener('animationend', callback)
     return () => node.removeEventListener('animationend', callback)
-  }, [ref, block])
+  }, [ref, block, enabled, onAnimationEnd])
 
   return { ref }
 }

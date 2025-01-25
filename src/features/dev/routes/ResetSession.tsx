@@ -6,8 +6,8 @@ import { cn } from '@/utils'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { cva, VariantProps } from 'class-variance-authority'
-import { ComponentPropsWithoutRef, ElementRef, forwardRef, useState } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef, useState } from 'react'
 
 export function ResetSession() {
   const navigate = useNavigate()

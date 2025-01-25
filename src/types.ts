@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { type ContestsContestListOutput } from './api'
-import { SolveContestStateDTO } from './features/contests/pages/SolveContestPage/types'
+import { type SolveContestStateDTO } from './features/contests/pages/SolveContestPage/types'
 
 export type ScrambleDTO = SolveContestStateDTO['currentSolve']['scramble']
 export type Discipline = (typeof DISCIPLINES)[number]

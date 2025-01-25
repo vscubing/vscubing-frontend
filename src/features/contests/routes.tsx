@@ -35,6 +35,7 @@ const ongoingContestRedirectRoute = createRoute({
   path: 'ongoing',
   validateSearch: disciplineSchema,
   component: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data: ongoing } = useOngoingContest()
     const search = ongoingContestRedirectRoute.useSearch()
     if (!ongoing) {

@@ -31,27 +31,28 @@ export function useMutateSettings() {
       queryClient.setQueryData(settingsQuery.queryKey, context?.oldSettings)
     },
     onSettled: () => {
-      queryClient.invalidateQueries(settingsQuery)
+      void queryClient.invalidateQueries(settingsQuery)
     },
   })
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 async function getSettings(): Promise<Settings> {
   // @ts-expect-error mock backend
   if (!getAuthTokens()) throw new AxiosError('Unauthorized', undefined, undefined, undefined, { status: 401 })
   const settings = localStorage.getItem(SETTINGS_LS_KEY)
   if (!settings) return { csAnimationDuration: 100 }
-  return JSON.parse(settings)
+  return JSON.parse(settings) as Settings
 }
 
 async function patchSettings(patchedSettings: Partial<Settings>) {
-  const oldSettings = getSettings()
+  const oldSettings = await getSettings()
   localStorage.setItem(SETTINGS_LS_KEY, JSON.stringify({ ...oldSettings, ...patchedSettings }))
 }
 
 const LEGACY_ANIMATION_DURATION_LS_KEY = 'vs-vrc-speed'
 const legacyCsAnimationDuration = localStorage.getItem(LEGACY_ANIMATION_DURATION_LS_KEY)
 if (legacyCsAnimationDuration !== null) {
-  patchSettings({ csAnimationDuration: Number(legacyCsAnimationDuration) })
+  void patchSettings({ csAnimationDuration: Number(legacyCsAnimationDuration) })
   localStorage.removeItem(LEGACY_ANIMATION_DURATION_LS_KEY)
 }

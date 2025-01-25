@@ -1,7 +1,7 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { USER_QUERY_KEY } from '@/features/auth'
 import {
-  ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
+  type ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
   contestsOngoingContestCurrentRoundSessionProgressRetrieve,
 } from '@/api'
 import { queryClient } from '@/lib/reactQuery'

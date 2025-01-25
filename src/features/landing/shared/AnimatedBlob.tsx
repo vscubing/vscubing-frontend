@@ -1,5 +1,5 @@
 import { cn } from '@/utils'
-import { CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 
 export function AnimatedBlob({
   fromLeft,
