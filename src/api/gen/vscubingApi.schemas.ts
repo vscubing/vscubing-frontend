@@ -196,7 +196,7 @@ export interface AccountsChangeUsernameInput {
 }
 
 export interface TokenRefresh {
-  readonly access: string
+  access: string
   refresh: string
 }
 
