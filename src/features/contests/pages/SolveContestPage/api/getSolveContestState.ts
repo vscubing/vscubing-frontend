@@ -1,7 +1,7 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { USER_QUERY_KEY } from '@/features/auth'
 import {
-  ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
+  type ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
   contestsOngoingContestCurrentRoundSessionProgressRetrieve,
 } from '@/api'
 import { queryClient } from '@/lib/reactQuery'
@@ -16,7 +16,7 @@ export function getSolveContestStateQuery({
     queryKey: [USER_QUERY_KEY, 'solve-contest-state', contest, discipline],
     queryFn: async () => {
       const ongoing = await queryClient.fetchQuery(ongoingContestQuery)
-      if (ongoing.isOnMaintenance || ongoing.data.slug !== contest) {
+      if (ongoing.data?.slug !== contest) {
         // @ts-expect-error hack to redirect to results if the contest is over
         throw new AxiosError("This contest isn't ongoing", undefined, undefined, undefined, { status: 403 })
       }

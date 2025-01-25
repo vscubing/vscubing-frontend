@@ -1,6 +1,13 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { cn, useConditionalBeforeUnload } from '@/utils'
-import { type CubeSolveResult, type CubeSolveFinishCallback, Cube, type AppMessage, POST_MESSAGE_SOURCE } from './Cube'
+import {
+  type CubeSolveResult,
+  type CubeSolveFinishCallback,
+  Cube,
+  type AppMessage,
+  POST_MESSAGE_SOURCE,
+  type InitSolveData,
+} from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
@@ -10,7 +17,7 @@ import { CubeContext } from './CubeContext'
 type CubeProviderProps = { children: React.ReactNode }
 export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
-    scramble: string
+    initSolveData: InitSolveData
     solveCallback: CubeSolveFinishCallback
     wasSolveStarted: boolean
   } | null>(null)
@@ -21,8 +28,8 @@ export function CubeProvider({ children }: CubeProviderProps) {
     iframeRef.current!.contentWindow!.focus()
   }, [])
 
-  const initSolve = useCallback((scramble: string, solveCallback: CubeSolveFinishCallback) => {
-    setSolveState({ scramble, solveCallback, wasSolveStarted: false })
+  const initSolve = useCallback((initSolveData: InitSolveData, solveCallback: CubeSolveFinishCallback) => {
+    setSolveState({ initSolveData, solveCallback, wasSolveStarted: false })
   }, [])
 
   const handleSolveStart = useCallback(() => {
@@ -100,7 +107,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
                   </div>
                 }
                 className='relative'
-                scramble={solveState?.scramble}
+                initSolveData={solveState?.initSolveData}
                 onSolveFinish={handleSolveFinish}
                 onSolveStart={handleSolveStart}
                 iframeRef={iframeRef}

@@ -8,8 +8,6 @@ import { SolveTimeLinkOrDnf } from '@/shared/SolveTimeButton'
 
 type BestSolvesProps = { className: string; solves?: ContestsSolveListBestInEveryDiscipline[] }
 export function BestSolves({ className, solves }: BestSolvesProps) {
-  // solves = solves && Array.from({ length: 10 }, () => ({ ...solves[0], id: Math.random() })) // TODO: (remove later) uncomment to test with many rows
-
   const { fittingCount, containerRef, fakeElementRef } = AutofillHeight.useFittingCount()
   let countToDisplay = fittingCount
   if (solves && matchesQuery('md')) {

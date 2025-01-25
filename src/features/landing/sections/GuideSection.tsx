@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { Container } from '../shared/Container'
 import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from '@/components/ui'
 import { KeyMapDialogContent } from '@/shared/KeyMapDialog'

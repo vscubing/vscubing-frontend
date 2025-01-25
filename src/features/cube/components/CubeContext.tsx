@@ -1,8 +1,8 @@
 import { createContext } from 'react'
-import { type CubeSolveFinishCallback } from './Cube'
+import { type InitSolveData, type CubeSolveFinishCallback } from './Cube'
 
 type CubeContextValue = {
-  initSolve: (scramble: string, onSolveFinish: CubeSolveFinishCallback) => void
+  initSolve: (data: InitSolveData, onSolveFinish: CubeSolveFinishCallback) => void
 }
 
 export const CubeContext = createContext<CubeContextValue>({

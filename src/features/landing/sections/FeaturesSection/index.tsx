@@ -1,4 +1,4 @@
-import { ReactNode } from '@tanstack/react-router'
+import { type ReactNode } from '@tanstack/react-router'
 import { Container } from '../../shared/Container'
 import { LeaderboardIcon, ResultIcon, ScrambleIcon, ShareIcon } from '../../shared/icons'
 import { AnimationsController, BlockIntersectionWrapper } from './animations'
