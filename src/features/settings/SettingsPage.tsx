@@ -66,7 +66,7 @@ const CS_ANIMATION_DURATION_OPTIONS = [
 const CS_INSPECTION_VOICE_ALERT_OPTIONS = [
   { value: 'Male', content: 'male voice' },
   { value: 'Female', content: 'female voice' },
-  { value: null, content: 'none' },
+  { value: 'None', content: 'none' },
 ] as const
 
 function Select<T>({
@@ -116,7 +116,7 @@ const SelectItem = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     className={cn(
-      'text-large flex w-[5.625rem] cursor-pointer items-center rounded-lg px-4 py-[0.625rem] outline-none hover:bg-primary-100 active:bg-primary-100 data-[state=checked]:bg-primary-100',
+      'text-large flex w-full min-w-[5.625rem] cursor-pointer items-center rounded-lg px-4 py-[0.625rem] outline-none hover:bg-primary-100 active:bg-primary-100 data-[state=checked]:bg-primary-100',
       className,
     )}
     {...props}

@@ -7,7 +7,7 @@ import { USER_QUERY_KEY } from '../auth'
 const SETTINGS_QUERY_KEY = 'settings'
 const SETTINGS_LS_KEY = 'vs-settings'
 
-export type Settings = { csAnimationDuration: number; csInspectionVoiceAlert: 'Male' | 'Female' | null }
+export type Settings = { csAnimationDuration: number; csInspectionVoiceAlert: 'Male' | 'Female' | 'None' }
 
 const settingsQuery = queryOptions({
   queryKey: [USER_QUERY_KEY, SETTINGS_QUERY_KEY],
