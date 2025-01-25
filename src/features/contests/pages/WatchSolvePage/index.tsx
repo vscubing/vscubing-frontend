@@ -3,11 +3,11 @@ import { CubeBadge, LoadingSpinner, SecondaryButton, ShareIcon } from '@/compone
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import { copyToClipboard, formatSolveTime } from '@/utils'
 import { z } from 'zod'
-import { useReconstruction } from '../../api'
+import { getReconstructionQuery } from '../../api'
 import { Suspense, lazy } from 'react'
 import { toast } from '@/components/ui'
-import { Discipline } from '@/types'
 import { NavigateBackButton } from '@/shared/NavigateBackButton'
+import { useQuery } from '@tanstack/react-query'
 const TwistySection = lazy(() => import('./TwistySection.lazy'))
 
 const route = getRouteApi('/_app/contests/$contestSlug/watch/$solveId')
@@ -15,7 +15,7 @@ export function WatchSolvePage() {
   const params = route.useParams()
   const search = route.useSearch()
 
-  const { data: res, error } = useReconstruction(Number(params.solveId))
+  const { data: res, error } = useQuery(getReconstructionQuery(Number(params.solveId)))
 
   if (error?.response?.status === 404) {
     return <Navigate to='/404' replace />
@@ -26,7 +26,7 @@ export function WatchSolvePage() {
       <Navigate
         to='/contests/$contestSlug/watch/$solveId'
         params={{ contestSlug: res.contest.slug, solveId: params.solveId }}
-        search={{ discipline: res.discipline.slug as Discipline }}
+        search={{ discipline: res.discipline.slug }}
       />
     )
   }
@@ -54,15 +54,15 @@ export function WatchSolvePage() {
       <NavigateBackButton className='self-start' />
       <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2 sm:grid-cols-1 sm:grid-rows-[min-content,min-content,1fr]'>
         <SectionHeader className='gap-4'>
-          <CubeBadge cube='3by3' />
+          <CubeBadge cube={search.discipline} />
           <div>
             <Link
               to='/contests/$contestSlug'
-              search={{ discipline: res?.discipline?.slug ?? '' }}
-              params={{ contestSlug: res?.contest.slug ?? '' }}
+              search={{ discipline: search.discipline }}
+              params={{ contestSlug: params.contestSlug }}
               className='title-h2 mb-1 text-secondary-20'
             >
-              Contest {res?.contest.slug}
+              Contest {params.contestSlug}
             </Link>
             <p className='text-large'>Scramble {expandScramblePosition(res?.scramble.position)}</p>
           </div>
@@ -84,7 +84,7 @@ export function WatchSolvePage() {
             </div>
           }
         >
-          <TwistySection scramble={res?.scramble.moves} solution={res?.reconstruction.replace(/\/\*\d+?\*\//g, '')} />
+          <TwistySection solveId={Number(params.solveId)} />
         </Suspense>
       </div>
     </section>

@@ -2,7 +2,7 @@ import { Header } from '@/components/layout'
 import { ChevronDownIcon } from '@/components/ui'
 import { NavigateBackButton } from '@/shared/NavigateBackButton'
 import * as SelectPrimitive from '@radix-ui/react-select'
-import { ReactNode, forwardRef } from 'react'
+import { type ReactNode, forwardRef } from 'react'
 import { useMutateSettings, useSettings } from './queries'
 import { HintSignInSection } from '@/shared/HintSection'
 import { cn } from '@/utils'
@@ -81,13 +81,7 @@ function Select<T>({
   className?: string
 }) {
   return (
-    <SelectPrimitive.Root
-      value={JSON.stringify(value)}
-      onValueChange={(val) => {
-        console.log(val)
-        onValueChange(JSON.parse(val))
-      }}
-    >
+    <SelectPrimitive.Root value={JSON.stringify(value)} onValueChange={(val) => onValueChange(JSON.parse(val) as T)}>
       <SelectPrimitive.Trigger
         className={cn(
           'group flex h-12 min-w-[5.625rem] items-center justify-between gap-2 rounded-lg bg-black-100 px-4 text-left',
@@ -121,7 +115,10 @@ const SelectItem = forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
-    className='text-large flex cursor-pointer items-center rounded-lg px-4 py-[0.625rem] outline-none hover:bg-primary-100 active:bg-primary-100 data-[state=checked]:bg-primary-100'
+    className={cn(
+      'text-large flex w-[5.625rem] cursor-pointer items-center rounded-lg px-4 py-[0.625rem] outline-none hover:bg-primary-100 active:bg-primary-100 data-[state=checked]:bg-primary-100',
+      className,
+    )}
     {...props}
     ref={ref}
   >

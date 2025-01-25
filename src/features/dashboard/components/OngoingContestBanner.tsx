@@ -26,7 +26,7 @@ function BannerContent({ className }: { className?: string }) {
   return (
     <div className={cn('flex', className)}>
       <div className='relative mr-32'>
-        <div className={cn('flex h-full flex-col justify-end gap-2 py-4 pl-4 xl-short:pt-0', className)}>
+        <div className={cn('flex h-full flex-col items-start justify-end gap-2 py-4 pl-4 xl-short:pt-0', className)}>
           <h3 className='title-h3 text-center'>Type</h3>
           <Disciplines />
         </div>
@@ -112,16 +112,33 @@ function Duration() {
 }
 
 function Disciplines() {
+  const { data } = useOngoingContest()
   return (
-    <div className='flex'>
-      <Link to='/contests/ongoing' search={{ discipline: '3by3' }} className='outline-ring group flex flex-col gap-2'>
-        {/* TODO: get from backend */}
-        <CubeBadge
-          cube='3by3'
-          className='transition-base outline-ring group-hover:bg-secondary-40 group-active:bg-secondary-20'
-        />
-        <span className='btn-lg text-center lg:hidden'>3x3</span>
-      </Link>
+    <div className='flex gap-2'>
+      {data?.data ? (
+        data.data.disciplineSet.map(({ slug, name }) => (
+          <Link
+            to='/contests/ongoing'
+            search={{ discipline: slug }}
+            className='outline-ring group flex flex-col gap-2'
+            key={slug}
+          >
+            <CubeBadge
+              cube={slug}
+              className='transition-base outline-ring group-hover:bg-secondary-40 group-active:bg-secondary-20'
+            />
+            <span className='btn-lg text-center lg:hidden'>{name.replace('by', 'x')}</span>
+          </Link>
+        ))
+      ) : (
+        <span className='flex flex-col gap-2'>
+          <CubeBadge
+            cube=''
+            className='transition-base outline-ring group-hover:bg-secondary-40 group-active:bg-secondary-20'
+          />
+          <span className='btn-lg text-center lg:hidden'>...</span>
+        </span>
+      )}
     </div>
   )
 }

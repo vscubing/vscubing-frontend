@@ -30,6 +30,7 @@ function Lists() {
   const { data: latestContests } = useContests({
     page: 1,
     pageSize: 5,
+    disciplineSlug: '3by3',
   })
   const { data: bestSolves } = useQuery({
     queryKey: ['bestSolves'],

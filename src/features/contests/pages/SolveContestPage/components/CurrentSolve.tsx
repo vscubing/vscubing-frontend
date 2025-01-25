@@ -13,9 +13,9 @@ import {
   TextArea,
   DialogDescription,
 } from '@/components/ui'
-import { SolveContestStateDTO } from '../types'
+import { type SolveContestStateDTO } from '../types'
 import { SolvePanel } from './SolvePanel'
-import { ReactNode, useState } from 'react'
+import { type ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'

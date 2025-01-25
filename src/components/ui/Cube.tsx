@@ -1,10 +1,9 @@
 import { cn } from '@/utils'
 import { forwardRef, type HTMLAttributes } from 'react'
-import type { Discipline } from '@/types'
 import { CubeIcon } from './icons'
 
 type CubeBadgeProps = HTMLAttributes<HTMLDivElement> & {
-  cube: Discipline
+  cube: string
 }
 const CubeBadge = forwardRef<HTMLDivElement, CubeBadgeProps>(({ cube, className, ...props }, ref) => {
   return (
@@ -26,7 +25,7 @@ type CubeSwitcherProps = {
   className?: string
   asButton?: boolean
   isActive?: boolean
-  cube: Discipline
+  cube: string
 }
 const CubeSwitcher = forwardRef<HTMLButtonElement, CubeSwitcherProps>(
   ({ className, isActive, cube, asButton = true, ...props }, ref) => {

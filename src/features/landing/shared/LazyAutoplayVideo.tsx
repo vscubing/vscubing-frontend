@@ -1,6 +1,6 @@
 import { PlayIcon } from '@/components/ui'
 import { cn } from '@/utils'
-import { ComponentPropsWithoutRef, useRef, useState } from 'react'
+import { type ComponentPropsWithoutRef, useRef, useState } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 export function LazyAutoplayVideo({
@@ -17,14 +17,14 @@ export function LazyAutoplayVideo({
     freezeOnceVisible: true,
     onChange: (isIntersecting) => {
       if (isIntersecting) {
-        ref.current?.play()
+        void ref.current?.play()
       }
     },
   })
 
   const [hasEnded, setHasEnded] = useState(false)
   function restart() {
-    ref.current!.play()
+    void ref.current!.play()
     setHasEnded(false)
   }
 
