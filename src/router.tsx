@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { NotFoundPage, notFoundRoute } from './features/NotFoundPage'
 import { landingRoute } from './features/landing'
+import { settingsRoute } from './features/settings'
 
 export const rootRoute = createRootRoute()
 
@@ -36,7 +37,8 @@ const routeTree = rootRoute.addChildren([
     indexRoute,
     leaderboardRoute,
     contestsRoute,
-    ...(import.meta.env.MODE === 'development' ? [devRoute] : []),
+    settingsRoute,
+    ...(import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test' ? [devRoute] : []),
   ]),
   notFoundRoute,
   landingRoute,

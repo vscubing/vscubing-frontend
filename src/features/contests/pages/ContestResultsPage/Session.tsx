@@ -43,7 +43,7 @@ export function Session({
       >
         <Accordion.Header className='flex flex-1 items-center md:w-full sm:grid sm:grid-flow-col sm:grid-cols-[min-content_1fr_min-content] sm:grid-rows-[repeat(2,min-content)] sm:gap-x-3 sm:gap-y-1'>
           <PlaceLabel className='mr-3 sm:mr-0' linkToPage={linkToPage}>
-            {session.place!}
+            {session.place}
           </PlaceLabel>
           <CubeIcon className='mr-3 sm:mr-0' cube={discipline} />
           <Ellipsis className='vertical-alignment-fix flex-1 sm:col-span-2 sm:w-auto'>{`${session.roundSession.user.username}${currentUserLabel}`}</Ellipsis>

@@ -1,4 +1,5 @@
 import Cube3Icon from '@/assets/icons/cube-3.svg?react'
+import Cube2Icon from '@/assets/icons/cube-2.svg?react'
 import AllContestsIcon from '@/assets/icons/all-contests.svg?react'
 import ArrowBackUpIcon from '@/assets/icons/arrow-back-up.svg?react'
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg?react'
@@ -12,6 +13,8 @@ import GoogleIcon from '@/assets/icons/google.svg?react'
 import LeaderboardIcon from '@/assets/icons/leaderboard.svg?react'
 import ChevronLeftIcon from '@/assets/icons/chevron-left.svg?react'
 import ChevronRightIcon from '@/assets/icons/chevron-right.svg?react'
+import ChevronUpIcon from '@/assets/icons/chevron-up.svg?react'
+import ChevronDownIcon from '@/assets/icons/chevron-down.svg?react'
 import LinkedinIcon from '@/assets/icons/linkedin.svg?react'
 import LogoutIcon from '@/assets/icons/logout.svg?react'
 import MenuIcon from '@/assets/icons/menu.svg?react'
@@ -28,9 +31,11 @@ import GithubIcon from '@/assets/icons/github.svg?react'
 import EllipsisIcon from '@/assets/icons/ellipsis.svg?react'
 import PlusIcon from '@/assets/icons/plus.svg?react'
 import MinusIcon from '@/assets/icons/minus.svg?react'
-import { isDiscipline } from '@/types'
+import SettingIcon from '@/assets/icons/setting.svg?react'
+import { type Discipline, isDiscipline } from '@/types'
 import { cn } from '@/utils'
 import { type HTMLAttributes, forwardRef } from 'react'
+import { type ReactNode } from '@tanstack/react-router'
 
 export {
   AllContestsIcon,
@@ -46,6 +51,8 @@ export {
   GithubIcon,
   LeaderboardIcon,
   ChevronLeftIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
   LinkedinIcon,
   LogoutIcon,
   MenuIcon,
@@ -62,13 +69,14 @@ export {
   EllipsisIcon,
   PlusIcon,
   MinusIcon,
+  SettingIcon,
 }
 
 type CubeIconProps = HTMLAttributes<SVGSVGElement> & {
   cube: string
 }
 
-const ICONS = { '3by3': Cube3Icon } as const
+const ICONS = { '3by3': Cube3Icon, '2by2': Cube2Icon } as const satisfies Record<Discipline, ReactNode>
 export const CubeIcon = forwardRef<SVGSVGElement, CubeIconProps>(({ cube, className, ...props }, ref) => {
   const Comp = isDiscipline(cube) ? ICONS[cube] : PlaceholderIcon
   return <Comp {...props} ref={ref} className={cn('h-[27px] w-[27px]', className)} />
@@ -76,5 +84,5 @@ export const CubeIcon = forwardRef<SVGSVGElement, CubeIconProps>(({ cube, classN
 CubeIcon.displayName = 'CubeIcon'
 
 function PlaceholderIcon({ className }: { className?: string }) {
-  return <svg className={cn('animate-pulse bg-grey-100', className)}></svg>
+  return <svg className={cn('animate-pulse bg-grey-60', className)}></svg>
 }

@@ -12,7 +12,7 @@ export function copyToClipboard(text: string) {
           reject(new Error('Permission not granted!'))
         }
       })
-    } else if (document.queryCommandSupported && document.queryCommandSupported('copy')) {
+    } else if (document.queryCommandSupported?.('copy')) {
       const textarea = document.createElement('textarea')
       textarea.textContent = text
       textarea.style.position = 'fixed'

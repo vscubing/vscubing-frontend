@@ -23,7 +23,7 @@ function PageContent({ renderParallaxCubes }: NotFoundInnerProps) {
   return (
     <Layout>
       <div className='flex flex-1 flex-col gap-3 sm:gap-0'>
-        <Header className='hidden lg:block' />
+        <Header className='hidden lg:flex' />
         <div className='relative flex-1 rounded-xl bg-black-80 p-16 sm:p-8'>
           {renderParallaxCubes?.()}
           <div className='relative max-w-[35rem] sm:max-w-none'>

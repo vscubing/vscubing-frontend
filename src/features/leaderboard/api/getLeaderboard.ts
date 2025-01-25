@@ -13,23 +13,27 @@ type LeaderboardParams = {
   enabled?: boolean
 } & ContestsSolvesSingleResultLeaderboardRetrieveParams
 
-export function getLeaderboardQuery({ enabled = true, page, pageSize }: LeaderboardParams) {
+export function getLeaderboardQuery({ enabled = true, page, pageSize, disciplineSlug }: LeaderboardParams) {
   return queryOptions({
-    queryKey: [USER_QUERY_KEY, 'leaderboard', { page, pageSize }],
-    queryFn: () => contestsSolvesSingleResultLeaderboardRetrieve({ page, pageSize }),
+    queryKey: [USER_QUERY_KEY, 'leaderboard', { page, pageSize, disciplineSlug }],
+    queryFn: () => contestsSolvesSingleResultLeaderboardRetrieve({ page, pageSize, disciplineSlug }),
     placeholderData: (prev) => prev,
     enabled,
   })
 }
 
-export function getLeaderboardInfiniteQuery({ enabled = true, pageSize }: Omit<LeaderboardParams, 'page'>) {
+export function getLeaderboardInfiniteQuery({
+  enabled = true,
+  pageSize,
+  disciplineSlug,
+}: Omit<LeaderboardParams, 'page'>) {
   if (pageSize !== undefined) {
     pageSize = Math.floor(pageSize * 2)
   }
 
   return infiniteQueryOptions({
-    queryKey: [USER_QUERY_KEY, 'leaderboard', pageSize],
-    queryFn: ({ pageParam: page }) => contestsSolvesSingleResultLeaderboardRetrieve({ page, pageSize }),
+    queryKey: [USER_QUERY_KEY, 'leaderboard', { pageSize, disciplineSlug }],
+    queryFn: ({ pageParam: page }) => contestsSolvesSingleResultLeaderboardRetrieve({ page, pageSize, disciplineSlug }),
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
     enabled,

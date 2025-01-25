@@ -1,5 +1,5 @@
 import { cn } from '@/utils'
-import { ReactNode } from '@tanstack/react-router'
+import { type ReactNode } from '@tanstack/react-router'
 
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
   return (

@@ -1,6 +1,13 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { cn, useConditionalBeforeUnload } from '@/utils'
-import { type CubeSolveResult, type CubeSolveFinishCallback, Cube } from './Cube'
+import {
+  type CubeSolveResult,
+  type CubeSolveFinishCallback,
+  Cube,
+  type AppMessage,
+  POST_MESSAGE_SOURCE,
+  type InitSolveData,
+} from './Cube'
 import { AbortPrompt } from './AbortPrompt'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
@@ -10,23 +17,23 @@ import { CubeContext } from './CubeContext'
 type CubeProviderProps = { children: React.ReactNode }
 export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
-    scramble: string
+    initSolveData: InitSolveData
     solveCallback: CubeSolveFinishCallback
-    wasTimeStarted: boolean
+    wasSolveStarted: boolean
   } | null>(null)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const focusCube = useCallback(() => {
-    iframeRef.current?.contentWindow?.focus()
+    iframeRef.current!.contentWindow!.focus()
   }, [])
 
-  const initSolve = useCallback((scramble: string, solveCallback: CubeSolveFinishCallback) => {
-    setSolveState({ scramble, solveCallback, wasTimeStarted: false })
+  const initSolve = useCallback((initSolveData: InitSolveData, solveCallback: CubeSolveFinishCallback) => {
+    setSolveState({ initSolveData, solveCallback, wasSolveStarted: false })
   }, [])
 
-  const handleTimeStart = useCallback(() => {
-    setSolveState((prev) => prev && { ...prev, wasTimeStarted: true })
+  const handleSolveStart = useCallback(() => {
+    setSolveState((prev) => prev && { ...prev, wasSolveStarted: true })
   }, [])
 
   const solveCallback = solveState?.solveCallback
@@ -38,11 +45,11 @@ export function CubeProvider({ children }: CubeProviderProps) {
     [solveCallback],
   )
 
-  const shouldDNFOnPageLeave = !!solveState && solveState.wasTimeStarted
+  const shouldDNFOnPageLeave = !!solveState && solveState.wasSolveStarted
   useConditionalBeforeUnload(shouldDNFOnPageLeave, () => handleSolveFinish({ isDnf: true }))
 
   const abortOrShowPrompt = useCallback(() => {
-    if (solveState!.wasTimeStarted === false) {
+    if (solveState!.wasSolveStarted === false) {
       setSolveState(null)
       return
     }
@@ -53,6 +60,12 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const confirmAbort = useCallback(() => {
     setIsAbortPromptVisible(false)
     handleSolveFinish({ isDnf: true })
+
+    const abortMessage = {
+      source: POST_MESSAGE_SOURCE,
+      event: 'abortSolve',
+    } satisfies AppMessage
+    iframeRef.current!.contentWindow!.postMessage(abortMessage)
   }, [handleSolveFinish])
 
   const cancelAbort = useCallback(() => {
@@ -94,9 +107,9 @@ export function CubeProvider({ children }: CubeProviderProps) {
                   </div>
                 }
                 className='relative'
-                scramble={solveState?.scramble}
+                initSolveData={solveState?.initSolveData}
                 onSolveFinish={handleSolveFinish}
-                onTimeStart={handleTimeStart}
+                onSolveStart={handleSolveStart}
                 iframeRef={iframeRef}
               />
               <div className='absolute left-6 right-6 top-6 flex items-start justify-between'>

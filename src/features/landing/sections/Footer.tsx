@@ -12,7 +12,7 @@ import animatedCube7 from '../assets/footer/animated-cube-7.svg'
 import animatedCube8 from '../assets/footer/animated-cube-8.svg'
 import animatedCube9 from '../assets/footer/animated-cube-9.svg'
 import standWithUkraineImg from '@/assets/images/stand-with-ukraine.svg'
-import { CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 
 export function Footer({
   className,

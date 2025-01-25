@@ -1,7 +1,7 @@
 import { CubeIcon } from '@/components/ui'
 import { SolveTimeLabel } from '@/shared/SolveTimeButton'
 import { AnimationItem } from './animations'
-import { CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 
 export function LeaderboardsAnimation() {
   return (

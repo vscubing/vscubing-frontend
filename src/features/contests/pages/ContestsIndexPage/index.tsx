@@ -12,6 +12,7 @@ import {
   Contest as ContestMobile,
   ContestSkeleton as ContestSkeletonMobile,
   getInfiniteContestsQuery,
+  useAvailableDisciplines,
   useContests,
 } from '@/shared/contests'
 import { NotFoundHandler, PaginationInvalidPageHandler } from '@/shared/ErrorHandlers'
@@ -41,20 +42,23 @@ function ControllerWithPagination() {
     page,
     pageSize: pageSize ?? 0,
     enabled: pageSize !== undefined,
+    disciplineSlug: discipline,
   })
 
   return (
-    <NotFoundHandler error={error}>
-      <View withPagination pages={data?.pages} page={page} discipline={discipline}>
-        <ContestsList
-          list={data?.results}
-          pageSize={pageSize}
-          containerRef={containerRef}
-          fakeElementRef={fakeElementRef}
-          optimalElementHeight={optimalElementHeight}
-        />
-      </View>
-    </NotFoundHandler>
+    <PaginationInvalidPageHandler error={error}>
+      <NotFoundHandler error={error}>
+        <View withPagination pages={data?.pages} page={page} discipline={discipline}>
+          <ContestsList
+            list={data?.results}
+            pageSize={pageSize}
+            containerRef={containerRef}
+            fakeElementRef={fakeElementRef}
+            optimalElementHeight={optimalElementHeight}
+          />
+        </View>
+      </NotFoundHandler>
+    </PaginationInvalidPageHandler>
   )
 }
 
@@ -65,25 +69,24 @@ function ControllerWithInfiniteScroll() {
   const query = getInfiniteContestsQuery({
     enabled: pageSize !== undefined,
     pageSize,
+    disciplineSlug: discipline,
   })
   const { data, isFetching, isLoading, error, lastElementRef } = AutofillHeight.useInfiniteScroll(query)
   const isFetchingNotFirstPage = isFetching && !isLoading
 
   return (
-    <PaginationInvalidPageHandler error={error}>
-      <NotFoundHandler error={error}>
-        <OverlaySpinner isVisible={isFetchingNotFirstPage} />
-        <View discipline={discipline}>
-          <ContestsList
-            list={data?.pages.flatMap((page) => page.results)}
-            pageSize={pageSize}
-            containerRef={containerRef}
-            fakeElementRef={fakeElementRef}
-            lastElementRef={lastElementRef}
-          />
-        </View>
-      </NotFoundHandler>
-    </PaginationInvalidPageHandler>
+    <NotFoundHandler error={error}>
+      <OverlaySpinner isVisible={isFetchingNotFirstPage} />
+      <View discipline={discipline}>
+        <ContestsList
+          list={data?.pages.flatMap((page) => page.results)}
+          pageSize={pageSize}
+          containerRef={containerRef}
+          fakeElementRef={fakeElementRef}
+          lastElementRef={lastElementRef}
+        />
+      </View>
+    </NotFoundHandler>
   )
 }
 
@@ -94,17 +97,22 @@ type ViewProps = {
   discipline: string
   children: ReactNode
 }
-function View({ withPagination = false, page, discipline, pages, children }: ViewProps) {
+function View({ withPagination = false, page, discipline: currentDiscipline, pages, children }: ViewProps) {
   const title = 'Explore contests'
+  const { data: availableDisciplines } = useAvailableDisciplines()
   return (
     <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
       <NavigateBackButton className='self-start' />
       <SectionHeader>
-        <Link search={{ page: 1, discipline: '3by3' }}>
-          <CubeSwitcher asButton={false} cube='3by3' isActive={discipline === '3by3'} />
-        </Link>
+        <div className='flex gap-3'>
+          {availableDisciplines?.map(({ slug: discipline }) => (
+            <Link search={{ page: 1, discipline }} key={discipline}>
+              <CubeSwitcher asButton={false} cube={discipline} isActive={discipline === currentDiscipline} />
+            </Link>
+          ))}
+        </div>
         {withPagination && <Pagination currentPage={page} pages={pages} className='ml-auto' />}
       </SectionHeader>
       {children}

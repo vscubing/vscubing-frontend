@@ -1,8 +1,8 @@
 import { queryClient } from '@/lib/reactQuery'
 import { useMutation } from '@tanstack/react-query'
 import { getSolveContestStateQuery } from './getSolveContestState'
-import { ContestsCreateSolveInput, contestsOngoingContestSolveCreateCreate } from '@/api'
-import { TOASTS_PRESETS, Toast, toast } from '@/components/ui'
+import { type ContestsCreateSolveInput, contestsOngoingContestSolveCreateCreate } from '@/api'
+import { TOASTS_PRESETS, type Toast, toast } from '@/components/ui'
 import { AxiosError } from 'axios'
 import { ongoingContestQuery } from '@/shared/contests'
 import * as Sentry from '@sentry/browser'
@@ -10,8 +10,7 @@ import * as Sentry from '@sentry/browser'
 export const SOLVE_REJECTED_ERROR_TEXT = 'A solve was rejected by the server'
 const SOLVE_REJECTED_TOAST = {
   title: 'Uh-oh! Solve rejected by the server',
-  // description: "Under normal circumstances this shouldn't happen.", // uncomment once the bug is fixed
-  description: 'We are working on fixing this bug, for now please take an extra.',
+  description: "Under normal circumstances this shouldn't happen.",
   duration: 'infinite',
 } satisfies Toast
 
@@ -30,7 +29,7 @@ export const usePostSolveResult = (discipline: string) =>
       }
 
       const contest = await queryClient.fetchQuery(ongoingContestQuery)
-      queryClient.invalidateQueries(
+      void queryClient.invalidateQueries(
         getSolveContestStateQuery({ disciplineSlug: discipline, contestSlug: contest.data!.slug }),
       )
     },
