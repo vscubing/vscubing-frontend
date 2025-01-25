@@ -10,12 +10,15 @@ import type {
   AccountsCurrentUserOutput,
   AccountsGoogleLoginInput,
   AccountsGoogleLoginOutput,
+  AccountsSettingsUpdateInput,
+  AccountsSettingsUpdateOutput,
   ContestsContestListOutput,
   ContestsContestsLeaderboardRetrieveParams,
   ContestsContestsRetrieveParams,
   ContestsCreateSolveInput,
   ContestsCreateSolveOutput,
   ContestsCurrentSolveOutput,
+  ContestsDevOwnRoundSessionDeleteDestroyParams,
   ContestsOngoingContestCurrentRoundSessionProgressRetrieveParams,
   ContestsOngoingContestSolveCreateCreateParams,
   ContestsOngoingContestSubmitCreateParams,
@@ -32,6 +35,8 @@ import type {
 import accountsChangeUsernameUpdateMutator from '../axiosInstance'
 import accountsCurrentUserRetrieveMutator from '../axiosInstance'
 import accountsGoogleLoginCreateMutator from '../axiosInstance'
+import accountsSettingsRetrieveRetrieveMutator from '../axiosInstance'
+import accountsSettingsUpdateCreateMutator from '../axiosInstance'
 import accountsTokenRefreshCreateMutator from '../axiosInstance'
 import contestsAvailableDisciplinesListMutator from '../axiosInstance'
 import contestsContestsRetrieveMutator from '../axiosInstance'
@@ -126,6 +131,30 @@ export const accountsGoogleLoginCreate = (accountsGoogleLoginInput: AccountsGoog
   })
 }
 
+export const accountsSettingsRetrieveRetrieve = () => {
+  return accountsSettingsRetrieveRetrieveMutator<AccountsSettingsUpdateOutput>({
+    url: `/api/accounts/settings/retrieve/`,
+    method: 'GET',
+  })
+}
+
+export const accountsSettingsUpdateCreate = (accountsSettingsUpdateInput: AccountsSettingsUpdateInput) => {
+  const formUrlEncoded = new URLSearchParams()
+  if (accountsSettingsUpdateInput.cstimerInspectionVoiceAlert !== undefined) {
+    formUrlEncoded.append('cstimerInspectionVoiceAlert', accountsSettingsUpdateInput.cstimerInspectionVoiceAlert)
+  }
+  if (accountsSettingsUpdateInput.cstimerAnimationDuration !== undefined) {
+    formUrlEncoded.append('cstimerAnimationDuration', accountsSettingsUpdateInput.cstimerAnimationDuration.toString())
+  }
+
+  return accountsSettingsUpdateCreateMutator<void>({
+    url: `/api/accounts/settings/update/`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    data: formUrlEncoded,
+  })
+}
+
 /**
  * Takes a refresh type JSON web token and returns an access type JSON web
 token if the refresh token is valid.
@@ -173,10 +202,11 @@ export const contestsDevNewContestCreateCreate = () => {
   })
 }
 
-export const contestsDevOwnRoundSessionDeleteDestroy = () => {
+export const contestsDevOwnRoundSessionDeleteDestroy = (params: ContestsDevOwnRoundSessionDeleteDestroyParams) => {
   return contestsDevOwnRoundSessionDeleteDestroyMutator<void>({
     url: `/api/contests/dev/own-round-session/delete/`,
     method: 'DELETE',
+    params,
   })
 }
 
@@ -263,6 +293,10 @@ export const contestsSolvesSingleResultLeaderboardRetrieve = (
 export type AccountsChangeUsernameUpdateResult = NonNullable<Awaited<ReturnType<typeof accountsChangeUsernameUpdate>>>
 export type AccountsCurrentUserRetrieveResult = NonNullable<Awaited<ReturnType<typeof accountsCurrentUserRetrieve>>>
 export type AccountsGoogleLoginCreateResult = NonNullable<Awaited<ReturnType<typeof accountsGoogleLoginCreate>>>
+export type AccountsSettingsRetrieveRetrieveResult = NonNullable<
+  Awaited<ReturnType<typeof accountsSettingsRetrieveRetrieve>>
+>
+export type AccountsSettingsUpdateCreateResult = NonNullable<Awaited<ReturnType<typeof accountsSettingsUpdateCreate>>>
 export type AccountsTokenRefreshCreateResult = NonNullable<Awaited<ReturnType<typeof accountsTokenRefreshCreate>>>
 export type ContestsAvailableDisciplinesListResult = NonNullable<
   Awaited<ReturnType<typeof contestsAvailableDisciplinesList>>
