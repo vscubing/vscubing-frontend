@@ -2,7 +2,7 @@ import { Header } from '@/components/layout'
 import { ChevronDownIcon } from '@/components/ui'
 import { NavigateBackButton } from '@/shared/NavigateBackButton'
 import * as SelectPrimitive from '@radix-ui/react-select'
-import { type ReactNode, forwardRef, useEffect } from 'react'
+import { type ReactNode, forwardRef } from 'react'
 import { useMutateSettings, useSettings } from './queries'
 import { HintSignInSection } from '@/shared/HintSection'
 import { cn } from '@/utils'
@@ -20,8 +20,6 @@ export function SettingsPage() {
 function PageContent() {
   const { data: settings, error } = useSettings()
   const { mutate: mutateSettings } = useMutateSettings()
-
-  useLegacySettings()
 
   if (error?.response?.status === 401) {
     return <HintSignInSection />
@@ -70,20 +68,6 @@ const CS_INSPECTION_VOICE_ALERT_OPTIONS = [
   { value: 'Female', content: 'female voice' },
   { value: 'None', content: 'none' },
 ]
-
-function useLegacySettings() {
-  const { data: settings } = useSettings()
-  const { mutate: mutateSettings } = useMutateSettings()
-
-  useEffect(() => {
-    const LEGACY_ANIMATION_DURATION_LS_KEY = 'vs-vrc-speed'
-    const legacyCsAnimationDuration = localStorage.getItem(LEGACY_ANIMATION_DURATION_LS_KEY)
-    if (legacyCsAnimationDuration !== null && settings) {
-      mutateSettings({ cstimerAnimationDuration: Number(legacyCsAnimationDuration) })
-      localStorage.removeItem(LEGACY_ANIMATION_DURATION_LS_KEY)
-    }
-  }, [settings, mutateSettings])
-}
 
 function Select({
   options,

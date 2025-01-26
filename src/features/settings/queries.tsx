@@ -6,6 +6,7 @@ import {
   accountsSettingsRetrieveRetrieve,
   accountsSettingsUpdateCreate,
 } from '@/api'
+import { useEffect } from 'react'
 
 const SETTINGS_QUERY_KEY = 'settings'
 
@@ -17,7 +18,9 @@ const settingsQuery = queryOptions({
 })
 
 export function useSettings() {
-  return useQuery(settingsQuery)
+  const query = useQuery(settingsQuery)
+  useLegacySettingsPatch(query.data)
+  return query
 }
 
 export function useMutateSettings() {
@@ -36,4 +39,17 @@ export function useMutateSettings() {
       void queryClient.invalidateQueries(settingsQuery)
     },
   })
+}
+
+function useLegacySettingsPatch(settings?: Settings) {
+  const { mutate: mutateSettings } = useMutateSettings()
+
+  useEffect(() => {
+    const LEGACY_ANIMATION_DURATION_LS_KEY = 'vs-vrc-speed'
+    const legacyCsAnimationDuration = localStorage.getItem(LEGACY_ANIMATION_DURATION_LS_KEY)
+    if (legacyCsAnimationDuration !== null && settings) {
+      mutateSettings({ cstimerAnimationDuration: Number(legacyCsAnimationDuration) })
+      localStorage.removeItem(LEGACY_ANIMATION_DURATION_LS_KEY)
+    }
+  }, [settings, mutateSettings])
 }
