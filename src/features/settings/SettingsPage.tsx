@@ -36,7 +36,7 @@ function PageContent() {
             <Select
               options={CS_ANIMATION_DURATION_OPTIONS}
               value={String(settings.cstimerAnimationDuration)}
-              onValueChange={(val) => mutateSettings({ ...settings, cstimerAnimationDuration: Number(val) })}
+              onValueChange={(val) => mutateSettings({ cstimerAnimationDuration: Number(val) })}
             />
           </li>
           <li className='flex items-center justify-between gap-2 rounded-xl bg-grey-100 p-4'>
@@ -44,9 +44,7 @@ function PageContent() {
             <Select
               options={CS_INSPECTION_VOICE_ALERT_OPTIONS}
               value={settings.cstimerInspectionVoiceAlert}
-              onValueChange={(cstimerInspectionVoiceAlert) =>
-                mutateSettings({ ...settings, cstimerInspectionVoiceAlert })
-              }
+              onValueChange={(cstimerInspectionVoiceAlert) => mutateSettings({ cstimerInspectionVoiceAlert })}
               className='min-w-[9rem]'
             />
           </li>
@@ -81,7 +79,7 @@ function useLegacySettings() {
     const LEGACY_ANIMATION_DURATION_LS_KEY = 'vs-vrc-speed'
     const legacyCsAnimationDuration = localStorage.getItem(LEGACY_ANIMATION_DURATION_LS_KEY)
     if (legacyCsAnimationDuration !== null && settings) {
-      mutateSettings({ ...settings, cstimerAnimationDuration: Number(legacyCsAnimationDuration) })
+      mutateSettings({ cstimerAnimationDuration: Number(legacyCsAnimationDuration) })
       localStorage.removeItem(LEGACY_ANIMATION_DURATION_LS_KEY)
     }
   }, [settings, mutateSettings])
