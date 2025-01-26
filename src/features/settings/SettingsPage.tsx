@@ -2,7 +2,7 @@ import { Header } from '@/components/layout'
 import { ChevronDownIcon } from '@/components/ui'
 import { NavigateBackButton } from '@/shared/NavigateBackButton'
 import * as SelectPrimitive from '@radix-ui/react-select'
-import { type ReactNode, forwardRef } from 'react'
+import { type ReactNode, forwardRef, useEffect } from 'react'
 import { useMutateSettings, useSettings } from './queries'
 import { HintSignInSection } from '@/shared/HintSection'
 import { cn } from '@/utils'
@@ -19,7 +19,9 @@ export function SettingsPage() {
 
 function PageContent() {
   const { data: settings, error } = useSettings()
-  const { mutate } = useMutateSettings()
+  const { mutate: mutateSettings } = useMutateSettings()
+
+  useLegacySettings()
 
   if (error?.response?.status === 401) {
     return <HintSignInSection />
@@ -33,16 +35,18 @@ function PageContent() {
             <span>VRC base speed (tps):</span>
             <Select
               options={CS_ANIMATION_DURATION_OPTIONS}
-              value={settings.csAnimationDuration}
-              onValueChange={(csAnimationDuration) => mutate({ csAnimationDuration })}
+              value={String(settings.cstimerAnimationDuration)}
+              onValueChange={(val) => mutateSettings({ ...settings, cstimerAnimationDuration: Number(val) })}
             />
           </li>
           <li className='flex items-center justify-between gap-2 rounded-xl bg-grey-100 p-4'>
             <span>Preinspection voice alert at 8/12s:</span>
             <Select
               options={CS_INSPECTION_VOICE_ALERT_OPTIONS}
-              value={settings.csInspectionVoiceAlert}
-              onValueChange={(csInspectionVoiceAlert) => mutate({ csInspectionVoiceAlert })}
+              value={settings.cstimerInspectionVoiceAlert}
+              onValueChange={(cstimerInspectionVoiceAlert) =>
+                mutateSettings({ ...settings, cstimerInspectionVoiceAlert })
+              }
               className='min-w-[9rem]'
             />
           </li>
@@ -55,33 +59,47 @@ function PageContent() {
 }
 
 const CS_ANIMATION_DURATION_OPTIONS = [
-  { value: 0, content: <span className='font-sans'>&infin;</span> },
-  { value: 50, content: '20' },
-  { value: 100, content: '10' },
-  { value: 200, content: '5' },
-  { value: 500, content: '2' },
-  { value: 1000, content: '1' },
-] as const
+  { value: '0', content: <span className='font-sans'>&infin;</span> },
+  { value: '50', content: '20' },
+  { value: '100', content: '10' },
+  { value: '200', content: '5' },
+  { value: '500', content: '2' },
+  { value: '1000', content: '1' },
+]
 
 const CS_INSPECTION_VOICE_ALERT_OPTIONS = [
   { value: 'Male', content: 'male voice' },
   { value: 'Female', content: 'female voice' },
   { value: 'None', content: 'none' },
-] as const
+]
 
-function Select<T>({
+function useLegacySettings() {
+  const { data: settings } = useSettings()
+  const { mutate: mutateSettings } = useMutateSettings()
+
+  useEffect(() => {
+    const LEGACY_ANIMATION_DURATION_LS_KEY = 'vs-vrc-speed'
+    const legacyCsAnimationDuration = localStorage.getItem(LEGACY_ANIMATION_DURATION_LS_KEY)
+    if (legacyCsAnimationDuration !== null && settings) {
+      mutateSettings({ ...settings, cstimerAnimationDuration: Number(legacyCsAnimationDuration) })
+      localStorage.removeItem(LEGACY_ANIMATION_DURATION_LS_KEY)
+    }
+  }, [settings, mutateSettings])
+}
+
+function Select({
   options,
   value,
   onValueChange,
   className,
 }: {
-  options: Readonly<{ value: T; content: ReactNode }[]>
-  value: T
-  onValueChange: (value: T) => void
+  options: { value: string; content: ReactNode }[]
+  value: string
+  onValueChange: (value: string) => void
   className?: string
 }) {
   return (
-    <SelectPrimitive.Root value={JSON.stringify(value)} onValueChange={(val) => onValueChange(JSON.parse(val) as T)}>
+    <SelectPrimitive.Root value={value} onValueChange={(val) => onValueChange(val)}>
       <SelectPrimitive.Trigger
         className={cn(
           'group flex h-12 min-w-[5.625rem] items-center justify-between gap-2 rounded-lg bg-black-100 px-4 text-left',
@@ -101,7 +119,7 @@ function Select<T>({
         style={{ width: 'var(--radix-select-trigger-width)' }}
       >
         {options.map(({ value, content }) => (
-          <SelectItem key={JSON.stringify(value)} value={JSON.stringify(value)}>
+          <SelectItem key={value} value={value}>
             {content}
           </SelectItem>
         ))}
