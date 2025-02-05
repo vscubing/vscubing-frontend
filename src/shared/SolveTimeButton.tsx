@@ -4,9 +4,10 @@ import { Link } from '@tanstack/react-router'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { type ReactNode, forwardRef, type ComponentProps } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
+import Confetti from '@/assets/images/solve-time-link-confetti.svg?react'
 
 const solveTimeButtonVariants = cva(
-  'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',
+  'transition-base outline-ring after-border-bottom vertical-alignment-fix relative inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',
   {
     variants: {
       variant: {
@@ -28,6 +29,7 @@ type SolveTimeLinkOrDnfProps = VariantProps<typeof solveTimeButtonVariants> & {
   discipline: string
   solveId: number
   canShowHint: boolean
+  withConfetti?: boolean
   className?: string
 }
 
@@ -39,6 +41,7 @@ export function SolveTimeLinkOrDnf({
   contestSlug,
   discipline,
   solveId,
+  withConfetti = true,
   canShowHint,
 }: SolveTimeLinkOrDnfProps) {
   if (isDnf) {
@@ -52,6 +55,9 @@ export function SolveTimeLinkOrDnf({
         search={{ discipline }}
         className={cn(solveTimeButtonVariants({ variant, className }))}
       >
+        {withConfetti && (
+          <Confetti className='pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2' />
+        )}
         {formatSolveTime(timeMs)}
       </Link>
     </WatchSolveHintPopover>

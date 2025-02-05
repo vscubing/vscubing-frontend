@@ -73,3 +73,11 @@ export function toast({
     className,
   })
 }
+
+setTimeout(() =>
+  toast({
+    title: 'Wow, new personal best!',
+    description: 'Keep up the amazing work!',
+    className: "bg-[url('./assets/images/festive-toast-bg.svg')] bg-no-repeat",
+  }),
+)
