@@ -155,6 +155,18 @@ export function UiKit() {
         </SecondaryButton>
 
         <SecondaryButton
+          onClick={() =>
+            toast({
+              title: 'Wow, new personal best!',
+              description: 'Keep up the amazing work!',
+              className: "bg-[url('./assets/images/festive-toast-bg.svg')] bg-no-repeat",
+            })
+          }
+        >
+          New PB toast
+        </SecondaryButton>
+
+        <SecondaryButton
           onClick={() => {
             toast(TOASTS_PRESETS.internalError)
           }}
