@@ -113,7 +113,12 @@ function View({ pages, children, behavior }: ViewProps) {
       <SectionHeader>
         <div className='flex gap-3'>
           {availableDisciplines?.map(({ slug: discipline }) => (
-            <Link activeOptions={{ exact: true, includeSearch: false }} search={{ page: 1 }} params={{ discipline }}>
+            <Link
+              to='/leaderboard/$discipline'
+              activeOptions={{ exact: true, includeSearch: false }}
+              search={{ page: 1 }}
+              params={{ discipline }}
+            >
               <CubeSwitcher asButton={false} cube={discipline} isActive={currentDiscipline === discipline} />
             </Link>
           ))}

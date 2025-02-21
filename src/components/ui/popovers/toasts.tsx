@@ -46,16 +46,30 @@ export type Toast = {
   title: string
   description: string
   contactUsButton?: boolean
+  contactUsButtonLabel?: string
   duration?: keyof typeof durations
+  className?: string
 }
-export function toast({ title, description, contactUsButton = false, duration = 'normal', dedupId }: Toast) {
+export function toast({
+  title,
+  description,
+  contactUsButton = false,
+  contactUsButtonLabel,
+  duration = 'normal',
+  dedupId,
+  className,
+}: Toast) {
   Sonner.toast(title, {
     closeButton: true,
     description,
     action: contactUsButton
-      ? { label: 'Contact us', onClick: () => window.open('https://discord.gg/PxFrW9vTAy', '_blank') }
+      ? {
+          label: contactUsButtonLabel ?? 'Contact us',
+          onClick: () => window.open('https://discord.gg/PxFrW9vTAy', '_blank'),
+        }
       : undefined,
     duration: durations[duration],
     id: dedupId,
+    className,
   })
 }

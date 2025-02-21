@@ -5,6 +5,8 @@ import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
 import { SolvePanel } from './SolvePanel'
 import { getRouteApi } from '@tanstack/react-router'
+import { toast } from '@/components/ui'
+import { useLocalStorage } from 'usehooks-ts'
 
 const route = getRouteApi('/_app/contests/$contestSlug/solve')
 type SolveContestProps = {
@@ -22,6 +24,7 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
   const isPending = isStateFetching || isPostSolvePending || isSolveActionPending
 
   const { initSolve } = useCube()
+  const [seenDiscordInvite, setSeenDiscordInvite] = useLocalStorage('vs-seenDiscordInvite', false)
 
   function handleInitSolve() {
     const onSolveFinish = async (result: CubeSolveResult) => {
@@ -31,8 +34,21 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
     initSolve({ scramble: currentSolve.scramble.moves, discipline }, (result) => void onSolveFinish(result))
   }
 
-  async function handleSolveAction(action: 'change_to_extra' | 'submit') {
-    await solveAction(action)
+  async function handleSolveAction(payload: { type: 'change_to_extra'; reason: string } | { type: 'submit' }) {
+    // TODO: also pass the reason for extras once backend is ready
+    await solveAction(payload.type)
+
+    if (submittedSolveSet?.length === 4 && payload.type === 'submit' && !seenDiscordInvite) {
+      toast({
+        title: 'Great to have you on board',
+        description: 'Join our Discord community to connect with other cubing fans',
+        contactUsButton: true,
+        contactUsButtonLabel: 'Join us on Discord',
+        duration: 'infinite',
+        className: 'w-[23.75rem]',
+      })
+      setSeenDiscordInvite(true)
+    }
   }
 
   const currentSolveNumber = (submittedSolveSet?.length ?? 0) + 1
@@ -61,9 +77,9 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
             <CurrentSolve
               areActionsDisabled={isPending}
               currentSolve={currentSolve}
-              onChangeToExtra={() => handleSolveAction('change_to_extra')}
+              onChangeToExtra={(reason) => handleSolveAction({ type: 'change_to_extra', reason })}
               onSolveInit={handleInitSolve}
-              onSolveSubmit={() => handleSolveAction('submit')}
+              onSolveSubmit={() => handleSolveAction({ type: 'submit' })}
               number={currentSolveNumber}
             />
           </div>
