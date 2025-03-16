@@ -58,7 +58,7 @@ type ListWithPinnedItemProps<T> = ListProps<T> & {
   behavior: Behavior
 }
 function ListWithPinnedItem<T>({
-  list,
+  contests: list,
   pageSize,
   isFetching,
   getItemKey,

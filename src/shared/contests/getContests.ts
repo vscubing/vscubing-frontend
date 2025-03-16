@@ -14,22 +14,15 @@ export function getContestsQuery({ enabled = true, pageSize, page, disciplineSlu
   })
 }
 
-export function getInfiniteContestsQuery({
-  enabled = true,
-  pageSize,
-  disciplineSlug,
-}: Omit<ContestQueryParams, 'page'>) {
-  // TODO: figure out why this fetches more pages than needed
-  if (pageSize !== undefined) {
-    pageSize *= 2
-  }
-
+export function getInfiniteContestsQuery({ pageSize, disciplineSlug }: Omit<ContestQueryParams, 'page'>) {
   return infiniteQueryOptions({
     queryKey: ['contests-list', { pageSize, disciplineSlug }],
-    queryFn: ({ pageParam: page }) => contestsContestsRetrieve({ pageSize, page, disciplineSlug }),
+    queryFn: async ({ pageParam: page }) => {
+      await new Promise((res) => setTimeout(res, 1000))
+      return contestsContestsRetrieve({ pageSize, page, disciplineSlug })
+    },
     getNextPageParam: (_, pages) => pages.length + 1,
     initialPageParam: 1,
-    enabled,
   })
 }
 
