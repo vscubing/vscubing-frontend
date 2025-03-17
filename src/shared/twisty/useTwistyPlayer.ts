@@ -73,7 +73,7 @@ const ANALYZERS_MAP = {
       }
 
       let comment = ' ' + signature
-      if (timings[idx]) comment += `@${formatSolveTime(timings[idx], true)}`
+      if (timings[idx]) comment += ` @${formatSolveTime(timings[idx], true)}`
 
       curAlg = new Alg([...curAlg.childAlgNodes(), new LineComment(comment), new Newline()])
     })
