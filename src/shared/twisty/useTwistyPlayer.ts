@@ -53,6 +53,7 @@ const ANALYZERS_MAP = {
       .split('*')
       .filter((_, idx) => idx % 2 === 1)
       .map(Number)
+    let lastIdx = -1
 
     const puzzleLoader = puzzles['3x3x3']
     const kpuzzle = await puzzleLoader.kpuzzle()
@@ -73,7 +74,11 @@ const ANALYZERS_MAP = {
       }
 
       let comment = ' ' + signature
-      if (timings[idx]) comment += ` @${formatSolveTime(timings[idx], true)}`
+      if (timings[idx]) {
+        const stepTime = lastIdx === -1 ? timings[idx] : timings[idx] - timings[lastIdx]
+        lastIdx = idx
+        comment += ` (${formatSolveTime(stepTime, true)}s)`
+      }
 
       curAlg = new Alg([...curAlg.childAlgNodes(), new LineComment(comment), new Newline()])
     })

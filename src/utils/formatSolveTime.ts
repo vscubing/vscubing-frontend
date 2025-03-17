@@ -5,7 +5,7 @@ export const MINUTE_IN_MS = MINUTE_IN_SECONDS * SECOND_IN_MS
 const getSeconds = (ms: number): number => Math.floor(ms / SECOND_IN_MS)
 const getMinutes = (ms: number): number => Math.floor(ms / MINUTE_IN_MS)
 
-export function formatSolveTime(ms: number, omitMinutesIfPossible = false): string {
+export function formatSolveTime(ms: number, trim = false): string {
   const fullSeconds = getSeconds(ms)
   const minutes = getMinutes(ms)
   const seconds = fullSeconds - minutes * MINUTE_IN_SECONDS
@@ -14,6 +14,11 @@ export function formatSolveTime(ms: number, omitMinutesIfPossible = false): stri
   const secondsString = seconds.toString().padStart(2, '0')
   const minutesString = minutes.toString().padStart(2, '0')
 
-  if (omitMinutesIfPossible && !seconds) return `${secondsString}.${msString}`
+  if (trim) {
+    if (!minutes) {
+      return `${seconds.toString()}.${msString}`
+    }
+    return `${minutes.toString()}:${secondsString}.${msString}`
+  }
   return `${minutesString}:${secondsString}.${msString}`
 }
