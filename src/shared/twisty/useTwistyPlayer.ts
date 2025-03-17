@@ -29,7 +29,7 @@ export function useTwistyPlayer({
         background: 'none',
         visualization: 'PG3D',
         experimentalSetupAlg: scramble,
-        alg: await solutionTransformer(scramble, solution),
+        alg: discipline === '3by3' ? await solutionTransformer(scramble, solution) : solution,
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
       setPlayer(newPlayer)
