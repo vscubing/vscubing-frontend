@@ -14,6 +14,7 @@ export function formatSolveTime(ms: number): string {
   let secondsString = seconds.toString()
   let minutesString = minutes.toString()
 
+  // TODO: padding
   if (msString.length === 1) {
     msString = '0' + msString
   }
