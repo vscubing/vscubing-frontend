@@ -1,5 +1,5 @@
 import { type Discipline, isDiscipline } from '@/types'
-import { type PuzzleID, TwistyPlayer, Alg, LineComment, getMultiCheck, Newline } from '@vscubing/cubing/twisty'
+import { type PuzzleID, TwistyPlayer, Alg, LineComment, getSolveAnalyzer, Newline } from '@vscubing/cubing/twisty'
 import { puzzles } from '@vscubing/cubing/puzzles'
 import { useState, useEffect } from 'react'
 import { formatSolveTime } from '@/utils'
@@ -58,7 +58,7 @@ const ANALYZERS_MAP = {
     const puzzleLoader = puzzles['3x3x3']
     const kpuzzle = await puzzleLoader.kpuzzle()
     const solved = kpuzzle.defaultPattern()
-    const multiCheckFn = await getMultiCheck(puzzleLoader)
+    const analyzeSolve = await getSolveAnalyzer(puzzleLoader)
 
     const fullSolutionAlg = new Alg(cleanSolution)
     const fullSolutionNodes = [...fullSolutionAlg.childAlgNodes()]
@@ -68,7 +68,7 @@ const ANALYZERS_MAP = {
       curAlg = new Alg([...curAlg.childAlgNodes(), node])
 
       const pattern = solved.applyAlg(scramble).applyAlg(curAlg)
-      const signature = multiCheckFn(pattern)
+      const signature = analyzeSolve(pattern)
       if (!signature) {
         return
       }
