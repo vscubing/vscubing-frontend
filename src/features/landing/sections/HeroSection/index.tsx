@@ -67,10 +67,16 @@ export function HeroSection() {
 
 function AlternatingText({ text1, text2, text3 }: { text1: string; text2: string; text3: string }) {
   return (
-    <span className='pointer-events-none relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20 text-center text-[1.125rem] font-medium'>
-      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text'>{text1}</span>
-      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text [animation-delay:-2s]'>{text2}</span>
-      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text [animation-delay:-4s]'>{text3}</span>
+    <span className='relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20 text-center text-[1.125rem] font-medium'>
+      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased]'>
+        {text1}
+      </span>
+      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] [animation-delay:-2s]'>
+        {text2}
+      </span>
+      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] [animation-delay:-4s]'>
+        {text3}
+      </span>
     </span>
   )
 }
