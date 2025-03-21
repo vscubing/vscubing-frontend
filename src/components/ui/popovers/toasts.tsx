@@ -30,7 +30,7 @@ export const TOASTS_PRESETS = {
   internalError: {
     dedupId: 'internalError',
     title: 'Uh-oh! Something went wrong',
-    description: 'Give it a moment, or reach out to our support team',
+    description: "Try reloading the page. If it doesn't help, please reach out to us.",
     contactUsButton: true,
   },
 } satisfies Record<string, Toast>

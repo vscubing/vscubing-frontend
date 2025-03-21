@@ -4,14 +4,17 @@ export function copyToClipboard(text: string) {
       const type = 'text/plain'
       const blob = new Blob([text], { type })
       const data = [new ClipboardItem({ [type]: blob })]
-      // @ts-expect-error clipboard-write not typed
-      void navigator.permissions.query({ name: 'clipboard-write' }).then((permission) => {
-        if (permission.state === 'granted' || permission.state === 'prompt') {
-          navigator.clipboard.write(data).then(resolve, reject).catch(reject)
-        } else {
-          reject(new Error('Permission not granted!'))
-        }
-      })
+      void navigator.permissions
+        // @ts-expect-error clipboard-write not typed
+        .query({ name: 'clipboard-write' })
+        .then((permission) => {
+          if (permission.state === 'granted' || permission.state === 'prompt') {
+            navigator.clipboard.write(data).then(resolve, reject).catch(reject)
+          } else {
+            reject(new Error('Permission not granted!'))
+          }
+        })
+        .catch(() => navigator.clipboard.write(data).then(resolve, reject).catch(reject))
     } else if (document.queryCommandSupported?.('copy')) {
       const textarea = document.createElement('textarea')
       textarea.textContent = text

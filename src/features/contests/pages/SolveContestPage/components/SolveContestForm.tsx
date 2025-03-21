@@ -35,8 +35,7 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
   }
 
   async function handleSolveAction(payload: { type: 'change_to_extra'; reason: string } | { type: 'submit' }) {
-    // TODO: also pass the reason for extras once backend is ready
-    await solveAction(payload.type)
+    await solveAction(payload)
 
     if (submittedSolveSet?.length === 4 && payload.type === 'submit' && !seenDiscordInvite) {
       toast({

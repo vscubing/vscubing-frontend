@@ -11,10 +11,9 @@ import { getReconstructionQuery } from '../../api'
 export default function TwistySection({ solveId }: { solveId: number }) {
   const { data } = useSuspenseQuery(getReconstructionQuery(solveId))
   const scramble = data.scramble.moves
-  const solution = removeComments(data.reconstruction)
   const discipline = data.discipline.slug
 
-  const player = useTwistyPlayer({ scramble, solution, discipline })
+  const player = useTwistyPlayer({ scramble, solution: data.reconstruction, discipline })
 
   if (!player) {
     return null
@@ -102,8 +101,4 @@ function AccordionItem({ title, className, children }: AccordionItemProps) {
       </Accordion.Content>
     </Accordion.Item>
   )
-}
-
-function removeComments(moves: string): string {
-  return moves.replace(/\/\*\d+?\*\//g, '')
 }
