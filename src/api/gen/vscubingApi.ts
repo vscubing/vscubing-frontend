@@ -151,7 +151,7 @@ token if the refresh token is valid.
  */
 export const accountsTokenRefreshCreate = (tokenRefresh: NonReadonly<TokenRefresh>) => {
   const formUrlEncoded = new URLSearchParams()
-  // @ts-expect-error
+  // @ts-expect-error typescript not typescripting
   formUrlEncoded.append('access', tokenRefresh.access)
   formUrlEncoded.append('refresh', tokenRefresh.refresh)
 
@@ -207,7 +207,9 @@ export const contestsOngoingContestSubmitCreate = (
   params: ContestsOngoingContestSubmitCreateParams,
 ) => {
   const formUrlEncoded = new URLSearchParams()
-  formUrlEncoded.append('idDnf', input.idDnf.toString())
+  if (input.reasonForTakingExtra !== undefined) {
+    formUrlEncoded.append('reasonForTakingExtra', input.reasonForTakingExtra)
+  }
 
   return contestsOngoingContestSubmitCreateMutator<void>({
     url: `/api/contests/ongoing-contest/${solveId}/submit/`,
