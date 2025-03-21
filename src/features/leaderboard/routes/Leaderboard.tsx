@@ -118,6 +118,7 @@ function View({ pages, children, behavior }: ViewProps) {
               activeOptions={{ exact: true, includeSearch: false }}
               search={{ page: 1 }}
               params={{ discipline }}
+              key={discipline}
             >
               <CubeSwitcher asButton={false} cube={discipline} isActive={currentDiscipline === discipline} />
             </Link>
