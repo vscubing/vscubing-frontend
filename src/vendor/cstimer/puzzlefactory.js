@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // kernel mock
-var kernel = {
+window.kernel = {
   getProp(prop) {
     const PROPS = {
       colcube: '#ff0#fa0#00f#fff#f00#0d0',
@@ -66,8 +66,14 @@ var kernel = {
     return moveseq
   },
 }
+window.requestAnimFrame = window.requestAnimationFrame
 
-import './twisty/threemin.js'
+// import 'https://code.jquery.com/jquery-4.0.0-beta.slim.min.js'
+import './jquery-slim.min.js'
+import './threemin.js'
+import './mersennetwister.js'
+import './mathlib.js'
+import './cubeutil.js'
 import './twisty/twisty.js'
 import './twisty/twistynnn.js'
 
@@ -125,7 +131,8 @@ class Puzzle {
 
 var prevParents = []
 
-export function init(options, moveListener, parent, callback) {
+export async function init(options, moveListener, parentNativeElem) {
+  var parent = $(parentNativeElem)
   // if (window.twistyjs == undefined) {
   //   toInitCalls = init.bind(null, options, moveListener, parent, callback)
   //   if (!isLoading && document.createElement('canvas').getContext) {
@@ -189,7 +196,8 @@ export function init(options, moveListener, parent, callback) {
   child[2].twistyScene.initializeTwisty(options)
   child[2].twisty = child[2].twistyScene.getTwisty()
   child[2].resize()
-  callback(child[2], isInit)
+
+  return child[2]
 }
 
 function col2std(col, faceMap) {

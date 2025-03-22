@@ -3544,3 +3544,5 @@ var cancelRequestAnimFrame = (function () {
     clearTimeout
   )
 })()
+
+window.THREE = THREE

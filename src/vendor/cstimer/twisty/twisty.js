@@ -525,6 +525,7 @@ window.twistyjs = (function() {
 		var lastTimeStamp = 0;
 
 		function animateLoop(timeStamp) {
+			console.log('animating')
 			timeStamp = $.now();
 			var timeProgress = (timeStamp - lastTimeStamp) / (kernel.getProp('vrcSpeed', 100) || 1e-3) * (moveQueue.length + 2) / 2;
 			lastTimeStamp = timeStamp;
@@ -546,23 +547,22 @@ window.twistyjs = (function() {
 				return null;
 			}
 
-			// TODO - discuss the class heirarchy with Lucas
-			//  Does it make sense for a TwistyScene to have an addMoves method?
-			//  Scene implies (potentially) multiple twisties.
-			//   Perhaps rename TwistyScene -> TwistyContainer?
-			//  Alertatively, TwistyScene could become a Twisty base class,
-			//  and twisty instances inherit useful stuff like addMoves.
-			//
-			//  I personally prefer the first method for a couple of reasons:
-			//   1. Classical inheritance in javascript is funky. This isn't a good
-			//      reson to not do it, just personal preference.
-			//   2. Creating a new twisty doesn't force recreation of the TwistyScene.
-			//      Maybe this isn't an important case to optimize for, but to me
-			//      it's evidence that having a persistent TwistyScene is the right
-			//      way to go.
-			return twistyCreateFunction(that, twistyType);
-		}
-	}
-	return twistyjs;
-
-})();
+      // TODO - discuss the class heirarchy with Lucas
+      //  Does it make sense for a TwistyScene to have an addMoves method?
+      //  Scene implies (potentially) multiple twisties.
+      //   Perhaps rename TwistyScene -> TwistyContainer?
+      //  Alertatively, TwistyScene could become a Twisty base class,
+      //  and twisty instances inherit useful stuff like addMoves.
+      //
+      //  I personally prefer the first method for a couple of reasons:
+      //   1. Classical inheritance in javascript is funky. This isn't a good
+      //      reson to not do it, just personal preference.
+      //   2. Creating a new twisty doesn't force recreation of the TwistyScene.
+      //      Maybe this isn't an important case to optimize for, but to me
+      //      it's evidence that having a persistent TwistyScene is the right
+      //      way to go.
+      return twistyCreateFunction(that, twistyType)
+    }
+  }
+  return twistyjs
+})()
