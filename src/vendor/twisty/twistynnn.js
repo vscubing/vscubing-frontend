@@ -1,5 +1,7 @@
 /* eslint-disable */
-(function() {
+// prettier-ignore
+
+;(function() {
 	twistyjs.registerTwisty("cube", createCubeTwisty);
 
 	function axify(v1, v2, v3) {

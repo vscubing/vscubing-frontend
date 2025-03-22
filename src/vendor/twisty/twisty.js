@@ -1,4 +1,6 @@
 /* eslint-disable */
+// prettier-ignore
+
 /*
  * twisty.js
  *
@@ -6,131 +8,131 @@
  * Made classy by Jeremy Fleischman, October 7, 2011 during the flight to worlds
  *
  */
-'use strict'
+"use strict";
 
-THREE.Ploy = function (points) {
-  THREE.Geometry.call(this)
-  for (var i = 0; i < points.length; i++) {
-    this.vertices.push(new THREE.Vertex(new THREE.Vector3(points[i][0], points[i][1], 0)))
-  }
+THREE.Ploy = function(points) {
+	THREE.Geometry.call(this);
+	for (var i = 0; i < points.length; i++) {
+		this.vertices.push(new THREE.Vertex(new THREE.Vector3(points[i][0], points[i][1], 0)))
+	}
 
-  if (points.length == 4) {
-    this.faces.push(new THREE.Face4(0, 1, 2, 3))
-  } else {
-    this.faces.push(new THREE.Face3(0, 1, 2))
-  }
+	if (points.length == 4) {
+		this.faces.push(new THREE.Face4(0, 1, 2, 3));
+	} else {
+		this.faces.push(new THREE.Face3(0, 1, 2));
+	}
 
-  this.computeCentroids()
-  this.computeFaceNormals()
-}
-THREE.Ploy.prototype = new THREE.Geometry()
-THREE.Ploy.prototype.constructor = THREE.Ploy
+	this.computeCentroids();
+	this.computeFaceNormals()
+};
+THREE.Ploy.prototype = new THREE.Geometry;
+THREE.Ploy.prototype.constructor = THREE.Ploy;
 
-window.twistyjs = (function () {
-  /****************
-   *
-   * Twisty Plugins
-   *
-   * Plugins register themselves by calling twistyjs.registerTwisty.
-   * This lets plugins be defined in different files.
-   *
-   */
+window.twistyjs = (function() {
+	/****************
+	 *
+	 * Twisty Plugins
+	 *
+	 * Plugins register themselves by calling twistyjs.registerTwisty.
+	 * This lets plugins be defined in different files.
+	 *
+	 */
 
-  var twistyjs = {}
+	var twistyjs = {};
 
-  var twisties = {}
-  twistyjs.registerTwisty = function (twistyName, twistyConstructor) {
-    //	assert(!(twistyName in twisties));
-    twisties[twistyName] = twistyConstructor
-  }
+	var twisties = {};
+	twistyjs.registerTwisty = function(twistyName, twistyConstructor) {
+		//	assert(!(twistyName in twisties));
+		twisties[twistyName] = twistyConstructor;
+	};
 
-  twistyjs.TwistyScene = function () {
-    // that=this is a Crockford convention for accessing "this" inside of methods.
-    var that = this
+	twistyjs.TwistyScene = function() {
+		// that=this is a Crockford convention for accessing "this" inside of methods.
+		var that = this;
 
-    var twisty = null
+		var twisty = null;
 
-    var moveProgress = null
-    var currentMove = null
-    var moveQueue = []
+		var moveProgress = null;
+		var currentMove = null;
+		var moveQueue = [];
 
-    var camera, scene, renderer
-    var twistyCanvas
-    var touchCube
-    var cameraTheta = 0
-    var cameraPhi = 6
+		var camera, scene, renderer;
+		var twistyCanvas;
+		var touchCube;
+		var cameraTheta = 0;
+		var cameraPhi = 6;
 
-    /*
-     * Initialization Methods
-     */
-    var twistyContainer = $('<div/>')
-    twistyContainer.css('width', '100%')
-    twistyContainer.css('height', '100%')
-    twistyContainer.css('position', 'relative')
-    twistyContainer = twistyContainer[0]
+		/*
+		 * Initialization Methods
+		 */
+		var twistyContainer = $('<div/>');
+		twistyContainer.css('width', '100%');
+		twistyContainer.css('height', '100%');
+		twistyContainer.css('position', 'relative');
+		twistyContainer = twistyContainer[0];
 
-    this.getDomElement = function () {
-      return twistyContainer
-    }
-    this.getCanvas = function () {
-      return twistyCanvas
-    }
-    this.getTwisty = function () {
-      return twisty
-    }
+		this.getDomElement = function() {
+			return twistyContainer;
+		};
+		this.getCanvas = function() {
+			return twistyCanvas;
+		};
+		this.getTwisty = function() {
+			return twisty;
+		};
 
-    this.initializeTwisty = function (twistyType) {
-      moveQueue = []
-      currentMove = []
-      moveProgress = []
-      // We may have an animation queued up that is tied to the twistyCanvas.
-      // Since we're about to destroy our twistyCanvas, that animation request
-      // will never fire. Thus, we must explicitly stop animating here.
-      stopAnimation()
+		this.initializeTwisty = function(twistyType) {
+			moveQueue = [];
+			currentMove = [];
+			moveProgress = [];
+			// We may have an animation queued up that is tied to the twistyCanvas.
+			// Since we're about to destroy our twistyCanvas, that animation request
+			// will never fire. Thus, we must explicitly stop animating here.
+			stopAnimation();
 
-      $(twistyContainer).empty()
-      //		log("Canvas Size: " + $(twistyContainer).width() + " x " + $(twistyContainer).height());
+			$(twistyContainer).empty();
+			//		log("Canvas Size: " + $(twistyContainer).width() + " x " + $(twistyContainer).height());
 
-      /*
-       * Scene Setup
-       */
+			/*
+			 * Scene Setup
+			 */
 
-      scene = new THREE.Scene()
+			scene = new THREE.Scene();
 
-      /*
-       * 3D Object Creation
-       */
+			/*
+			 * 3D Object Creation
+			 */
 
-      twisty = createTwisty(twistyType)
-      scene.addObject(twisty._3d)
+			twisty = createTwisty(twistyType);
+			scene.addObject(twisty._3d);
 
-      /*
-       * Go!
-       */
+			/*
+			 * Go!
+			 */
 
-      renderer = new THREE.CanvasRenderer()
-      twistyCanvas = renderer.domElement
+			renderer = new THREE.CanvasRenderer();
+			twistyCanvas = renderer.domElement;
 
-      twistyContainer.appendChild(twistyCanvas)
-      touchCube = $('<table class="touchcube">').appendTo(twistyContainer)
-      var trs = ''
-      for (var i = 0; i < 3; i++) {
-        var tds = ''
-        for (var j = 0; j < 3; j++) {
-          tds += '<td data="' + (i * 3 + j + 1) + '"/>'
-        }
-        trs += '<tr>' + tds + '</tr>'
-      }
-      touchCube.append(trs)
+			twistyContainer.appendChild(twistyCanvas);
+			touchCube = $('<table class="touchcube">').appendTo(twistyContainer);
+			var trs = '';
+			for (var i = 0; i < 3; i++) {
+				var tds = '';
+				for (var j = 0; j < 3; j++) {
+					tds += '<td data="' + (i * 3 + j + 1) + '"/>';
+				}
+				trs += '<tr>' + tds + '</tr>';
+			}
+			touchCube.append(trs);
 
-      if (twistyType.allowDragging) {
-        touchCube.on('mousedown', onTouchDown)
-        touchCube.on('mousemove', onTouchMove)
-        touchCube.on('mouseup', onTouchUp)
-        touchCube.on('touchstart', onTouchDown)
-        touchCube.on('touchmove', onTouchMove)
-        touchCube.on('touchend', onTouchUp)
-        /*
+			if (twistyType.allowDragging) {
+				touchCube.on('mousedown', onTouchDown);
+				touchCube.on('mousemove', onTouchMove);
+				touchCube.on('mouseup', onTouchUp);
+				touchCube.on('touchstart', onTouchDown);
+				touchCube.on('touchmove', onTouchMove);
+				touchCube.on('touchend', onTouchUp);
+				/*
 				twistyCanvas.addEventListener('mousedown', onCanvasDown);
 				twistyCanvas.addEventListener('mousemove', onCanvasMove);
 				twistyCanvas.addEventListener('mouseup', onCanvasUp);
@@ -138,138 +140,135 @@ window.twistyjs = (function () {
 				twistyCanvas.addEventListener('touchmove', onCanvasMove);
 				twistyCanvas.addEventListener('touchend', onCanvasUp);
 				*/
-      }
-      // resize creates the camera and calls render()
-      that.resize()
-    }
+			}
+			// resize creates the camera and calls render()
+			that.resize();
+		}
 
-    this.resize = function () {
-      // This function should be called after setting twistyContainer
-      // to the desired size.
-      var min = Math.min($(twistyContainer).width(), $(twistyContainer).height())
-      camera = new THREE.Camera(30, 1, 0, 1000)
-      var ori = kernel.getProp('vrcOri', '6,12')
-      ori = ori.split(',')
-      moveCamera(~~ori[0] - 6, ~~ori[1] - 6)
-      camera.target.position = new THREE.Vector3(0, -0.075, 0)
-      renderer.setSize(min, min)
-      touchCube.css({
-        width: min,
-        height: min,
-        'font-size': min * 0.15,
-      })
-      render()
-    }
+		this.resize = function() {
+			// This function should be called after setting twistyContainer
+			// to the desired size.
+			var min = Math.min($(twistyContainer).width(), $(twistyContainer).height());
+			camera = new THREE.Camera(30, 1, 0, 1000);
+			var ori = kernel.getProp('vrcOri', '6,12');
+			ori = ori.split(',');
+			moveCamera(~~ori[0] - 6, ~~ori[1] - 6);
+			camera.target.position = new THREE.Vector3(0, -0.075, 0);
+			renderer.setSize(min, min);
+			touchCube.css({
+				'width': min,
+				'height': min,
+				'font-size': min * 0.15
+			});
+			render();
+		};
 
-    this.keydown = function (e) {
-      var keyCode = e.keyCode
-      var ret = twisty.keydownCallback(twisty, e)
+		this.keydown = function(e) {
+			var keyCode = e.keyCode;
+			var ret = twisty.keydownCallback(twisty, e);
 
-      switch (keyCode) {
-        case 37:
-          moveCameraDelta(1, 0)
-          e.preventDefault && e.preventDefault()
-          break
-        case 38:
-          moveCameraDelta(0, 1)
-          e.preventDefault && e.preventDefault()
-          break
-        case 39:
-          moveCameraDelta(-1, 0)
-          e.preventDefault && e.preventDefault()
-          break
-        case 40:
-          moveCameraDelta(0, -1)
-          e.preventDefault && e.preventDefault()
-          break
-        default:
-          ret && render()
-      }
-    }
+			switch (keyCode) {
+				case 37:
+					moveCameraDelta(1, 0);
+					e.preventDefault && e.preventDefault();
+					break;
+				case 38:
+					moveCameraDelta(0, 1);
+					e.preventDefault && e.preventDefault();
+					break;
+				case 39:
+					moveCameraDelta(-1, 0);
+					e.preventDefault && e.preventDefault();
+					break;
+				case 40:
+					moveCameraDelta(0, -1);
+					e.preventDefault && e.preventDefault();
+					break;
+				default:
+					ret && render();
+			}
+		};
 
-    var startIdx = null
 
-    function getTouchIdx(event) {
-      var obj = event.target
-      if (event.type.startsWith('touch')) {
-        obj = document.elementFromPoint(
-          event.originalEvent.changedTouches[0].pageX,
-          event.originalEvent.changedTouches[0].pageY,
-        )
-      }
-      return ~~$(obj).attr('data')
-    }
+		var startIdx = null;
 
-    function hintBoard() {
-      touchCube.addClass('board')
-      $.delayExec(
-        'hintBoard',
-        function () {
-          touchCube && touchCube.removeClass('board')
-        },
-        5000,
-      )
-    }
+		function getTouchIdx(event) {
+			var obj = event.target;
+			if (event.type.startsWith('touch')) {
+				obj = document.elementFromPoint(
+					event.originalEvent.changedTouches[0].pageX,
+					event.originalEvent.changedTouches[0].pageY
+				);
+			}
+			return ~~$(obj).attr('data');
+		}
 
-    function onTouchDown(event) {
-      startIdx = getTouchIdx(event)
-      if (!startIdx) {
-        return
-      }
-      touchCube.addClass('active')
-      hintBoard()
-      var validMoves = twisty.getTouchMoves()
-      for (var i = 1; i <= 9; i++) {
-        var key = startIdx * 10 + i
-        var obj = touchCube.find('[data="' + i + '"]')
-        if (key in validMoves) {
-          obj.html(validMoves[key][0])
-        } else {
-          obj.html('')
-        }
-      }
-      touchCube.find('td').removeClass('touchfrom touchto')
-      touchCube.find('[data="' + startIdx + '"]').addClass('touchfrom')
-    }
+		function hintBoard() {
+			touchCube.addClass('board');
+			$.delayExec('hintBoard', function() {
+				touchCube && touchCube.removeClass('board');
+			}, 5000);
+		}
 
-    function onTouchMove(event) {
-      if (!startIdx) {
-        return
-      }
-      var curIdx = getTouchIdx(event)
-      if (!curIdx) {
-        touchCube.removeClass('active')
-        return
-      }
-      touchCube.addClass('active')
-      hintBoard()
-      var validMoves = twisty.getTouchMoves()
-      var key = startIdx * 10 + curIdx
-      touchCube.find('td').removeClass('touchfrom touchto')
-      touchCube.find('[data="' + curIdx + '"]').addClass(key in validMoves ? 'touchto' : 'touchfrom')
-      touchCube.find('[data="' + startIdx + '"]').addClass('touchfrom')
-    }
+		function onTouchDown(event) {
+			startIdx = getTouchIdx(event);
+			if (!startIdx) {
+				return;
+			}
+			touchCube.addClass('active');
+			hintBoard();
+			var validMoves = twisty.getTouchMoves();
+			for (var i = 1; i <= 9; i++) {
+				var key = startIdx * 10 + i;
+				var obj = touchCube.find('[data="' + i + '"]');
+				if (key in validMoves) {
+					obj.html(validMoves[key][0]);
+				} else {
+					obj.html('');
+				}
+			}
+			touchCube.find('td').removeClass('touchfrom touchto');
+			touchCube.find('[data="' + startIdx + '"]').addClass('touchfrom');
+		}
 
-    function onTouchUp(event) {
-      touchCube.removeClass('active')
-      if (!startIdx) {
-        return
-      }
-      var curIdx = getTouchIdx(event)
-      if (!curIdx) {
-        return
-      }
-      touchCube.find('td').removeClass('touchfrom touchto').html('')
-      var validMoves = twisty.getTouchMoves()
-      var key = startIdx * 10 + curIdx
-      startIdx = null
-      if (!(key in validMoves)) {
-        return
-      }
-      that.addMoves([validMoves[key][1]])
-    }
+		function onTouchMove(event) {
+			if (!startIdx) {
+				return;
+			}
+			var curIdx = getTouchIdx(event);
+			if (!curIdx) {
+				touchCube.removeClass('active');
+				return;
+			}
+			touchCube.addClass('active');
+			hintBoard();
+			var validMoves = twisty.getTouchMoves();
+			var key = startIdx * 10 + curIdx;
+			touchCube.find('td').removeClass('touchfrom touchto');
+			touchCube.find('[data="' + curIdx + '"]').addClass((key in validMoves) ? 'touchto' : 'touchfrom');
+			touchCube.find('[data="' + startIdx + '"]').addClass('touchfrom');
+		}
 
-    /**
+		function onTouchUp(event) {
+			touchCube.removeClass('active');
+			if (!startIdx) {
+				return;
+			}
+			var curIdx = getTouchIdx(event);
+			if (!curIdx) {
+				return;
+			}
+			touchCube.find('td').removeClass('touchfrom touchto').html('');
+			var validMoves = twisty.getTouchMoves();
+			var key = startIdx * 10 + curIdx;
+			startIdx = null;
+			if (!(key in validMoves)) {
+				return;
+			}
+			that.addMoves([validMoves[key][1]]);
+		}
+
+		/**
 		var clkPoint = null;
 
 		function onCanvasDown(event) {
@@ -367,207 +366,203 @@ window.twistyjs = (function () {
 		}
 		*/
 
-    this.cam = function (deltaTheta) {
-      moveCameraDelta(deltaTheta, 0)
-    }
+		this.cam = function(deltaTheta) {
+			moveCameraDelta(deltaTheta, 0);
+		}
 
-    function render() {
-      renderer.render(scene, camera)
-    }
+		function render() {
+			renderer.render(scene, camera);
+		}
 
-    function moveCameraDelta(deltaTheta, deltaPhi) {
-      cameraTheta += deltaTheta
-      cameraTheta = Math.max(Math.min(cameraTheta, 6), -6)
-      cameraPhi += deltaPhi
-      cameraPhi = Math.max(Math.min(cameraPhi, 6), -6)
-      moveCamera(cameraTheta, cameraPhi, true)
-    }
+		function moveCameraDelta(deltaTheta, deltaPhi) {
+			cameraTheta += deltaTheta;
+			cameraTheta = Math.max(Math.min(cameraTheta, 6), -6);
+			cameraPhi += deltaPhi;
+			cameraPhi = Math.max(Math.min(cameraPhi, 6), -6);
+			moveCamera(cameraTheta, cameraPhi, true);
+		}
 
-    function moveCamera(theta, phi, doRender) {
-      cameraTheta = theta
-      cameraPhi = phi
-      var z = 2 * Math.sqrt(2) * Math.sin((phi * Math.TAU) / 48)
-      var xy = 2 * Math.sqrt(2) * Math.cos((phi * Math.TAU) / 48)
-      camera.position = new THREE.Vector3(
-        xy * Math.sin((theta * Math.TAU) / 48),
-        z,
-        xy * Math.cos((theta * Math.TAU) / 48),
-      )
-      if (doRender) {
-        render()
-      }
-    }
+		function moveCamera(theta, phi, doRender) {
+			cameraTheta = theta;
+			cameraPhi = phi;
+			var z = 2 * Math.sqrt(2) * Math.sin(phi * Math.TAU / 48);
+			var xy = 2 * Math.sqrt(2) * Math.cos(phi * Math.TAU / 48);
+			camera.position = new THREE.Vector3(xy * Math.sin(theta * Math.TAU / 48), z, xy * Math.cos(theta * Math.TAU / 48));
+			if (doRender) {
+				render();
+			}
+		}
 
-    //callback(move, step), step: 0 move added, 1 move animation started, 2 move animation finished
-    var moveListeners = []
-    this.addMoveListener = function (listener) {
-      moveListeners.push(listener)
-    }
-    this.removeMoveListener = function (listener) {
-      var index = moveListeners.indexOf(listener)
-      //		assert(index >= 0);
-      delete moveListeners[index]
-    }
+		//callback(move, step), step: 0 move added, 1 move animation started, 2 move animation finished
+		var moveListeners = [];
+		this.addMoveListener = function(listener) {
+			moveListeners.push(listener);
+		};
+		this.removeMoveListener = function(listener) {
+			var index = moveListeners.indexOf(listener);
+			//		assert(index >= 0);
+			delete moveListeners[index];
+		};
 
-    function fireMoveAdded(movets) {
-      for (var i = 0; i < moveListeners.length; i++) {
-        moveListeners[i](movets[0], 0, movets[1])
-      }
-    }
+		function fireMoveAdded(movets) {
+			for (var i = 0; i < moveListeners.length; i++) {
+				moveListeners[i](movets[0], 0, movets[1]);
+			}
+		}
 
-    function fireMoveStarted(movets) {
-      for (var i = 0; i < moveListeners.length; i++) {
-        moveListeners[i](movets[0], 1, movets[1])
-      }
-    }
+		function fireMoveStarted(movets) {
+			for (var i = 0; i < moveListeners.length; i++) {
+				moveListeners[i](movets[0], 1, movets[1]);
+			}
+		}
 
-    function fireMoveEnded(movets) {
-      for (var i = 0; i < moveListeners.length; i++) {
-        moveListeners[i](movets[0], 2, movets[1])
-      }
-    }
+		function fireMoveEnded(movets) {
+			for (var i = 0; i < moveListeners.length; i++) {
+				moveListeners[i](movets[0], 2, movets[1]);
+			}
+		}
 
-    function startMove() {
-      currentMove.push(moveQueue.shift())
-      moveProgress.push(0)
-      fireMoveStarted(currentMove[currentMove.length - 1])
-    }
+		function startMove() {
+			currentMove.push(moveQueue.shift());
+			moveProgress.push(0);
+			fireMoveStarted(currentMove[currentMove.length - 1]);
+		}
 
-    this.addMoves = function (moves, ts) {
-      var timestamp = ts || $.now()
-      var movets = []
-      for (var i = 0; i < moves.length; i++) {
-        movets.push([moves[i], timestamp])
-      }
-      $.map(movets, fireMoveAdded)
-      if (~~kernel.getProp('vrcSpeed', 100) == 0) {
-        return this.applyMoves(moves, ts)
-      }
-      moveQueue = moveQueue.concat(movets)
-      if (moveQueue.length > 0) {
-        startAnimation()
-      }
-    }
+		this.addMoves = function(moves, ts) {
+			var timestamp = ts || $.now();
+			var movets = [];
+			for (var i = 0; i < moves.length; i++) {
+				movets.push([moves[i], timestamp]);
+			}
+			$.map(movets, fireMoveAdded);
+			if (~~kernel.getProp('vrcSpeed', 100) == 0) {
+				return this.applyMoves(moves, ts);
+			}
+			moveQueue = moveQueue.concat(movets);
+			if (moveQueue.length > 0) {
+				startAnimation();
+			}
+		};
 
-    this.isMoveFinished = function () {
-      return moveQueue.length == 0 && currentMove.length == 0 && cachedFireMoves.length == 0
-    }
+		this.isMoveFinished = function() {
+			return moveQueue.length == 0 && currentMove.length == 0 && cachedFireMoves.length == 0;
+		}
 
-    this.isAnimationFinished = function () {
-      return currentMove.length == 0
-    }
+		this.isAnimationFinished = function() {
+			return currentMove.length == 0;
+		}
 
-    this.applyMoves = function (moves, ts) {
-      var timestamp = ts || $.now()
-      var movets = []
-      for (var i = 0; i < moves.length; i++) {
-        movets.push([moves[i], timestamp])
-      }
-      moveQueue = moveQueue.concat(movets)
-      while (cachedFireMoves.length != 0) {
-        twisty.advanceMoveCallback(twisty, cachedFireMoves[0][0])
-        fireMoveEnded(cachedFireMoves.shift())
-      }
-      while (moveQueue.length > 0) {
-        if (this.isAnimationFinished()) {
-          startMove()
-        }
-        twisty.advanceMoveCallback(twisty, currentMove[0][0])
-        fireMoveEnded(currentMove.shift())
-        moveProgress.shift()
-      }
-      render()
-    }
+		this.applyMoves = function(moves, ts) {
+			var timestamp = ts || $.now();
+			var movets = [];
+			for (var i = 0; i < moves.length; i++) {
+				movets.push([moves[i], timestamp]);
+			}
+			moveQueue = moveQueue.concat(movets);
+			while (cachedFireMoves.length != 0) {
+				twisty.advanceMoveCallback(twisty, cachedFireMoves[0][0]);
+				fireMoveEnded(cachedFireMoves.shift());
+			}
+			while (moveQueue.length > 0) {
+				if (this.isAnimationFinished()) {
+					startMove();
+				}
+				twisty.advanceMoveCallback(twisty, currentMove[0][0]);
+				fireMoveEnded(currentMove.shift());
+				moveProgress.shift();
+			}
+			render();
+		};
 
-    var cachedFireMoves = []
+		var cachedFireMoves = [];
 
-    function stepAnimation(animationStep) {
-      for (var i = 0; i < moveProgress.length; i++) {
-        moveProgress[i] += animationStep
-      }
-      if (moveProgress[0] < 1) {
-        for (var i = 0; i < currentMove.length; i++) {
-          twisty.animateMoveCallback(twisty, currentMove[i][0], moveProgress[i], animationStep)
-        }
-      } else {
-        cachedFireMoves.push(currentMove.shift())
-        moveProgress.shift()
-        if (currentMove.length == 0) {
-          while (cachedFireMoves.length != 0) {
-            twisty.advanceMoveCallback(twisty, cachedFireMoves[0][0])
-            fireMoveEnded(cachedFireMoves.shift())
-          }
-        }
-        if (moveQueue.length == 0 && currentMove.length == 0) {
-          stopAnimation()
-        } else if (currentMove.length == 0) {
-          startMove()
-        }
-      }
-    }
+		function stepAnimation(animationStep) {
+			for (var i = 0; i < moveProgress.length; i++) {
+				moveProgress[i] += animationStep;
+			}
+			if (moveProgress[0] < 1) {
+				for (var i = 0; i < currentMove.length; i++) {
+					twisty.animateMoveCallback(twisty, currentMove[i][0], moveProgress[i], animationStep);
+				}
+			} else {
+				cachedFireMoves.push(currentMove.shift());
+				moveProgress.shift();
+				if (currentMove.length == 0) {
+					while (cachedFireMoves.length != 0) {
+						twisty.advanceMoveCallback(twisty, cachedFireMoves[0][0]);
+						fireMoveEnded(cachedFireMoves.shift());
+					}
+				}
+				if (moveQueue.length == 0 && currentMove.length == 0) {
+					stopAnimation();
+				} else if (currentMove.length == 0) {
+					startMove();
+				}
+			}
+		}
 
-    var pendingAnimationLoop = null
+		var pendingAnimationLoop = null;
 
-    function stopAnimation() {
-      if (pendingAnimationLoop !== null) {
-        cancelRequestAnimFrame(pendingAnimationLoop)
-        pendingAnimationLoop = null
-      }
-    }
+		function stopAnimation() {
+			if (pendingAnimationLoop !== null) {
+				cancelRequestAnimFrame(pendingAnimationLoop);
+				pendingAnimationLoop = null;
+			}
+		}
 
-    function startAnimation() {
-      if (pendingAnimationLoop === null) {
-        //log("Starting move queue: " + movesToString(moveQueue));
-        startMove()
-        lastTimeStamp = $.now()
-        pendingAnimationLoop = requestAnimFrame(animateLoop, twistyCanvas)
-      } else if (!currentMove[0] || twisty.isParallelMove(twisty, currentMove[0][0], moveQueue[0][0])) {
-        //			console.log('parallel');
-        startMove()
-      }
-    }
+		function startAnimation() {
+			if (pendingAnimationLoop === null) {
+				//log("Starting move queue: " + movesToString(moveQueue));
+				startMove();
+				lastTimeStamp = $.now();
+				pendingAnimationLoop = requestAnimFrame(animateLoop, twistyCanvas);
+			} else if (!currentMove[0] || twisty.isParallelMove(twisty, currentMove[0][0], moveQueue[0][0])) {
+				//			console.log('parallel');
+				startMove();
+			}
+		}
 
-    var lastTimeStamp = 0
+		var lastTimeStamp = 0;
 
-    function animateLoop(timeStamp) {
-      timeStamp = $.now()
-      var timeProgress =
-        (((timeStamp - lastTimeStamp) / (kernel.getProp('vrcSpeed', 100) || 1e-3)) * (moveQueue.length + 2)) / 2
-      lastTimeStamp = timeStamp
-      stepAnimation(Math.max(Math.min(timeProgress, 1), 0.0001) /*animationStep*/)
-      render()
+		function animateLoop(timeStamp) {
+			timeStamp = $.now();
+			var timeProgress = (timeStamp - lastTimeStamp) / (kernel.getProp('vrcSpeed', 100) || 1e-3) * (moveQueue.length + 2) / 2;
+			lastTimeStamp = timeStamp;
+			stepAnimation(Math.max(Math.min(timeProgress, 1), 0.0001) /*animationStep*/ );
+			render();
 
-      // That was fun, lets do it again!
-      // We check pendingAnimationLoop first, because the loop
-      // may have been cancelled during stepAnimation().
-      if (pendingAnimationLoop !== null) {
-        pendingAnimationLoop = requestAnimFrame(animateLoop, twistyCanvas)
-      }
-    }
+			// That was fun, lets do it again!
+			// We check pendingAnimationLoop first, because the loop
+			// may have been cancelled during stepAnimation().
+			if (pendingAnimationLoop !== null) {
+				pendingAnimationLoop = requestAnimFrame(animateLoop, twistyCanvas);
+			}
+		}
 
-    function createTwisty(twistyType) {
-      var twistyCreateFunction = twisties[twistyType.type]
-      if (!twistyCreateFunction) {
-        //			err('Twisty type "' + twistyType.type + '" is not recognized!');
-        return null
-      }
+		function createTwisty(twistyType) {
+			var twistyCreateFunction = twisties[twistyType.type];
+			if (!twistyCreateFunction) {
+				//			err('Twisty type "' + twistyType.type + '" is not recognized!');
+				return null;
+			}
 
-      // TODO - discuss the class heirarchy with Lucas
-      //  Does it make sense for a TwistyScene to have an addMoves method?
-      //  Scene implies (potentially) multiple twisties.
-      //   Perhaps rename TwistyScene -> TwistyContainer?
-      //  Alertatively, TwistyScene could become a Twisty base class,
-      //  and twisty instances inherit useful stuff like addMoves.
-      //
-      //  I personally prefer the first method for a couple of reasons:
-      //   1. Classical inheritance in javascript is funky. This isn't a good
-      //      reson to not do it, just personal preference.
-      //   2. Creating a new twisty doesn't force recreation of the TwistyScene.
-      //      Maybe this isn't an important case to optimize for, but to me
-      //      it's evidence that having a persistent TwistyScene is the right
-      //      way to go.
-      return twistyCreateFunction(that, twistyType)
-    }
-  }
-  return twistyjs
-})()
+			// TODO - discuss the class heirarchy with Lucas
+			//  Does it make sense for a TwistyScene to have an addMoves method?
+			//  Scene implies (potentially) multiple twisties.
+			//   Perhaps rename TwistyScene -> TwistyContainer?
+			//  Alertatively, TwistyScene could become a Twisty base class,
+			//  and twisty instances inherit useful stuff like addMoves.
+			//
+			//  I personally prefer the first method for a couple of reasons:
+			//   1. Classical inheritance in javascript is funky. This isn't a good
+			//      reson to not do it, just personal preference.
+			//   2. Creating a new twisty doesn't force recreation of the TwistyScene.
+			//      Maybe this isn't an important case to optimize for, but to me
+			//      it's evidence that having a persistent TwistyScene is the right
+			//      way to go.
+			return twistyCreateFunction(that, twistyType);
+		}
+	}
+	return twistyjs;
+
+})();
