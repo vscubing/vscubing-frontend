@@ -67,6 +67,7 @@ window.kernel = {
   },
 }
 window.requestAnimFrame = window.requestAnimationFrame
+window.cancelRequestAnimFrame = window.cancelAnimationFrame
 
 // import 'https://code.jquery.com/jquery-4.0.0-beta.slim.min.js'
 import './jquery-slim.min.js'
@@ -87,6 +88,10 @@ class Puzzle {
     this.twisty = twisty
   }
   keydown(args) {
+    if (args.keyCode === 59) {
+      // Firefox and Chrome have different keyCodes for ";", see https://stackoverflow.com/a/38844570
+      args = { ...args, keyCode: 186 }
+    }
     return this.twistyScene.keydown(args)
   }
   resize() {
