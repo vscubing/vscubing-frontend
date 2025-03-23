@@ -54,18 +54,17 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>()
   const [moves, setMoves] = useState<Move[]>()
 
-  function reset() {
-    setStatus('idle')
+  useEffect(() => {
+    setStatus(scramble ? 'ready' : 'idle')
+  }, [scramble])
+
+  useEffect(() => {
+    if (status !== 'idle') return
     setSolveStartTimestamp(undefined)
     setInspectionStartTimestamp(undefined)
     setCurrentTimestamp(undefined)
     setMoves([])
-  }
-
-  useEffect(() => {
-    reset()
-    setStatus(scramble ? 'ready' : 'idle')
-  }, [scramble])
+  }, [status])
 
   useEffect(() => {
     if (status !== 'ready') return
@@ -109,8 +108,8 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
 
     const inspectionMs = currentTimestamp - inspectionStartTimestamp
     if (inspectionMs > INSPECTION_DNF_THRESHHOLD_MS) {
-      reset()
       onFinish({ isDnf: true })
+      setStatus('idle')
     }
   }, [status, inspectionStartTimestamp, currentTimestamp, onFinish])
 
@@ -141,7 +140,7 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
     const penalty = inspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS ? 2_000 : 0
 
     onFinish({ timeMs: rawSolveTimeMs + penalty, isDnf: false, reconstruction: moves.join(' ') })
-    reset()
+    setStatus('idle')
   }, [status, moves, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onFinish])
 
   const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : scramble
