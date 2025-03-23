@@ -25,6 +25,9 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
   const [currentTimestamp, setCurrentTimestamp] = useState<number>()
   const [moves, setMoves] = useState<Move[]>()
 
+  const [heard8sAlert, setHeard8sAlert] = useState(false)
+  const [heard12sAlert, setHeard12sAlert] = useState(false)
+
   useEffect(() => {
     setStatus(initSolveData ? 'ready' : 'idle')
   }, [initSolveData])
@@ -36,6 +39,8 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
     setInspectionStartTimestamp(undefined)
     setCurrentTimestamp(undefined)
     setMoves([])
+    setHeard8sAlert(false)
+    setHeard12sAlert(false)
   }, [status])
 
   useEffect(() => {
@@ -79,8 +84,6 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
     return () => abortSignal.abort()
   }, [status])
 
-  const [heard8sAlert, setHeard8sAlert] = useState(false)
-  const [heard12sAlert, setHeard12sAlert] = useState(false)
   useEffect(() => {
     if (status !== 'inspecting') return
     if (!inspectionStartTimestamp || !currentTimestamp) return
