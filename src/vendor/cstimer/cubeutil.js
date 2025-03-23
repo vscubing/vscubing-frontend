@@ -3,6 +3,8 @@
 
 "use strict";
 
+import './mathlib'
+
 window.cubeutil = (function() {
 
 	function toEqus(facelet) {

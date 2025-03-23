@@ -253,14 +253,7 @@ function useSimulator({
     let isSolved = false
     void initSimulator(
       {
-        allowDragging: false,
-        faceColors: [16777215, 16711680, 56576, 16776960, 16755200, 255],
-        dimension: SIMULATOR_DISCIPLINES_MAP[discipline].dimension,
         puzzle: SIMULATOR_DISCIPLINES_MAP[discipline].puzzle,
-        scale: 0.9,
-        stickerWidth: 1.7,
-        style: 'v',
-        type: 'cube',
         animationDuration,
       },
       (rawMove, mstep, timestamp) => {

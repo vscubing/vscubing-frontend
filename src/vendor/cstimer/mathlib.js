@@ -3,7 +3,9 @@
 
 "use strict";
 
-var mathlib = (function() {
+import './mersennetwister'
+
+window.mathlib = (function() {
 	var Cnk = [],
 		fact = [1];
 	for (var i = 0; i < 32; ++i) {
@@ -1816,4 +1818,3 @@ var mathlib = (function() {
 	};
 })();
 
-window.mathlib = mathlib;

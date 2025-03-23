@@ -1,3 +1,3 @@
-// TODO: organize imports and deps
-export { init as initSimulator } from './puzzlefactory'
-export type { Puzzle as SimulatorPuzzle, MoveListener as SimulatorPuzzleMoveListener } from './puzzlefactory'
+import 'https://code.jquery.com/jquery-3.7.1.slim.min.js'
+
+export { init as initSimulator, type Puzzle as SimulatorPuzzle } from './puzzlefactory'

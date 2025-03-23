@@ -1,6 +1,8 @@
 /* eslint-disable */
 // prettier-ignore
 
+import '../threemin'
+
 /*
  * twisty.js
  *

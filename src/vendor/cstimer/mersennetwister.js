@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /* eslint-disable */
 // prettier-ignore
@@ -279,5 +279,4 @@ function MersenneTwisterObject(seed, seedArray) {
 // ====================================================================================================================
 // End of file hr$mersennetwister2.js - Copyright (c) 2004,2005 Henk Reints, http://henk-reints.nl
 
-Math.random = new MersenneTwisterObject(new Date().getTime());
 window.MersenneTwisterObject = MersenneTwisterObject

@@ -1,6 +1,9 @@
 /* eslint-disable */
 // prettier-ignore
 
+import '../threemin'
+import '../cubeutil.js'
+
 ;(function() {
 	twistyjs.registerTwisty("cube", createCubeTwisty);
 
