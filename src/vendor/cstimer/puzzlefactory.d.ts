@@ -16,9 +16,9 @@ export class Puzzle {
   move2str(move: CsMove): string
   moveInv(move): unknown
   toggleColorVisible(args): unknown
-  isSolved(args): unknown
+  isSolved(args?: unknown): number
   moveCnt(clr): unknown
-  parseScramble(scramble, addPreScr): unknown
+  parseScramble(scramble, addPreScr?: boolean): unknown
 }
 
 type CsMove = [number, number, string, number]
