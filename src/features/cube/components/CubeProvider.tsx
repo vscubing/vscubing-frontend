@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react'
 import { useConditionalBeforeUnload } from '@/utils'
-import { type SolveResult, type SolveFinishCallback, type InitSolveData } from './Simulator.lazy'
+import { type SolveResult, type SolveFinishCallback, type InitSolveData } from './Simulator/Simulator.lazy'
 import { AbortPrompt } from './AbortPrompt'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
@@ -8,7 +8,7 @@ import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import { CubeContext } from './CubeContext'
 import { useSettings } from '@/features/settings/queries'
 import { z } from 'zod'
-const Simulator = lazy(() => import('./Simulator.lazy'))
+const Simulator = lazy(() => import('./Simulator/Simulator.lazy'))
 
 type CubeProviderProps = { children: React.ReactNode }
 export function CubeProvider({ children }: CubeProviderProps) {
