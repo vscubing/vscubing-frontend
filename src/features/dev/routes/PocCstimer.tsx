@@ -36,16 +36,17 @@ export function SimulatorPage() {
         <span>New scramble</span>
       </PrimaryButton>
       <div className='flex-1'>
-        <Simulator scramble={scramble} />
+        <Simulator scramble={scramble} onFinish={console.log} />
       </div>
     </>
   )
 }
 
-type SimlatorProps = {
+type SimulatorProps = {
   scramble?: string
+  onFinish: (result: Result) => void
 }
-export function Simulator({ scramble }: SimlatorProps) {
+export function Simulator({ scramble, onFinish }: SimulatorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [status, setStatus] = useState<'idle' | 'ready' | 'inspecting' | 'solving' | 'solved'>('idle')
   const [inspectionStartTimestamp, setInspectionStartTimestamp] = useState<number>()
@@ -53,12 +54,17 @@ export function Simulator({ scramble }: SimlatorProps) {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>()
   const [moves, setMoves] = useState<Move[]>()
 
-  useEffect(() => {
-    setStatus(scramble ? 'ready' : 'idle')
+  function reset() {
+    setStatus('idle')
     setSolveStartTimestamp(undefined)
     setInspectionStartTimestamp(undefined)
     setCurrentTimestamp(undefined)
     setMoves([])
+  }
+
+  useEffect(() => {
+    reset()
+    setStatus(scramble ? 'ready' : 'idle')
   }, [scramble])
 
   useEffect(() => {
@@ -87,7 +93,6 @@ export function Simulator({ scramble }: SimlatorProps) {
     if (status !== 'inspecting' && status !== 'solving') return
     const abortSignal = new AbortController()
 
-    setInspectionStartTimestamp(performance.now())
     requestAnimationFrame(function runningThread() {
       if (abortSignal.signal.aborted) return
 
@@ -97,6 +102,17 @@ export function Simulator({ scramble }: SimlatorProps) {
 
     return () => abortSignal.abort()
   }, [status])
+
+  useEffect(() => {
+    if (status !== 'inspecting') return
+    if (!inspectionStartTimestamp || !currentTimestamp) return
+
+    const inspectionMs = currentTimestamp - inspectionStartTimestamp
+    if (inspectionMs > 17_000) {
+      reset()
+      onFinish({ isDnf: true })
+    }
+  }, [status, inspectionStartTimestamp, currentTimestamp, onFinish])
 
   const moveHandler = useCallback<SimulatorMoveListener>(({ move, isRotation, isSolved }) => {
     setMoves((prev) => {
@@ -114,19 +130,33 @@ export function Simulator({ scramble }: SimlatorProps) {
   }, [])
 
   useEffect(() => {
-    if (status === 'solved') console.log(`[SIMULATOR_PAGE]: ${moves?.join(' ')}`)
-  }, [status, moves])
+    if (status !== 'solved') return
+    if (!moves || !currentTimestamp || !solveStartTimestamp || !inspectionStartTimestamp)
+      throw new Error(
+        `[SIMULATOR] invalid solved state. moves: ${moves?.toString()}, currentTimestamp: ${currentTimestamp}, solveStartTimestamp: ${solveStartTimestamp}, inspectionStartTimestamp: ${inspectionStartTimestamp}`,
+      )
+
+    const inspectionMs = currentTimestamp - inspectionStartTimestamp
+    const rawSolveTimeMs = currentTimestamp - solveStartTimestamp
+    const penalty = inspectionMs > 15_000 ? 2_000 : 0
+
+    onFinish({ timeMs: rawSolveTimeMs + penalty, isDnf: false, reconstruction: moves.join(' ') })
+    reset()
+  }, [status, moves, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onFinish])
 
   const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : scramble
   useSimulator(containerRef, moveHandler, displayedScramble)
 
+  // TODO: fix race condition (negative time)
   return (
     <>
       <span className='fixed bottom-24 left-1/2 -translate-x-1/2 text-5xl'>
         {currentTimestamp
           ? solveStartTimestamp
-            ? (currentTimestamp - solveStartTimestamp) / 1000
-            : Math.floor((currentTimestamp - inspectionStartTimestamp!) / 1000)
+            ? (currentTimestamp - solveStartTimestamp) / 1_000
+            : currentTimestamp - inspectionStartTimestamp! < 15_000
+              ? 15 - Math.floor((currentTimestamp - inspectionStartTimestamp!) / 1_000)
+              : '+2'
           : null}
       </span>
       <div className='h-full' ref={containerRef}></div>
@@ -238,3 +268,5 @@ const SIMPLE_MOVES = [
 ] as const
 const MOVES = SIMPLE_MOVES.flatMap((move) => [move, `${move}'`, `${move}2`] as const)
 type Move = (typeof MOVES)[number]
+
+type Result = { timeMs?: number; isDnf: boolean; reconstruction?: string }
