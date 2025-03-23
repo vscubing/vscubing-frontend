@@ -20,7 +20,7 @@ export function SimulatorPage() {
   }, [])
 
   function generateNewScramble() {
-    const newScr = Array.from({ length: 2 })
+    const newScr = Array.from({ length: 3 })
       .map(() => {
         const MOVES_POOL = ['R', 'U', 'F', 'B', 'L', 'D'].flatMap((move) => [move, `${move}'`])
         const moveIdx = Math.floor(Math.random() * MOVES_POOL.length)
@@ -48,15 +48,17 @@ type SimlatorProps = {
 export function Simulator({ scramble }: SimlatorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [status, setStatus] = useState<'idle' | 'ready' | 'inspecting' | 'solving' | 'solved'>('idle')
-  const [startTimeMs, setStartTimeMs] = useState<number>()
-  const [currentTimeMs, setCurrentTimeMs] = useState<number>()
+  const [inspectionStartTimestamp, setInspectionStartTimestamp] = useState<number>()
+  const [solveStartTimestamp, setSolveStartTimestamp] = useState<number>()
+  const [currentTimestamp, setCurrentTimestamp] = useState<number>()
   const [moves, setMoves] = useState<Move[]>()
 
   useEffect(() => {
     setStatus(scramble ? 'ready' : 'idle')
+    setSolveStartTimestamp(undefined)
+    setInspectionStartTimestamp(undefined)
+    setCurrentTimestamp(undefined)
     setMoves([])
-    setStartTimeMs(undefined)
-    setCurrentTimeMs(undefined)
   }, [scramble])
 
   useEffect(() => {
@@ -74,18 +76,24 @@ export function Simulator({ scramble }: SimlatorProps) {
   }, [scramble, status])
 
   useEffect(() => {
-    if (status !== 'solving') return
+    if (status === 'inspecting') setInspectionStartTimestamp(performance.now())
+  }, [status])
+
+  useEffect(() => {
+    if (status === 'solving') setSolveStartTimestamp(performance.now())
+  }, [status])
+
+  useEffect(() => {
+    if (status !== 'inspecting' && status !== 'solving') return
     const abortSignal = new AbortController()
 
-    setStartTimeMs(performance.now())
-    requestAnimationFrame(runningThread)
-
-    function runningThread() {
+    setInspectionStartTimestamp(performance.now())
+    requestAnimationFrame(function runningThread() {
       if (abortSignal.signal.aborted) return
 
-      setCurrentTimeMs(performance.now())
+      setCurrentTimestamp(performance.now())
       requestAnimationFrame(runningThread)
-    }
+    })
 
     return () => abortSignal.abort()
   }, [status])
@@ -115,7 +123,11 @@ export function Simulator({ scramble }: SimlatorProps) {
   return (
     <>
       <span className='fixed bottom-24 left-1/2 -translate-x-1/2 text-5xl'>
-        {currentTimeMs && startTimeMs ? currentTimeMs - startTimeMs : null}
+        {currentTimestamp
+          ? solveStartTimestamp
+            ? (currentTimestamp - solveStartTimestamp) / 1000
+            : Math.floor((currentTimestamp - inspectionStartTimestamp!) / 1000)
+          : null}
       </span>
       <div className='h-full' ref={containerRef}></div>
     </>
