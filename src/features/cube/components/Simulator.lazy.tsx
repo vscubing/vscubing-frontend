@@ -120,14 +120,12 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }
   useSimulator(containerRef, moveHandler, displayedScramble)
 
   return (
-    <>
-      <span className='fixed right-24 top-1/2 -translate-y-1/2 text-6xl'>
+    <div className='relative flex h-full items-center justify-center'>
+      <span className='absolute right-4 top-1/2 -translate-y-1/2 text-7xl'>
         {getDisplay(solveStartTimestamp, inspectionStartTimestamp, currentTimestamp)}
       </span>
-      <div className='flex h-full items-center justify-center'>
-        <div className='h-[80%] [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
-      </div>
-    </>
+      <div className='h-[60%] [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
+    </div>
   )
 }
 const SPACEBAR_KEY_CODE = 32
