@@ -8,7 +8,7 @@ export type SolveFinishCallback = (result: SolveResult) => void
 
 type SimulatorProps = {
   className?: string
-  initSolveData?: InitSolveData
+  initSolveData: InitSolveData
   onSolveStart: () => void
   onSolveFinish: SolveFinishCallback
 }
@@ -116,7 +116,7 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }
     setStatus('idle')
   }, [status, moves, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onSolveFinish])
 
-  const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : initSolveData?.scramble
+  const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : initSolveData.scramble
   useSimulator(containerRef, moveHandler, displayedScramble)
 
   return (

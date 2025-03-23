@@ -64,11 +64,10 @@ export function CubeProvider({ children }: CubeProviderProps) {
 
   const isModalOpen = !!solveState
   return (
-    <CubeContext.Provider value={contextValue}>
+    <>
       <DialogPrimitive.Root open={isModalOpen}>
         <DialogPrimitive.Portal>
           <div
-            style={{ pointerEvents: undefined }}
             className='fixed inset-0 z-50 bg-black-100 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
             onClick={abortOrShowPrompt}
           ></div>
@@ -76,7 +75,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
           <DialogPrimitive.Content
             aria-describedby={undefined}
             style={{ pointerEvents: undefined }}
-            className='fixed inset-[1.625rem] z-50 rounded-2xl bg-black-80 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
+            className='fixed inset-[1.625rem] z-50 rounded-2xl bg-black-80 duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
           >
             <DialogPrimitive.Title className='sr-only'>Virtual cube simulator</DialogPrimitive.Title>
             <div className='relative h-full rounded-2xl'>
@@ -87,12 +86,14 @@ export function CubeProvider({ children }: CubeProviderProps) {
                   </div>
                 }
               >
-                <Simulator
-                  className='relative'
-                  initSolveData={solveState?.initSolveData}
-                  onSolveFinish={handleSolveFinish}
-                  onSolveStart={handleSolveStart}
-                />
+                {solveState && (
+                  <Simulator
+                    className='relative'
+                    initSolveData={solveState.initSolveData}
+                    onSolveFinish={handleSolveFinish}
+                    onSolveStart={handleSolveStart}
+                  />
+                )}
               </Suspense>
               <div className='absolute left-6 right-6 top-6 flex items-start justify-between'>
                 <Dialog>
@@ -114,7 +115,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
-      {children}
-    </CubeContext.Provider>
+      <CubeContext.Provider value={contextValue}>{children}</CubeContext.Provider>
+    </>
   )
 }
