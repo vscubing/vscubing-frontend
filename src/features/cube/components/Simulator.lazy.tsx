@@ -120,12 +120,16 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }
   useSimulator(containerRef, moveHandler, displayedScramble)
 
   return (
-    <div className='relative flex h-full items-center justify-center'>
-      <span className='absolute right-4 top-1/2 -translate-y-1/2 text-7xl'>
-        {getDisplay(solveStartTimestamp, inspectionStartTimestamp, currentTimestamp)}
-      </span>
-      <div className='h-[60%] [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
-    </div>
+    <>
+      <link href={`https://fonts.googleapis.com/css2?family=M+Plus+1+Code&display=swap`} rel='stylesheet' />
+
+      <div className='relative flex h-full items-center justify-center'>
+        <span className={`absolute right-4 top-1/2 -translate-y-1/2 text-7xl [font-family:"M_Plus_1_Code",monospace]`}>
+          {getDisplay(solveStartTimestamp, inspectionStartTimestamp, currentTimestamp)}
+        </span>
+        <div className='h-[60%] [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
+      </div>
+    </>
   )
 }
 const SPACEBAR_KEY_CODE = 32
@@ -137,14 +141,40 @@ function getDisplay(
 ): ReactNode {
   if (!currentTimestamp || !inspectionStartTimestamp) return ''
   if (solveStartTimestamp) {
-    const elapsedSec = (currentTimestamp - solveStartTimestamp) / 1_000
-    return elapsedSec.toFixed(1)
+    return formatElapsedTime(currentTimestamp - solveStartTimestamp)
   }
 
   const elapsedInspectionMs = currentTimestamp - inspectionStartTimestamp
   if (elapsedInspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS) return '+2'
   return INSPECTION_PLUS_TWO_THRESHHOLD_MS / 1_000 - Math.floor(elapsedInspectionMs / 1_000)
 }
+
+function formatElapsedTime(fullMs: number) {
+  const fullSeconds = getSeconds(fullMs)
+  const minutes = getMinutes(fullMs)
+  const seconds = fullSeconds - minutes * MINUTE_IN_SECONDS
+  const ms = fullMs - fullSeconds * SECOND_IN_MS
+  const tenths = Math.floor(ms / 100)
+
+  if (minutes) {
+    return (
+      <>
+        {minutes}:{seconds.toString().padStart(2, '0')}.<span className='text-[.75em]'>{tenths}</span>
+      </>
+    )
+  }
+  return (
+    <>
+      {seconds}.<span className='text-[.75em]'>{tenths}</span>
+    </>
+  )
+}
+
+const getSeconds = (ms: number): number => Math.floor(ms / SECOND_IN_MS)
+const getMinutes = (ms: number): number => Math.floor(ms / MINUTE_IN_MS)
+export const SECOND_IN_MS = 1_000
+export const MINUTE_IN_SECONDS = 60
+export const MINUTE_IN_MS = MINUTE_IN_SECONDS * SECOND_IN_MS
 
 const INSPECTION_PLUS_TWO_THRESHHOLD_MS = 15_000
 const INSPECTION_DNF_THRESHHOLD_MS = 17_000
