@@ -121,12 +121,17 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }
 
   return (
     <>
-      <link href={`https://fonts.googleapis.com/css2?family=M+Plus+1+Code&display=swap`} rel='stylesheet' />
+      <link href='https://fonts.googleapis.com/css2?family=M+Plus+1+Code&display=swap' rel='stylesheet' />
 
       <div className='relative flex h-full items-center justify-center'>
-        <span className={`absolute right-4 top-1/2 -translate-y-1/2 text-7xl [font-family:"M_Plus_1_Code",monospace]`}>
+        <span className='absolute right-4 top-1/2 -translate-y-1/2 text-7xl [font-family:"M_Plus_1_Code",monospace] md:bottom-4 md:left-1/2 md:right-auto md:top-auto md:-translate-x-1/2 md:translate-y-0'>
           {getDisplay(solveStartTimestamp, inspectionStartTimestamp, currentTimestamp)}
         </span>
+        {status === 'ready' && (
+          <span className='absolute bottom-20 rounded-[.75rem] bg-black-100 px-10 py-6 font-kanit text-[1.25rem] text-secondary-20'>
+            Press space to scramble the cube and start the preinspection
+          </span>
+        )}
         <div className='h-[60%] [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
       </div>
     </>
