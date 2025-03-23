@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { CubeContext } from './components/CubeContext'
 
 export * from './components/CubeProvider'
-export { type CubeSolveResult } from './components/Cube'
+export { type SolveResult } from './components/Simulator.lazy'
 
 export function useCube() {
   return useContext(CubeContext)
