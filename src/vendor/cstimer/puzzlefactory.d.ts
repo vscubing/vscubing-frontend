@@ -12,7 +12,7 @@ export class Puzzle {
   applyMoves(args): unknown
   addMoveListener(listener): unknown
   getDomElement(): unknown
-  isRotation(move): unknown
+  isRotation(move: CsMove): boolean
   move2str(move: CsMove): string
   moveInv(move): unknown
   toggleColorVisible(args): unknown

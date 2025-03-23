@@ -1,70 +1,152 @@
 import { PrimaryButton } from '@/components/ui'
 import { type SimulatorPuzzle, initSimulator } from '@/vendor/cstimer'
-import { type CsMove } from '@/vendor/cstimer/puzzlefactory'
 import { type RefObject, useCallback, useEffect, useRef, useState } from 'react'
 
 export function SimulatorPage() {
-  const onMove = useCallback(
-    (move: Move, isSolved: boolean) => console.log(`[SIMULATOR_PAGE]: ${move}, isSolved: ${isSolved}`),
-    [],
-  )
   const [scramble, setScramble] = useState<string>()
+
+  useEffect(generateNewScramble, [setScramble])
+
+  useEffect(() => {
+    const abortSignal = new AbortController()
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.keyCode === 13) generateNewScramble()
+      },
+      abortSignal,
+    )
+    return () => abortSignal.abort()
+  }, [])
+
+  function generateNewScramble() {
+    const newScr = Array.from({ length: 2 })
+      .map(() => {
+        const MOVES_POOL = ['R', 'U', 'F', 'B', 'L', 'D'].flatMap((move) => [move, `${move}'`])
+        const moveIdx = Math.floor(Math.random() * MOVES_POOL.length)
+        return MOVES_POOL[moveIdx]
+      })
+      .join(' ')
+    setScramble(newScr)
+  }
+
   return (
     <>
-      <PrimaryButton
-        onClick={() => {
-          const newScr = Array.from({ length: 1 })
-            .map(() => {
-              const MOVES_POOL = ['R', 'U', 'F', 'B', 'L', 'D'].flatMap((move) => [move, `${move}'`])
-              const moveIdx = Math.floor(Math.random() * MOVES_POOL.length)
-              return MOVES_POOL[moveIdx]
-            })
-            .join(' ')
-          console.log(newScr)
-          setScramble(newScr)
-        }}
-        size='lg'
-      >
-        New scramble
+      <PrimaryButton asChild onClick={generateNewScramble} size='lg'>
+        <span>New scramble</span>
       </PrimaryButton>
-      <Simulator onMove={onMove} scramble={scramble} />
+      <div className='flex-1'>
+        <Simulator scramble={scramble} />
+      </div>
     </>
   )
 }
 
 type SimlatorProps = {
-  onMove: (move: Move, isSolved: boolean) => void
   scramble?: string
 }
-export function Simulator({ onMove, scramble }: SimlatorProps) {
+export function Simulator({ scramble }: SimlatorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [status, setStatus] = useState<'idle' | 'ready' | 'inspecting' | 'solving' | 'solved'>('idle')
+  const [startTimeMs, setStartTimeMs] = useState<number>()
+  const [currentTimeMs, setCurrentTimeMs] = useState<number>()
+  const [moves, setMoves] = useState<Move[]>()
 
-  const handlePuzzleMove = useCallback<MyMoveListener>(
-    (rawMove, puzzle) => {
-      const move = parseCstimerMove(puzzle.move2str(rawMove))
-      onMove(move, puzzle.isSolved() === 0)
-    },
-    [onMove],
-  )
-  const _puzzle = useSimulator(containerRef, handlePuzzleMove, scramble)
+  useEffect(() => {
+    setStatus(scramble ? 'ready' : 'idle')
+    setMoves([])
+    setStartTimeMs(undefined)
+    setCurrentTimeMs(undefined)
+  }, [scramble])
+
+  useEffect(() => {
+    if (status !== 'ready') return
+
+    const abortSignal = new AbortController()
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.keyCode === SPACEBAR_KEY_CODE) setStatus('inspecting')
+      },
+      abortSignal,
+    )
+    return () => abortSignal.abort()
+  }, [scramble, status])
+
+  useEffect(() => {
+    if (status !== 'solving') return
+    const abortSignal = new AbortController()
+
+    setStartTimeMs(performance.now())
+    requestAnimationFrame(runningThread)
+
+    function runningThread() {
+      if (abortSignal.signal.aborted) return
+
+      setCurrentTimeMs(performance.now())
+      requestAnimationFrame(runningThread)
+    }
+
+    return () => abortSignal.abort()
+  }, [status])
+
+  const moveHandler = useCallback<SimulatorMoveListener>(({ move, isRotation, isSolved }) => {
+    setMoves((prev) => {
+      if (!prev) throw new Error('[SIMULATOR] moves undefined')
+      return [...prev, move]
+    })
+    setStatus((prevStatus) => {
+      if (prevStatus === 'inspecting' && !isRotation) {
+        return 'solving'
+      }
+      if (prevStatus === 'solving' && isSolved) return 'solved'
+
+      return prevStatus
+    })
+  }, [])
+
+  useEffect(() => {
+    if (status === 'solved') console.log(`[SIMULATOR_PAGE]: ${moves?.join(' ')}`)
+  }, [status, moves])
+
+  const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : scramble
+  useSimulator(containerRef, moveHandler, displayedScramble)
 
   return (
-    <div className='h-screen' ref={containerRef}>
-      PocCstimer
-    </div>
+    <>
+      <span className='fixed bottom-24 left-1/2 -translate-x-1/2 text-5xl'>
+        {currentTimeMs && startTimeMs ? currentTimeMs - startTimeMs : null}
+      </span>
+      <div className='h-full' ref={containerRef}></div>
+    </>
   )
 }
+const SPACEBAR_KEY_CODE = 32
 
-type MyMoveListener = (move: CsMove, puzzle: SimulatorPuzzle) => void
-function useSimulator(containerRef: RefObject<HTMLElement>, onMove: MyMoveListener, scramble?: string) {
-  const [puzzle, setPuzzle] = useState<SimulatorPuzzle>()
+type SimulatorMoveListener = ({
+  move,
+  isRotation,
+  isSolved,
+}: {
+  move: Move
+  timestamp: number
+  isRotation: boolean
+  isSolved: boolean
+}) => void
+function useSimulator(
+  containerRef: RefObject<HTMLElement>,
+  onMove: SimulatorMoveListener,
+  scramble: string | undefined,
+) {
   useEffect(() => {
     const abortSignal = new AbortController()
 
-    let localPuzzle: SimulatorPuzzle
+    let puzzle: SimulatorPuzzle
+    let wasScrambleApplied = false
+    let isSolved = false
     void initSimulator(
       {
-        allowDragging: true,
+        allowDragging: false,
         dimension: 3,
         faceColors: [16777215, 16711680, 56576, 16776960, 16755200, 255],
         puzzle: 'cube3',
@@ -73,22 +155,35 @@ function useSimulator(containerRef: RefObject<HTMLElement>, onMove: MyMoveListen
         style: 'v',
         type: 'cube',
       },
-      (move) => {
-        if (!localPuzzle) throw new Error('[SIMULATOR] puzzle undefined')
-        onMove(move, localPuzzle)
+      (rawMove, mstep, timestamp) => {
+        if (!puzzle) throw new Error('[SIMULATOR] puzzle undefined')
+
+        if (mstep !== 2 || !wasScrambleApplied) return
+        const move = parseCstimerMove(puzzle.move2str(rawMove))
+        if (puzzle.isSolved() === 0) isSolved = true
+        onMove({ move, timestamp, isRotation: puzzle.isRotation(rawMove), isSolved })
       },
       containerRef.current!,
     ).then((pzl) => {
-      setPuzzle(pzl)
-      localPuzzle = pzl
-      pzl.resize()
-      if (scramble) pzl.applyMoves(pzl.parseScramble(scramble))
-      window.addEventListener('keydown', (e) => pzl.keydown(e), abortSignal)
+      puzzle = pzl
+
+      setTimeout(() => puzzle.resize())
+      if (scramble) {
+        puzzle.applyMoves(puzzle.parseScramble(scramble))
+        wasScrambleApplied = true
+      }
+      window.addEventListener(
+        'keydown',
+        (e) => {
+          if (!scramble || isSolved) return
+          puzzle.keydown(e)
+        },
+        abortSignal,
+      )
     })
 
     return () => abortSignal.abort()
   }, [onMove, containerRef, scramble])
-  return puzzle
 }
 
 function parseCstimerMove(moveCstimer: string): Move {

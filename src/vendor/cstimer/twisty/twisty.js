@@ -114,7 +114,7 @@ window.twistyjs = (function() {
 			twistyCanvas = renderer.domElement;
 
 			twistyContainer.appendChild(twistyCanvas);
-			touchCube = $('<table class="touchcube">').appendTo(twistyContainer);
+			touchCube = $('<table class="touchcube">')/* .appendTo(twistyContainer) */; // NOTE: touchCube removed by @vscubing
 			var trs = '';
 			for (var i = 0; i < 3; i++) {
 				var tds = '';
