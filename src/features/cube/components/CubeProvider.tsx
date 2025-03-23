@@ -7,6 +7,7 @@ import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner }
 import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import { CubeContext } from './CubeContext'
 import { useSettings } from '@/features/settings/queries'
+import { z } from 'zod'
 const Simulator = lazy(() => import('./Simulator.lazy'))
 
 type CubeProviderProps = { children: React.ReactNode }
@@ -88,15 +89,17 @@ export function CubeProvider({ children }: CubeProviderProps) {
                   </div>
                 }
               >
-                {solveState && (
+                {solveState && settings && (
                   <Simulator
                     initSolveData={solveState.initSolveData}
                     onSolveFinish={handleSolveFinish}
                     onSolveStart={handleSolveStart}
                     settings={{
-                      animationDuration: settings?.cstimerAnimationDuration ?? 100,
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-                      inspectionVoiceAlert: (settings?.cstimerInspectionVoiceAlert as any) ?? 'Male',
+                      animationDuration: settings.cstimerAnimationDuration ?? 100,
+                      inspectionVoiceAlert: z
+                        .enum(['Male', 'Female', 'None'])
+                        .catch('Male')
+                        .parse(settings.cstimerInspectionVoiceAlert),
                     }}
                   />
                 )}
