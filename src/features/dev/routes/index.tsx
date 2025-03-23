@@ -2,7 +2,6 @@ import { appRoute } from '@/router'
 import { createRoute } from '@tanstack/react-router'
 import { UiKit } from './UiKit'
 import { ResetSession } from './ResetSession'
-import { SimulatorPage } from './PocCstimer'
 
 const route = createRoute({
   getParentRoute: () => appRoute,
@@ -21,10 +20,4 @@ const uiKitRoute = createRoute({
   component: UiKit,
 })
 
-const csPocRouter = createRoute({
-  getParentRoute: () => route,
-  path: 'poc-cstimer',
-  component: SimulatorPage,
-})
-
-export const devRoute = route.addChildren([resetSessionRoute, uiKitRoute, csPocRouter])
+export const devRoute = route.addChildren([resetSessionRoute, uiKitRoute])
