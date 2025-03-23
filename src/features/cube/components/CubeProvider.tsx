@@ -16,16 +16,16 @@ export function CubeProvider({ children }: CubeProviderProps) {
   const [solveState, setSolveState] = useState<{
     initSolveData: InitSolveData
     solveCallback: SolveFinishCallback
-    wasSolveStarted: boolean
+    wasInspectionStarted: boolean
   } | null>(null)
   const [isAbortPromptVisible, setIsAbortPromptVisible] = useState(false)
 
   const initSolve = useCallback((initSolveData: InitSolveData, solveCallback: SolveFinishCallback) => {
-    setSolveState({ initSolveData, solveCallback, wasSolveStarted: false })
+    setSolveState({ initSolveData, solveCallback, wasInspectionStarted: false })
   }, [])
 
-  const handleSolveStart = useCallback(() => {
-    setSolveState((prev) => prev && { ...prev, wasSolveStarted: true })
+  const handleInspectionStart = useCallback(() => {
+    setSolveState((prev) => prev && { ...prev, wasInspectionStarted: true })
   }, [])
 
   const solveCallback = solveState?.solveCallback
@@ -37,11 +37,11 @@ export function CubeProvider({ children }: CubeProviderProps) {
     [solveCallback],
   )
 
-  const shouldDNFOnPageLeave = !!solveState && solveState.wasSolveStarted
+  const shouldDNFOnPageLeave = !!solveState && solveState.wasInspectionStarted
   useConditionalBeforeUnload(shouldDNFOnPageLeave, () => handleSolveFinish({ isDnf: true }))
 
   const abortOrShowPrompt = useCallback(() => {
-    if (solveState!.wasSolveStarted === false) {
+    if (solveState!.wasInspectionStarted === false) {
       setSolveState(null)
       return
     }
@@ -93,7 +93,7 @@ export function CubeProvider({ children }: CubeProviderProps) {
                   <Simulator
                     initSolveData={solveState.initSolveData}
                     onSolveFinish={handleSolveFinish}
-                    onSolveStart={handleSolveStart}
+                    onInspectionStart={handleInspectionStart}
                     settings={{
                       animationDuration: settings.cstimerAnimationDuration ?? 100,
                       inspectionVoiceAlert: z

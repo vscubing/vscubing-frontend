@@ -13,17 +13,17 @@ type SimulatorSettings = {
 }
 type SimulatorProps = {
   initSolveData: InitSolveData
-  onSolveStart: () => void
+  onInspectionStart: () => void
   onSolveFinish: SolveFinishCallback
   settings: SimulatorSettings
 }
-export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, settings }: SimulatorProps) {
+export default function Simulator({ initSolveData, onSolveFinish, onInspectionStart, settings }: SimulatorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [status, setStatus] = useState<'idle' | 'ready' | 'inspecting' | 'solving' | 'solved'>('idle')
   const [inspectionStartTimestamp, setInspectionStartTimestamp] = useState<number>()
   const [solveStartTimestamp, setSolveStartTimestamp] = useState<number>()
   const [currentTimestamp, setCurrentTimestamp] = useState<number>()
-  const [moves, setMoves] = useState<Move[]>()
+  const [solution, setSolution] = useState<{ move: Move; timestamp: number }[]>()
 
   const [heard8sAlert, setHeard8sAlert] = useState(false)
   const [heard12sAlert, setHeard12sAlert] = useState(false)
@@ -38,7 +38,7 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
     setSolveStartTimestamp(undefined)
     setInspectionStartTimestamp(undefined)
     setCurrentTimestamp(undefined)
-    setMoves([])
+    setSolution([])
     setHeard8sAlert(false)
     setHeard12sAlert(false)
   }, [status])
@@ -62,8 +62,8 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
     if (status !== 'inspecting') return
 
     requestAnimationFrame(() => setInspectionStartTimestamp(performance.now())) // we need requestAnimationFrame here to prevent these timestamps from getting ahead of current timestamp
-    onSolveStart()
-  }, [status, onSolveStart])
+    onInspectionStart()
+  }, [status, onInspectionStart])
 
   useEffect(() => {
     if (status !== 'solving') return
@@ -114,9 +114,9 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
   ])
 
   const moveHandler = useCallback<SimulatorMoveListener>(({ move, isRotation, isSolved }) => {
-    setMoves((prev) => {
+    setSolution((prev) => {
       if (!prev) throw new Error('[SIMULATOR] moves undefined')
-      return [...prev, move]
+      return [...prev, { move, timestamp: performance.now() }]
     })
     setStatus((prevStatus) => {
       if (prevStatus === 'inspecting' && !isRotation) {
@@ -130,18 +130,21 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
 
   useEffect(() => {
     if (status !== 'solved') return
-    if (!moves || !currentTimestamp || !solveStartTimestamp || !inspectionStartTimestamp)
+    if (!solution || !currentTimestamp || !solveStartTimestamp || !inspectionStartTimestamp)
       throw new Error(
-        `[SIMULATOR] invalid solved state. moves: ${moves?.toString()}, currentTimestamp: ${currentTimestamp}, solveStartTimestamp: ${solveStartTimestamp}, inspectionStartTimestamp: ${inspectionStartTimestamp}`,
+        `[SIMULATOR] invalid solved state. solution: ${solution?.toString()}, currentTimestamp: ${currentTimestamp}, solveStartTimestamp: ${solveStartTimestamp}, inspectionStartTimestamp: ${inspectionStartTimestamp}`,
       )
 
     const inspectionMs = solveStartTimestamp - inspectionStartTimestamp
-    const rawSolveTimeMs = currentTimestamp - solveStartTimestamp
+    const rawSolveTimeMs = solution.at(-1)!.timestamp - solveStartTimestamp
     const penalty = inspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS ? 2_000 : 0
 
-    onSolveFinish({ timeMs: rawSolveTimeMs + penalty, isDnf: false, reconstruction: moves.join(' ') })
+    const reconstruction = solution
+      .map(({ move, timestamp }) => `${move} /*${Math.max(timestamp - solveStartTimestamp, 0)}*/`)
+      .join(' ')
+    onSolveFinish({ timeMs: rawSolveTimeMs + penalty, isDnf: false, reconstruction })
     setStatus('idle')
-  }, [status, moves, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onSolveFinish])
+  }, [status, solution, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onSolveFinish])
 
   const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : initSolveData.scramble
   useSimulator({
