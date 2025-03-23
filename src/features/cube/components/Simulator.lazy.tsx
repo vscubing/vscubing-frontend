@@ -1,3 +1,4 @@
+import { isDiscipline, type Discipline } from '@/types'
 import { type SimulatorPuzzle, initSimulator } from '@/vendor/cstimer'
 import { useRef, useState, useEffect, useCallback, type ReactNode, type RefObject } from 'react'
 
@@ -7,7 +8,6 @@ export type SolveResult = { isDnf: false; reconstruction: string; timeMs: number
 export type SolveFinishCallback = (result: SolveResult) => void
 
 type SimulatorProps = {
-  className?: string
   initSolveData: InitSolveData
   onSolveStart: () => void
   onSolveFinish: SolveFinishCallback
@@ -117,7 +117,7 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }
   }, [status, moves, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onSolveFinish])
 
   const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : initSolveData.scramble
-  useSimulator(containerRef, moveHandler, displayedScramble)
+  useSimulator({ containerRef, onMove: moveHandler, scramble: displayedScramble, discipline: initSolveData.discipline })
 
   return (
     <>
@@ -194,13 +194,21 @@ type SimulatorMoveListener = ({
   isRotation: boolean
   isSolved: boolean
 }) => void
-function useSimulator(
-  containerRef: RefObject<HTMLElement>,
-  onMove: SimulatorMoveListener,
-  scramble: string | undefined,
-) {
+function useSimulator({
+  containerRef,
+  onMove,
+  scramble,
+  discipline,
+}: {
+  containerRef: RefObject<HTMLElement>
+  onMove: SimulatorMoveListener
+  scramble: string | undefined
+  discipline: string
+}) {
   useEffect(() => {
     const abortSignal = new AbortController()
+
+    if (!isDiscipline(discipline)) throw new Error(`[SIMULATOR] unsupported discipline: ${discipline}`)
 
     let puzzle: SimulatorPuzzle
     let wasScrambleApplied = false
@@ -208,9 +216,9 @@ function useSimulator(
     void initSimulator(
       {
         allowDragging: false,
-        dimension: 3,
         faceColors: [16777215, 16711680, 56576, 16776960, 16755200, 255],
-        puzzle: 'cube3',
+        dimension: SIMULATOR_DISCIPLINES_MAP[discipline].dimension,
+        puzzle: SIMULATOR_DISCIPLINES_MAP[discipline].puzzle,
         scale: 0.9,
         stickerWidth: 1.7,
         style: 'v',
@@ -244,8 +252,19 @@ function useSimulator(
     })
 
     return () => abortSignal.abort()
-  }, [onMove, containerRef, scramble])
+  }, [onMove, containerRef, scramble, discipline])
 }
+
+const SIMULATOR_DISCIPLINES_MAP = {
+  '3by3': {
+    dimension: 3,
+    puzzle: 'cube3',
+  },
+  '2by2': {
+    dimension: 2,
+    puzzle: 'cube2',
+  },
+} as const
 
 function parseCstimerMove(moveCstimer: string): Move {
   const move = moveCstimer

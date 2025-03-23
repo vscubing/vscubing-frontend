@@ -88,7 +88,6 @@ export function CubeProvider({ children }: CubeProviderProps) {
               >
                 {solveState && (
                   <Simulator
-                    className='relative'
                     initSolveData={solveState.initSolveData}
                     onSolveFinish={handleSolveFinish}
                     onSolveStart={handleSolveStart}
