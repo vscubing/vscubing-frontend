@@ -152,13 +152,12 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, 
     animationDuration: settings.animationDuration,
   })
 
-  // TODO: google font error
   return (
     <>
-      <link href='https://fonts.googleapis.com/css2?family=M+Plus+1+Code&display=swap' rel='stylesheet' />
+      <link href='https://fonts.googleapis.com/css2?family=M+PLUS+1+Code&display=swap' rel='stylesheet' />
 
       <div className='relative flex h-full items-center justify-center'>
-        <span className='absolute right-4 top-1/2 -translate-y-1/2 text-7xl [font-family:"M_Plus_1_Code",monospace] md:bottom-4 md:left-1/2 md:right-auto md:top-auto md:-translate-x-1/2 md:translate-y-0'>
+        <span className='absolute right-4 top-1/2 -translate-y-1/2 text-7xl [font-family:"M_PLUS_1_Code",monospace] md:bottom-4 md:left-1/2 md:right-auto md:top-auto md:-translate-x-1/2 md:translate-y-0'>
           {getDisplay(solveStartTimestamp, inspectionStartTimestamp, currentTimestamp)}
         </span>
         {status === 'ready' && (
