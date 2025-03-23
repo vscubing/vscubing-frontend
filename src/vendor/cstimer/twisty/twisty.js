@@ -525,7 +525,6 @@ window.twistyjs = (function() {
 		var lastTimeStamp = 0;
 
 		function animateLoop(timeStamp) {
-			console.log('animating')
 			timeStamp = $.now();
 			var timeProgress = (timeStamp - lastTimeStamp) / (kernel.getProp('vrcSpeed', 100) || 1e-3) * (moveQueue.length + 2) / 2;
 			lastTimeStamp = timeStamp;
