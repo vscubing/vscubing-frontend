@@ -1,6 +1,5 @@
-import { PrimaryButton } from '@/components/ui'
 import { type SimulatorPuzzle, initSimulator } from '@/vendor/cstimer'
-import { type RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import { type ReactNode, type RefObject, useCallback, useEffect, useRef, useState } from 'react'
 
 export function SimulatorPage() {
   const [scramble, setScramble] = useState<string>()
@@ -31,14 +30,15 @@ export function SimulatorPage() {
   }
 
   return (
-    <>
-      <PrimaryButton asChild onClick={generateNewScramble} size='lg'>
-        <span>New scramble</span>
-      </PrimaryButton>
-      <div className='flex-1'>
-        <Simulator scramble={scramble} onFinish={console.log} />
-      </div>
-    </>
+    <div className='flex-1'>
+      <Simulator
+        scramble={scramble}
+        onFinish={(solve) => {
+          generateNewScramble()
+          console.log(solve)
+        }}
+      />
+    </div>
   )
 }
 
@@ -108,7 +108,7 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
     if (!inspectionStartTimestamp || !currentTimestamp) return
 
     const inspectionMs = currentTimestamp - inspectionStartTimestamp
-    if (inspectionMs > 17_000) {
+    if (inspectionMs > INSPECTION_DNF_THRESHHOLD_MS) {
       reset()
       onFinish({ isDnf: true })
     }
@@ -138,7 +138,7 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
 
     const inspectionMs = currentTimestamp - inspectionStartTimestamp
     const rawSolveTimeMs = currentTimestamp - solveStartTimestamp
-    const penalty = inspectionMs > 15_000 ? 2_000 : 0
+    const penalty = inspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS ? 2_000 : 0
 
     onFinish({ timeMs: rawSolveTimeMs + penalty, isDnf: false, reconstruction: moves.join(' ') })
     reset()
@@ -151,19 +151,31 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
   return (
     <>
       <span className='fixed bottom-24 left-1/2 -translate-x-1/2 text-5xl'>
-        {currentTimestamp
-          ? solveStartTimestamp
-            ? (currentTimestamp - solveStartTimestamp) / 1_000
-            : currentTimestamp - inspectionStartTimestamp! < 15_000
-              ? 15 - Math.floor((currentTimestamp - inspectionStartTimestamp!) / 1_000)
-              : '+2'
-          : null}
+        {getDisplay(solveStartTimestamp, inspectionStartTimestamp, currentTimestamp)}
       </span>
       <div className='h-full' ref={containerRef}></div>
     </>
   )
 }
 const SPACEBAR_KEY_CODE = 32
+
+function getDisplay(
+  solveStartTimestamp?: number,
+  inspectionStartTimestamp?: number,
+  currentTimestamp?: number,
+): ReactNode {
+  if (!currentTimestamp || !inspectionStartTimestamp) return '--:--'
+  if (solveStartTimestamp) {
+    return (currentTimestamp - solveStartTimestamp) / 1_000
+  }
+
+  const elapsedInspectionMs = currentTimestamp - inspectionStartTimestamp
+  if (elapsedInspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS) return '+2'
+  return INSPECTION_PLUS_TWO_THRESHHOLD_MS / 1_000 - Math.floor(elapsedInspectionMs / 1_000)
+}
+
+const INSPECTION_PLUS_TWO_THRESHHOLD_MS = 15_000
+const INSPECTION_DNF_THRESHHOLD_MS = 17_000
 
 type SimulatorMoveListener = ({
   move,
