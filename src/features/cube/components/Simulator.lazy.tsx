@@ -1,4 +1,4 @@
-import { isDiscipline, type Discipline } from '@/types'
+import { isDiscipline } from '@/types'
 import { type SimulatorPuzzle, initSimulator } from '@/vendor/cstimer'
 import { useRef, useState, useEffect, useCallback, type ReactNode, type RefObject } from 'react'
 
@@ -7,12 +7,17 @@ export type InitSolveData = { scramble: string; discipline: string }
 export type SolveResult = { isDnf: false; reconstruction: string; timeMs: number } | { isDnf: true }
 export type SolveFinishCallback = (result: SolveResult) => void
 
+type SimulatorSettings = {
+  animationDuration: number
+  inspectionVoiceAlert: 'Male' | 'Female' | 'None'
+}
 type SimulatorProps = {
   initSolveData: InitSolveData
   onSolveStart: () => void
   onSolveFinish: SolveFinishCallback
+  settings: SimulatorSettings
 }
-export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }: SimulatorProps) {
+export default function Simulator({ initSolveData, onSolveFinish, onSolveStart, settings }: SimulatorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [status, setStatus] = useState<'idle' | 'ready' | 'inspecting' | 'solving' | 'solved'>('idle')
   const [inspectionStartTimestamp, setInspectionStartTimestamp] = useState<number>()
@@ -117,7 +122,13 @@ export default function Simulator({ initSolveData, onSolveFinish, onSolveStart }
   }, [status, moves, inspectionStartTimestamp, solveStartTimestamp, currentTimestamp, onSolveFinish])
 
   const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : initSolveData.scramble
-  useSimulator({ containerRef, onMove: moveHandler, scramble: displayedScramble, discipline: initSolveData.discipline })
+  useSimulator({
+    containerRef,
+    onMove: moveHandler,
+    scramble: displayedScramble,
+    discipline: initSolveData.discipline,
+    animationDuration: settings.animationDuration,
+  })
 
   return (
     <>
@@ -199,11 +210,13 @@ function useSimulator({
   onMove,
   scramble,
   discipline,
+  animationDuration,
 }: {
   containerRef: RefObject<HTMLElement>
   onMove: SimulatorMoveListener
   scramble: string | undefined
   discipline: string
+  animationDuration: number
 }) {
   useEffect(() => {
     const abortSignal = new AbortController()
@@ -223,6 +236,7 @@ function useSimulator({
         stickerWidth: 1.7,
         style: 'v',
         type: 'cube',
+        animationDuration,
       },
       (rawMove, mstep, timestamp) => {
         if (!puzzle) throw new Error('[SIMULATOR] puzzle undefined')
@@ -252,7 +266,7 @@ function useSimulator({
     })
 
     return () => abortSignal.abort()
-  }, [onMove, containerRef, scramble, discipline])
+  }, [onMove, containerRef, scramble, discipline, animationDuration])
 }
 
 const SIMULATOR_DISCIPLINES_MAP = {

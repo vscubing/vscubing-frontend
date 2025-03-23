@@ -1,8 +1,19 @@
 /* eslint-disable */
 
-export function init(options, moveListener: MoveListener, parent): Promise<Puzzle>
+export function init(options: Options, moveListener: MoveListener, parent): Promise<Puzzle>
 
 type MoveListener = (move: CsMove, mstep: Mstep, timestamp: number) => void
+type Options = {
+  allowDragging: false
+  faceColors: [number, number, number, number, number, number]
+  dimension: 2 | 3
+  puzzle: 'cube2' | 'cube3'
+  scale: 0.9
+  stickerWidth: 1.7
+  style: 'v'
+  type: 'cube'
+  animationDuration
+}
 
 export class Puzzle {
   constructor(twistyScene, twisty)

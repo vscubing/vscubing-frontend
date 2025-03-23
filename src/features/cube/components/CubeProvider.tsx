@@ -6,10 +6,12 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
 import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import { CubeContext } from './CubeContext'
+import { useSettings } from '@/features/settings/queries'
 const Simulator = lazy(() => import('./Simulator.lazy'))
 
 type CubeProviderProps = { children: React.ReactNode }
 export function CubeProvider({ children }: CubeProviderProps) {
+  const { data: settings } = useSettings()
   const [solveState, setSolveState] = useState<{
     initSolveData: InitSolveData
     solveCallback: SolveFinishCallback
@@ -91,6 +93,11 @@ export function CubeProvider({ children }: CubeProviderProps) {
                     initSolveData={solveState.initSolveData}
                     onSolveFinish={handleSolveFinish}
                     onSolveStart={handleSolveStart}
+                    settings={{
+                      animationDuration: settings?.cstimerAnimationDuration ?? 100,
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+                      inspectionVoiceAlert: (settings?.cstimerInspectionVoiceAlert as any) ?? 'Male',
+                    }}
                   />
                 )}
               </Suspense>

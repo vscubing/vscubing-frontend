@@ -1,16 +1,16 @@
 /* eslint-disable */
 
 // kernel mock
-window.kernel = {
+const kernel = {
+  props: {
+    colcube: '#ff0#fa0#00f#fff#f00#0d0',
+    vrcOri: '6,12',
+    vrcSpeed: 100,
+    vrcAH: '01',
+    vrcMP: 'n',
+  },
   getProp(prop) {
-    const PROPS = {
-      colcube: '#ff0#fa0#00f#fff#f00#0d0',
-      vrcOri: '6,12',
-      vrcSpeed: 100,
-      vrcAH: '01',
-      vrcMP: 'n',
-    }
-    return PROPS[prop]
+    return kernel.props[prop]
   },
   ui: {
     nearColor(color, ref, longFormat) {
@@ -66,6 +66,8 @@ window.kernel = {
     return moveseq
   },
 }
+window.kernel = kernel
+
 window.requestAnimFrame = window.requestAnimationFrame
 window.cancelRequestAnimFrame = window.cancelAnimationFrame
 
@@ -137,6 +139,7 @@ class Puzzle {
 var prevParents = []
 
 export async function init(options, moveListener, parentNativeElem) {
+  kernel.props.vrcSpeed = options.animationDuration
   var parent = $(parentNativeElem)
   // if (window.twistyjs == undefined) {
   //   toInitCalls = init.bind(null, options, moveListener, parent, callback)
