@@ -59,7 +59,8 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
   }, [scramble])
 
   useEffect(() => {
-    if (status !== 'idle') return
+    if (status !== 'idle' && status !== 'ready') return
+
     setSolveStartTimestamp(undefined)
     setInspectionStartTimestamp(undefined)
     setCurrentTimestamp(undefined)
@@ -81,11 +82,13 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
   }, [scramble, status])
 
   useEffect(() => {
-    if (status === 'inspecting') setInspectionStartTimestamp(performance.now())
+    // we need request animation frame here to prevent these timestamps from getting ahead of current timestamp
+    if (status === 'inspecting') requestAnimationFrame(() => setInspectionStartTimestamp(performance.now()))
   }, [status])
 
   useEffect(() => {
-    if (status === 'solving') setSolveStartTimestamp(performance.now())
+    // we need request animation frame here to prevent these timestamps from getting ahead of current timestamp
+    if (status === 'solving') requestAnimationFrame(() => setSolveStartTimestamp(performance.now()))
   }, [status])
 
   useEffect(() => {
@@ -146,7 +149,6 @@ export function Simulator({ scramble, onFinish }: SimulatorProps) {
   const displayedScramble = ['idle', 'ready'].includes(status) ? undefined : scramble
   useSimulator(containerRef, moveHandler, displayedScramble)
 
-  // TODO: fix race condition (negative time)
   return (
     <>
       <span className='fixed bottom-24 left-1/2 -translate-x-1/2 text-5xl'>
