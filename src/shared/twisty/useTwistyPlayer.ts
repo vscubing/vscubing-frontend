@@ -3,6 +3,7 @@ import { type PuzzleID, TwistyPlayer, Alg, LineComment, getSolveAnalyzer, Newlin
 import { puzzles } from '@vscubing/cubing/puzzles'
 import { useState, useEffect } from 'react'
 import { formatSolveTime } from '@/utils'
+import { Move, Pause } from '@vscubing/cubing/alg'
 
 export function useTwistyPlayer({
   scramble,
@@ -33,6 +34,11 @@ export function useTwistyPlayer({
         alg: await ANALYZERS_MAP[discipline](scramble, solution),
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
+
+      // @ts-expect-error idk
+      newPlayer.experimentalModel.animationTimelineLeavesRequest.set(getAnimLeaves(solution))
+      console.log(getAnimLeaves(solution))
+
       setPlayer(newPlayer)
       return () => setPlayer(null)
     })()
@@ -98,5 +104,40 @@ const ANALYZERS_MAP = {
 } satisfies Record<Discipline, (scramble: string, solutionWithTimings: string) => Promise<Alg>>
 
 function removeComments(moves: string): string {
-  return moves.replace(/\/\*\d+?\*\//g, '')
+  return moves.replace(/\/\*\d+?\*\//g, '').trim()
+}
+
+function getAnimLeaves(solutionWithTimings: string) {
+  const cleanSolution = removeComments(solutionWithTimings)
+  const timings = solutionWithTimings
+    .split('*')
+    .filter((_, idx) => idx % 2 === 1)
+    .map(Number)
+
+  console.log(timings)
+  console.log(cleanSolution.split('  '))
+  const noPauses = cleanSolution.split('  ').map((move, idx) => {
+    const animLeaf = new Move(move[0], getModifier(move))
+
+    const start = timings[idx]
+    const end = start === 0 ? 0 : start + 100
+
+    return { animLeaf, start, end }
+  })
+
+  const res = [noPauses[0]]
+  for (let i = 1; i < noPauses.length; i++) {
+    // @ts-expect-error idk
+    res.push({ animLeaf: new Pause(), start: noPauses[i - 1].end, end: noPauses[i].start })
+    res.push(noPauses[i])
+  }
+
+  return res
+}
+
+function getModifier(move: string) {
+  if (!move[1]) return 1
+  if (move[1] === "'") return -1
+  if (move[1] === '2') return 2
+  throw new Error(`invalid move ${move}`)
 }
