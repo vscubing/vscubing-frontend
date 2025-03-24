@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import { formatSolveTime } from '@/utils'
 import { Move, Pause } from '@vscubing/cubing/alg'
 
+// TODO: validate timestamps beforehand
+
 export function useTwistyPlayer({
   scramble,
   solution,
