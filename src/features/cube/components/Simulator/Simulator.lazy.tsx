@@ -25,7 +25,7 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
   const [inspectionStartTimestamp, setInspectionStartTimestamp] = useState<number>()
   const [solveStartTimestamp, setSolveStartTimestamp] = useState<number>()
   const [currentTimestamp, setCurrentTimestamp] = useState<number>()
-  const [solution, setSolution] = useState<{ move: Move; timestamp: number }[]>()
+  const [solution, setSolution] = useState<{ move: Move; timestamp: number }[]>([])
 
   const [heard8sAlert, setHeard8sAlert] = useState(false)
   const [heard12sAlert, setHeard12sAlert] = useState(false)
@@ -63,13 +63,13 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
   useEffect(() => {
     if (status !== 'inspecting') return
 
-    requestAnimationFrame(() => setInspectionStartTimestamp(performance.now())) // we need requestAnimationFrame here to prevent these timestamps from getting ahead of current timestamp
+    requestAnimationFrame(() => setInspectionStartTimestamp(getCurrentTimestamp())) // we need requestAnimationFrame here to prevent these timestamps from getting ahead of current timestamp
     onInspectionStart()
   }, [status, onInspectionStart])
 
   useEffect(() => {
     if (status !== 'solving') return
-    requestAnimationFrame(() => setSolveStartTimestamp(performance.now())) // we need requestAnimationFrame here to prevent these timestamps from getting ahead of current timestamp
+    requestAnimationFrame(() => setSolveStartTimestamp(getCurrentTimestamp())) // we need requestAnimationFrame here to prevent these timestamps from getting ahead of current timestamp
   }, [status])
 
   useEffect(() => {
@@ -79,45 +79,36 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
     requestAnimationFrame(function runningThread() {
       if (abortSignal.signal.aborted) return
 
-      setCurrentTimestamp(performance.now())
+      setCurrentTimestamp(getCurrentTimestamp())
       requestAnimationFrame(runningThread)
     })
 
     return () => abortSignal.abort()
   }, [status])
 
+  const elapsedInspectionMs =
+    currentTimestamp && inspectionStartTimestamp ? currentTimestamp - inspectionStartTimestamp : undefined
   useEffect(() => {
-    if (status !== 'inspecting') return
-    if (!inspectionStartTimestamp || !currentTimestamp) return
+    if (status !== 'inspecting' || !elapsedInspectionMs) return
 
-    const inspectionMs = currentTimestamp - inspectionStartTimestamp
-
-    if (inspectionMs >= 7_900 && !heard8sAlert) {
+    if (elapsedInspectionMs >= 7_900 && !heard8sAlert) {
       void VOICE_ALERTS[settings.inspectionVoiceAlert]['8s'].play()
       setHeard8sAlert(true)
     }
-    if (inspectionMs >= 11_900 && !heard12sAlert) {
+    if (elapsedInspectionMs >= 11_900 && !heard12sAlert) {
       void VOICE_ALERTS[settings.inspectionVoiceAlert]['12s'].play()
       setHeard12sAlert(true)
     }
-    if (inspectionMs > INSPECTION_DNF_THRESHHOLD_MS) {
+    if (elapsedInspectionMs > INSPECTION_DNF_THRESHHOLD_MS) {
       onSolveFinish({ isDnf: true })
       setStatus('idle')
     }
-  }, [
-    status,
-    inspectionStartTimestamp,
-    currentTimestamp,
-    onSolveFinish,
-    settings.inspectionVoiceAlert,
-    heard8sAlert,
-    heard12sAlert,
-  ])
+  }, [status, elapsedInspectionMs, heard12sAlert, heard8sAlert, onSolveFinish, settings.inspectionVoiceAlert])
 
   const moveHandler = useCallback<SimulatorMoveListener>(({ move, isRotation, isSolved }) => {
     setSolution((prev) => {
       if (!prev) throw new Error('[SIMULATOR] moves undefined')
-      return [...prev, { move, timestamp: performance.now() }]
+      return [...prev, { move, timestamp: getCurrentTimestamp() }]
     })
     setStatus((prevStatus) => {
       if (prevStatus === 'inspecting' && !isRotation) {
@@ -131,14 +122,15 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
 
   useEffect(() => {
     if (status !== 'solved') return
-    if (!solution || !currentTimestamp || !solveStartTimestamp || !inspectionStartTimestamp)
+    const lastMoveTimestamp = solution.at(-1)?.timestamp
+    if (!solution || !lastMoveTimestamp || !currentTimestamp || !solveStartTimestamp || !inspectionStartTimestamp)
       throw new Error(
         `[SIMULATOR] invalid solved state. solution: ${solution?.toString()}, currentTimestamp: ${currentTimestamp}, solveStartTimestamp: ${solveStartTimestamp}, inspectionStartTimestamp: ${inspectionStartTimestamp}`,
       )
 
-    const inspectionMs = solveStartTimestamp - inspectionStartTimestamp
-    const rawSolveTimeMs = solution.at(-1)!.timestamp - solveStartTimestamp
-    const penalty = inspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS ? 2_000 : 0
+    const totalInspectionMs = solveStartTimestamp - inspectionStartTimestamp
+    const rawSolveTimeMs = lastMoveTimestamp - solveStartTimestamp
+    const penalty = totalInspectionMs > INSPECTION_PLUS_TWO_THRESHHOLD_MS ? 2_000 : 0
 
     const reconstruction = solution
       .map(({ move, timestamp }) => `${move} /*${Math.max(timestamp - solveStartTimestamp, 0)}*/`)
@@ -173,4 +165,8 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
       </div>
     </>
   )
+}
+
+function getCurrentTimestamp() {
+  return Math.floor(performance.now())
 }
