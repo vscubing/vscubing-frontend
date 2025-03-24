@@ -35,7 +35,7 @@ export function useTwistyPlayer({
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
 
-      // @ts-expect-error cubing.js bundling issue (Pause$1 and Move$1) https://github.com/cubing/cubing.js/issues/341
+      // @ts-expect-error NOTE: cubing.js bundling issue (Pause$1 and Move$1) https://github.com/cubing/cubing.js/issues/341
       newPlayer.experimentalModel.animationTimelineLeavesRequest.set(getAnimLeaves(solution))
 
       setPlayer(newPlayer)
@@ -103,7 +103,10 @@ const ANALYZERS_MAP = {
 } satisfies Record<Discipline, (scramble: string, solutionWithTimings: string) => Promise<Alg>>
 
 function removeComments(moves: string): string {
-  return moves.replace(/\/\*\d+?\*\//g, '').trim()
+  return moves
+    .replace(/\/\*\d+?\*\//g, '')
+    .trim()
+    .replaceAll('  ', ' ') // TODO: we shouldn't need this, investigate discrepancies between cstimer and phpless-cstimer
 }
 
 function getAnimLeaves(solutionWithTimings: string) {
@@ -113,7 +116,7 @@ function getAnimLeaves(solutionWithTimings: string) {
     .filter((_, idx) => idx % 2 === 1)
     .map(Number)
 
-  const noPauses = cleanSolution.split('  ').map((move, idx) => {
+  const noPauses = cleanSolution.split(' ').map((move, idx) => {
     const animLeaf = new Move(move)
     const start = timings[idx]
     const end = start === 0 ? 0 : start + 100
@@ -130,4 +133,5 @@ function getAnimLeaves(solutionWithTimings: string) {
   return res
 }
 
+// NOTE: use original type once available
 type AnimationTimelineLeaf = { animLeaf: Pause | Move; start: number; end: number }
