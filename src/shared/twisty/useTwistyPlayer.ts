@@ -5,9 +5,6 @@ import { useState, useEffect } from 'react'
 import { formatSolveTime } from '@/utils'
 import { Move, Pause } from '@vscubing/cubing/alg'
 
-// TODO: fix typescript errors
-// TODO: get slice and fat moves to work
-
 export function useTwistyPlayer({
   scramble,
   solution,
@@ -38,7 +35,7 @@ export function useTwistyPlayer({
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
 
-      // @ts-expect-error idk
+      // @ts-expect-error cubing.js bundling issue (Pause$1 and Move$1) https://github.com/cubing/cubing.js/issues/341
       newPlayer.experimentalModel.animationTimelineLeavesRequest.set(getAnimLeaves(solution))
 
       setPlayer(newPlayer)
@@ -117,17 +114,15 @@ function getAnimLeaves(solutionWithTimings: string) {
     .map(Number)
 
   const noPauses = cleanSolution.split('  ').map((move, idx) => {
-    const animLeaf = new Move(move[0], getModifier(move))
-
+    const animLeaf = new Move(move)
     const start = timings[idx]
     const end = start === 0 ? 0 : start + 100
 
     return { animLeaf, start, end }
   })
 
-  const res = [noPauses[0]]
+  const res: AnimationTimelineLeaf[] = [noPauses[0]]
   for (let i = 1; i < noPauses.length; i++) {
-    // @ts-expect-error idk
     res.push({ animLeaf: new Pause(), start: noPauses[i - 1].end, end: noPauses[i].start })
     res.push(noPauses[i])
   }
@@ -135,9 +130,4 @@ function getAnimLeaves(solutionWithTimings: string) {
   return res
 }
 
-function getModifier(move: string) {
-  if (!move[1]) return 1
-  if (move[1] === "'") return -1
-  if (move[1] === '2') return 2
-  throw new Error(`invalid move ${move}`)
-}
+type AnimationTimelineLeaf = { animLeaf: Pause | Move; start: number; end: number }
