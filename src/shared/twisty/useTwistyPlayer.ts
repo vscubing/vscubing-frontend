@@ -5,6 +5,9 @@ import { useState, useEffect } from 'react'
 import { formatSolveTime } from '@/utils'
 import { Move, Pause } from '@vscubing/cubing/alg'
 
+// TODO: fix typescript errors
+// TODO: get slice and fat moves to work
+
 export function useTwistyPlayer({
   scramble,
   solution,
@@ -37,7 +40,6 @@ export function useTwistyPlayer({
 
       // @ts-expect-error idk
       newPlayer.experimentalModel.animationTimelineLeavesRequest.set(getAnimLeaves(solution))
-      console.log(getAnimLeaves(solution))
 
       setPlayer(newPlayer)
       return () => setPlayer(null)
@@ -114,8 +116,6 @@ function getAnimLeaves(solutionWithTimings: string) {
     .filter((_, idx) => idx % 2 === 1)
     .map(Number)
 
-  console.log(timings)
-  console.log(cleanSolution.split('  '))
   const noPauses = cleanSolution.split('  ').map((move, idx) => {
     const animLeaf = new Move(move[0], getModifier(move))
 
