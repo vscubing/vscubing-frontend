@@ -1,5 +1,5 @@
 import { usePostSolveResult, useSolveAction } from '../api'
-import { type CubeSolveResult, useCube } from '@/features/cube'
+import { type SolveResult, useCube } from '@/features/cube'
 import { type SolveContestStateDTO } from '../types'
 import { CurrentSolve } from './CurrentSolve'
 import { Progress } from './Progress'
@@ -27,7 +27,7 @@ export function SolveContestForm({ state: { currentSolve, submittedSolveSet }, i
   const [seenDiscordInvite, setSeenDiscordInvite] = useLocalStorage('vs-seenDiscordInvite', false)
 
   function handleInitSolve() {
-    const onSolveFinish = async (result: CubeSolveResult) => {
+    const onSolveFinish = async (result: SolveResult) => {
       await postSolveResult({ scrambleId: currentSolve.scramble.id, result })
     }
 
