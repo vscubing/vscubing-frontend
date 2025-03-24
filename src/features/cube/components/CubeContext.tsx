@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { type InitSolveData, type SolveFinishCallback } from './Simulator.lazy'
+import { type InitSolveData, type SolveFinishCallback } from './Simulator/Simulator.lazy'
 
 type CubeContextValue = {
   initSolve: (data: InitSolveData, onSolveFinish: SolveFinishCallback) => void
