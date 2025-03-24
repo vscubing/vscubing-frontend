@@ -161,7 +161,7 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
             Press space to scramble the cube and start the preinspection
           </span>
         )}
-        <div className='h-[60%] [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
+        <div className='h-[60%] outline-none [&>div]:flex' tabIndex={-1} ref={containerRef}></div>
       </div>
     </>
   )
