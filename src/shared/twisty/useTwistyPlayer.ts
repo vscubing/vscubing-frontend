@@ -37,7 +37,6 @@ export function useTwistyPlayer({
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
 
-      // @ts-expect-error NOTE: cubing.js bundling issue (Pause$1 and Move$1) https://github.com/cubing/cubing.js/issues/341
       newPlayer.experimentalModel.animationTimelineLeavesRequest.set(getAnimLeaves(solution))
 
       setPlayer(newPlayer)
