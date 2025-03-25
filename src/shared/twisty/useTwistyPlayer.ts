@@ -28,16 +28,18 @@ export function useTwistyPlayer({
         throw new Error(`invalid discipline: ${discipline}`)
       }
 
+      const animationLeaves = getAnimLeaves(solution)
+
       const newPlayer = new TwistyPlayer({
         controlPanel: 'none',
         background: 'none',
         visualization: 'PG3D',
         experimentalSetupAlg: scramble,
-        alg: await ANALYZERS_MAP[discipline](scramble, solution),
+        alg: new Alg([...animationLeaves.map(({ animLeaf }) => animLeaf)]),
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
 
-      newPlayer.experimentalModel.animationTimelineLeavesRequest.set(getAnimLeaves(solution))
+      newPlayer.experimentalModel.animationTimelineLeavesRequest.set(animationLeaves)
 
       setPlayer(newPlayer)
       return () => setPlayer(null)
@@ -111,14 +113,16 @@ function removeComments(moves: string): string {
 }
 
 function getAnimLeaves(solutionWithTimings: string) {
-  const cleanSolution = removeComments(solutionWithTimings)
+  const alg = Alg.fromString(removeComments(solutionWithTimings))
+  const algNodes = Array.from(alg.childAlgNodes())
+
   const timings = solutionWithTimings
     .split('*')
     .filter((_, idx) => idx % 2 === 1)
     .map(Number)
 
-  const noPauses = cleanSolution.split(' ').map((move, idx) => {
-    const animLeaf = new Move(move)
+  const noPauses = algNodes.map((algNode, idx) => {
+    const animLeaf = algNode
     const start = timings[idx]
     const end = start === 0 ? 0 : start + 120
 
