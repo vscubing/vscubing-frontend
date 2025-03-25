@@ -121,15 +121,22 @@ function getAnimLeaves(solutionWithTimings: string) {
   const noPauses = cleanSolution.split(' ').map((move, idx) => {
     const animLeaf = new Move(move)
     const start = timings[idx]
-    const end = start === 0 ? 0 : start + 100
+    const end = start === 0 ? 0 : start + 120
 
     return { animLeaf, start, end }
   })
 
   const res: AnimationTimelineLeaf[] = [noPauses[0]]
   for (let i = 1; i < noPauses.length; i++) {
-    res.push({ animLeaf: new Pause(), start: noPauses[i - 1].end, end: noPauses[i].start })
-    res.push(noPauses[i])
+    const prev = noPauses[i - 1]
+    const cur = noPauses[i]
+
+    if (prev.end >= cur.start) {
+      prev.end = cur.start
+    } else {
+      res.push({ animLeaf: new Pause(), start: prev.end, end: cur.start })
+    }
+    res.push(cur)
   }
 
   return res
