@@ -110,23 +110,13 @@ function constructLeaves(solution: Alg, timings: number[]): AnimationTimelineLea
   })
 }
 
-function removeComments(moves: string): string {
-  return moves
-    .replace(/\/\*\d+?\*\//g, '')
-    .trim()
-    .replaceAll('  ', ' ') // TODO: we shouldn't need this, investigate discrepancies between cstimer and phpless-cstimer
-}
-
-// NOTE: use original type once available
-type AnimationTimelineLeaf = { animLeaf: Pause | Move; start: number; end: number }
-
 function trimOverlapping(leaves: AnimationTimelineLeaf[]): AnimationTimelineLeaf[] {
   return leaves.map((leaf, idx) => {
-    const nextLeaf = leaves[idx]
+    const nextLeaf = leaves[idx + 1]
     if (!nextLeaf) return leaf
 
-    const end = Math.min(leaf.end, nextLeaf.end)
-    return { animLeaf: leaf.animLeaf, start: leaf.start, end }
+    const end = Math.min(leaf.end, nextLeaf.start)
+    return { ...leaf, end }
   })
 }
 
@@ -155,8 +145,8 @@ function annotateMoves(continuousLeaves: AnimationTimelineLeaf[], signaturesWith
 
     const comment = signaturesWithDurations[realIdx]
     if (comment !== null) {
-      res.push({ animLeaf: new LineComment(comment), start: leaf.start, end: leaf.end })
-      res.push({ animLeaf: new Newline(), start: leaf.start, end: leaf.end })
+      res.push({ ...leaf, animLeaf: new LineComment(comment) })
+      res.push({ ...leaf, animLeaf: new Newline() })
     }
     realIdx++
   }
@@ -218,3 +208,13 @@ function debugLeaves(animationLeaves: AnimationTimelineLeaf[]) {
 //     return new Promise((resolve) => resolve(alg))
 //   },
 // } satisfies Record<Discipline, (scramble: string, solutionWithTimings: string) => Promise<Alg>>
+
+function removeComments(moves: string): string {
+  return moves
+    .replace(/\/\*\d+?\*\//g, '')
+    .trim()
+    .replaceAll('  ', ' ') // TODO: we shouldn't need this, investigate discrepancies between cstimer and phpless-cstimer
+}
+
+// NOTE: use original type once available
+type AnimationTimelineLeaf = { animLeaf: Pause | Move; start: number; end: number }
