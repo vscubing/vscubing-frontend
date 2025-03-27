@@ -9,30 +9,38 @@ export function ContactsSection({ id }: { id: string }) {
     <Container>
       <section id={id} className='landing-offset-anchor'>
         <div className='grid grid-cols-2 grid-rows-[30rem] gap-3 md:grid-cols-1 md:grid-rows-[30rem,30rem] sm:grid-rows-none'>
-          <div className='relative sm:rounded-3xl sm:px-4 sm:pb-4 sm:pt-15 sm:[background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)]'>
+          <div className='group relative sm:rounded-3xl sm:px-4 sm:pb-4 sm:pt-15 glass-effect hover-glow transition-all duration-500'>
             <div
-              className='flex h-full flex-col justify-center px-10 pb-28 pt-14 [background:linear-gradient(119deg,_rgba(54,60,64,1)_16%,rgba(27,30,37,1)_80%)] sm:h-auto sm:bg-none sm:p-0'
+              className='flex h-full flex-col justify-center px-10 pb-28 pt-14 sm:h-auto sm:bg-none sm:p-0'
               style={{ clipPath: matchesQuery('sm') ? 'none' : CLIP_PATH_POLYGON }}
             >
               <h2 className='landing-h2 mb-6'>
-                Join <span className='landing-h3 text-grey-40'>our</span> growing community{' '}
+                Join <span className='landing-h3 text-grey-40'>our</span>{' '}
+                <span className='text-gradient animate-pulse-glow'>growing community</span>{' '}
                 <span className='landing-h3 text-grey-40'>of</span>&nbsp;virtual speedcubers!
               </h2>
-              <p>Share your solves, discuss strategies, and connect with fellow enthusiasts</p>
+              <p className='text-grey-40 group-hover:text-white-100 transition-colors duration-300'>
+                Share your solves, discuss strategies, and connect with fellow enthusiasts
+              </p>
             </div>
             <PrimaryButton
               asChild
-              className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full sm:rounded-xl'
+              className='sm:h-22 group absolute bottom-0 right-0 h-[5.95rem] w-[21.2rem] rounded-3xl sm:static sm:mt-14 sm:w-full sm:rounded-xl hover-lift'
             >
               <a href='https://discord.gg/PxFrW9vTAy' target='_blank'>
                 Join us on Discord{' '}
-                <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg]' />
+                <DiscordIcon className='transition-base ml-4 origin-top-right text-4xl group-hover:rotate-[-20deg] animate-float' />
               </a>
             </PrimaryButton>
           </div>
-          <div className='relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80 md:row-start-1 sm:py-12'>
+          <div className='group relative flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80/30 md:row-start-1 sm:py-12 glass-effect hover-glow transition-all duration-500'>
             <AnimatedBackground />
-            <img src={contactsPeopleImg} loading='lazy' alt='people with cubes' className='relative max-w-[80%]' />
+            <img 
+              src={contactsPeopleImg} 
+              loading='lazy' 
+              alt='people with cubes' 
+              className='relative max-w-[80%] group-hover:scale-105 transition-transform duration-500' 
+            />
           </div>
         </div>
       </section>
@@ -43,13 +51,13 @@ export function ContactsSection({ id }: { id: string }) {
 function AnimatedBackground() {
   return (
     <>
-      <AnimatedBlob fromLeft='-15%' fromTop='-5%' toLeft='-18%' toTop='50%' className='h-[58%] bg-secondary-40' />
-      <AnimatedBlob fromLeft='30%' fromTop='-30%' toLeft='80%' toTop='-20%' className='h-[58%] bg-secondary-20' />
-      <AnimatedBlob fromLeft='80%' fromTop='65%' toLeft='40%' toTop='65%' className='h-[58%] bg-primary-80' />
-      <AnimatedBlob fromLeft='-12%' fromTop='62%' toLeft='-12%' toTop='-27%' className='h-[58%] bg-primary-60' />
-      <AnimatedBlob fromLeft='75%' fromTop='-8%' toLeft='85%' toTop='35%' className='h-[58%] bg-primary-80' />
-      <AnimatedBlob fromLeft='38%' fromTop='65%' toLeft='20%' toTop='20%' className='h-[58%] bg-secondary-40' />
-      <AnimatedBlob fromLeft='28%' fromTop='8%' toLeft='40%' toTop='-45%' className='h-[58%] bg-primary-100' />
+      <AnimatedBlob fromLeft='-15%' fromTop='-5%' toLeft='-18%' toTop='50%' className='h-[58%] bg-secondary-40/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='30%' fromTop='-30%' toLeft='80%' toTop='-20%' className='h-[58%] bg-secondary-20/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='80%' fromTop='65%' toLeft='40%' toTop='65%' className='h-[58%] bg-primary-80/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='-12%' fromTop='62%' toLeft='-12%' toTop='-27%' className='h-[58%] bg-primary-60/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='75%' fromTop='-8%' toLeft='85%' toTop='35%' className='h-[58%] bg-primary-80/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='38%' fromTop='65%' toLeft='20%' toTop='20%' className='h-[58%] bg-secondary-40/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='28%' fromTop='8%' toLeft='40%' toTop='-45%' className='h-[58%] bg-primary-100/30 animate-pulse-glow' />
     </>
   )
 }

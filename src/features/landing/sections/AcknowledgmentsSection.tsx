@@ -7,8 +7,8 @@ export function AcknowledgmentsSection() {
   return (
     <Container>
       <section>
-        <h2 className='landing-h2 mb-4 text-center'>Acknowledgments</h2>
-        <p className='mb-14 text-center sm:mb-10'>
+        <h2 className='landing-h2 mb-4 text-center text-gradient animate-pulse-glow'>Acknowledgments</h2>
+        <p className='mb-14 text-center text-grey-40 sm:mb-10'>
           Special thanks to the incredible tools and platforms that power our project
         </p>
         <div className='grid grid-cols-3 gap-3 md:mx-auto md:max-w-[40rem] md:grid-cols-1'>
@@ -48,14 +48,14 @@ function Acknowledgment({
   description: string
 }) {
   return (
-    <div className='rounded-3xl bg-black-100 p-10 sm:p-6'>
+    <div className='group rounded-3xl bg-black-100/50 p-10 sm:p-6 glass-effect hover-glow card-hover transition-all duration-500'>
       <a href={link} className='group mb-4 inline-flex items-end gap-2'>
-        <span className='flex h-[3.375rem] w-[3.375rem] items-center justify-center rounded-2xl bg-white-100'>
-          <img src={logoImg} alt={name} />
+        <span className='flex h-[3.375rem] w-[3.375rem] items-center justify-center rounded-2xl bg-white-100/10 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300'>
+          <img src={logoImg} alt={name} className='group-hover:brightness-110 transition-all duration-300' />
         </span>
-        <span className='text-primary-60 group-hover:underline'>{name}</span>
+        <span className='text-primary-60 group-hover:text-primary-40 transition-colors duration-300'>{name}</span>
       </a>
-      <p>{description}</p>
+      <p className='text-grey-40 group-hover:text-white-100 transition-colors duration-300'>{description}</p>
     </div>
   )
 }

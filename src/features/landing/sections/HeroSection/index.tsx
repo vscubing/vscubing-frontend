@@ -23,30 +23,32 @@ export function HeroSection() {
                     ? CLIP_PATH_POLYGON.LG
                     : CLIP_PATH_POLYGON.XL,
             }}
-            className='row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10 [background:linear-gradient(159deg,rgba(73,76,116,1)_0%,rgba(27,30,37,1)_71%)] lg:col-span-2 lg:row-span-1 md:px-6 md:pt-32 sm:px-4 sm:pb-4 sm:pt-20'
+            className='group row-span-2 flex h-full flex-col items-start justify-center rounded-3xl p-10 bg-gradient-animated glass-effect hover-glow transition-all duration-500 lg:col-span-2 lg:row-span-1 md:px-6 md:pt-32 sm:px-4 sm:pb-4 sm:pt-20'
           >
             <h1 className='landing-h1 mb-10 flex flex-wrap text-white-100 sm:block sm:leading-[1.3]'>
               <span className='whitespace-nowrap sm:mr-2 sm:whitespace-normal'>
-                Join <span className='landing-h3 text-grey-40'>the</span> exciting world
+                Join <span className='landing-h3 text-grey-40'>the</span>{' '}
+                <span className='text-gradient animate-pulse-glow'>exciting</span> world
               </span>
               <span className='whitespace-nowrap sm:whitespace-normal'>
                 <span className='landing-h3 text-grey-40 sm:mr-1'>of</span>{' '}
-                <StopwatchIcon className='-mt-2 inline sm:w-11' /> virtual speedcubing
+                <StopwatchIcon className='-mt-2 inline sm:w-11 animate-float' />
+                <span className='text-gradient'>virtual speedcubing</span>
               </span>
             </h1>
-            <p className='mb-6 flex items-center gap-2 text-white-100 '>
+            <p className='mb-6 flex items-center gap-2 text-white-100'>
               <AlternatingText text1='Improve' text2='Compete' text3='Have fun' />{' '}
-              <span className='text-[1.125rem]'>with our online contests</span>
+              <span className='text-[1.125rem] animate-shimmer'>with our online contests</span>
             </p>
-            <StaticLinkToApp className='h-[4.5rem] px-20 sm:h-[4.5rem] sm:w-full' />
+            <StaticLinkToApp className='h-[4.5rem] px-20 sm:h-[4.5rem] sm:w-full hover-lift' />
           </div>
 
-          <div className='flex aspect-square w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4 lg:mt-[-19rem] lg:aspect-square lg:w-auto md:mt-[-13rem] sm:mt-0'>
+          <div className='flex aspect-square w-[21rem] shrink-0 flex-col items-center justify-center rounded-3xl bg-black-100 pb-4 lg:mt-[-19rem] lg:aspect-square lg:w-auto md:mt-[-13rem] sm:mt-0 glass-effect hover-glow transition-all duration-500'>
             <Suspense fallback={<LoadingSpinner />}>
               <TwistySection />
             </Suspense>
           </div>
-          <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80 lg:col-start-1 lg:row-start-2 lg:ml-0 sm:hidden'>
+          <div className='relative -ml-[22rem] flex items-center justify-center overflow-clip rounded-3xl bg-secondary-80/30 lg:col-start-1 lg:row-start-2 lg:ml-0 sm:hidden glass-effect'>
             <AnimatedBackground />
             <ul className='absolute grid -rotate-[18deg] grid-cols-[repeat(10,auto)] gap-1 lg:scale-75 md:scale-50'>
               {KEY_MAP.map(({ keyName, cubeMovement }) => (
@@ -54,7 +56,7 @@ export function HeroSection() {
                   key={keyName}
                   keyName={keyName}
                   cubeMovement={cubeMovement}
-                  className='h-12 w-12 rounded-lg py-1 pl-2 pr-2 text-sm'
+                  className='h-12 w-12 rounded-lg py-1 pl-2 pr-2 text-sm hover-lift transition-all duration-300'
                 />
               ))}
             </ul>
@@ -67,14 +69,14 @@ export function HeroSection() {
 
 function AlternatingText({ text1, text2, text3 }: { text1: string; text2: string; text3: string }) {
   return (
-    <span className='relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20 text-center text-[1.125rem] font-medium'>
-      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased]'>
+    <span className='relative inline-block h-9 w-[6.5rem] overflow-y-clip rounded-xl border border-secondary-20/50 text-center text-[1.125rem] font-medium glass-effect'>
+      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] text-gradient'>
         {text1}
       </span>
-      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] [animation-delay:-2s]'>
+      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] [animation-delay:-2s] text-gradient'>
         {text2}
       </span>
-      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] [animation-delay:-4s]'>
+      <span className='absolute left-0 h-9 w-full animate-landing-alternating-text pt-[.32em] [-webkit-font-smoothing:subpixel-antialiased] [animation-delay:-4s] text-gradient'>
         {text3}
       </span>
     </span>
@@ -84,12 +86,12 @@ function AlternatingText({ text1, text2, text3 }: { text1: string; text2: string
 function AnimatedBackground() {
   return (
     <>
-      <AnimatedBlob fromLeft='-10%' fromTop='-30%' toLeft='60%' toTop='-80%' className='h-[110%] bg-secondary-40' />
-      <AnimatedBlob fromLeft='70%' fromTop='-38%' toLeft='15%' toTop='120%' className='h-[110%] bg-primary-100' />
-      <AnimatedBlob fromLeft='28%' fromTop='-34%' toLeft='-10%' toTop='25%' className='h-[110%] bg-secondary-20' />
-      <AnimatedBlob fromLeft='68%' fromTop='30%' toLeft='30%' toTop='-3%' className='h-[110%] bg-primary-80' />
-      <AnimatedBlob fromLeft='-5%' fromTop='55%' toLeft='-8%' toTop='-95%' className='h-[110%] bg-primary-60' />
-      <AnimatedBlob fromLeft='28%' fromTop='20%' toLeft='80%' toTop='30%' className='h-[110%] bg-secondary-40' />
+      <AnimatedBlob fromLeft='-10%' fromTop='-30%' toLeft='60%' toTop='-80%' className='h-[110%] bg-secondary-40/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='70%' fromTop='-38%' toLeft='15%' toTop='120%' className='h-[110%] bg-primary-100/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='28%' fromTop='-34%' toLeft='-10%' toTop='25%' className='h-[110%] bg-secondary-20/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='68%' fromTop='30%' toLeft='30%' toTop='-3%' className='h-[110%] bg-primary-80/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='-5%' fromTop='55%' toLeft='-8%' toTop='-95%' className='h-[110%] bg-primary-60/30 animate-pulse-glow' />
+      <AnimatedBlob fromLeft='28%' fromTop='20%' toLeft='80%' toTop='30%' className='h-[110%] bg-secondary-40/30 animate-pulse-glow' />
     </>
   )
 }
