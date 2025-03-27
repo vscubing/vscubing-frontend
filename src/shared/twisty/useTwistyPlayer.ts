@@ -37,7 +37,11 @@ export function useTwistyPlayer({
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
 
-      newPlayer.experimentalModel.animationTimelineLeavesRequest.set(animLeaves)
+      if (animLeaves) {
+        newPlayer.experimentalModel.animationTimelineLeavesRequest.set(
+          animLeaves,
+        )
+      }
 
       setPlayer(newPlayer)
       return () => setPlayer(null)

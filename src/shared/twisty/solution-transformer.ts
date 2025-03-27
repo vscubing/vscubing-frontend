@@ -1,7 +1,11 @@
 import { formatSolveTime } from '@/utils/formatSolveTime'
 import { type AlgNode, Move, Pause } from '@vscubing/cubing/alg'
 import { puzzles } from '@vscubing/cubing/puzzles'
-import { Alg, getSolveAnalyzer, LineComment } from '@vscubing/cubing/twisty'
+import {
+  type AnimationTimelineLeaf,
+  getSolveAnalyzer,
+} from '@vscubing/cubing/twisty'
+import { Alg, LineComment } from '@vscubing/cubing/alg'
 
 export async function doEverything(
   scramble: string,
@@ -96,12 +100,6 @@ function annotateMoves(
   return res
 }
 
-// NOTE: use original type once available
-type AnimationTimelineLeaf = {
-  animLeaf: Pause | Move
-  start: number
-  end: number
-}
 type AnimationTimelineLeafSlot = {
   animLeafType: typeof Pause | typeof Move
   start: number
