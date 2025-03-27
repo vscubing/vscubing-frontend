@@ -13,9 +13,9 @@ export function PlaceLabel({ children: place, linkToPage, className }: PlaceLabe
       // @ts-expect-error TODO: fix this later maybe
       search={linkToPage ? (prev) => ({ ...prev, page: linkToPage }) : undefined}
       className={cn(
-        'vertical-alignment-fix text-large flex h-11 w-11 items-center justify-center rounded-full border border-primary-60 sm:h-9 sm:w-9 sm:py-0',
+        'vertical-alignment-fix text-large flex h-11 w-11 items-center justify-center rounded-full border border-primary-60/50 bg-primary-60/10 backdrop-blur-sm sm:h-9 sm:w-9 sm:py-0',
         {
-          'transition-base outline-ring hover:border-primary-80 active:border-primary-80 active:text-primary-80':
+          'transition-all duration-300 hover:border-primary-60 hover:bg-primary-60/20 hover:scale-105 active:scale-95 active:border-primary-80 active:text-primary-80':
             !!linkToPage,
         },
         className,

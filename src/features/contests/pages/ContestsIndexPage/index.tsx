@@ -9,11 +9,11 @@ import { AutofillHeight, type ListWrapperProps, type ListProps } from '@/shared/
 
 import { ContestRowSkeleton as ContestSkeletonDesktop, ContestRow as ContestDesktop } from './Contest'
 import {
-  Contest as ContestMobile,
-  ContestSkeleton as ContestSkeletonMobile,
-  getInfiniteContestsQuery,
-  useAvailableDisciplines,
-  useContests,
+    Contest as ContestMobile,
+    ContestSkeleton as ContestSkeletonMobile,
+    getInfiniteContestsQuery,
+    useAvailableDisciplines,
+    useContests,
 } from '@/shared/contests'
 import { NotFoundHandler, PaginationInvalidPageHandler } from '@/shared/ErrorHandlers'
 import { HintSection } from '@/shared/HintSection'
@@ -101,10 +101,10 @@ function View({ withPagination = false, page, discipline: currentDiscipline, pag
   const title = 'Explore contests'
   const { data: availableDisciplines } = useAvailableDisciplines()
   return (
-    <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
+    <section className='flex flex-1 flex-col gap-3 sm:gap-2 animate-fade-in'>
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
-      <NavigateBackButton className='self-start' />
+      <NavigateBackButton className='self-start hover-lift-subtle' />
       <SectionHeader>
         <div className='flex gap-3'>
           {availableDisciplines?.map(({ slug: discipline }) => (
@@ -143,7 +143,7 @@ function ContestsList({
   }
 
   return (
-    <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
+    <div className='flex flex-1 flex-col gap-1 rounded-2xl glass-card p-6 sm:p-3 animate-slide-up'>
       <ContestsListHeader className='sm:hidden' />
       <AutofillHeight.ListWrapper
         containerRef={containerRef}

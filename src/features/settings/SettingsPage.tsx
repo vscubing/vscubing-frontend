@@ -84,19 +84,19 @@ function Select({
     <SelectPrimitive.Root value={value} onValueChange={(val) => onValueChange(val)}>
       <SelectPrimitive.Trigger
         className={cn(
-          'group flex h-12 min-w-[5.625rem] items-center justify-between gap-2 rounded-lg bg-black-100 px-4 text-left',
+          'group flex h-12 min-w-[5.625rem] items-center justify-between gap-2 rounded-lg bg-black-100/50 px-4 text-left hover:bg-black-100/70 transition-colors duration-300',
           className,
         )}
       >
-        <span className='text-large'>
+        <span className='text-large text-gradient-subtle'>
           <SelectPrimitive.Value />
         </span>
         <SelectPrimitive.Icon>
-          <ChevronDownIcon className='h-4 w-4 group-data-[state=open]:rotate-180' />
+          <ChevronDownIcon className='h-4 w-4 group-data-[state=open]:rotate-180 transition-transform duration-300' />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
       <SelectPrimitive.Content
-        className='mt-1 rounded-lg bg-black-100 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2'
+        className='mt-1 rounded-lg bg-black-100/90 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2'
         position='popper'
         style={{ width: 'var(--radix-select-trigger-width)' }}
       >
@@ -116,12 +116,12 @@ const SelectItem = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     className={cn(
-      'text-large flex w-full min-w-[5.625rem] cursor-pointer items-center rounded-lg px-4 py-[0.625rem] outline-none hover:bg-primary-100 active:bg-primary-100 data-[state=checked]:bg-primary-100',
+      'text-large flex w-full min-w-[5.625rem] cursor-pointer items-center rounded-lg px-4 py-[0.625rem] outline-none hover:bg-primary-100/20 active:bg-primary-100/30 data-[state=checked]:bg-primary-100/30 transition-colors duration-300',
       className,
     )}
     {...props}
     ref={ref}
   >
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    <SelectPrimitive.ItemText className='text-gradient-subtle'>{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ))

@@ -48,10 +48,10 @@ export function WatchSolvePage() {
   }
 
   return (
-    <section className='flex flex-1 flex-col gap-3'>
+    <section className='flex flex-1 flex-col gap-3 animate-fade-in'>
       <Header title='Watch the solution' />
 
-      <NavigateBackButton className='self-start' />
+      <NavigateBackButton className='self-start hover-lift-subtle' />
       <div className='grid flex-1 grid-cols-[1.22fr_1fr] grid-rows-[min-content,1fr] gap-3 lg:grid-cols-2 sm:grid-cols-1 sm:grid-rows-[min-content,min-content,1fr]'>
         <SectionHeader className='gap-4'>
           <CubeBadge cube={search.discipline} />
@@ -60,26 +60,26 @@ export function WatchSolvePage() {
               to='/contests/$contestSlug'
               search={{ discipline: search.discipline }}
               params={{ contestSlug: params.contestSlug }}
-              className='title-h2 mb-1 text-secondary-20'
+              className='title-h2 mb-1 text-gradient-subtle'
             >
               Contest {params.contestSlug}
             </Link>
             <p className='text-large'>Scramble {expandScramblePosition(res?.scramble.position)}</p>
           </div>
         </SectionHeader>
-        <div className='flex items-center justify-between rounded-2xl bg-black-80 px-4 py-2'>
+        <div className='flex items-center justify-between rounded-2xl glass-card px-4 py-2 animate-slide-up'>
           <div className='sm:min-h-14'>
-            <p className='title-h3 mb-1'>{res?.user.username}</p>
+            <p className='title-h3 mb-1 text-gradient-subtle'>{res?.user.username}</p>
             <p className='text-large text-grey-20'>{res ? formatSolveTime(res.timeMs) : null}</p>
           </div>
-          <SecondaryButton size='iconSm' onClick={copyWatchSolveLink}>
+          <SecondaryButton size='iconSm' onClick={copyWatchSolveLink} className='hover-lift-subtle'>
             <ShareIcon />
           </SecondaryButton>
         </div>
 
         <Suspense
           fallback={
-            <div className='col-span-full flex items-center justify-center rounded-2xl bg-black-80'>
+            <div className='col-span-full flex items-center justify-center rounded-2xl glass-card animate-slide-up'>
               <LoadingSpinner />
             </div>
           }

@@ -3,19 +3,19 @@ import { CubeSwitcher, OverlaySpinner } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
-  getContestResultsInfiniteQuery,
-  getContestResultsQuery,
-  type ContestResultsDTO,
-  type ContestSession,
+    getContestResultsInfiniteQuery,
+    getContestResultsQuery,
+    type ContestResultsDTO,
+    type ContestSession,
 } from '../../api'
 import { SessionSkeleton, Session } from './Session'
 import { SessionsListHeader } from './SessionsListHeader'
 import { type ReactNode } from 'react'
 import {
-  AutofillHeight,
-  type Behavior,
-  type ListWithPinnedItemProps,
-  type ListWrapperProps,
+    AutofillHeight,
+    type Behavior,
+    type ListWithPinnedItemProps,
+    type ListWrapperProps,
 } from '@/shared/autofillHeight'
 import { cn, formatContestDuration, matchesQuery } from '@/utils'
 import { useOngoingContest } from '@/shared/contests'
@@ -132,11 +132,11 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
   }
 
   return (
-    <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
+    <section className='flex flex-1 flex-col gap-3 sm:gap-2 animate-fade-in'>
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
 
-      <NavigateBackButton className='self-start' />
+      <NavigateBackButton className='self-start hover-lift-subtle' />
       <ErrorHandler error={error}>
         <SectionHeader className='gap-4 sm:gap-2 sm:px-4'>
           <div className='flex gap-3'>
@@ -152,7 +152,7 @@ function View({ pages, contest, children, error, behavior, errorCode }: ViewProp
             ))}
           </div>
           <div>
-            <h2 className='title-h2 mb-1'>Contest {contestSlug}</h2>
+            <h2 className='title-h2 mb-1 text-gradient-subtle'>Contest {contestSlug}</h2>
             <p className={cn('text-large min-w-1 text-grey-40', contestDuration ? undefined : 'opacity-0')}>
               {contestDuration ?? 'Loading...'}
             </p>
@@ -194,7 +194,7 @@ function SessionsList({
   }
 
   return (
-    <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
+    <div className='flex flex-1 flex-col gap-1 rounded-2xl glass-card p-6 sm:p-3 animate-slide-up'>
       <SessionsListHeader className='md:hidden' />
       <AutofillHeight.ListWrapper
         renderFakeElement={() => <SessionSkeleton />}

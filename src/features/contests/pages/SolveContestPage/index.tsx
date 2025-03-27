@@ -1,12 +1,12 @@
 import { Link, Navigate, getRouteApi } from '@tanstack/react-router'
 import {
-  CubeSwitcher,
-  Dialog,
-  DialogOverlay,
-  DialogPortal,
-  ExclamationCircleIcon,
-  LoadingSpinner,
-  PrimaryButton,
+    CubeSwitcher,
+    Dialog,
+    DialogOverlay,
+    DialogPortal,
+    ExclamationCircleIcon,
+    LoadingSpinner,
+    PrimaryButton,
 } from '@/components/ui'
 import { useLocalStorage } from 'usehooks-ts'
 import { Header, SectionHeader } from '@/components/layout'
@@ -26,11 +26,11 @@ export function SolveContestPage() {
   const title = <>Ongoing contest {duration && <span className='whitespace-nowrap'>({duration})</span>}</>
 
   return (
-    <section className='flex flex-1 flex-col gap-3'>
+    <section className='flex flex-1 flex-col gap-3 animate-fade-in'>
       <Header title={title} />
-      <h1 className='title-h2 hidden text-secondary-20 lg:block'>{title}</h1>
+      <h1 className='title-h2 hidden text-gradient-subtle lg:block'>{title}</h1>
 
-      <NavigateBackButton className='self-start' />
+      <NavigateBackButton className='self-start hover-lift-subtle' />
       <SolvePageContent />
     </section>
   )
@@ -83,7 +83,7 @@ export function SolvePageContent() {
 
   if (!state || isUserFetching || user?.isVerified === false) {
     return (
-      <div className='flex flex-1 items-center justify-center rounded-2xl bg-black-80'>
+      <div className='flex flex-1 items-center justify-center rounded-2xl glass-card animate-slide-up'>
         <LoadingSpinner />
       </div>
     )
@@ -114,7 +114,7 @@ export function SolvePageContent() {
         </div>
       </SectionHeader>
 
-      <div className='relative flex flex-1 flex-col rounded-2xl bg-black-80 pb-8 pt-7 xl-short:pb-6 xl-short:pt-4'>
+      <div className='relative flex flex-1 flex-col rounded-2xl glass-card pb-8 pt-7 xl-short:pb-6 xl-short:pt-4 animate-slide-up'>
         <Dialog>
           <KeyMapDialogTrigger className='absolute right-4 top-4' />
           <DialogPortal>
@@ -123,7 +123,7 @@ export function SolvePageContent() {
           </DialogPortal>
         </Dialog>
 
-        <p className='title-h2 mb-6 text-center text-secondary-20'>You have five attempts to solve the contest</p>
+        <p className='title-h2 mb-6 text-center text-gradient-subtle'>You have five attempts to solve the contest</p>
         <SolveContestForm state={state} isStateFetching={isStateFetching} />
       </div>
     </>

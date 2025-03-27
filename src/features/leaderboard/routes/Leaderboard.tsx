@@ -106,10 +106,10 @@ function View({ pages, children, behavior }: ViewProps) {
   const { data: availableDisciplines } = useAvailableDisciplines()
 
   return (
-    <section className='flex flex-1 flex-col gap-3 sm:gap-2'>
+    <section className='flex flex-1 flex-col gap-3 sm:gap-2 animate-fade-in'>
       <Header title={title} />
       <PageTitleMobile>{title}</PageTitleMobile>
-      <NavigateBackButton className='self-start' />
+      <NavigateBackButton className='self-start hover-lift-subtle' />
       <SectionHeader>
         <div className='flex gap-3'>
           {availableDisciplines?.map(({ slug: discipline }) => (
@@ -163,7 +163,7 @@ function ResultsList({
   }
 
   return (
-    <div className='flex flex-1 flex-col gap-1 rounded-2xl bg-black-80 p-6 sm:p-3'>
+    <div className='flex flex-1 flex-col gap-1 rounded-2xl glass-card glass-card-hover p-6 sm:p-3 animate-slide-up'>
       <ResultsHeader className='md:hidden' />
       <AutofillHeight.ListWrapper
         renderFakeElement={() => <ResultSkeleton />}

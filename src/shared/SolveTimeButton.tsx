@@ -6,13 +6,13 @@ import { type ReactNode, forwardRef, type ComponentProps } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
 const solveTimeButtonVariants = cva(
-  'transition-base outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100',
+  'transition-all duration-300 outline-ring after-border-bottom vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center hover:after:scale-x-100 hover:scale-105 active:scale-95',
   {
     variants: {
       variant: {
-        default: 'active:text-grey-20',
-        worst: 'text-red-80 active:text-red-100',
-        best: 'text-primary-80 active:text-primary-100',
+        default: 'active:text-grey-20 hover:text-grey-20',
+        worst: 'text-red-80 active:text-red-100 hover:text-red-100',
+        best: 'text-primary-80 active:text-primary-100 hover:text-primary-100',
       },
     },
     defaultVariants: {
@@ -58,11 +58,17 @@ export function SolveTimeLinkOrDnf({
   )
 }
 
-const solveTimeLabelVariants = cva('vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center', {
-  variants: {
-    variant: { average: 'text-yellow-100', dnf: 'text-red-80' },
+const solveTimeLabelVariants = cva(
+  'vertical-alignment-fix inline-flex h-8 min-w-24 items-center justify-center transition-all duration-300',
+  {
+    variants: {
+      variant: { 
+        average: 'text-yellow-100 hover:text-yellow-100 hover:scale-105 active:scale-95', 
+        dnf: 'text-red-80 hover:text-red-100 hover:scale-105 active:scale-95' 
+      },
+    },
   },
-})
+)
 type SolveTimeLabelProps = {
   timeMs?: number
   isDnf?: boolean

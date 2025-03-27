@@ -225,4 +225,60 @@
   .animate-landing-footer-cubes {
     animation: float 6s ease-in-out infinite;
   }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .hover-lift-subtle {
+    @apply transition-transform duration-300 hover:-translate-y-0.5;
+  }
+
+  .glass-card {
+    @apply border border-white-100 border-opacity-10 bg-white-100 bg-opacity-5 backdrop-blur-lg;
+  }
+
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:bg-white-100 hover:bg-opacity-10;
+  }
+
+  .card-hover-subtle {
+    @apply transition-all duration-300 hover:scale-[1.01] hover:shadow-lg;
+  }
+
+  .text-gradient-subtle {
+    @apply bg-gradient-to-r from-secondary-40/80 via-primary-60/80 to-secondary-40/80 bg-clip-text text-transparent;
+  }
+
+  .hover-glow-subtle {
+    @apply transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.1)];
+  }
+
+  .animate-landing-footer-cubes {
+    animation: float 8s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

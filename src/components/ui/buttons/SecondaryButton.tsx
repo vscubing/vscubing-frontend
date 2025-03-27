@@ -4,24 +4,27 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { forwardRef, type ButtonHTMLAttributes } from 'react'
 
-const secondaryButtonVariants = cva('transition-base outline-ring inline-flex items-center justify-center', {
-  variants: {
-    variant: {
-      default:
-        'rounded-xl border border-secondary-20 text-primary-80 hover:border-transparent hover:bg-secondary-40 hover:text-primary-60 active:border-transparent active:bg-secondary-60 active:text-primary-60 disabled:border-grey-40 disabled:bg-transparent disabled:text-grey-40 [&>svg]:h-6 [&>svg]:w-6',
+const secondaryButtonVariants = cva(
+  'transition-all duration-300 outline-ring inline-flex items-center justify-center hover:scale-105 active:scale-95',
+  {
+    variants: {
+      variant: {
+        default:
+          'rounded-xl border border-secondary-20/50 bg-secondary-20/10 backdrop-blur-sm text-primary-80 shadow-lg hover:border-transparent hover:bg-secondary-40/90 active:border-transparent active:bg-secondary-60/90 disabled:border-grey-40/50 disabled:bg-transparent disabled:text-grey-40 [&>svg]:h-6 [&>svg]:w-6',
+      },
+      size: {
+        lg: 'btn-sm h-15 px-4 sm:h-14',
+        sm: 'btn-sm h-11 px-4',
+        iconLg: 'h-16 w-16',
+        iconSm: 'h-15 w-15 sm:h-11 sm:w-11',
+      },
     },
-    size: {
-      lg: 'btn-sm h-15 px-4 sm:h-14',
-      sm: 'btn-sm h-11 px-4',
-      iconLg: 'h-16 w-16',
-      iconSm: 'h-15 w-15 sm:h-11 sm:w-11',
+    defaultVariants: {
+      variant: 'default',
+      size: 'lg',
     },
   },
-  defaultVariants: {
-    variant: 'default',
-    size: 'lg',
-  },
-})
+)
 
 type SecondaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof secondaryButtonVariants> & {

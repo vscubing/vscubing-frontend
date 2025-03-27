@@ -9,7 +9,7 @@ const CubeBadge = forwardRef<HTMLDivElement, CubeBadgeProps>(({ cube, className,
   return (
     <span
       className={cn(
-        'inline-flex h-15 w-15 items-center justify-center rounded-xl bg-secondary-20 text-black-100 sm:h-11 sm:w-11 sm:rounded-lg',
+        'inline-flex h-15 w-15 items-center justify-center rounded-xl bg-secondary-20/90 backdrop-blur-sm text-black-100 shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 sm:h-11 sm:w-11 sm:rounded-lg',
         className,
       )}
       ref={ref}
@@ -34,8 +34,8 @@ const CubeSwitcher = forwardRef<HTMLButtonElement, CubeSwitcherProps>(
       <Comp ref={ref} {...props}>
         <CubeBadge
           className={cn(
-            'transition-base outline-ring cursor-pointer border border-transparent bg-grey-100 text-grey-60 hover:border-secondary-20 active:bg-secondary-20 active:text-black-100',
-            { 'bg-secondary-20 text-black-100': isActive },
+            'transition-all duration-300 outline-ring cursor-pointer border border-transparent bg-grey-100/90 backdrop-blur-sm text-grey-60 hover:border-secondary-20/50 hover:bg-secondary-20/20 active:bg-secondary-20 active:text-black-100',
+            { 'bg-secondary-20 text-black-100 shadow-lg': isActive },
             className,
           )}
           cube={cube}
