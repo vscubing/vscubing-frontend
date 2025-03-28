@@ -7,7 +7,7 @@ import { doEverything } from './solution-transformer'
 
 export function useTwistyPlayer({
   scramble,
-  solution,
+  solution: rawSolution,
   discipline,
 }: {
   scramble?: string
@@ -18,7 +18,7 @@ export function useTwistyPlayer({
 
   useEffect(() => {
     void (async () => {
-      if (!scramble || !solution || !discipline) {
+      if (!scramble || !rawSolution || !discipline) {
         return
       }
 
@@ -26,14 +26,14 @@ export function useTwistyPlayer({
         throw new Error(`invalid discipline: ${discipline}`)
       }
 
-      const { alg, animLeaves } = await doEverything(scramble, solution)
+      const { solution, animLeaves } = await doEverything(scramble, rawSolution, discipline)
 
       const newPlayer = new TwistyPlayer({
         controlPanel: 'none',
         background: 'none',
         visualization: 'PG3D',
         experimentalSetupAlg: scramble,
-        alg,
+        alg: solution,
         puzzle: TWISTY_PUZZLE_MAP[discipline],
       })
 
@@ -46,7 +46,7 @@ export function useTwistyPlayer({
       setPlayer(newPlayer)
       return () => setPlayer(null)
     })()
-  }, [scramble, solution, discipline])
+  }, [scramble, rawSolution, discipline])
 
   return player
 }
