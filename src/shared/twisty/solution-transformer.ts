@@ -5,6 +5,9 @@ import { type AnimationTimelineLeaf, getSolveAnalyzer } from '@vscubing/cubing/t
 import { Alg, LineComment } from '@vscubing/cubing/alg'
 import { type Discipline } from '@/types'
 
+// TODO: animate inspection
+// TODO: simultaneous moves???
+// TODO: realtime animation speed
 export async function doEverything(
   scramble: string,
   solutionWithTimings: string,
@@ -52,12 +55,25 @@ async function getSignatures(scramble: Alg | string, solution: Alg | string): Pr
   const analyzeSolve = await getSolveAnalyzer(puzzleLoader)
 
   const signatures: (string | null)[] = []
+
+  let inInspection = true
   let solutionSoFar = new Alg()
-  for (const node of new Alg(solution).childAlgNodes()) {
+  for (const [idx, node] of Array.from(new Alg(solution).childAlgNodes()).entries()) {
     solutionSoFar = new Alg([...solutionSoFar.childAlgNodes(), node])
 
     const pattern = solved.applyAlg(scramble).applyAlg(solutionSoFar)
     signatures.push(analyzeSolve(pattern))
+
+    // if (inInspection && !isRotation(node)) {
+    //   inInspection = false
+    // }
+
+    if (!isRotation(node) && inInspection) {
+      inInspection = false
+      if (idx > 0) {
+        signatures[signatures.length - 2] = 'Inspection'
+      }
+    }
   }
   return signatures
 }
@@ -72,7 +88,9 @@ function embedDurations(rawSignatures: (string | null)[], timestamps?: number[])
       const stepDuration =
         lastIdxWithSignature === -1 ? timestamps[idx] : timestamps[idx] - timestamps[lastIdxWithSignature]
       lastIdxWithSignature = idx
-      comment += ` (${formatSolveTime(stepDuration, true)}s)`
+      if (stepDuration > 0) {
+        comment += ` (${formatSolveTime(stepDuration, true)}s)`
+      }
     }
 
     return comment
@@ -106,4 +124,8 @@ function parseTimestamps(solutionWithTimestamps: string): number[] | undefined {
     .filter((_, idx) => idx % 2 === 1)
     .map(Number)
   return timestamps.length > 0 ? timestamps : undefined
+}
+
+function isRotation(node: AlgNode): boolean {
+  return ['x', 'y', 'z'].includes(node.toString()[0])
 }
