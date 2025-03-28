@@ -59,6 +59,11 @@ function embedDurations(rawSignatures: (string | null)[], timestamps?: number[])
 }
 
 function removeComments(moves: string): string {
+  if (moves.split('  ').length > 1 && import.meta.env.DEV) {
+    alert('[TWISTY] double space in reconstruction with timing')
+    throw new Error('[TWISTY] double space in reconstruction with timing')
+  }
+
   return moves
     .replace(/\/\*\d+?\*\//g, '')
     .trim()
