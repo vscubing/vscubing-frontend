@@ -15,17 +15,9 @@ export async function doEverything(
   const timestamps = parseTimestamps(solutionWithTimings)
 
   let solution = new Alg(removeComments(solutionWithTimings))
-  if (discipline === '3by3') {
-    const rawSignatures = await getSignatures(scramble, solution)
-    const signaturesWithDurations = embedDurations(rawSignatures, timestamps)
-    solution = annotateMoves(solution, signaturesWithDurations)
-  } else {
-    solution = new Alg([
-      ...solution.childAlgNodes(),
-      new Newline(),
-      new LineComment(' Analyzing 2x2 solves is not supported yet'),
-    ])
-  }
+  const rawSignatures = await ANALYZER_MAP[discipline](scramble, solution)
+  const signaturesWithDurations = embedDurations(rawSignatures, timestamps)
+  solution = annotateMoves(solution, signaturesWithDurations)
 
   if (!timestamps) {
     return { solution }
@@ -47,32 +39,6 @@ export async function doEverything(
   return { solution, animLeaves }
 }
 
-async function getSignatures(scramble: Alg | string, solution: Alg | string): Promise<(string | null)[]> {
-  const puzzleLoader = puzzles['3x3x3']
-  const kpuzzle = await puzzleLoader.kpuzzle()
-  const solved = kpuzzle.defaultPattern()
-  const analyzeSolve = await getSolveAnalyzer(puzzleLoader)
-
-  const signatures: (string | null)[] = []
-
-  let inInspection = true
-  let solutionSoFar = new Alg()
-  for (const [idx, node] of Array.from(new Alg(solution).childAlgNodes()).entries()) {
-    solutionSoFar = new Alg([...solutionSoFar.childAlgNodes(), node])
-
-    const pattern = solved.applyAlg(scramble).applyAlg(solutionSoFar)
-    signatures.push(analyzeSolve(pattern))
-
-    if (!isRotation(node) && inInspection) {
-      inInspection = false
-      if (idx > 0) {
-        signatures[signatures.length - 2] = INSPECTION_SIGNATURE
-      }
-    }
-  }
-  return signatures
-}
-
 function embedDurations(rawSignatures: (string | null)[], timestamps?: number[]) {
   let lastIdxWithSignature = -1
   return rawSignatures.map((signature, idx) => {
@@ -82,7 +48,7 @@ function embedDurations(rawSignatures: (string | null)[], timestamps?: number[])
     if (timestamps) {
       const stepDuration =
         lastIdxWithSignature === -1 ? timestamps[idx] : timestamps[idx] - timestamps[lastIdxWithSignature]
-      lastIdxWithSignature = idx
+      lastIdxWithSignature = signature === INSPECTION_SIGNATURE ? idx + 1 : idx
       if (stepDuration > 0 && signature !== INSPECTION_SIGNATURE) {
         comment += ` (${formatSolveTime(stepDuration, true)}s)`
       }
@@ -130,8 +96,58 @@ function parseTimestamps(solutionWithTimestamps: string): number[] | undefined {
   })
 }
 
-const INSPECTION_SIGNATURE = 'Inspection'
+type Analyzer = (scramble: Alg | string, solution: Alg | string) => Promise<(string | null)[]>
+const ANALYZER_MAP: Record<Discipline, Analyzer> = {
+  '3by3': async (scramble, solution) => {
+    const puzzleLoader = puzzles['3x3x3']
+    const kpuzzle = await puzzleLoader.kpuzzle()
+    const solved = kpuzzle.defaultPattern()
+    const analyzeSolve = await getSolveAnalyzer(puzzleLoader)
 
+    const signatures: (string | null)[] = []
+
+    let inInspection = true
+    let solutionSoFar = new Alg()
+    for (const [idx, node] of Array.from(new Alg(solution).childAlgNodes()).entries()) {
+      solutionSoFar = new Alg([...solutionSoFar.childAlgNodes(), node])
+
+      const pattern = solved.applyAlg(scramble).applyAlg(solutionSoFar)
+      signatures.push(analyzeSolve(pattern))
+
+      if (!isRotation(node) && inInspection) {
+        inInspection = false
+        if (idx > 0) {
+          signatures[signatures.length - 2] = INSPECTION_SIGNATURE
+        }
+      }
+    }
+    return signatures
+  },
+  '2by2': (_, solution) => {
+    const signatures: (string | null)[] = []
+
+    let inInspection = true
+    let solutionSoFar = new Alg()
+    for (const node of new Alg(solution).childAlgNodes()) {
+      solutionSoFar = new Alg([...solutionSoFar.childAlgNodes(), node])
+
+      signatures.push(null)
+
+      if (!isRotation(node) && inInspection) {
+        inInspection = false
+        if (signatures.length > 1) {
+          signatures[signatures.length - 2] = INSPECTION_SIGNATURE
+        }
+      }
+    }
+
+    signatures[signatures.length - 1] = 'Solved'
+
+    return new Promise((res) => res(signatures))
+  },
+}
+
+const INSPECTION_SIGNATURE = 'Inspection'
 function isRotation(node: AlgNode): boolean {
   return ['x', 'y', 'z'].includes(node.toString()[0])
 }
