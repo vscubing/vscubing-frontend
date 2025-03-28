@@ -1,10 +1,7 @@
 import { formatSolveTime } from '@/utils/formatSolveTime'
-import { type AlgNode, Move, Pause } from '@vscubing/cubing/alg'
+import { type AlgNode, Move, Newline } from '@vscubing/cubing/alg'
 import { puzzles } from '@vscubing/cubing/puzzles'
-import {
-  type AnimationTimelineLeaf,
-  getSolveAnalyzer,
-} from '@vscubing/cubing/twisty'
+import { type AnimationTimelineLeaf, getSolveAnalyzer } from '@vscubing/cubing/twisty'
 import { Alg, LineComment } from '@vscubing/cubing/alg'
 
 export async function doEverything(
@@ -20,34 +17,25 @@ export async function doEverything(
   const rawSignatures = await getSignatures(scramble, solution)
   const signaturesWithDurations = embedDurations(rawSignatures, timestamps)
 
-  const nodes = annotateMoves(solution, signaturesWithDurations)
+  const alg = annotateMoves(solution, signaturesWithDurations)
 
-  const leafSlots = prepareLeaveSlots(timestamps)
-  const alg = new Alg(new Alg(insertPauses(nodes, leafSlots)).toString())
-  const animatableNodes = Array.from(alg.childAlgNodes()).filter(
-    (node) => node.is(Move) || node.is(Pause),
-  )
+  const animatableNodes = Array.from(alg.childAlgNodes()).filter((node) => node.is(Move))
 
-  if (animatableNodes.length !== leafSlots.length) return { alg }
-
-  const animLeaves: AnimationTimelineLeaf[] = []
-  for (const [idx, leaf] of leafSlots.entries()) {
-    if (!animatableNodes[idx].is(leaf.animLeafType)) return { alg }
-
-    animLeaves.push({
-      start: leaf.start,
-      end: leaf.end,
-      animLeaf: animatableNodes[idx],
-    })
+  if (animatableNodes.length !== timestamps.length) {
+    console.error('[TWISTY] animatableNodes.length !== leafSlots.length')
+    return { alg }
   }
+
+  const animLeaves: AnimationTimelineLeaf[] = animatableNodes.map((node, idx) => ({
+    start: timestamps[idx],
+    end: Math.min(timestamps[idx] + 120, timestamps[idx + 1] ?? Infinity),
+    animLeaf: node,
+  }))
 
   return { alg, animLeaves }
 }
 
-async function getSignatures(
-  scramble: Alg | string,
-  solution: Alg | string,
-): Promise<(string | null)[]> {
+async function getSignatures(scramble: Alg | string, solution: Alg | string): Promise<(string | null)[]> {
   const puzzleLoader = puzzles['3x3x3']
   const kpuzzle = await puzzleLoader.kpuzzle()
   const solved = kpuzzle.defaultPattern()
@@ -68,10 +56,7 @@ function embedDurations(rawSignatures: (string | null)[], timings: number[]) {
   let lastIdxWithSignature = -1
   return rawSignatures.map((signature, idx) => {
     if (signature === null) return null
-    const stepTime =
-      lastIdxWithSignature === -1
-        ? timings[idx]
-        : timings[idx] - timings[lastIdxWithSignature]
+    const stepTime = lastIdxWithSignature === -1 ? timings[idx] : timings[idx] - timings[lastIdxWithSignature]
     lastIdxWithSignature = idx
     return ` ${signature} (${formatSolveTime(stepTime, true)}s)`
   })
@@ -84,10 +69,7 @@ function removeComments(moves: string): string {
     .replaceAll('  ', ' ') // TODO: we shouldn't need this, investigate discrepancies between cstimer and phpless-cstimer
 }
 
-function annotateMoves(
-  solution: Alg,
-  signaturesWithDurations: (string | null)[],
-) {
+function annotateMoves(solution: Alg, signaturesWithDurations: (string | null)[]) {
   const res: AlgNode[] = []
   Array.from(solution.childAlgNodes()).forEach((node, idx) => {
     res.push(node)
@@ -95,101 +77,12 @@ function annotateMoves(
     const comment = signaturesWithDurations[idx]
     if (comment !== null) {
       res.push(new LineComment(comment))
+      res.push(new Newline())
     }
   })
-  return res
+  return new Alg(res)
 }
 
-type AnimationTimelineLeafSlot = {
-  animLeafType: typeof Pause | typeof Move
-  start: number
-  end: number
-}
-
-export function prepareLeaveSlots(
-  timestamps: number[],
-): AnimationTimelineLeafSlot[] {
-  return fillPauses(trimOverlapping(constructLeaves(timestamps)))
-}
-
-function constructLeaves(timestamps: number[]): AnimationTimelineLeafSlot[] {
-  return timestamps.map((start, idx) => {
-    let end = start + 120
-    if (timestamps[idx + 1] === 0) {
-      end = 0
-    }
-
-    return { animLeafType: Move, start, end }
-  })
-}
-
-function trimOverlapping(
-  leaves: AnimationTimelineLeafSlot[],
-): AnimationTimelineLeafSlot[] {
-  return leaves.map((leaf, idx) => {
-    const nextLeaf = leaves[idx + 1]
-    if (!nextLeaf) return leaf
-
-    const end = Math.min(leaf.end, nextLeaf.start)
-    return { ...leaf, end }
-  })
-}
-
-function fillPauses(
-  leaves: AnimationTimelineLeafSlot[],
-): AnimationTimelineLeafSlot[] {
-  const withPauses: AnimationTimelineLeafSlot[] = [leaves[0]]
-  for (let i = 1; i < leaves.length; i++) {
-    const prev = leaves[i - 1]
-    const cur = leaves[i]
-
-    if (prev.end < cur.start) {
-      withPauses.push({
-        animLeafType: Pause,
-        start: prev.end,
-        end: cur.start,
-      })
-    }
-    withPauses.push(cur)
-  }
-  return withPauses
-}
-
-function insertPauses(
-  nodes: AlgNode[],
-  leafSlots: AnimationTimelineLeafSlot[],
-): AlgNode[] {
-  const res: AlgNode[] = []
-  let realIdx = 0
-  for (const node of nodes) {
-    if (!node.is(Move)) {
-      res.push(node)
-      continue
-    }
-
-    if (leafSlots[realIdx].animLeafType === Pause) {
-      res.push(new Pause())
-      realIdx++
-    }
-    res.push(node)
-    realIdx++
-  }
-  return res
-}
-
-function generateLeaves(alg: Alg): AnimationTimelineLeaf[] {
-  return Array.from(alg.childAlgNodes()).map((node, idx) => ({
-    animLeaf: node,
-    start: idx * 500,
-    end: (idx + 1) * 500,
-  }))
-}
-
-function debugLeaves(animationLeaves: AnimationTimelineLeaf[]) {
-  animationLeaves.forEach((leaf) => {
-    console.log(leaf.start, leaf.end, leaf.animLeaf.toString())
-  })
-}
 // const ANALYZERS_MAP = {
 //   '3by3': async (scramble, solutionWithTimings) => {
 //     const cleanSolution = removeComments(solutionWithTimings)

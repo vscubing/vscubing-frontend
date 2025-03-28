@@ -38,9 +38,9 @@ export function useTwistyPlayer({
       })
 
       if (animLeaves) {
-        newPlayer.experimentalModel.animationTimelineLeavesRequest.set(
-          animLeaves,
-        )
+        // @ts-expect-error I know what I'm doing
+        newPlayer.experimentalModel.__vscubingAnimationTimelineLeavesSet = true
+        newPlayer.experimentalModel.animationTimelineLeavesRequest.set(animLeaves)
       }
 
       setPlayer(newPlayer)
