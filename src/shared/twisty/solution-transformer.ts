@@ -5,7 +5,6 @@ import { type AnimationTimelineLeaf, getSolveAnalyzer } from '@vscubing/cubing/t
 import { Alg, LineComment } from '@vscubing/cubing/alg'
 import { type Discipline } from '@/types'
 
-// TODO: animate inspection
 // TODO: simultaneous moves???
 // TODO: realtime animation speed
 export async function doEverything(
@@ -64,14 +63,10 @@ async function getSignatures(scramble: Alg | string, solution: Alg | string): Pr
     const pattern = solved.applyAlg(scramble).applyAlg(solutionSoFar)
     signatures.push(analyzeSolve(pattern))
 
-    // if (inInspection && !isRotation(node)) {
-    //   inInspection = false
-    // }
-
     if (!isRotation(node) && inInspection) {
       inInspection = false
       if (idx > 0) {
-        signatures[signatures.length - 2] = 'Inspection'
+        signatures[signatures.length - 2] = INSPECTION_SIGNATURE
       }
     }
   }
@@ -88,7 +83,7 @@ function embedDurations(rawSignatures: (string | null)[], timestamps?: number[])
       const stepDuration =
         lastIdxWithSignature === -1 ? timestamps[idx] : timestamps[idx] - timestamps[lastIdxWithSignature]
       lastIdxWithSignature = idx
-      if (stepDuration > 0) {
+      if (stepDuration > 0 && signature !== INSPECTION_SIGNATURE) {
         comment += ` (${formatSolveTime(stepDuration, true)}s)`
       }
     }
@@ -123,8 +118,19 @@ function parseTimestamps(solutionWithTimestamps: string): number[] | undefined {
     .split('*')
     .filter((_, idx) => idx % 2 === 1)
     .map(Number)
-  return timestamps.length > 0 ? timestamps : undefined
+  if (timestamps.length === 0) return undefined
+
+  const hasInspection = timestamps[0] === 0 && timestamps[1] === 0
+  if (!hasInspection) return timestamps
+
+  let shift = 0
+  return timestamps.map((timestamp, idx) => {
+    if (timestamp === 0 && idx > 0) shift += 300
+    return timestamp + shift
+  })
 }
+
+const INSPECTION_SIGNATURE = 'Inspection'
 
 function isRotation(node: AlgNode): boolean {
   return ['x', 'y', 'z'].includes(node.toString()[0])
