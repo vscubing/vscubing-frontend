@@ -88,8 +88,8 @@ export function useSimulator({
   }, [scramble, puzzle])
 
   useEffect(() => {
-    if (puzzle) puzzle.setCameraPosition(cameraPosition)
-  }, [cameraPosition, puzzle, scramble])
+    if (puzzle) puzzle.setCameraPosition({ theta: cameraPosition.theta, phi: cameraPosition.phi })
+  }, [cameraPosition.theta, cameraPosition.phi, puzzle, scramble])
 }
 
 const SIMULATOR_DISCIPLINES_MAP = {
