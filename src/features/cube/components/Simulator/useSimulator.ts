@@ -1,6 +1,7 @@
 import { isDiscipline } from '@/types'
 import { type SimulatorPuzzle, initSimulator } from '@/vendor/cstimer'
 import { type RefObject, useEffect } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
 
 export type Move = (typeof MOVES)[number]
 export type SimulatorMoveListener = ({
@@ -26,6 +27,8 @@ export function useSimulator({
   discipline: string
   animationDuration: number
 }) {
+  const [cameraPos, setCameraPos] = useLocalStorage('vs-camera-pos', { theta: 0, phi: 6 })
+
   useEffect(() => {
     const abortSignal = new AbortController()
 
@@ -47,6 +50,7 @@ export function useSimulator({
         if (puzzle.isSolved() === 0) isSolved = true
         onMove({ move, timestamp, isRotation: puzzle.isRotation(rawMove), isSolved })
       },
+      (theta, phi) => setCameraPos({ theta, phi }),
       containerRef.current!,
     ).then((pzl) => {
       puzzle = pzl
@@ -59,7 +63,8 @@ export function useSimulator({
       window.addEventListener(
         'keydown',
         (e) => {
-          if (!scramble || isSolved) return
+          const cameraAdjustment = e.key.startsWith('Arrow')
+          if (!scramble && !cameraAdjustment) return
           puzzle.keydown(e)
         },
         abortSignal,
@@ -67,7 +72,7 @@ export function useSimulator({
     })
 
     return () => abortSignal.abort()
-  }, [onMove, containerRef, scramble, discipline, animationDuration])
+  }, [onMove, containerRef, scramble, discipline, animationDuration, setCameraPos])
 }
 
 const SIMULATOR_DISCIPLINES_MAP = {

@@ -1,8 +1,9 @@
 /* eslint-disable */
 
-export function init(options: Options, moveListener: MoveListener, parent): Promise<Puzzle>
+export function init(options: Options, moveListener: MoveListener, cameraPositionListener: CameraPositionListener, parent): Promise<Puzzle>
 
 type MoveListener = (move: CsMove, mstep: Mstep, timestamp: number) => void
+type CameraPositionListener = (theta: number, phi: number) => void
 type Options = {
   puzzle: 'cube2' | 'cube3'
   animationDuration

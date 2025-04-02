@@ -31,6 +31,9 @@ class Puzzle {
   addMoveListener(listener) {
     return this.twistyScene.addMoveListener(listener)
   }
+  addCameraPositionListener(listener) {
+    return this.twistyScene.addCameraPositionListener(listener)
+  }
   getDomElement() {
     return this.twistyScene.getDomElement()
   }
@@ -59,7 +62,7 @@ class Puzzle {
 
 var prevParents = []
 
-export async function init(options, moveListener, parentNativeElem) {
+export async function init(options, moveListener, cameraPositionListener, parentNativeElem) {
   kernel.props.vrcSpeed = options.animationDuration
   var parent = $(parentNativeElem)
   // if (window.twistyjs == undefined) {
@@ -100,6 +103,7 @@ export async function init(options, moveListener, parentNativeElem) {
     child[2] = new Puzzle(twistyScene, null)
     parent.empty().append(child[2].getDomElement())
     child[2].addMoveListener(moveListener)
+    child[2].addCameraPositionListener(cameraPositionListener)
   }
   var puzzle = options['puzzle']
   // if (puzzle.startsWith('cube')) {

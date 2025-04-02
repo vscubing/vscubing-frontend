@@ -378,6 +378,20 @@ window.twistyjs = (function() {
 			renderer.render(scene, camera);
 		}
 
+		var cameraPositionListeners = [];
+		this.addCameraPositionListener = function(listener) {
+			cameraPositionListeners.push(listener);
+		};
+		this.removeCameraPositionListener = function(listener) {
+			var index = cameraPositionListeners.indexOf(listener);
+			delete cameraPositionListeners[index];
+		};
+		function fireCameraPositionChanged(theta, phi) {
+			for (var i = 0; i < cameraPositionListeners.length; i++) {
+				cameraPositionListeners[i](theta, phi);
+			}
+		}
+
 		function moveCameraDelta(deltaTheta, deltaPhi) {
 			cameraTheta += deltaTheta;
 			cameraTheta = Math.max(Math.min(cameraTheta, 6), -6);
@@ -395,6 +409,7 @@ window.twistyjs = (function() {
 			if (doRender) {
 				render();
 			}
+			fireCameraPositionChanged(theta, phi)
 		}
 
 		//callback(move, step), step: 0 move added, 1 move animation started, 2 move animation finished
@@ -404,7 +419,6 @@ window.twistyjs = (function() {
 		};
 		this.removeMoveListener = function(listener) {
 			var index = moveListeners.indexOf(listener);
-			//		assert(index >= 0);
 			delete moveListeners[index];
 		};
 
