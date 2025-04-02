@@ -3,6 +3,7 @@ import { VOICE_ALERTS } from './VoiceAlertsAudio'
 import { getDisplay } from './getDisplay'
 import { type Move, type SimulatorMoveListener, useSimulator } from './useSimulator'
 import { INSPECTION_DNF_THRESHHOLD_MS, INSPECTION_PLUS_TWO_THRESHHOLD_MS } from './constants'
+import { CameraPosition } from '@/vendor/cstimer/puzzlefactory'
 
 export type InitSolveData = { scramble: string; discipline: string }
 
@@ -12,14 +13,22 @@ export type SolveFinishCallback = (result: SolveResult) => void
 type SimulatorSettings = {
   animationDuration: number
   inspectionVoiceAlert: 'Male' | 'Female' | 'None'
+  cameraPosition: CameraPosition
 }
 type SimulatorProps = {
   initSolveData: InitSolveData
   onInspectionStart: () => void
   onSolveFinish: SolveFinishCallback
   settings: SimulatorSettings
+  setCameraPosition: (pos: CameraPosition) => void
 }
-export default function Simulator({ initSolveData, onSolveFinish, onInspectionStart, settings }: SimulatorProps) {
+export default function Simulator({
+  initSolveData,
+  onSolveFinish,
+  onInspectionStart,
+  settings,
+  setCameraPosition,
+}: SimulatorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [status, setStatus] = useState<'idle' | 'ready' | 'inspecting' | 'solving' | 'solved'>('idle')
   const [inspectionStartTimestamp, setInspectionStartTimestamp] = useState<number>()
@@ -146,6 +155,8 @@ export default function Simulator({ initSolveData, onSolveFinish, onInspectionSt
     scramble: hasRevealedScramble ? initSolveData.scramble : undefined,
     discipline: initSolveData.discipline,
     animationDuration: settings.animationDuration,
+    cameraPosition: settings.cameraPosition,
+    setCameraPosition,
   })
 
   return (

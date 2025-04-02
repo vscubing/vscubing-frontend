@@ -136,6 +136,15 @@ export const accountsSettingsUpdateCreate = (accountsSettingsUpdateInput: Accoun
   if (accountsSettingsUpdateInput.cstimerAnimationDuration !== undefined) {
     formUrlEncoded.append('cstimerAnimationDuration', accountsSettingsUpdateInput.cstimerAnimationDuration.toString())
   }
+  if (accountsSettingsUpdateInput.cstimerCameraPositionTheta !== undefined) {
+    formUrlEncoded.append(
+      'cstimerCameraPositionTheta',
+      accountsSettingsUpdateInput.cstimerCameraPositionTheta.toString(),
+    )
+  }
+  if (accountsSettingsUpdateInput.cstimerCameraPositionPhi !== undefined) {
+    formUrlEncoded.append('cstimerCameraPositionPhi', accountsSettingsUpdateInput.cstimerCameraPositionPhi.toString())
+  }
 
   return accountsSettingsUpdateCreateMutator<void>({
     url: `/api/accounts/settings/update/`,
@@ -151,7 +160,6 @@ token if the refresh token is valid.
  */
 export const accountsTokenRefreshCreate = (tokenRefresh: NonReadonly<TokenRefresh>) => {
   const formUrlEncoded = new URLSearchParams()
-  // @ts-expect-error typescript not typescripting
   formUrlEncoded.append('access', tokenRefresh.access)
   formUrlEncoded.append('refresh', tokenRefresh.refresh)
 

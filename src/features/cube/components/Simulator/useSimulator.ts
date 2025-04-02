@@ -1,12 +1,7 @@
 import { isDiscipline } from '@/types'
-import {
-  type TwistySimulatorCameraPosition,
-  type TwistySimulatorMoveListener,
-  type TwistySimulatorPuzzle,
-  initTwistySimulator,
-} from '@/vendor/cstimer'
+import { type TwistySimulatorMoveListener, type TwistySimulatorPuzzle, initTwistySimulator } from '@/vendor/cstimer'
+import { type CameraPosition } from '@/vendor/cstimer/puzzlefactory'
 import { type RefObject, useEffect, useState } from 'react'
-import { useLocalStorage } from 'usehooks-ts'
 
 export type Move = (typeof MOVES)[number]
 export type SimulatorMoveListener = ({
@@ -25,19 +20,19 @@ export function useSimulator({
   scramble,
   discipline,
   animationDuration,
+  cameraPosition,
+  setCameraPosition,
 }: {
   containerRef: RefObject<HTMLElement>
   onMove: SimulatorMoveListener
   scramble: string | undefined
   discipline: string
   animationDuration: number
+  cameraPosition: CameraPosition
+  setCameraPosition: (pos: CameraPosition) => void
 }) {
   if (!isDiscipline(discipline)) throw new Error(`[SIMULATOR] unsupported discipline: ${discipline}`)
 
-  const [cameraPosition, setCameraPosition] = useLocalStorage<TwistySimulatorCameraPosition>('vs-camera-pos', {
-    theta: 0,
-    phi: 6,
-  }) // TODO: add debounce
   const [puzzle, setPuzzle] = useState<TwistySimulatorPuzzle | undefined>()
 
   useEffect(() => {

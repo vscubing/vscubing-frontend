@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useConditionalBeforeUnload } from '@/utils'
 import { type SolveResult, type SolveFinishCallback, type InitSolveData } from './Simulator/Simulator.lazy'
 import { AbortPrompt } from './AbortPrompt'
@@ -6,13 +6,35 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Dialog, DialogCloseCross, DialogOverlay, DialogPortal, LoadingSpinner } from '@/components/ui'
 import { KeyMapDialogTrigger, KeyMapDialogContent } from '@/shared/KeyMapDialog'
 import { CubeContext } from './CubeContext'
-import { useSettings } from '@/features/settings/queries'
+import { useMutateSettings, useSettings } from '@/features/settings/queries'
 import { z } from 'zod'
+import { type CameraPosition } from '@/vendor/cstimer/puzzlefactory'
 const Simulator = lazy(() => import('./Simulator/Simulator.lazy'))
 
 type CubeProviderProps = { children: React.ReactNode }
 export function CubeProvider({ children }: CubeProviderProps) {
   const { data: settings } = useSettings()
+  const { mutate: mutateSettings } = useMutateSettings()
+
+  // debounce cameraPosition
+  const [queuedCameraPosition, setQueuedCameraPosition] = useState<CameraPosition>()
+  useEffect(() => {
+    if (!queuedCameraPosition) return
+    const timeout = setTimeout(
+      () =>
+        mutateSettings({
+          cstimerCameraPositionTheta: queuedCameraPosition.theta,
+          cstimerCameraPositionPhi: queuedCameraPosition.phi,
+        }),
+      500,
+    )
+    return () => clearTimeout(timeout)
+  }, [queuedCameraPosition, mutateSettings])
+  const cameraPosition = {
+    theta: queuedCameraPosition?.theta ?? settings?.cstimerCameraPositionTheta ?? 0,
+    phi: queuedCameraPosition?.phi ?? settings?.cstimerCameraPositionPhi ?? 6,
+  }
+
   const [solveState, setSolveState] = useState<{
     initSolveData: InitSolveData
     solveCallback: SolveFinishCallback
@@ -96,11 +118,13 @@ export function CubeProvider({ children }: CubeProviderProps) {
                     onInspectionStart={handleInspectionStart}
                     settings={{
                       animationDuration: settings.cstimerAnimationDuration ?? 100,
+                      cameraPosition,
                       inspectionVoiceAlert: z
                         .enum(['Male', 'Female', 'None'])
                         .catch('Male')
                         .parse(settings.cstimerInspectionVoiceAlert),
                     }}
+                    setCameraPosition={setQueuedCameraPosition}
                   />
                 )}
               </Suspense>
