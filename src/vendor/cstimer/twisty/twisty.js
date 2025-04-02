@@ -63,8 +63,10 @@ window.twistyjs = (function() {
 		var camera, scene, renderer;
 		var twistyCanvas;
 		var touchCube;
-		var cameraTheta = 0;
-		var cameraPhi = 6;
+
+		// these must be initialized by calling `this.setCameraPosition` externally
+		var cameraTheta;
+		var cameraPhi;
 
 		/*
 		 * Initialization Methods
@@ -154,9 +156,6 @@ window.twistyjs = (function() {
 			// to the desired size.
 			var min = Math.min($(twistyContainer).width(), $(twistyContainer).height());
 			camera = new THREE.Camera(30, 1, 0, 1000);
-			var ori = kernel.getProp('vrcOri', '6,12');
-			ori = ori.split(',');
-			moveCamera(~~ori[0] - 6, ~~ori[1] - 6);
 			camera.target.position = new THREE.Vector3(0, -0.075, 0);
 			renderer.setSize(min, min);
 			touchCube.css({
@@ -388,8 +387,13 @@ window.twistyjs = (function() {
 		};
 		function fireCameraPositionChanged(theta, phi) {
 			for (var i = 0; i < cameraPositionListeners.length; i++) {
-				cameraPositionListeners[i](theta, phi);
+				cameraPositionListeners[i]({ theta, phi });
 			}
+		}
+		this.setCameraPosition = function({theta, phi}) {
+			if (cameraTheta === theta && cameraPhi === phi) return
+			moveCamera(theta, phi, true)
+			camera.target.position = new THREE.Vector3(0, -0.075, 0);
 		}
 
 		function moveCameraDelta(deltaTheta, deltaPhi) {
@@ -470,7 +474,7 @@ window.twistyjs = (function() {
 			return currentMove.length == 0;
 		}
 
-		this.applyMoves = function(moves, ts) {
+		this.applyMoves = function(moves, ts, applyingScramble = false) {
 			var timestamp = ts || $.now();
 			var movets = [];
 			for (var i = 0; i < moves.length; i++) {
@@ -486,7 +490,11 @@ window.twistyjs = (function() {
 					startMove();
 				}
 				twisty.advanceMoveCallback(twisty, currentMove[0][0]);
-				fireMoveEnded(currentMove.shift());
+				if (applyingScramble) {
+					currentMove.shift()
+				} else {
+					fireMoveEnded(currentMove.shift());
+				}
 				moveProgress.shift();
 			}
 			render();

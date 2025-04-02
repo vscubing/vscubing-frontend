@@ -1,6 +1,11 @@
 import { isDiscipline } from '@/types'
-import { type SimulatorPuzzle, initSimulator } from '@/vendor/cstimer'
-import { type RefObject, useEffect } from 'react'
+import {
+  type TwistySimulatorCameraPosition,
+  type TwistySimulatorMoveListener,
+  type TwistySimulatorPuzzle,
+  initTwistySimulator,
+} from '@/vendor/cstimer'
+import { type RefObject, useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
 export type Move = (typeof MOVES)[number]
@@ -27,52 +32,64 @@ export function useSimulator({
   discipline: string
   animationDuration: number
 }) {
-  const [cameraPos, setCameraPos] = useLocalStorage('vs-camera-pos', { theta: 0, phi: 6 })
+  if (!isDiscipline(discipline)) throw new Error(`[SIMULATOR] unsupported discipline: ${discipline}`)
+
+  const [cameraPosition, setCameraPosition] = useLocalStorage<TwistySimulatorCameraPosition>('vs-camera-pos', {
+    theta: 0,
+    phi: 6,
+  }) // TODO: add debounce
+  const [puzzle, setPuzzle] = useState<TwistySimulatorPuzzle | undefined>()
 
   useEffect(() => {
-    const abortSignal = new AbortController()
+    let _puzzle: TwistySimulatorPuzzle | undefined // we need this because move2str is tightly coupled with Puzzle
 
-    if (!isDiscipline(discipline)) throw new Error(`[SIMULATOR] unsupported discipline: ${discipline}`)
+    const moveListener: TwistySimulatorMoveListener = (rawMove, timestamp) => {
+      if (!_puzzle) throw new Error('[SIMULATOR] puzzle undefined')
 
-    let puzzle: SimulatorPuzzle
-    let wasScrambleApplied = false
-    let isSolved = false
-    void initSimulator(
+      const move = parseCstimerMove(_puzzle.move2str(rawMove))
+      const isSolved = _puzzle.isSolved() === 0
+      onMove({ move, timestamp, isRotation: _puzzle.isRotation(rawMove), isSolved })
+    }
+
+    void initTwistySimulator(
       {
         puzzle: SIMULATOR_DISCIPLINES_MAP[discipline].puzzle,
         animationDuration,
       },
-      (rawMove, mstep, timestamp) => {
-        if (!puzzle) throw new Error('[SIMULATOR] puzzle undefined')
-
-        if (mstep !== 2 || !wasScrambleApplied) return
-        const move = parseCstimerMove(puzzle.move2str(rawMove))
-        if (puzzle.isSolved() === 0) isSolved = true
-        onMove({ move, timestamp, isRotation: puzzle.isRotation(rawMove), isSolved })
-      },
-      (theta, phi) => setCameraPos({ theta, phi }),
+      moveListener,
+      (pos) => setCameraPosition(pos),
       containerRef.current!,
     ).then((pzl) => {
-      puzzle = pzl
-
-      setTimeout(() => puzzle.resize())
-      if (scramble) {
-        puzzle.applyMoves(puzzle.parseScramble(scramble))
-        wasScrambleApplied = true
-      }
-      window.addEventListener(
-        'keydown',
-        (e) => {
-          const cameraAdjustment = e.key.startsWith('Arrow')
-          if (!scramble && !cameraAdjustment) return
-          puzzle.keydown(e)
-        },
-        abortSignal,
-      )
+      setTimeout(() => pzl.resize())
+      _puzzle = pzl
+      setPuzzle(pzl)
     })
+  }, [animationDuration, containerRef, discipline, onMove, setCameraPosition])
+
+  useEffect(() => {
+    const abortSignal = new AbortController()
+
+    if (!puzzle) return
+
+    if (scramble) {
+      puzzle.applyMoves(puzzle.parseScramble(scramble), undefined, true)
+    }
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        const cameraAdjustment = e.key.startsWith('Arrow')
+        if (!scramble && !cameraAdjustment) return
+        puzzle.keydown(e)
+      },
+      abortSignal,
+    )
 
     return () => abortSignal.abort()
-  }, [onMove, containerRef, scramble, discipline, animationDuration, setCameraPos])
+  }, [scramble, puzzle])
+
+  useEffect(() => {
+    if (puzzle) puzzle.setCameraPosition(cameraPosition)
+  }, [cameraPosition, puzzle, scramble])
 }
 
 const SIMULATOR_DISCIPLINES_MAP = {

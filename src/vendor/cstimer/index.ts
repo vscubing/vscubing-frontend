@@ -2,4 +2,9 @@
 
 import 'https://code.jquery.com/jquery-3.7.1.slim.min.js'
 
-export { init as initSimulator, type Puzzle as SimulatorPuzzle } from './puzzlefactory'
+export {
+  init as initTwistySimulator,
+  type Puzzle as TwistySimulatorPuzzle,
+  type CameraPosition as TwistySimulatorCameraPosition,
+  type MoveListener as TwistySimulatorMoveListener,
+} from './puzzlefactory'

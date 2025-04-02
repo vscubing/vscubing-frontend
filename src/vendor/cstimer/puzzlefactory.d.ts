@@ -1,20 +1,27 @@
 /* eslint-disable */
 
-export function init(options: Options, moveListener: MoveListener, cameraPositionListener: CameraPositionListener, parent): Promise<Puzzle>
+export function init(
+  options: Options,
+  moveListener: MoveListener,
+  cameraPositionListener: CameraPositionListener,
+  parent,
+): Promise<Puzzle>
 
-type MoveListener = (move: CsMove, mstep: Mstep, timestamp: number) => void
-type CameraPositionListener = (theta: number, phi: number) => void
+export type MoveListener = (move: CsMove, mstep: Mstep, timestamp: number) => void
+type CameraPositionListener = (pos: CameraPosition) => void
 type Options = {
   puzzle: 'cube2' | 'cube3'
-  animationDuration
+  animationDuration: number
 }
+export type CameraPosition = { theta: number; phi: number }
 
 export class Puzzle {
   constructor(twistyScene, twisty)
   keydown(args): unknown
   resize(): unknown
   addMoves(args): unknown
-  applyMoves(args): unknown
+  applyMoves(args, timestamp: number | undefined, applyingScramble: boolean): unknown
+  setCameraPosition(position: CameraPosition): void
   addMoveListener(listener): unknown
   getDomElement(): unknown
   isRotation(move: CsMove): boolean

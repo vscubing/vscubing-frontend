@@ -25,8 +25,11 @@ class Puzzle {
   addMoves(args) {
     return this.twistyScene.addMoves(args)
   }
-  applyMoves(args) {
-    return this.twistyScene.applyMoves(args)
+  applyMoves(...args) {
+    return this.twistyScene.applyMoves(...args)
+  }
+  setCameraPosition(...args) {
+    return this.twistyScene.setCameraPosition(...args)
   }
   addMoveListener(listener) {
     return this.twistyScene.addMoveListener(listener)
@@ -148,7 +151,6 @@ function col2std(col, faceMap) {
 const kernel = {
   props: {
     colcube: '#ff0#fa0#00f#fff#f00#0d0',
-    vrcOri: '6,12',
     vrcSpeed: 100,
     vrcAH: '01',
     vrcMP: 'n',
