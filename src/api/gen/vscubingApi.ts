@@ -160,6 +160,7 @@ token if the refresh token is valid.
  */
 export const accountsTokenRefreshCreate = (tokenRefresh: NonReadonly<TokenRefresh>) => {
   const formUrlEncoded = new URLSearchParams()
+  // @ts-expect-error TS2339
   formUrlEncoded.append('access', tokenRefresh.access)
   formUrlEncoded.append('refresh', tokenRefresh.refresh)
 
