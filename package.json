@@ -9,7 +9,7 @@
     "build-test": "vite build --mode=test",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview --port 3000",
-    "gen:api": "orval --config src/api/orval.config.ts "
+    "gen:api": "orval --config src/api/orval.config.ts && bunx suppress-ts-errors -g ./src/api/gen/vscubingApi.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

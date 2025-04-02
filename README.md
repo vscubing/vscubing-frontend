@@ -1,6 +1,6 @@
 #  <img src="https://vscubing.com/favicon.svg" width="35px" /> vscubing frontend
 
-This is the frontend repository of [vscubing](https://github.com/vscubing): a contest platform to compete in virtual speedcubing: the art of solving twisty puzzles (like the Rubik's Cube) via a computer emulator controlled from the keyboard as fast as possible. For more detailed information refer to the [landing page](https://vscubing.com/landing).
+This repository is home to the frontend of [vscubing](https://github.com/vscubing): a contest platform to compete in virtual speedcubing: the art of solving twisty puzzles (like the Rubik's Cube) via a computer emulator controlled from the keyboard as fast as possible. For more detailed information refer to the [landing page](https://vscubing.com/landing).
 
 ## Development
 
