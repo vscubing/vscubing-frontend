@@ -67,6 +67,7 @@ window.twistyjs = (function() {
 		// these must be initialized by calling `this.setCameraPosition` externally
 		var cameraTheta;
 		var cameraPhi;
+		var cameraInitialized = false
 
 		/*
 		 * Initialization Methods
@@ -155,15 +156,12 @@ window.twistyjs = (function() {
 			// This function should be called after setting twistyContainer
 			// to the desired size.
 			var min = Math.min($(twistyContainer).width(), $(twistyContainer).height());
-			camera = new THREE.Camera(30, 1, 0, 1000);
-			camera.target.position = new THREE.Vector3(0, -0.075, 0);
 			renderer.setSize(min, min);
 			touchCube.css({
 				'width': min,
 				'height': min,
 				'font-size': min * 0.15
 			});
-			render();
 		};
 
 		this.keydown = function(e) {
@@ -374,7 +372,9 @@ window.twistyjs = (function() {
 		}
 
 		function render() {
-			renderer.render(scene, camera);
+			if (camera) {
+				renderer.render(scene, camera);
+			}
 		}
 
 		var cameraPositionListeners = [];
@@ -391,9 +391,14 @@ window.twistyjs = (function() {
 			}
 		}
 		this.setCameraPosition = function({theta, phi}) {
-			if (cameraTheta === theta && cameraPhi === phi) return
+			if (!camera) {
+				camera = new THREE.Camera(30, 1, 0, 1000);
+				camera.target.position = new THREE.Vector3(0, -0.075, 0);
+			}
+			if (cameraTheta === theta && cameraPhi === phi) {
+				render()
+			}
 			moveCamera(theta, phi, true)
-			camera.target.position = new THREE.Vector3(0, -0.075, 0);
 		}
 
 		function moveCameraDelta(deltaTheta, deltaPhi) {
@@ -426,28 +431,15 @@ window.twistyjs = (function() {
 			delete moveListeners[index];
 		};
 
-		function fireMoveAdded(movets) {
-			for (var i = 0; i < moveListeners.length; i++) {
-				moveListeners[i](movets[0], 0, movets[1]);
-			}
-		}
-
-		function fireMoveStarted(movets) {
-			for (var i = 0; i < moveListeners.length; i++) {
-				moveListeners[i](movets[0], 1, movets[1]);
-			}
-		}
-
 		function fireMoveEnded(movets) {
 			for (var i = 0; i < moveListeners.length; i++) {
-				moveListeners[i](movets[0], 2, movets[1]);
+				moveListeners[i](movets[0], movets[1]);
 			}
 		}
 
 		function startMove() {
 			currentMove.push(moveQueue.shift());
 			moveProgress.push(0);
-			fireMoveStarted(currentMove[currentMove.length - 1]);
 		}
 
 		this.addMoves = function(moves, ts) {
@@ -456,7 +448,6 @@ window.twistyjs = (function() {
 			for (var i = 0; i < moves.length; i++) {
 				movets.push([moves[i], timestamp]);
 			}
-			$.map(movets, fireMoveAdded);
 			if (~~kernel.getProp('vrcSpeed', 100) == 0) {
 				return this.applyMoves(moves, ts);
 			}
