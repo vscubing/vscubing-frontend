@@ -83,7 +83,8 @@ export function useSimulator({
   }, [scramble, puzzle])
 
   useEffect(() => {
-    if (puzzle) puzzle.setCameraPosition({ theta: cameraPosition.theta, phi: cameraPosition.phi })
+    // TODO: can we get rid of this setTimeout hack?
+    if (puzzle) setTimeout(() => puzzle.setCameraPosition({ theta: cameraPosition.theta, phi: cameraPosition.phi }))
   }, [cameraPosition.theta, cameraPosition.phi, puzzle, scramble])
 }
 
